@@ -13,7 +13,7 @@ public record DealInput(
         @NotNull(message = "Service Package ID cannot be null")
         List<Long> servicePackageIds,
 
-        @NotNull(message = "Deal status cannot be null")
+        @NotNull(message = "DealEntity status cannot be null")
         DealStatus dealStatus,
 
         @NotNull(message = "Final amount cannot be null")

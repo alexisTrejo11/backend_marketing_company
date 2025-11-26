@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.marketing.interaction.api.repository;
 
+import at.backend.MarketingCompany.crm.deal.v2.infrastructure.persistence.DealEntity;
 import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
-import at.backend.MarketingCompany.crm.deal.domain.Deal;
 import at.backend.MarketingCompany.marketing.campaign.api.repository.MarketingCampaignModel;
 import at.backend.MarketingCompany.common.utils.Enums.MarketingCampaign.MarketingInteractionType;
 import jakarta.persistence.*;
@@ -74,7 +74,7 @@ public class CampaignInteractionModel {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "resulted_deal_id")
-    private Deal resultedDeal;
+    private DealEntity resultedDealEntity;
 
     @Column(name = "conversion_value")
     private Double conversionValue;

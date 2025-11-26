@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.crm.deal.infrastructure.autoMappers;
 
 import at.backend.MarketingCompany.crm.deal.infrastructure.DTOs.DealInput;
-import at.backend.MarketingCompany.crm.deal.domain.Deal;
+import at.backend.MarketingCompany.crm.deal.v2.infrastructure.persistence.DealEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -15,7 +15,7 @@ public interface DealMappers {
     @Mapping(target = "customerModel", ignore = true)
     @Mapping(target = "opportunity", ignore = true)
     @Mapping(target = "campaignManager", ignore = true)
-    Deal inputToEntity(DealInput input);
+    DealEntity inputToEntity(DealInput input);
 
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
@@ -23,6 +23,6 @@ public interface DealMappers {
     @Mapping(target = "customerModel", ignore = true)
     @Mapping(target = "opportunity", ignore = true)
     @Mapping(target = "campaignManager", ignore = true)
-    Deal inputToUpdatedEntity(@MappingTarget Deal existingUser, DealInput input);
+    DealEntity inputToUpdatedEntity(@MappingTarget DealEntity existingUser, DealInput input);
          
 }

@@ -6,7 +6,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import at.backend.MarketingCompany.common.utils.Enums.MarketingCampaign.MarketingInteractionType;
-import at.backend.MarketingCompany.crm.deal.domain.Deal;
+import at.backend.MarketingCompany.crm.deal.v2.infrastructure.persistence.DealEntity;
 import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
 import at.backend.MarketingCompany.marketing.campaign.domain.MarketingCampaign;
 import java.time.LocalDateTime;
@@ -101,8 +101,8 @@ class CampaignInteractionTest {
         @Test
         void setConversion_NegativeValue_ThrowsException() {
             CampaignInteraction interaction = buildCampaignInteraction();
-            Deal deal = mock(Deal.class);
-            assertThatThrownBy(() -> interaction.setConversion(deal, -50.0))
+            DealEntity dealEntity = mock(DealEntity.class);
+            assertThatThrownBy(() -> interaction.setConversion(dealEntity, -50.0))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("positive");
         }
@@ -110,10 +110,10 @@ class CampaignInteractionTest {
         @Test
         void setConversion_ValidConversion_SetsFields() {
             CampaignInteraction interaction = buildCampaignInteraction();
-            Deal deal = mock(Deal.class);
-            interaction.setConversion(deal, 200.0);
+            DealEntity dealEntity = mock(DealEntity.class);
+            interaction.setConversion(dealEntity, 200.0);
 
-            assertThat(interaction.getResultedDeal()).isEqualTo(deal);
+            assertThat(interaction.getResultedDealEntity()).isEqualTo(dealEntity);
             assertThat(interaction.getConversionValue()).isEqualTo(200.0);
             assertThat(interaction.getUpdatedAt()).isAfter(NOW);
         }
@@ -161,8 +161,8 @@ class CampaignInteractionTest {
         @Test
         void calculateAttribution_ValidConversion_ReturnsCorrectValue() {
             CampaignInteraction interaction = buildCampaignInteraction();
-            Deal deal = mock(Deal.class);
-            interaction.setConversion(deal, 500.0);
+            DealEntity dealEntity = mock(DealEntity.class);
+            interaction.setConversion(dealEntity, 500.0);
 
             double result = interaction.calculateAttributionValue();
             assertThat(result).isEqualTo(500.0 * 0.2);

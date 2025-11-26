@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.marketing.attribution.api.repository;
 
-import at.backend.MarketingCompany.crm.deal.domain.Deal;
+import at.backend.MarketingCompany.crm.deal.v2.infrastructure.persistence.DealEntity;
 import at.backend.MarketingCompany.marketing.campaign.api.repository.MarketingCampaignModel;
 import at.backend.MarketingCompany.common.utils.Enums.MarketingCampaign.AttributionModel;
 import jakarta.persistence.*;
@@ -27,7 +27,7 @@ public class CampaignAttributionModel {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "deal_id", nullable = false)
-    private Deal deal;
+    private DealEntity dealEntity;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "campaign_id", nullable = false)

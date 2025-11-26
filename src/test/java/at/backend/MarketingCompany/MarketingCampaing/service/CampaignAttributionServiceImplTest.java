@@ -78,8 +78,8 @@ class CampaignAttributionServiceImplTest {
 
         when(mappers.insertDTOToDomain(insertDTO)).thenReturn(domain);
         when(calculator.initialCalculation(domain)).thenReturn(calculatedDomain);
-        when(attributionRepository.existsByCampaignId(any())).thenReturn(true);
-        when(attributionRepository.existsByDealId(any())).thenReturn(true);
+        when(attributionRepository.existsByCampaign_Id(any())).thenReturn(true);
+        when(attributionRepository.existsByDealEntity_Id(any())).thenReturn(true);
         when(mappers.domainToModel(calculatedDomain)).thenReturn(model);
         when(mappers.domainToDTO(calculatedDomain)).thenReturn(createSampleDTO());
 
@@ -128,7 +128,7 @@ class CampaignAttributionServiceImplTest {
         List<CampaignAttribution> domains = Collections.singletonList(createSampleDomainWithPercentage());
         CampaignAttributionDTO expectedDto = createSampleRevenueDistributionDTO();
 
-        when(attributionRepository.findByCampaignId(TEST_CAMPAIGN_ID)).thenReturn(models);
+        when(attributionRepository.findByCampaign_Id(TEST_CAMPAIGN_ID)).thenReturn(models);
         when(mappers.modelToDomain(any())).thenReturn(domains.getFirst());
         when(calculator.calculateRevenueDistribution(domains)).thenReturn(expectedDto);
 
@@ -137,7 +137,7 @@ class CampaignAttributionServiceImplTest {
 
         // Assert
         assertEquals(expectedDto, result);
-        verify(attributionRepository).findByCampaignId(TEST_CAMPAIGN_ID);
+        verify(attributionRepository).findByCampaign_Id(TEST_CAMPAIGN_ID);
         verify(calculator).calculateRevenueDistribution(domains);
     }
 
@@ -148,7 +148,7 @@ class CampaignAttributionServiceImplTest {
         CampaignAttribution domain = createSampleDomain();
         CampaignAttribution recalculatedDomain = createSampleDomainWithPercentage();
 
-        when(attributionRepository.findByCampaignId(TEST_CAMPAIGN_ID)).thenReturn(models);
+        when(attributionRepository.findByCampaign_Id(TEST_CAMPAIGN_ID)).thenReturn(models);
         when(mappers.modelToDomain(any())).thenReturn(domain);
         when(calculator.recalculateForModel(domain)).thenReturn(recalculatedDomain);
         when(mappers.domainToModel(recalculatedDomain)).thenReturn(new CampaignAttributionModel());

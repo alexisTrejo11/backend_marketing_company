@@ -1,38 +1,38 @@
 package at.backend.MarketingCompany.crm.deal.infrastructure.autoMappers;
 
-import at.backend.MarketingCompany.crm.deal.domain.Deal;
 import at.backend.MarketingCompany.crm.deal.infrastructure.DTOs.DealInput;
+import at.backend.MarketingCompany.crm.deal.v2.infrastructure.persistence.DealEntity;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-03-06T13:55:11-0600",
+    date = "2025-11-26T13:53:26-0600",
     comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.11.1.jar, environment: Java 23.0.2 (Homebrew)"
 )
 @Component
 public class DealMappersImpl implements DealMappers {
 
     @Override
-    public Deal inputToEntity(DealInput input) {
+    public DealEntity inputToEntity(DealInput input) {
         if ( input == null ) {
             return null;
         }
 
-        Deal deal = new Deal();
+        DealEntity dealEntity = new DealEntity();
 
-        deal.setDealStatus( input.dealStatus() );
-        deal.setFinalAmount( input.finalAmount() );
-        deal.setStartDate( input.startDate() );
-        deal.setEndDate( input.endDate() );
-        deal.setDeliverables( input.deliverables() );
-        deal.setTerms( input.terms() );
+        dealEntity.setDealStatus( input.dealStatus() );
+        dealEntity.setFinalAmount( input.finalAmount() );
+        dealEntity.setStartDate( input.startDate() );
+        dealEntity.setEndDate( input.endDate() );
+        dealEntity.setDeliverables( input.deliverables() );
+        dealEntity.setTerms( input.terms() );
 
-        return deal;
+        return dealEntity;
     }
 
     @Override
-    public Deal inputToUpdatedEntity(Deal existingUser, DealInput input) {
+    public DealEntity inputToUpdatedEntity(DealEntity existingUser, DealInput input) {
         if ( input == null ) {
             return existingUser;
         }

@@ -11,11 +11,11 @@ import java.util.UUID;
 
 @Repository
 public interface CampaignAttributionRepository extends JpaRepository<CampaignAttributionModel, UUID> {
-    List<CampaignAttributionModel> findByCampaignId(UUID campaignId);
-    Page<CampaignAttributionModel> findByCampaignId(UUID campaignId, Pageable pageable);
-    List<CampaignAttributionModel> findByDealId(UUID dealId);
+    List<CampaignAttributionModel> findByCampaign_Id(UUID campaignId);
+    Page<CampaignAttributionModel> findByCampaign_Id(UUID campaignId, Pageable pageable);
+    List<CampaignAttributionModel> findByDealEntity_Id(UUID dealId);
 
-    boolean existsByDealId(UUID dealId);
-    boolean existsByCampaignId(UUID campaignId);
+    boolean existsByDealEntity_Id(UUID dealId);
+    boolean existsByCampaign_Id(UUID campaignId);
 
 }

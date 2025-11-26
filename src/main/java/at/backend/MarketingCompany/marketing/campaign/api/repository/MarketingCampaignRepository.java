@@ -22,7 +22,7 @@ public interface MarketingCampaignRepository extends JpaRepository<MarketingCamp
     List<MarketingCampaignModel> findByStartDateBetween(LocalDate startDate, LocalDate endDate);
 
     /* FIX
-     @Query("SELECT mc FROM MarketingCampaign mc JOIN mc.relatedDeals d WHERE d.id = :dealId")
+     @Query("SELECT mc FROM MarketingCampaign mc JOIN mc.relatedDealEntities d WHERE d.id = :dealId")
     List<MarketingCampaignModel> findByDealId(@Param("dealId") Long dealId);
 
     @Query("SELECT mc FROM MarketingCampaign mc WHERE mc.status = 'ACTIVE' " +

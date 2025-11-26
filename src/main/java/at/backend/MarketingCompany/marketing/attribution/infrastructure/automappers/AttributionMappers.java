@@ -5,7 +5,6 @@ import at.backend.MarketingCompany.marketing.attribution.domain.CampaignAttribut
 import at.backend.MarketingCompany.marketing.attribution.domain.HelperHandlers.*;
 import at.backend.MarketingCompany.marketing.attribution.infrastructure.DTOs.CampaignAttributionDTO;
 import at.backend.MarketingCompany.marketing.attribution.infrastructure.DTOs.CampaignAttributionInsertDTO;
-import lombok.experimental.UtilityClass;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -45,7 +44,7 @@ public class AttributionMappers {
     public CampaignAttributionModel domainToModel(CampaignAttribution domain) {
         return CampaignAttributionModel.builder()
                 .id(domain.getId().getValue())
-                //.deal(new Deal(domain.getDealId().getValue()))
+                //.dealEntity(new DealEntity(domain.getDealId().getValue()))
                 //.campaign(new MarketingCampaignModel(domain.getCampaignId().getValue()))
                 .attributionModel(domain.getModel())
                 .attributionPercentage(domain.getPercentage().value())
@@ -61,7 +60,7 @@ public class AttributionMappers {
     public CampaignAttributionDTO modelToDTO(CampaignAttributionModel model) {
         return CampaignAttributionDTO.builder()
                 .id(model.getId())
-                .dealId(model.getDeal().getId())
+                .dealId(model.getDealEntity().getId())
                 .campaignId(model.getCampaign().getId())
                 .attributionModel(model.getAttributionModel())
                 .attributionPercentage(model.getAttributionPercentage())
@@ -75,7 +74,7 @@ public class AttributionMappers {
     public CampaignAttribution modelToDomain(CampaignAttributionModel model) {
         return CampaignAttribution.builder()
                 .id(AttributionId.of(model.getId()))
-                .dealId(DealId.of(model.getDeal().getId()))
+                .dealId(DealId.of(model.getDealEntity().getId()))
                 .campaignId(CampaignId.of(model.getCampaign().getId()))
                 .model(model.getAttributionModel())
                 .percentage(new AttributionPercentage(model.getAttributionPercentage()))

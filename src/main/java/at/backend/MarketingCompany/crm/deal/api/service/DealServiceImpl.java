@@ -3,8 +3,8 @@ package at.backend.MarketingCompany.crm.deal.api.service;
 import at.backend.MarketingCompany.common.exceptions.BusinessLogicException;
 import at.backend.MarketingCompany.common.service.CommonService;
 import at.backend.MarketingCompany.crm.Utils.enums.DealStatus;
-import at.backend.MarketingCompany.crm.deal.api.repository.DealRepository;
-import at.backend.MarketingCompany.crm.deal.domain.Deal;
+import at.backend.MarketingCompany.crm.deal.v2.infrastructure.persistence.JpaDealRepository;
+import at.backend.MarketingCompany.crm.deal.v2.infrastructure.persistence.DealEntity;
 import at.backend.MarketingCompany.crm.deal.infrastructure.DTOs.DealInput;
 import at.backend.MarketingCompany.crm.deal.infrastructure.autoMappers.DealMappers;
 import at.backend.MarketingCompany.crm.opportunity.api.repository.OpportunityRepository;
@@ -25,51 +25,51 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class DealServiceImpl implements CommonService<Deal, DealInput, UUID> {
+public class DealServiceImpl implements CommonService<DealEntity, DealInput, UUID> {
 
-    public final DealRepository customerRepository;
+    public final JpaDealRepository customerRepository;
     public final DealMappers customerMappers;
     public final ServicePackageRepository servicePackageRepository;
     public final UserRepository userRepository;
     public final OpportunityRepository opportunityRepository;
 
     @Override
-    public Page<Deal> getAll(Pageable pageable) {
+    public Page<DealEntity> getAll(Pageable pageable) {
         return customerRepository.findAll(pageable);
     }
 
     @Override
-    public Deal getById(UUID id) {
+    public DealEntity getById(UUID id) {
         return getDeal(id);
     }
 
     @Override
-    public Deal create(DealInput input) {
-        Deal newDeal = customerMappers.inputToEntity(input);
+    public DealEntity create(DealInput input) {
+        DealEntity newDealEntity = customerMappers.inputToEntity(input);
 
-        fetchRelationships(newDeal, input);
-        customerRepository.saveAndFlush(newDeal);
+        fetchRelationships(newDealEntity, input);
+        customerRepository.saveAndFlush(newDealEntity);
 
-        return newDeal;
+        return newDealEntity;
     }
 
     @Override
-    public Deal update(UUID id, DealInput input) {
-        Deal existingDeal = getDeal(id);
+    public DealEntity update(UUID id, DealInput input) {
+        DealEntity existingDealEntity = getDeal(id);
 
-        Deal updatedDeal = customerMappers.inputToUpdatedEntity(existingDeal, input);
-        fetchRelationships(existingDeal, input);
+        DealEntity updatedDealEntity = customerMappers.inputToUpdatedEntity(existingDealEntity, input);
+        fetchRelationships(existingDealEntity, input);
 
-        customerRepository.saveAndFlush(updatedDeal);
+        customerRepository.saveAndFlush(updatedDealEntity);
 
-        return updatedDeal;
+        return updatedDealEntity;
     }
 
     @Override
     public void delete(UUID id) {
-        Deal deal = getDeal(id);
+        DealEntity dealEntity = getDeal(id);
 
-        customerRepository.delete(deal);
+        customerRepository.delete(dealEntity);
     }
 
     @Override
@@ -111,25 +111,25 @@ public class DealServiceImpl implements CommonService<Deal, DealInput, UUID> {
         return input.dealStatus() == DealStatus.SIGNED || input.dealStatus() == DealStatus.PAID;
     }
 
-    private void fetchRelationships(Deal deal, DealInput input) {
+    private void fetchRelationships(DealEntity dealEntity, DealInput input) {
         if (input.campaignManagerId() != null) {
             User user = userRepository.findById(input.campaignManagerId())
                     .orElseThrow(() -> new EntityNotFoundException("User not found"));
-            deal.setCampaignManager(user);
+            dealEntity.setCampaignManager(user);
         }
 
         Opportunity opportunity = opportunityRepository.findById(input.opportunityId())
                 .orElseThrow(() -> new EntityNotFoundException("opportunity not found"));
-        deal.setOpportunity(opportunity);
-        deal.setCustomerModel(opportunity.getCustomerModel());
+        dealEntity.setOpportunity(opportunity);
+        dealEntity.setCustomerModel(opportunity.getCustomerModel());
 
         List<ServicePackage> servicePackages = servicePackageRepository.findAllById(input.servicePackageIds());
 
-        deal.setServices(servicePackages);
+        dealEntity.setServices(servicePackages);
     }
 
-    private Deal getDeal(UUID id) {
+    private DealEntity getDeal(UUID id) {
         return customerRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("deal not found"));
+                .orElseThrow(() -> new EntityNotFoundException("dealEntity not found"));
     }
 }

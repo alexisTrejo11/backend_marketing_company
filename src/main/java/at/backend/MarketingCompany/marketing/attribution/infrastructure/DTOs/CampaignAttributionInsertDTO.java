@@ -16,7 +16,7 @@ import java.util.UUID;
 @Builder
 public class CampaignAttributionInsertDTO {
 
-    @NotNull(message = "Deal ID cannot be null")
+    @NotNull(message = "DealEntity ID cannot be null")
     private UUID dealId;
 
     @NotNull(message = "Campaign ID cannot be null")

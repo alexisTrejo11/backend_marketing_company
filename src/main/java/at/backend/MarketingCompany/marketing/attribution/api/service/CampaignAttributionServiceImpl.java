@@ -39,13 +39,13 @@ public class CampaignAttributionServiceImpl implements CampaignAttributionServic
 
     @Override
     public Page<CampaignAttributionDTO> getAttributionsByCampaign(UUID campaignId, Pageable pageable) {
-        return attributionRepository.findByCampaignId(campaignId, pageable)
+        return attributionRepository.findByCampaign_Id(campaignId, pageable)
                 .map(mappers::modelToDTO);
     }
 
     @Override
     public List<CampaignAttributionDTO> getAttributionsByDealId(UUID dealId) {
-        return attributionRepository.findByDealId(dealId)
+        return attributionRepository.findByDealEntity_Id(dealId)
                 .stream()
                 .map(mappers::modelToDTO)
                 .toList();
@@ -53,7 +53,7 @@ public class CampaignAttributionServiceImpl implements CampaignAttributionServic
 
     @Override
     public List<CampaignAttributionDTO> getAttributionsByCampaignId(UUID campaignId) {
-        return attributionRepository.findByCampaignId(campaignId)
+        return attributionRepository.findByCampaign_Id(campaignId)
                 .stream()
                 .map(mappers::modelToDTO)
                 .toList();    }
@@ -96,7 +96,7 @@ public class CampaignAttributionServiceImpl implements CampaignAttributionServic
     @Override
     public void validate(CampaignAttributionInsertDTO input) {
         if (input.getDealId() == null || input.getCampaignId() == null) {
-            throw new IllegalArgumentException("Deal ID and Campaign ID cannot be null");
+            throw new IllegalArgumentException("DealEntity ID and Campaign ID cannot be null");
         }
     }
 
@@ -115,7 +115,7 @@ public class CampaignAttributionServiceImpl implements CampaignAttributionServic
     @Override
     @Transactional
     public void recalculateAllForCampaign(UUID campaignId) {
-        List<CampaignAttributionModel> recalculatedModels = attributionRepository.findByCampaignId(campaignId)
+        List<CampaignAttributionModel> recalculatedModels = attributionRepository.findByCampaign_Id(campaignId)
                 .stream()
                 .map(mappers::modelToDomain)
                 .map(calculator::recalculateForModel)
@@ -133,7 +133,7 @@ public class CampaignAttributionServiceImpl implements CampaignAttributionServic
 
     @Override
     public CampaignAttributionDTO getRevenueDistribution(UUID campaignId) {
-        List<CampaignAttribution> attributions = attributionRepository.findByCampaignId(campaignId)
+        List<CampaignAttribution> attributions = attributionRepository.findByCampaign_Id(campaignId)
                 .stream()
                 .map(mappers::modelToDomain)
                 .toList();
@@ -152,12 +152,12 @@ public class CampaignAttributionServiceImpl implements CampaignAttributionServic
     }
 
     private void validateRelationships(CampaignAttribution attribution) {
-        if (!attributionRepository.existsByCampaignId(attribution.getCampaignId().getValue())) {
+        if (!attributionRepository.existsByCampaign_Id(attribution.getCampaignId().getValue())) {
             throw new EntityNotFoundException("Invalid campaign ID: " + attribution.getCampaignId());
         }
 
-        if (!attributionRepository.existsByDealId(attribution.getDealId().getValue())) {
-            throw new EntityNotFoundException("Invalid deal ID: " + attribution.getDealId());
+        if (!attributionRepository.existsByDealEntity_Id(attribution.getDealId().getValue())) {
+            throw new EntityNotFoundException("Invalid dealEntity ID: " + attribution.getDealId());
         }
     }
 

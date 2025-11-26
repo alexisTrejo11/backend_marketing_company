@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.marketing.campaign.api.repository;
 
-import at.backend.MarketingCompany.crm.deal.domain.Deal;
+import at.backend.MarketingCompany.crm.deal.v2.infrastructure.persistence.DealEntity;
 import at.backend.MarketingCompany.marketing.activity.api.repository.CampaignActivityModel;
 import at.backend.MarketingCompany.marketing.interaction.api.repository.CampaignInteractionModel;
 import at.backend.MarketingCompany.marketing.customer.CustomerSegment;
@@ -89,7 +89,7 @@ public class MarketingCampaignModel {
             joinColumns = @JoinColumn(name = "campaign_id"),
             inverseJoinColumns = @JoinColumn(name = "deal_id")
     )
-    private List<Deal> relatedDeals = new ArrayList<>();
+    private List<DealEntity> relatedDealEntities = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(

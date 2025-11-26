@@ -1,10 +1,9 @@
 package at.backend.MarketingCompany.marketing.interaction.domain;
 
 import at.backend.MarketingCompany.common.utils.Enums.MarketingCampaign.MarketingInteractionType;
-import at.backend.MarketingCompany.crm.deal.domain.Deal;
+import at.backend.MarketingCompany.crm.deal.v2.infrastructure.persistence.DealEntity;
 import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
 import at.backend.MarketingCompany.marketing.campaign.domain.MarketingCampaign;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,7 +29,7 @@ public class CampaignInteraction {
     private GeoLocation geoLocation;
     private Map<String, String> properties;
     private String details;
-    private Deal resultedDeal;
+    private DealEntity resultedDealEntity;
     private Double conversionValue;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -64,14 +63,14 @@ public class CampaignInteraction {
         this.updatedAt = createdAt;
     }
 
-    public void setConversion(Deal deal, Double value) {
-        if (deal == null && value != null) {
-            throw new IllegalArgumentException("Deal must be provided when setting conversion value");
+    public void setConversion(DealEntity dealEntity, Double value) {
+        if (dealEntity == null && value != null) {
+            throw new IllegalArgumentException("DealEntity must be provided when setting conversion value");
         }
         if (value != null && value <= 0) {
             throw new IllegalArgumentException("Conversion value must be positive");
         }
-        this.resultedDeal = deal;
+        this.resultedDealEntity = dealEntity;
         this.conversionValue = value;
         this.updatedAt = LocalDateTime.now();
     }
@@ -88,7 +87,7 @@ public class CampaignInteraction {
     }
 
     public boolean isConversion() {
-        return resultedDeal != null && conversionValue != null;
+        return resultedDealEntity != null && conversionValue != null;
     }
 
     private void validateInteractionDate(LocalDateTime date) {

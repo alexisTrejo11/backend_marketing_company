@@ -56,8 +56,8 @@ public class InteractionMappers {
                 .geoLocation(formatGeoLocation(domain.getGeoLocation()))
                 .properties(new HashMap<>(domain.getProperties()))
                 .details(domain.getDetails())
-                .resultedDealId(domain.getResultedDeal() != null ?
-                        domain.getResultedDeal().getId() : null)
+                .resultedDealId(domain.getResultedDealEntity() != null ?
+                        domain.getResultedDealEntity().getId() : null)
                 .conversionValue(domain.getConversionValue())
                 .build();
     }
@@ -77,7 +77,7 @@ public class InteractionMappers {
                 .geoLocation(formatGeoLocation(domain.getGeoLocation()))
                 .properties(new HashMap<>(domain.getProperties()))
                 .details(domain.getDetails())
-                .resultedDeal(domain.getResultedDeal())
+                .resultedDealEntity(domain.getResultedDealEntity())
                 .conversionValue(domain.getConversionValue())
                 .createdAt(domain.getCreatedAt())
                 .updatedAt(domain.getUpdatedAt())
@@ -103,7 +103,7 @@ public class InteractionMappers {
                 .geoLocation(parseGeoLocation(model.getGeoLocation()))
                 .properties(new HashMap<>(model.getProperties()))
                 .details(model.getDetails())
-                .resultedDeal(model.getResultedDeal())
+                .resultedDealEntity(model.getResultedDealEntity())
                 .conversionValue(model.getConversionValue())
                 .createdAt(model.getCreatedAt())
                 .updatedAt(model.getUpdatedAt())
@@ -143,7 +143,7 @@ public class InteractionMappers {
                 .geoLocation(formatGeoLocation(parseGeoLocation(model.getGeoLocation())))
                 .properties(new HashMap<>(model.getProperties()))
                 .details(model.getDetails())
-                .resultedDealId(model.getResultedDeal() != null ? model.getResultedDeal().getId() : null)
+                .resultedDealId(model.getResultedDealEntity() != null ? model.getResultedDealEntity().getId() : null)
                 .conversionValue(model.getConversionValue())
                 .build();
     }

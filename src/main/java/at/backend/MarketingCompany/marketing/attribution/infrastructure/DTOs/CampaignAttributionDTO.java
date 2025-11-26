@@ -18,7 +18,7 @@ public class CampaignAttributionDTO {
 
     private UUID id;
 
-    @NotNull(message = "Deal ID cannot be null")
+    @NotNull(message = "DealEntity ID cannot be null")
     private UUID dealId;
 
     @NotNull(message = "Campaign ID cannot be null")
