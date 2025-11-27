@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.crm.servicePackage.infrastructure.autoMappers;
 
 import at.backend.MarketingCompany.crm.Utils.enums.SocialNetworkPlatform;
-import at.backend.MarketingCompany.crm.servicePackage.domain.ServicePackage;
+import at.backend.MarketingCompany.crm.servicePackage.domain.ServicePackageEntity;
 import at.backend.MarketingCompany.crm.servicePackage.infrastructure.DTOs.ServicePackageInput;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,45 +10,45 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-11-26T13:53:26-0600",
+    date = "2025-11-27T00:26:56-0600",
     comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.11.1.jar, environment: Java 23.0.2 (Homebrew)"
 )
 @Component
 public class ServicePackageMappersImpl implements ServicePackageMappers {
 
     @Override
-    public ServicePackage inputToEntity(ServicePackageInput input) {
+    public ServicePackageEntity inputToEntity(ServicePackageInput input) {
         if ( input == null ) {
             return null;
         }
 
-        ServicePackage servicePackage = new ServicePackage();
+        ServicePackageEntity servicePackageEntity = new ServicePackageEntity();
 
-        servicePackage.setName( input.name() );
-        servicePackage.setDescription( input.description() );
-        servicePackage.setPrice( input.price() );
-        servicePackage.setServiceType( input.serviceType() );
-        servicePackage.setDeliverables( input.deliverables() );
-        servicePackage.setEstimatedHours( input.estimatedHours() );
-        servicePackage.setComplexity( input.complexity() );
-        servicePackage.setIsRecurring( input.isRecurring() );
-        servicePackage.setFrequency( input.frequency() );
-        servicePackage.setProjectDuration( input.projectDuration() );
+        servicePackageEntity.setName( input.name() );
+        servicePackageEntity.setDescription( input.description() );
+        servicePackageEntity.setPrice( input.price() );
+        servicePackageEntity.setServiceType( input.serviceType() );
+        servicePackageEntity.setDeliverables( input.deliverables() );
+        servicePackageEntity.setEstimatedHours( input.estimatedHours() );
+        servicePackageEntity.setComplexity( input.complexity() );
+        servicePackageEntity.setIsRecurring( input.isRecurring() );
+        servicePackageEntity.setFrequency( input.frequency() );
+        servicePackageEntity.setProjectDuration( input.projectDuration() );
         List<String> list = input.kpis();
         if ( list != null ) {
-            servicePackage.setKpis( new ArrayList<String>( list ) );
+            servicePackageEntity.setKpis( new ArrayList<String>( list ) );
         }
         List<SocialNetworkPlatform> list1 = input.socialNetworkPlatforms();
         if ( list1 != null ) {
-            servicePackage.setSocialNetworkPlatforms( new ArrayList<SocialNetworkPlatform>( list1 ) );
+            servicePackageEntity.setSocialNetworkPlatforms( new ArrayList<SocialNetworkPlatform>( list1 ) );
         }
-        servicePackage.setActive( input.active() );
+        servicePackageEntity.setActive( input.active() );
 
-        return servicePackage;
+        return servicePackageEntity;
     }
 
     @Override
-    public ServicePackage inputToUpdatedEntity(ServicePackage existingUser, ServicePackageInput input) {
+    public ServicePackageEntity inputToUpdatedEntity(ServicePackageEntity existingUser, ServicePackageInput input) {
         if ( input == null ) {
             return existingUser;
         }

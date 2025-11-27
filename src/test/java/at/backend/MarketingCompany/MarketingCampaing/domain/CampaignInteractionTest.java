@@ -6,7 +6,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import at.backend.MarketingCompany.common.utils.Enums.MarketingCampaign.MarketingInteractionType;
-import at.backend.MarketingCompany.crm.deal.v2.infrastructure.persistence.DealEntity;
+import at.backend.MarketingCompany.crm.deal.repository.persistence.model.DealEntity;
 import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
 import at.backend.MarketingCompany.marketing.campaign.domain.MarketingCampaign;
 import java.time.LocalDateTime;

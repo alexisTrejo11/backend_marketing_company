@@ -189,7 +189,7 @@ input QuoteInput {
 type QuoteItem {
     id: ID!
     quote: Quote!
-    servicePackage: ServicePackage!
+    servicePackageEntity: ServicePackage!
     unitPrice: Float!
     total: Float!
     discountPercentage: Float!
@@ -246,39 +246,80 @@ enum FeedbackType {
 # Deals
 type Deal {
     id: ID!
-    customerModel: Customer!
-    opportunity: Opportunity!
-    dealStatus: DealStatus!
-    finalAmount: Float!
-    startDate: String!
-    endDate: String
-    campaignManager: User
-    services: [ServicePackage!]!
-    deliverables: String
-    terms: String
-}
-input DealInput {
+    customerId: ID!
+    customer: CustomerInfo!
     opportunityId: ID!
-    dealStatus: DealStatus!
-    finalAmount: Float!
+    opportunity: OpportunityInfo!
+    dealStatus: String!
+    finalAmount: Float
     startDate: String!
     endDate: String
     campaignManagerId: ID
+    campaignManager: UserInfo
+    services: [ServicePackageInfo!]!
     deliverables: String
     terms: String
+    createdAt: String!
+    updatedAt: String!
+}
+
+# Types para nested objects
+type CustomerInfo {
+    id: ID!
+    name: String!
+    email: String!
+}
+
+type OpportunityInfo {
+    id: ID!
+    title: String!
+    stage: String!
+}
+
+type UserInfo {
+    id: ID!
+    name: String!
+    email: String!
+}
+
+type ServicePackageInfo {
+    id: ID!
+    name: String!
+    description: String!
+}
+
+# Input Types
+input CreateDealInput {
+    opportunityId: ID!
+    servicePackageIds: [ID!]!
+    startDate: String!
+}
+
+input SignDealInput {
+    dealId: ID!
+    finalAmount: Float!
+    terms: String!
+    campaignManagerId: ID!
+}
+
+input CompleteDealInput {
+    dealId: ID!
+    endDate: String!
+    deliverables: String!
+}
+
+input UpdateDealServicesInput {
+    dealId: ID!
     servicePackageIds: [ID!]!
 }
-enum DealStatus {
-    SIGNED
-    PAID
-    IN_PROGRESS
-    COMPLETED
+
+input DealFilterInput {
+    statuses: [String!]
+    customerId: ID
+    campaignManagerId: ID
+    startDate: String
+    endDate: String
 }
-
-
-
-
-
 
 type Property {
     key: String!
@@ -642,8 +683,11 @@ type Query {
     getAllInteractions(input: PageInput!): [Interaction]!
     getInteractionById(id: ID!): Interaction
 
-    getAllDeals(input: PageInput!): [Deal]!
-    getDealById(id: ID!): Deal
+    # Deals
+    deal(id: ID!): Deal
+    deals(pageInput: PageInput, filter: DealFilterInput): [Deal!]!
+    dealsByCustomer(customerId: ID!): [Deal!]!
+    dealsByStatus(statuses: [String!]!): [Deal!]!
 
 
     #Marketing
@@ -691,9 +735,14 @@ type Mutation {
     updateInteraction(id: ID!, input: InteractionInput!): Interaction!
     deleteInteraction(id: ID!): Boolean!
 
-    createDeal(input: DealInput!): Deal!
-    updateDeal(id: ID!, input: DealInput!): Deal!
-    deleteDeal(id: ID!): Boolean!
+    # Deals
+    createDeal(input: CreateDealInput!): Deal!
+    signDeal(input: SignDealInput!): Deal!
+    markDealAsPaid(dealId: ID!): Deal!
+    startDealExecution(dealId: ID!): Deal!
+    completeDeal(input: CompleteDealInput!): Deal!
+    cancelDeal(dealId: ID!): Deal!
+    updateDealServices(input: UpdateDealServicesInput!): Deal!
 
     # Marketing Campaign
     createActivity(input: CampaignActivityInput!): CampaignActivity

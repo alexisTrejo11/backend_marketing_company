@@ -232,7 +232,7 @@ class CampaignAttributionControllerTest {
     private CampaignAttributionDTO createAttributionDTO() {
         return CampaignAttributionDTO.builder()
                 .id(ATTRIBUTION_ID)
-                .dealId(UUID.randomUUID())
+                .dealId(String.valueOf(UUID.randomUUID()))
                 .campaignId(CAMPAIGN_ID)
                 .attributionModel(AttributionModel.FIRST_TOUCH)
                 .attributionPercentage(BigDecimal.valueOf(50.0))
@@ -246,7 +246,7 @@ class CampaignAttributionControllerTest {
 
     private CampaignAttributionInsertDTO createValidInsertDTO() {
         return CampaignAttributionInsertDTO.builder()
-                .dealId(UUID.randomUUID())
+                .dealId(String.valueOf(UUID.randomUUID()))
                 .campaignId(CAMPAIGN_ID)
                 .attributionModel(AttributionModel.LAST_TOUCH)
                 .attributionPercentage(BigDecimal.valueOf(75.0))

@@ -22,7 +22,7 @@ class AttributionCalculatorImplTest {
         // Arrange
         CampaignAttribution attribution = CampaignAttribution.builder()
                 .id(AttributionId.of(UUID.randomUUID()))
-                .dealId(DealId.of(UUID.randomUUID()))
+                .dealId(DealId.of(String.valueOf(UUID.randomUUID())))
                 .campaignId(CampaignId.of(UUID.randomUUID()))
                 .model(AttributionModel.FIRST_TOUCH)
                 .percentage(new AttributionPercentage(BigDecimal.ZERO))
@@ -47,7 +47,7 @@ class AttributionCalculatorImplTest {
         // Arrange
         CampaignAttribution attribution = CampaignAttribution.builder()
                 .id(AttributionId.of(UUID.randomUUID()))
-                .dealId(DealId.of(UUID.randomUUID()))
+                .dealId(DealId.of(String.valueOf(UUID.randomUUID())))
                 .campaignId(CampaignId.of(UUID.randomUUID()))
                 .model(AttributionModel.LAST_TOUCH)
                 .percentage(new AttributionPercentage(BigDecimal.ZERO))
@@ -72,7 +72,7 @@ class AttributionCalculatorImplTest {
         // Arrange
         CampaignAttribution attribution = CampaignAttribution.builder()
                 .id(AttributionId.of(UUID.randomUUID()))
-                .dealId(DealId.of(UUID.randomUUID()))
+                .dealId(DealId.of(String.valueOf(UUID.randomUUID())))
                 .campaignId(CampaignId.of(UUID.randomUUID()))
                 .model(AttributionModel.TIME_DECAY)
                 .percentage(new AttributionPercentage(BigDecimal.ZERO))
@@ -105,7 +105,7 @@ class AttributionCalculatorImplTest {
 
         CampaignAttribution attribution = CampaignAttribution.builder()
                 .id(AttributionId.of(UUID.randomUUID()))
-                .dealId(DealId.of(UUID.randomUUID()))
+                .dealId(DealId.of(String.valueOf(UUID.randomUUID())))
                 .campaignId(CampaignId.of(UUID.randomUUID()))
                 .model(AttributionModel.FIRST_TOUCH)
                 .percentage(new AttributionPercentage(BigDecimal.ZERO))
@@ -133,7 +133,7 @@ class AttributionCalculatorImplTest {
         // Arrange
         CampaignAttribution attribution1 = CampaignAttribution.builder()
                 .id(AttributionId.of(UUID.randomUUID()))
-                .dealId(DealId.of(UUID.randomUUID()))
+                .dealId(DealId.of(String.valueOf(UUID.randomUUID())))
                 .campaignId(CampaignId.of(UUID.randomUUID()))
                 .model(AttributionModel.FIRST_TOUCH)
                 .percentage(new AttributionPercentage(BigDecimal.valueOf(50)))
@@ -145,7 +145,7 @@ class AttributionCalculatorImplTest {
 
         CampaignAttribution attribution2 = CampaignAttribution.builder()
                 .id(AttributionId.of(UUID.randomUUID()))
-                .dealId(DealId.of(UUID.randomUUID()))
+                .dealId(DealId.of(String.valueOf(UUID.randomUUID())))
                 .campaignId(CampaignId.of(UUID.randomUUID()))
                 .model(AttributionModel.LAST_TOUCH)
                 .percentage(new AttributionPercentage(BigDecimal.valueOf(50)))

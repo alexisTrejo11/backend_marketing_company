@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.marketing.interaction.api.repository;
 
-import at.backend.MarketingCompany.crm.deal.v2.infrastructure.persistence.DealEntity;
+import at.backend.MarketingCompany.crm.deal.repository.persistence.model.DealEntity;
 import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
 import at.backend.MarketingCompany.marketing.campaign.api.repository.MarketingCampaignModel;
 import at.backend.MarketingCompany.common.utils.Enums.MarketingCampaign.MarketingInteractionType;
@@ -67,7 +67,7 @@ public class CampaignInteractionModel {
     )
     @MapKeyColumn(name = "property_name")
     @Column(name = "property_value")
-    private Map<String, String> properties = new HashMap<>();
+    private Map<String, String> properties;
 
     @Column(length = 1000)
     private String details;

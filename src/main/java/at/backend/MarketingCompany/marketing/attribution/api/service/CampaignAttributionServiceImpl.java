@@ -156,7 +156,7 @@ public class CampaignAttributionServiceImpl implements CampaignAttributionServic
             throw new EntityNotFoundException("Invalid campaign ID: " + attribution.getCampaignId());
         }
 
-        if (!attributionRepository.existsByDealEntity_Id(attribution.getDealId().getValue())) {
+        if (!attributionRepository.existsByDealEntity_Id(UUID.fromString(attribution.getDealId().getValue()))) {
             throw new EntityNotFoundException("Invalid dealEntity ID: " + attribution.getDealId());
         }
     }

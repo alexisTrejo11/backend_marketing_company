@@ -35,6 +35,9 @@ public class User {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    public User(UUID id) {
+        this.id = id;
+    }
 
     @PrePersist
     protected void onCreate() {

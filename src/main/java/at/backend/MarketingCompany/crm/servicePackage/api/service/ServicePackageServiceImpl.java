@@ -1,8 +1,8 @@
 package at.backend.MarketingCompany.crm.servicePackage.api.service;
 
+import at.backend.MarketingCompany.crm.servicePackage.domain.ServicePackageEntity;
 import at.backend.MarketingCompany.crm.servicePackage.infrastructure.DTOs.ServicePackageInput;
 import at.backend.MarketingCompany.crm.servicePackage.infrastructure.autoMappers.ServicePackageMappers;
-import at.backend.MarketingCompany.crm.servicePackage.domain.ServicePackage;
 import at.backend.MarketingCompany.crm.servicePackage.api.repostiory.ServicePackageRepository;
 import at.backend.MarketingCompany.common.exceptions.BusinessLogicException;
 import at.backend.MarketingCompany.common.service.CommonService;
@@ -16,46 +16,46 @@ import java.math.BigDecimal;
 
 @Service
 @RequiredArgsConstructor
-public class ServicePackageServiceImpl implements CommonService<ServicePackage, ServicePackageInput, Long> {
+public class ServicePackageServiceImpl implements CommonService<ServicePackageEntity, ServicePackageInput, Long> {
 
     public final ServicePackageRepository servicePackageRepository;
     public final ServicePackageMappers servicePackageMappers;
 
     @Override
-    public Page<ServicePackage> getAll(Pageable pageable) {
+    public Page<ServicePackageEntity> getAll(Pageable pageable) {
         return servicePackageRepository.findAll(pageable);
     }
 
     @Override
-    public ServicePackage getById(Long id) {
+    public ServicePackageEntity getById(Long id) {
         return getPackage(id);
     }
 
     @Override
-    public ServicePackage create(ServicePackageInput input) {
-        ServicePackage newServicePackage = servicePackageMappers.inputToEntity(input);
+    public ServicePackageEntity create(ServicePackageInput input) {
+        ServicePackageEntity newServicePackageEntity = servicePackageMappers.inputToEntity(input);
 
-        servicePackageRepository.saveAndFlush(newServicePackage);
+        servicePackageRepository.saveAndFlush(newServicePackageEntity);
 
-        return newServicePackage;
+        return newServicePackageEntity;
     }
 
     @Override
-    public ServicePackage update(Long id, ServicePackageInput input) {
-        ServicePackage existingServicePackage = getPackage(id);
+    public ServicePackageEntity update(Long id, ServicePackageInput input) {
+        ServicePackageEntity existingServicePackageEntity = getPackage(id);
 
-        ServicePackage updatedServicePackage = servicePackageMappers.inputToUpdatedEntity(existingServicePackage, input);
+        ServicePackageEntity updatedServicePackageEntity = servicePackageMappers.inputToUpdatedEntity(existingServicePackageEntity, input);
 
-        servicePackageRepository.saveAndFlush(updatedServicePackage);
+        servicePackageRepository.saveAndFlush(updatedServicePackageEntity);
 
-        return updatedServicePackage;
+        return updatedServicePackageEntity;
     }
 
     @Override
     public void delete(Long id) {
-        ServicePackage servicePackage = getPackage(id);
+        ServicePackageEntity servicePackageEntity = getPackage(id);
 
-        servicePackageRepository.delete(servicePackage);
+        servicePackageRepository.delete(servicePackageEntity);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class ServicePackageServiceImpl implements CommonService<ServicePackage, 
 
     }
 
-    private ServicePackage getPackage(Long id) {
+    private ServicePackageEntity getPackage(Long id) {
         return servicePackageRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("service package not found"));
     }

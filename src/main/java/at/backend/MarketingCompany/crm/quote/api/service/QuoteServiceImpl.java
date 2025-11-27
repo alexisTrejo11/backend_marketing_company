@@ -11,7 +11,7 @@ import at.backend.MarketingCompany.crm.quote.api.repository.QuoteRepository;
 import at.backend.MarketingCompany.crm.quote.domain.Quote;
 import at.backend.MarketingCompany.crm.quote.domain.QuoteItem;
 import at.backend.MarketingCompany.crm.servicePackage.api.repostiory.ServicePackageRepository;
-import at.backend.MarketingCompany.crm.servicePackage.domain.ServicePackage;
+import at.backend.MarketingCompany.crm.servicePackage.domain.ServicePackageEntity;
 import at.backend.MarketingCompany.customer.api.repository.CustomerRepository;
 import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
 import jakarta.persistence.EntityNotFoundException;
@@ -122,19 +122,19 @@ public class QuoteServiceImpl implements QuoteService {
         List<Long> servicePackageIds = inputs.stream()
                 .map(QuoteItemInput::servicePackageId)
                 .toList();
-        Map<Long, ServicePackage> servicePackages = servicePackageRepository.findAllById(servicePackageIds)
+        Map<String, ServicePackageEntity> servicePackages = servicePackageRepository.findAllById(servicePackageIds)
                 .stream()
-                .collect(Collectors.toMap(ServicePackage::getId, servicePackage -> servicePackage));
+                .collect(Collectors.toMap(ServicePackageEntity::getId, servicePackage -> servicePackage));
 
         return inputs.stream()
                 .map(input -> {
                     QuoteItem item =  new QuoteItem(input.discountPercentage(), createdQuote);
 
-                    ServicePackage servicePackage = servicePackages.get(input.servicePackageId());
-                    if (servicePackage == null) {
-                        throw new EntityNotFoundException("ServicePackage not found for ID: " + input.servicePackageId());
+                    ServicePackageEntity servicePackageEntity = servicePackages.get(input.servicePackageId());
+                    if (servicePackageEntity == null) {
+                        throw new EntityNotFoundException("ServicePackageEntity not found for ID: " + input.servicePackageId());
                     }
-                    item.setServicePackage(servicePackage);
+                    item.setServicePackageEntity(servicePackageEntity);
 
                     calculateItemNumbers(item);
 
@@ -166,7 +166,7 @@ public class QuoteServiceImpl implements QuoteService {
     }
 
     private void calculateItemNumbers(QuoteItem item) {
-        BigDecimal unitPrice = item.getServicePackage().getPrice();
+        BigDecimal unitPrice = item.getServicePackageEntity().getPrice();
         item.setUnitPrice(unitPrice);
 
         BigDecimal discountPercentage = item.getDiscountPercentage();

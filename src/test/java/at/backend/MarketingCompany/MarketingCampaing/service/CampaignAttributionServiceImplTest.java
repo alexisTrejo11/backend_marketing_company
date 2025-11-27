@@ -190,7 +190,7 @@ class CampaignAttributionServiceImplTest {
         return CampaignAttribution.builder()
                 .id(AttributionId.of(TEST_ID))
                 .campaignId(CampaignId.of(TEST_CAMPAIGN_ID))
-                .dealId(DealId.of(TEST_DEAL_ID))
+                .dealId(DealId.of("TEST_DEAL_ID"))
                 .model(AttributionModel.FIRST_TOUCH)
                 .percentage(new AttributionPercentage(BigDecimal.ZERO))
                 .revenue(new AttributedRevenue(BigDecimal.valueOf(1000)))
@@ -204,7 +204,7 @@ class CampaignAttributionServiceImplTest {
         return CampaignAttribution.builder()
                 .id(AttributionId.of(TEST_ID))
                 .campaignId(CampaignId.of(TEST_CAMPAIGN_ID))
-                .dealId(DealId.of(TEST_DEAL_ID))
+                .dealId(DealId.of(String.valueOf(TEST_DEAL_ID)))
                 .model(AttributionModel.FIRST_TOUCH)
                 .percentage(new AttributionPercentage(BigDecimal.ZERO))
                 .revenue(new AttributedRevenue(BigDecimal.valueOf(1000)))
@@ -223,7 +223,7 @@ class CampaignAttributionServiceImplTest {
         return CampaignAttribution.builder()
                 .id(AttributionId.of(TEST_ID))
                 .campaignId(CampaignId.of(TEST_CAMPAIGN_ID))
-                .dealId(DealId.of(TEST_DEAL_ID))
+                .dealId(DealId.of(String.valueOf(TEST_DEAL_ID)))
                 .percentage(new AttributionPercentage(BigDecimal.valueOf(50)))
                 .build();
     }
@@ -232,7 +232,7 @@ class CampaignAttributionServiceImplTest {
     private CampaignAttributionInsertDTO createSampleInsertDTO() {
         return CampaignAttributionInsertDTO.builder()
                 .campaignId(TEST_CAMPAIGN_ID)
-                .dealId(TEST_DEAL_ID)
+                .dealId(String.valueOf(TEST_DEAL_ID))
                 .build();
     }
 
@@ -240,7 +240,7 @@ class CampaignAttributionServiceImplTest {
         return CampaignAttributionDTO.builder()
                 .id(TEST_ID)
                 .campaignId(TEST_CAMPAIGN_ID)
-                .dealId(TEST_DEAL_ID)
+                .dealId("TEST_DEAL_ID")
                 .attributionPercentage(BigDecimal.valueOf(50))
                 .build();
     }

@@ -11,7 +11,7 @@ public enum DealStatus {
 
     public boolean canTransitionTo(DealStatus newStatus) {
         return switch (this) {
-            case DRAFT -> newStatus == IN_NEGOTIATION || newStatus == CANCELLED;
+            case DRAFT -> newStatus == IN_NEGOTIATION || newStatus == CANCELLED || newStatus == SIGNED;
             case IN_NEGOTIATION -> newStatus == SIGNED || newStatus == CANCELLED;
             case SIGNED -> newStatus == PAID || newStatus == CANCELLED;
             case PAID -> newStatus == IN_PROGRESS || newStatus == CANCELLED;

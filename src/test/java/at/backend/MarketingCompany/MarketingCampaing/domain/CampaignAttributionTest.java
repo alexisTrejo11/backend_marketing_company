@@ -22,7 +22,7 @@ class CampaignAttributionTest {
 
     @BeforeEach
     void setUp() {
-        dealId = DealId.of(UUID.randomUUID());
+        dealId = DealId.of(String.valueOf(UUID.randomUUID()));
         campaignId = CampaignId.of(UUID.randomUUID());
         LocalDateTime now = LocalDateTime.now();
         timeline = new TouchTimeline(now, now.plusHours(1), 1, List.of(now));

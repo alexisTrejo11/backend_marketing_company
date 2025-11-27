@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.marketing.campaign.api.repository;
 
-import at.backend.MarketingCompany.crm.deal.v2.infrastructure.persistence.DealEntity;
+import at.backend.MarketingCompany.crm.deal.repository.persistence.model.DealEntity;
 import at.backend.MarketingCompany.marketing.activity.api.repository.CampaignActivityModel;
 import at.backend.MarketingCompany.marketing.interaction.api.repository.CampaignInteractionModel;
 import at.backend.MarketingCompany.marketing.customer.CustomerSegment;
@@ -43,7 +43,7 @@ public class MarketingCampaignModel {
     private BigDecimal budget;
 
     @Column(name = "cost_to_date", precision = 19, scale = 2)
-    private BigDecimal costToDate = BigDecimal.ZERO;
+    private BigDecimal costToDate;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -66,7 +66,7 @@ public class MarketingCampaignModel {
     )
     @MapKeyColumn(name = "metric_name")
     @Column(name = "target_value")
-    private Map<String, Double> targets = new HashMap<>();
+    private Map<String, Double> targets;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -75,13 +75,13 @@ public class MarketingCampaignModel {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CampaignInteractionModel> interactions = new ArrayList<>();
+    private List<CampaignInteractionModel> interactions;
 
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CampaignMetricModel> metrics = new ArrayList<>();
+    private List<CampaignMetricModel> metrics;
 
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CampaignActivityModel> activities = new ArrayList<>();
+    private List<CampaignActivityModel> activities;
 
     @ManyToMany
     @JoinTable(
@@ -89,7 +89,7 @@ public class MarketingCampaignModel {
             joinColumns = @JoinColumn(name = "campaign_id"),
             inverseJoinColumns = @JoinColumn(name = "deal_id")
     )
-    private List<DealEntity> relatedDealEntities = new ArrayList<>();
+    private List<DealEntity> relatedDealEntities;
 
     @ManyToMany
     @JoinTable(
@@ -97,7 +97,7 @@ public class MarketingCampaignModel {
             joinColumns = @JoinColumn(name = "campaign_id"),
             inverseJoinColumns = @JoinColumn(name = "segment_id")
     )
-    private List<CustomerSegment> targetSegments = new ArrayList<>();
+    private List<CustomerSegment> targetSegments;
 
     @PrePersist
     public void prePersist() {

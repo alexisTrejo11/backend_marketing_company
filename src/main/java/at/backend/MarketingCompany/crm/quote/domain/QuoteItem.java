@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.crm.quote.domain;
 
-import at.backend.MarketingCompany.crm.servicePackage.domain.ServicePackage;
+import at.backend.MarketingCompany.crm.servicePackage.domain.ServicePackageEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,7 +25,7 @@ public class QuoteItem {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "service_package_id", nullable = false)
-    private ServicePackage servicePackage;
+    private ServicePackageEntity servicePackageEntity;
 
     @Column(name = "unit_price", nullable = false, precision = 10, scale = 2)
     private BigDecimal unitPrice = BigDecimal.ZERO;

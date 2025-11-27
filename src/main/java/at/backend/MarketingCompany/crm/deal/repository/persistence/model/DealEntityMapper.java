@@ -1,0 +1,121 @@
+package at.backend.MarketingCompany.crm.deal.repository.persistence.model;
+
+import at.backend.MarketingCompany.crm.deal.domain.entity.Deal;
+import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.*;
+import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.*;
+import at.backend.MarketingCompany.crm.opportunity.domain.Opportunity;
+import at.backend.MarketingCompany.crm.servicePackage.domain.ServicePackageEntity;
+import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
+import at.backend.MarketingCompany.user.api.Model.User;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Component
+@RequiredArgsConstructor
+public class DealEntityMapper {
+    public DealEntity toEntity(Deal deal) {
+        if (deal == null) return null;
+
+        DealEntity entity = new DealEntity();
+        if (deal.getId() != null) entity.setId(deal.getId().asString());
+        entity.setDealStatus(deal.getDealStatus());
+        entity.setStartDate(deal.getPeriod().startDate());
+        entity.setEndDate(deal.getPeriod().endDate().orElse(null));
+
+        // Optional
+        deal.getFinalAmount().ifPresent(amount ->
+                entity.setFinalAmount(amount.value()));
+
+        deal.getDeliverables().ifPresent(entity::setDeliverables);
+        deal.getTerms().ifPresent(entity::setTerms);
+
+        // Audit fields
+        entity.setCreatedAt(deal.getCreatedAt());
+        entity.setUpdatedAt(deal.getUpdatedAt());
+        entity.setDeletedAt(deal.getDeletedAt());
+        entity.setVersion(deal.getVersion());
+
+
+        // Relations
+        if (deal.getCustomerId() != null) {
+            var customer = new CustomerModel(deal.getCustomerId().value());
+            entity.setCustomerModel(customer);
+        }
+
+        if (deal.getOpportunityId() != null) {
+            var opportunity = new Opportunity((deal.getOpportunityId().value()));
+            entity.setOpportunity(opportunity);
+        }
+
+        if (deal.getCampaignManagerId().isPresent()) {
+            var employee = new User(deal.getCampaignManagerId().get().value());
+            entity.setCampaignManager(employee);
+        }
+
+        if (deal.getServicePackageIds() != null) {
+            var services = deal.getServicePackageIds().stream()
+                    .map(serviceId -> new ServicePackageEntity(serviceId.asString()))
+                    .collect(Collectors.toList());
+            entity.setServices(services);
+        }
+
+        return entity;
+    }
+
+    public Deal toDomain(DealEntity entity) {
+        if (entity == null) return null;
+
+        var reconstructParams = DealReconstructParams.builder()
+                .id(DealId.from(entity.getId()))
+                .customerId(entity.getCustomerModel() != null ?
+                        new CustomerId(entity.getCustomerModel().getId()) : null)
+                .opportunityId(entity.getOpportunity() != null ?
+                        new OpportunityId(entity.getOpportunity().getId()) : null)
+                .dealStatus(entity.getDealStatus())
+                .finalAmount(entity.getFinalAmount() != null ?
+                        new FinalAmount(entity.getFinalAmount()) : null)
+                .campaignManagerId(entity.getCampaignManager() != null ?
+                        new EmployeeId(entity.getCampaignManager().getId()) : null)
+                .deliverables(entity.getDeliverables())
+                .terms(entity.getTerms())
+                .servicePackageIds(entity.getServices() != null ?
+                        entity.getServices().stream()
+                                .map(service -> new ServiceId(service.getId()))
+                                .collect(Collectors.toList()) : List.of())
+                .version(entity.getVersion())
+                .period(new ContractPeriod(entity.getStartDate(), Optional.ofNullable(entity.getEndDate())))
+                .deletedAt(entity.getDeletedAt())
+                .createdAt(entity.getCreatedAt())
+                .updatedAt(entity.getUpdatedAt())
+                .build();
+
+        return Deal.reconstruct(reconstructParams);
+    }
+
+    public void updateEntity(DealEntity existingEntity, Deal deal) {
+        existingEntity.setDealStatus(deal.getDealStatus());
+        existingEntity.setStartDate(deal.getPeriod().startDate());
+        existingEntity.setEndDate(deal.getPeriod().endDate().orElse(null));
+
+        // Value Objects con Optional
+        deal.getFinalAmount().ifPresentOrElse(
+                amount -> existingEntity.setFinalAmount(amount.value()),
+                () -> existingEntity.setFinalAmount(null)
+        );
+
+        deal.getDeliverables().ifPresentOrElse(
+                existingEntity::setDeliverables,
+                () -> existingEntity.setDeliverables(null)
+        );
+
+        deal.getTerms().ifPresentOrElse(
+                existingEntity::setTerms,
+                () -> existingEntity.setTerms(null)
+        );
+
+    }
+}

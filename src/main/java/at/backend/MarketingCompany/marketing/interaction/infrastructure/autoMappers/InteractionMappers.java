@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -57,7 +58,7 @@ public class InteractionMappers {
                 .properties(new HashMap<>(domain.getProperties()))
                 .details(domain.getDetails())
                 .resultedDealId(domain.getResultedDealEntity() != null ?
-                        domain.getResultedDealEntity().getId() : null)
+                        UUID.fromString(domain.getResultedDealEntity().getId()) : null)
                 .conversionValue(domain.getConversionValue())
                 .build();
     }
@@ -143,7 +144,7 @@ public class InteractionMappers {
                 .geoLocation(formatGeoLocation(parseGeoLocation(model.getGeoLocation())))
                 .properties(new HashMap<>(model.getProperties()))
                 .details(model.getDetails())
-                .resultedDealId(model.getResultedDealEntity() != null ? model.getResultedDealEntity().getId() : null)
+                .resultedDealId(model.getResultedDealEntity() != null ? UUID.fromString(model.getResultedDealEntity().getId()) : null)
                 .conversionValue(model.getConversionValue())
                 .build();
     }

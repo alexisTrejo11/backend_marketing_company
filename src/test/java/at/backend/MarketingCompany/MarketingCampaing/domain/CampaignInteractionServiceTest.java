@@ -2,7 +2,7 @@ package at.backend.MarketingCompany.MarketingCampaing.domain;
 
 import at.backend.MarketingCompany.common.exceptions.BusinessLogicException;
 import at.backend.MarketingCompany.common.exceptions.InvalidInputException;
-import at.backend.MarketingCompany.crm.deal.v2.infrastructure.persistence.JpaDealRepository;
+import at.backend.MarketingCompany.crm.deal.repository.persistence.repository.JpaDealRepository;
 import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
 import at.backend.MarketingCompany.marketing.campaign.api.repository.MarketingCampaignRepository;
 import at.backend.MarketingCompany.marketing.campaign.domain.MarketingCampaign;

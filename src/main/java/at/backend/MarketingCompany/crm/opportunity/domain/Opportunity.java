@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -18,7 +19,7 @@ import java.util.List;
 public class Opportunity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
@@ -45,6 +46,9 @@ public class Opportunity {
     @OneToMany(mappedBy = "opportunity")
     private List<Task> tasks;
 
+    public Opportunity(UUID id) {
+        this.id = id;
+    }
 
     @PrePersist
     protected void onCreate() {

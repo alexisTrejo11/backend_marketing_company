@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.marketing.attribution.api.repository;
 
-import at.backend.MarketingCompany.crm.deal.v2.infrastructure.persistence.DealEntity;
+import at.backend.MarketingCompany.crm.deal.repository.persistence.model.DealEntity;
 import at.backend.MarketingCompany.marketing.campaign.api.repository.MarketingCampaignModel;
 import at.backend.MarketingCompany.common.utils.Enums.MarketingCampaign.AttributionModel;
 import jakarta.persistence.*;

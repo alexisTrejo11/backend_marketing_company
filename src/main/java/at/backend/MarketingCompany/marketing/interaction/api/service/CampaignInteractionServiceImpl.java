@@ -1,8 +1,8 @@
 package at.backend.MarketingCompany.marketing.interaction.api.service;
 
 import at.backend.MarketingCompany.common.exceptions.*;
-import at.backend.MarketingCompany.crm.deal.v2.infrastructure.persistence.JpaDealRepository;
-import at.backend.MarketingCompany.crm.deal.v2.infrastructure.persistence.DealEntity;
+import at.backend.MarketingCompany.crm.deal.repository.persistence.repository.JpaDealRepository;
+import at.backend.MarketingCompany.crm.deal.repository.persistence.model.DealEntity;
 import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
 import at.backend.MarketingCompany.marketing.campaign.api.repository.MarketingCampaignRepository;
 import at.backend.MarketingCompany.marketing.campaign.domain.MarketingCampaign;
@@ -153,7 +153,7 @@ public class CampaignInteractionServiceImpl implements CampaignInteractionServic
 
         if (dto.getResultedDealId() != null || dto.getConversionValue() != null) {
             assert dto.getResultedDealId() != null;
-            DealEntity dealEntity = jpaDealRepository.findById(dto.getResultedDealId())
+            DealEntity dealEntity = jpaDealRepository.findById(dto.getResultedDealId().toString())
                     .orElseThrow(() -> new EntityNotFoundException("DealEntity not found"));
             domain.setConversion(dealEntity, dto.getConversionValue());
         }

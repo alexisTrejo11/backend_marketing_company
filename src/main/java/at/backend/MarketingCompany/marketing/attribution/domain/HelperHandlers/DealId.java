@@ -6,7 +6,7 @@ import java.util.UUID;
 
 @Value(staticConstructor = "of")
 public class DealId {
-    UUID value;
+    String value;
 }
 
 

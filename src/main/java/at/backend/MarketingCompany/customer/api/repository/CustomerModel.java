@@ -67,6 +67,9 @@ public class CustomerModel {
     @OneToMany(mappedBy = "customerModel", fetch = FetchType.LAZY)
     private List<Interaction> interactions;
 
+    public CustomerModel(UUID id) {
+        this.id = id;
+    }
 
     @PrePersist
     protected void onCreate() {
