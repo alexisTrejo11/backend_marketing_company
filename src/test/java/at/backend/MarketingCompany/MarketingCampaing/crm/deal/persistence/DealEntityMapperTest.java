@@ -7,7 +7,8 @@ import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.*
 import at.backend.MarketingCompany.crm.deal.repository.persistence.model.DealEntity;
 import at.backend.MarketingCompany.crm.deal.repository.persistence.model.DealEntityMapper;
 import at.backend.MarketingCompany.crm.opportunity.domain.Opportunity;
-import at.backend.MarketingCompany.crm.servicePackage.domain.ServicePackageEntity;
+import at.backend.MarketingCompany.crm.servicePackage.v2.domain.entity.valueobjects.ServicePackageId;
+import at.backend.MarketingCompany.crm.servicePackage.v2.infrastructure.persistence.model.ServicePackageEntity;
 import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
 import at.backend.MarketingCompany.user.api.Model.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +27,7 @@ class DealEntityMapperTest {
     private DealEntityMapper mapper;
     private CustomerId customerId;
     private OpportunityId opportunityId;
-    private List<ServiceId> serviceIds;
+    private List<ServicePackageId> serviceIds;
     private LocalDate startDate;
 
     @BeforeEach
@@ -36,8 +37,8 @@ class DealEntityMapperTest {
         customerId = new CustomerId(UUID.randomUUID());
         opportunityId = new OpportunityId(UUID.randomUUID());
         serviceIds = List.of(
-            new ServiceId(UUID.randomUUID().toString()),
-            new ServiceId(UUID.randomUUID().toString())
+            new ServicePackageId(UUID.randomUUID().toString()),
+            new ServicePackageId(UUID.randomUUID().toString())
         );
         startDate = LocalDate.now().plusDays(1);
     }
@@ -113,7 +114,7 @@ class DealEntityMapperTest {
         entity.setUpdatedAt(LocalDateTime.now());
         entity.setVersion(1);
         
-        // Set up relationships with mock entities (simplificado)
+        // Set up relationships with mock entities
         var customer = new CustomerModel(customerId.value());
         var opportunity = new Opportunity(opportunityId.value());
         var manager = new User(UUID.randomUUID());

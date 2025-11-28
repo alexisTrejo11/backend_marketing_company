@@ -1,13 +1,14 @@
 package at.backend.MarketingCompany.crm.deal.domain.entity;
 
+import at.backend.MarketingCompany.common.utils.BaseDomainEntity;
 import at.backend.MarketingCompany.crm.Utils.enums.DealStatus;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.CustomerId;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.EmployeeId;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.OpportunityId;
-import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.ServiceId;
 import at.backend.MarketingCompany.crm.deal.domain.exceptions.DealStatusTransitionException;
 import at.backend.MarketingCompany.crm.deal.domain.exceptions.DealValidationException;
+import at.backend.MarketingCompany.crm.servicePackage.v2.domain.entity.valueobjects.ServicePackageId;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,7 +16,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-@SuppressWarnings("ALL")
 public class Deal extends BaseDomainEntity<DealId> {
     private CustomerId customerId;
     private OpportunityId opportunityId;
@@ -25,7 +25,7 @@ public class Deal extends BaseDomainEntity<DealId> {
     private EmployeeId campaignManagerId;
     private String deliverables;
     private String terms;
-    private List<ServiceId> servicePackageIds;
+    private List<ServicePackageId> servicePackageIds;
 
     private Deal(DealId dealId) {
         super(dealId);
@@ -129,7 +129,7 @@ public class Deal extends BaseDomainEntity<DealId> {
         updateTimestamp();
     }
 
-    public void updateServicePackages(List<ServiceId> newServicePackages) {
+    public void updateServicePackages(List<ServicePackageId> newServicePackages) {
         if (this.dealStatus == DealStatus.COMPLETED || this.dealStatus == DealStatus.CANCELLED) {
             throw new DealValidationException("Cannot update service packages for a " + this.dealStatus + " deal.");
         }
@@ -222,7 +222,7 @@ public class Deal extends BaseDomainEntity<DealId> {
         return Optional.ofNullable(terms);
     }
 
-    public List<ServiceId> getServicePackageIds() {
+    public List<ServicePackageId> getServicePackageIds() {
         return servicePackageIds;
     }
 

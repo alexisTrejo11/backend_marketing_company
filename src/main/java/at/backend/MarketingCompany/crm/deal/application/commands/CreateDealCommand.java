@@ -2,7 +2,7 @@ package at.backend.MarketingCompany.crm.deal.application.commands;
 
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.CustomerId;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.OpportunityId;
-import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.ServiceId;
+import at.backend.MarketingCompany.crm.servicePackage.v2.domain.entity.valueobjects.ServicePackageId;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.UUID;
 public record CreateDealCommand(
     CustomerId customerId,
     OpportunityId opportunityId,
-    List<ServiceId> servicePackageIds,
+    List<ServicePackageId> servicePackageIds,
     LocalDate startDate
 ) {
     public static CreateDealCommand from(
@@ -24,7 +24,7 @@ public record CreateDealCommand(
             new CustomerId(customerId),
             new OpportunityId(opportunityId),
             servicePackageIds.stream()
-                .map(ServiceId::new)
+                .map(ServicePackageId::new)
                 .toList(),
             startDate
         );

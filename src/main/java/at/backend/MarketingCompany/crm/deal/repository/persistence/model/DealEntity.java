@@ -2,7 +2,7 @@ package at.backend.MarketingCompany.crm.deal.repository.persistence.model;
 
 import at.backend.MarketingCompany.common.jpa.BaseJpaEntity;
 import at.backend.MarketingCompany.crm.opportunity.domain.Opportunity;
-import at.backend.MarketingCompany.crm.servicePackage.domain.ServicePackageEntity;
+import at.backend.MarketingCompany.crm.servicePackage.v2.infrastructure.persistence.model.ServicePackageEntity;
 import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
 import at.backend.MarketingCompany.user.api.Model.User;
 import at.backend.MarketingCompany.crm.Utils.enums.DealStatus;

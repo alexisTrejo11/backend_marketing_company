@@ -1,19 +1,19 @@
 package at.backend.MarketingCompany.crm.deal.application.commands;
 
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.DealId;
-import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.ServiceId;
+import at.backend.MarketingCompany.crm.servicePackage.v2.domain.entity.valueobjects.ServicePackageId;
 
 import java.util.List;
 import java.util.UUID;
 
 public record UpdateDealServicesCommand(
     DealId dealId,
-    List<ServiceId> servicePackageIds
+    List<ServicePackageId> servicePackageIds
 ) {
     public static UpdateDealServicesCommand from(UUID dealId, List<UUID> servicePackageIds) {
         DealId dId = new DealId(dealId.toString());
-        List<ServiceId> serviceIds = servicePackageIds.stream()
-                .map(ServiceId::from)
+        List<ServicePackageId> serviceIds = servicePackageIds.stream()
+                .map(ServicePackageId::of)
                 .toList();
         return new UpdateDealServicesCommand(dId, serviceIds);
     }

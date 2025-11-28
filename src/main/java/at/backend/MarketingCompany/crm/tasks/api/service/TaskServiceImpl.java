@@ -6,7 +6,7 @@ import at.backend.MarketingCompany.crm.tasks.api.repository.TaskRepository;
 import at.backend.MarketingCompany.crm.tasks.infrastructure.DTOs.TaskInput;
 import at.backend.MarketingCompany.crm.tasks.infrastructure.autoMappers.TaskMappers;
 import at.backend.MarketingCompany.crm.opportunity.domain.Opportunity;
-import at.backend.MarketingCompany.crm.tasks.domain.Task;
+import at.backend.MarketingCompany.crm.tasks.infrastructure.persistence.TaskEntity;
 import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
 import at.backend.MarketingCompany.user.api.Model.User;
 import at.backend.MarketingCompany.crm.opportunity.api.repository.OpportunityRepository;
@@ -24,7 +24,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class TaskServiceImpl implements CommonService<Task, TaskInput, Long> {
+public class TaskServiceImpl implements CommonService<TaskEntity, TaskInput, Long> {
 
     public final TaskRepository TaskRepository;
     public final TaskMappers TaskMappers;
@@ -33,55 +33,55 @@ public class TaskServiceImpl implements CommonService<Task, TaskInput, Long> {
     public final UserRepository userRepository;
 
     @Override
-    public Page<Task> getAll(Pageable pageable) {
+    public Page<TaskEntity> getAll(Pageable pageable) {
         return TaskRepository.findAll(pageable);
     }
 
     @Override
-    public Task getById(Long id) {
+    public TaskEntity getById(Long id) {
         return getTask(id);
     }
 
     @Override
-    public Task create(TaskInput input) {
-        Task newTask = TaskMappers.inputToEntity(input);
+    public TaskEntity create(TaskInput input) {
+        TaskEntity newTaskEntity = TaskMappers.inputToEntity(input);
 
-        newTask.setCustomerModel(getCustomer(input.customerId()));
-        newTask.setOpportunity(getOpportunity(input.opportunityId()));
+        newTaskEntity.setCustomerModel(getCustomer(input.customerId()));
+        newTaskEntity.setOpportunity(getOpportunity(input.opportunityId()));
 
         if (input.assignedToUserId() != null) {
-            newTask.setAssignedTo(getUser(input.assignedToUserId()));
+            newTaskEntity.setAssignedTo(getUser(input.assignedToUserId()));
         }
 
-        TaskRepository.saveAndFlush(newTask);
+        TaskRepository.saveAndFlush(newTaskEntity);
 
-        return newTask;
+        return newTaskEntity;
     }
 
     @Override
-    public Task update(Long id, TaskInput input) {
-        Task existingTask = getTask(id);
+    public TaskEntity update(Long id, TaskInput input) {
+        TaskEntity existingTaskEntity = getTask(id);
 
-        Task updatedTask = TaskMappers.inputToUpdatedEntity(existingTask, input);
+        TaskEntity updatedTaskEntity = TaskMappers.inputToUpdatedEntity(existingTaskEntity, input);
 
-        updatedTask.setCustomerModel(getCustomer(input.customerId()));
-        updatedTask.setOpportunity(getOpportunity(input.opportunityId()));
+        updatedTaskEntity.setCustomerModel(getCustomer(input.customerId()));
+        updatedTaskEntity.setOpportunity(getOpportunity(input.opportunityId()));
 
         if (input.assignedToUserId() != null) {
-            updatedTask.setAssignedTo(getUser(input.assignedToUserId()));
+            updatedTaskEntity.setAssignedTo(getUser(input.assignedToUserId()));
         }
 
 
-        TaskRepository.saveAndFlush(updatedTask);
+        TaskRepository.saveAndFlush(updatedTaskEntity);
 
-        return updatedTask;
+        return updatedTaskEntity;
     }
 
     @Override
     public void delete(Long id) {
-        Task task = getTask(id);
+        TaskEntity taskEntity = getTask(id);
 
-        TaskRepository.delete(task);
+        TaskRepository.delete(taskEntity);
     }
 
     @Override
@@ -118,8 +118,8 @@ public class TaskServiceImpl implements CommonService<Task, TaskInput, Long> {
                 .orElseThrow(() -> new RuntimeException("User Not found"));
     }
 
-    private Task getTask(Long id) {
+    private TaskEntity getTask(Long id) {
         return TaskRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Task Not found"));
+                .orElseThrow(() -> new RuntimeException("TaskEntity Not found"));
     }
 }

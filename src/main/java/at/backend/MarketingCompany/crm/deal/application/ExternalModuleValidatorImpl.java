@@ -3,7 +3,7 @@ package at.backend.MarketingCompany.crm.deal.application;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.CustomerId;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.EmployeeId;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.OpportunityId;
-import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.ServiceId;
+import at.backend.MarketingCompany.crm.servicePackage.v2.domain.entity.valueobjects.ServicePackageId;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class ExternalModuleValidatorImpl implements  ExternalModuleValidator {
     }
 
     @Override
-    public void validateServicesExist(List<ServiceId> serviceIds) {
+    public void validateServicesExist(List<ServicePackageId> serviceIds) {
 
     }
 }

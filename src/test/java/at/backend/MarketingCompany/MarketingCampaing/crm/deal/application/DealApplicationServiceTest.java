@@ -13,6 +13,7 @@ import at.backend.MarketingCompany.crm.deal.domain.exceptions.DealStatusTransiti
 import at.backend.MarketingCompany.crm.deal.domain.exceptions.DealValidationException;
 import at.backend.MarketingCompany.crm.deal.domain.respository.DealRepository;
 import at.backend.MarketingCompany.common.exceptions.ExternalServiceException;
+import at.backend.MarketingCompany.crm.servicePackage.v2.domain.entity.valueobjects.ServicePackageId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -55,7 +56,7 @@ class DealApplicationServiceTest {
     private CustomerId validCustomerId;
     private OpportunityId validOpportunityId;
     private EmployeeId validEmployeeId;
-    private List<ServiceId> validServiceIds;
+    private List<ServicePackageId> validServiceIds;
     private LocalDate validStartDate;
     private LocalDate validEndDate;
     private Deal draftDeal;
@@ -68,8 +69,8 @@ class DealApplicationServiceTest {
         validOpportunityId = new OpportunityId(UUID.randomUUID());
         validEmployeeId = new EmployeeId(UUID.randomUUID());
         validServiceIds = List.of(
-            ServiceId.create(),
-            ServiceId.create()
+                ServicePackageId.generate(),
+                ServicePackageId.generate()
         );
         validStartDate = LocalDate.now().plusDays(1);
         validEndDate = validStartDate.plusDays(30);
@@ -115,7 +116,7 @@ class DealApplicationServiceTest {
         }
 
         @Test
-        @DisplayName("should throw exception when customer validation fails")
+        @DisplayName("should throw exceptions when customer validation fails")
         void handleCreateDeal_WithInvalidCustomer_ShouldThrowException() {
             // Given
             var command = new CreateDealCommand(
@@ -136,7 +137,7 @@ class DealApplicationServiceTest {
         }
 
         @Test
-        @DisplayName("should throw exception when services validation fails")
+        @DisplayName("should throw exceptions when services validation fails")
         void handleCreateDeal_WithInvalidServices_ShouldThrowException() {
             // Given
             var command = new CreateDealCommand(
@@ -191,7 +192,7 @@ class DealApplicationServiceTest {
         }
 
         @Test
-        @DisplayName("should throw exception when deal not found")
+        @DisplayName("should throw exceptions when deal not found")
         void handleSignDeal_WithNonExistentDeal_ShouldThrowException() {
             // Given
             var command = new SignDealCommand(
@@ -212,7 +213,7 @@ class DealApplicationServiceTest {
         }
 
         @Test
-        @DisplayName("should throw exception when employee validation fails")
+        @DisplayName("should throw exceptions when employee validation fails")
         void handleSignDeal_WithInvalidEmployee_ShouldThrowException() {
             // Given
             var command = new SignDealCommand(
@@ -260,7 +261,7 @@ class DealApplicationServiceTest {
         }
 
         @Test
-        @DisplayName("should throw exception when deal is not in signed state")
+        @DisplayName("should throw exceptions when deal is not in signed state")
         void handleMarkAsPaid_WithInvalidState_ShouldThrowException() {
             // Given
             var command = new MarkDealAsPaidCommand(validDealId);
@@ -303,7 +304,7 @@ class DealApplicationServiceTest {
         }
 
         @Test
-        @DisplayName("should throw exception when end date is invalid")
+        @DisplayName("should throw exceptions when end date is invalid")
         void handleCompleteDeal_WithInvalidEndDate_ShouldThrowException() {
             // Given
             var invalidEndDate = validStartDate.minusDays(1); // Before start date
@@ -330,8 +331,8 @@ class DealApplicationServiceTest {
         void handleUpdateServices_WithValidCommand_ShouldUpdateServices() {
             // Given
             var newServices = List.of(
-                    ServiceId.create(),
-                    ServiceId.create()
+                    ServicePackageId.generate(),
+                    ServicePackageId.generate()
             );
             var command = new UpdateDealServicesCommand(validDealId, newServices);
 
@@ -351,10 +352,10 @@ class DealApplicationServiceTest {
         }
 
         @Test
-        @DisplayName("should throw exception when services validation fails")
+        @DisplayName("should throw exceptions when services validation fails")
         void handleUpdateServices_WithInvalidServices_ShouldThrowException() {
             // Given
-            var newServices = List.of(ServiceId.create());
+            var newServices = List.of(ServicePackageId.generate());
             var command = new UpdateDealServicesCommand(validDealId, newServices);
 
             when(dealRepository.findById(validDealId)).thenReturn(Optional.of(draftDeal));
@@ -390,7 +391,7 @@ class DealApplicationServiceTest {
         }
 
         @Test
-        @DisplayName("should throw exception when deal not found")
+        @DisplayName("should throw exceptions when deal not found")
         void handleGetDealById_WithNonExistentDeal_ShouldThrowException() {
             // Given
             var query = new GetDealByIdQuery(validDealId);

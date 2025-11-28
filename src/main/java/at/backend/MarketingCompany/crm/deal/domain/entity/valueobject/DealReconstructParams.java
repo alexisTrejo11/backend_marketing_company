@@ -4,7 +4,7 @@ import at.backend.MarketingCompany.crm.Utils.enums.DealStatus;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.CustomerId;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.EmployeeId;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.OpportunityId;
-import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.ServiceId;
+import at.backend.MarketingCompany.crm.servicePackage.v2.domain.entity.valueobjects.ServicePackageId;
 import lombok.Builder;
 
 import java.util.List;
@@ -24,6 +24,6 @@ public record DealReconstructParams(
         EmployeeId campaignManagerId,
         String deliverables,
         String terms,
-        List<ServiceId>servicePackageIds
+        List<ServicePackageId>servicePackageIds
 ) {
 }

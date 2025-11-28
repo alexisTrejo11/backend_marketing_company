@@ -2,7 +2,7 @@ package at.backend.MarketingCompany.crm.deal.domain.entity.valueobject;
 
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.CustomerId;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.OpportunityId;
-import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.ServiceId;
+import at.backend.MarketingCompany.crm.servicePackage.v2.domain.entity.valueobjects.ServicePackageId;
 import lombok.Builder;
 
 import java.time.LocalDate;
@@ -14,7 +14,7 @@ public record CreateDealParams(
         CustomerId customerId,
         OpportunityId opportunityId,
         LocalDate startDate,
-        List<ServiceId> servicePackageIds
+        List<ServicePackageId> servicePackageIds
 ) {
     @Builder
     public CreateDealParams {
@@ -26,7 +26,7 @@ public record CreateDealParams(
         if (servicePackageIds.isEmpty()) {
             throw new IllegalArgumentException("ServicePackageIds cannot be empty");
         }
-        for (ServiceId svc : servicePackageIds) {
+        for (ServicePackageId svc : servicePackageIds) {
             Objects.requireNonNull(svc, "ServicePackageIds cannot contain null elements");
         }
 

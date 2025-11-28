@@ -4,7 +4,8 @@ import at.backend.MarketingCompany.crm.deal.domain.entity.Deal;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.*;
 import at.backend.MarketingCompany.crm.opportunity.domain.Opportunity;
-import at.backend.MarketingCompany.crm.servicePackage.domain.ServicePackageEntity;
+import at.backend.MarketingCompany.crm.servicePackage.v2.domain.entity.valueobjects.ServicePackageId;
+import at.backend.MarketingCompany.crm.servicePackage.v2.infrastructure.persistence.model.ServicePackageEntity;
 import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
 import at.backend.MarketingCompany.user.api.Model.User;
 import lombok.RequiredArgsConstructor;
@@ -58,7 +59,7 @@ public class DealEntityMapper {
 
         if (deal.getServicePackageIds() != null) {
             var services = deal.getServicePackageIds().stream()
-                    .map(serviceId -> new ServicePackageEntity(serviceId.asString()))
+                    .map(serviceId -> new ServicePackageEntity(serviceId.value()))
                     .collect(Collectors.toList());
             entity.setServices(services);
         }
@@ -84,7 +85,7 @@ public class DealEntityMapper {
                 .terms(entity.getTerms())
                 .servicePackageIds(entity.getServices() != null ?
                         entity.getServices().stream()
-                                .map(service -> new ServiceId(service.getId()))
+                                .map(service -> new ServicePackageId(service.getId()))
                                 .collect(Collectors.toList()) : List.of())
                 .version(entity.getVersion())
                 .period(new ContractPeriod(entity.getStartDate(), Optional.ofNullable(entity.getEndDate())))

@@ -10,8 +10,7 @@ import at.backend.MarketingCompany.crm.quote.api.repository.QuoteItemRepository;
 import at.backend.MarketingCompany.crm.quote.api.repository.QuoteRepository;
 import at.backend.MarketingCompany.crm.quote.domain.Quote;
 import at.backend.MarketingCompany.crm.quote.domain.QuoteItem;
-import at.backend.MarketingCompany.crm.servicePackage.api.repostiory.ServicePackageRepository;
-import at.backend.MarketingCompany.crm.servicePackage.domain.ServicePackageEntity;
+import at.backend.MarketingCompany.crm.servicePackage.v2.infrastructure.persistence.model.ServicePackageEntity;
 import at.backend.MarketingCompany.customer.api.repository.CustomerRepository;
 import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
 import jakarta.persistence.EntityNotFoundException;
@@ -35,7 +34,7 @@ public class QuoteServiceImpl implements QuoteService {
     public final QuoteItemRepository quoteItemRepository;
     public final CustomerRepository customerRepository;
     public final OpportunityRepository opportunityRepository;
-    public final ServicePackageRepository servicePackageRepository;
+    public final at.backend.MarketingCompany.crm.servicePackage.v2.infrastructure.persistence.repository.JpaServicePackageRepository jpaServicePackageRepository;
     public final QuoteMappers quoteMappers;
 
     @Override
@@ -119,10 +118,10 @@ public class QuoteServiceImpl implements QuoteService {
     }
 
     private List<QuoteItem> generateItems(Quote createdQuote, List<QuoteItemInput> inputs) {
-        List<Long> servicePackageIds = inputs.stream()
+        List<String> servicePackageIds = inputs.stream()
                 .map(QuoteItemInput::servicePackageId)
                 .toList();
-        Map<String, ServicePackageEntity> servicePackages = servicePackageRepository.findAllById(servicePackageIds)
+        Map<String, ServicePackageEntity> servicePackages = jpaServicePackageRepository.findAllById(servicePackageIds)
                 .stream()
                 .collect(Collectors.toMap(ServicePackageEntity::getId, servicePackage -> servicePackage));
 

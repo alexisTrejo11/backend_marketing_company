@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.crm.opportunity.domain;
 
-import at.backend.MarketingCompany.crm.tasks.domain.Task;
+import at.backend.MarketingCompany.crm.tasks.infrastructure.persistence.TaskEntity;
 import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -44,7 +44,7 @@ public class Opportunity {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "opportunity")
-    private List<Task> tasks;
+    private List<TaskEntity> taskEntities;
 
     public Opportunity(UUID id) {
         this.id = id;

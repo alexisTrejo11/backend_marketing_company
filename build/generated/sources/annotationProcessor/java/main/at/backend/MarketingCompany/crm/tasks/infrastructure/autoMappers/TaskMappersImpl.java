@@ -1,47 +1,48 @@
 package at.backend.MarketingCompany.crm.tasks.infrastructure.autoMappers;
 
-import at.backend.MarketingCompany.crm.tasks.domain.Task;
+import at.backend.MarketingCompany.crm.tasks.infrastructure.persistence.TaskEntity;
 import at.backend.MarketingCompany.crm.tasks.infrastructure.DTOs.TaskInput;
 import javax.annotation.processing.Generated;
+
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-11-27T00:26:56-0600",
-    comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.11.1.jar, environment: Java 23.0.2 (Homebrew)"
+    date = "2025-11-27T17:36:05-0600",
+    comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.13.jar, environment: Java 23.0.2 (Homebrew)"
 )
 @Component
 public class TaskMappersImpl implements TaskMappers {
 
     @Override
-    public Task inputToEntity(TaskInput input) {
+    public TaskEntity inputToEntity(TaskInput input) {
         if ( input == null ) {
             return null;
         }
 
-        Task task = new Task();
+        TaskEntity taskEntity = new TaskEntity();
 
-        task.setTitle( input.title() );
-        task.setDescription( input.description() );
-        task.setDueDate( input.dueDate() );
-        task.setStatus( input.status() );
-        task.setPriority( input.priority() );
+        taskEntity.setTitle( input.title() );
+        taskEntity.setDescription( input.description() );
+        taskEntity.setDueDate( input.dueDate() );
+        taskEntity.setStatus( input.status() );
+        taskEntity.setPriority( input.priority() );
 
-        return task;
+        return taskEntity;
     }
 
     @Override
-    public Task inputToUpdatedEntity(Task existingTask, TaskInput input) {
+    public TaskEntity inputToUpdatedEntity(TaskEntity existingTaskEntity, TaskInput input) {
         if ( input == null ) {
-            return existingTask;
+            return existingTaskEntity;
         }
 
-        existingTask.setTitle( input.title() );
-        existingTask.setDescription( input.description() );
-        existingTask.setDueDate( input.dueDate() );
-        existingTask.setStatus( input.status() );
-        existingTask.setPriority( input.priority() );
+        existingTaskEntity.setTitle( input.title() );
+        existingTaskEntity.setDescription( input.description() );
+        existingTaskEntity.setDueDate( input.dueDate() );
+        existingTaskEntity.setStatus( input.status() );
+        existingTaskEntity.setPriority( input.priority() );
 
-        return existingTask;
+        return existingTaskEntity;
     }
 }

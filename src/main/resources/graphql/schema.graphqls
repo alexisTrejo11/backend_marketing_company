@@ -67,7 +67,7 @@ input OpportunityInput {
 
 
 
-# Task
+# TaskEntity
 enum TaskStatus {
     PENDING
     IN_PROGRESS

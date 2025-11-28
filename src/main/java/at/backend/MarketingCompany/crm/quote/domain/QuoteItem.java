@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.crm.quote.domain;
 
-import at.backend.MarketingCompany.crm.servicePackage.domain.ServicePackageEntity;
+import at.backend.MarketingCompany.crm.servicePackage.v2.infrastructure.persistence.model.ServicePackageEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
