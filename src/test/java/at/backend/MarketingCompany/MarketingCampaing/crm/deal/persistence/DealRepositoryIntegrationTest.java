@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence;
 
-import at.backend.MarketingCompany.crm.Utils.enums.DealStatus;
+import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
 import at.backend.MarketingCompany.crm.deal.domain.entity.Deal;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.*;
@@ -22,7 +22,6 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

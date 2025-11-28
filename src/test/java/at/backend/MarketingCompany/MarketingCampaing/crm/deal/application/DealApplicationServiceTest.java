@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.MarketingCampaing.crm.deal.application;
 
-import at.backend.MarketingCompany.crm.Utils.enums.DealStatus;
+import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
 import at.backend.MarketingCompany.crm.deal.application.DealApplicationServiceImpl;
 import at.backend.MarketingCompany.crm.deal.application.ExternalModuleValidator;
 import at.backend.MarketingCompany.crm.deal.application.commands.*;
@@ -13,7 +13,7 @@ import at.backend.MarketingCompany.crm.deal.domain.exceptions.DealStatusTransiti
 import at.backend.MarketingCompany.crm.deal.domain.exceptions.DealValidationException;
 import at.backend.MarketingCompany.crm.deal.domain.respository.DealRepository;
 import at.backend.MarketingCompany.common.exceptions.ExternalServiceException;
-import at.backend.MarketingCompany.crm.servicePackage.v2.domain.entity.valueobjects.ServicePackageId;
+import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -85,7 +85,7 @@ class DealApplicationServiceTest {
     class CreateDealCommandTests {
 
         @Test
-        @DisplayName("should create deal successfully with valid command")
+        @DisplayName("should create deal successfully with valid commands")
         void handleCreateDeal_WithValidCommand_ShouldCreateDeal() {
             // Given
             var command = new CreateDealCommand(

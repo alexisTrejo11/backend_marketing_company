@@ -1,14 +1,12 @@
 package at.backend.MarketingCompany.crm.deal.domain.entity;
 
 import at.backend.MarketingCompany.common.utils.BaseDomainEntity;
-import at.backend.MarketingCompany.crm.Utils.enums.DealStatus;
+import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.*;
-import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.CustomerId;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.EmployeeId;
-import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.OpportunityId;
 import at.backend.MarketingCompany.crm.deal.domain.exceptions.DealStatusTransitionException;
 import at.backend.MarketingCompany.crm.deal.domain.exceptions.DealValidationException;
-import at.backend.MarketingCompany.crm.servicePackage.v2.domain.entity.valueobjects.ServicePackageId;
+import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

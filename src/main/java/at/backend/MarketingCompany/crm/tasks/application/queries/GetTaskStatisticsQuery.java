@@ -1,6 +1,10 @@
 package at.backend.MarketingCompany.crm.tasks.application.queries;
 
+
+import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.EmployeeId;
+import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
+
 public record GetTaskStatisticsQuery(
-    String customerId,
-    String assigneeId
+    CustomerId customerId,
+    EmployeeId assigneeId
 ) {}

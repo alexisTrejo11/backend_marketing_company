@@ -2,7 +2,7 @@ package at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external;
 
 import java.util.UUID;
 
-public record EmployeeId(UUID value) {
+public record EmployeeId(String value) {
     public EmployeeId {
         if (value == null) {
             throw new IllegalArgumentException("Deal ID cannot be null.");
@@ -10,6 +10,6 @@ public record EmployeeId(UUID value) {
     }
 
     public static EmployeeId create() {
-        return new EmployeeId(UUID.randomUUID());
+        return new EmployeeId(UUID.randomUUID().toString());
     }
 }

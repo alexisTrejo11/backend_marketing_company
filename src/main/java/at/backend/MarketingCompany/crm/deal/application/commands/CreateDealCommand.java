@@ -1,8 +1,6 @@
 package at.backend.MarketingCompany.crm.deal.application.commands;
 
-import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.CustomerId;
-import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.OpportunityId;
-import at.backend.MarketingCompany.crm.servicePackage.v2.domain.entity.valueobjects.ServicePackageId;
+import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
 
 import java.time.LocalDate;
 import java.util.List;

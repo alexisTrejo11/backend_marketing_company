@@ -1,14 +1,14 @@
 package at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence;
 
-import at.backend.MarketingCompany.crm.Utils.enums.DealStatus;
+import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
 import at.backend.MarketingCompany.crm.deal.domain.entity.Deal;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.*;
 import at.backend.MarketingCompany.crm.deal.repository.persistence.model.DealEntity;
 import at.backend.MarketingCompany.crm.deal.repository.persistence.model.DealEntityMapper;
 import at.backend.MarketingCompany.crm.opportunity.domain.Opportunity;
-import at.backend.MarketingCompany.crm.servicePackage.v2.domain.entity.valueobjects.ServicePackageId;
-import at.backend.MarketingCompany.crm.servicePackage.v2.infrastructure.persistence.model.ServicePackageEntity;
+import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
+import at.backend.MarketingCompany.crm.servicePackage.infrastructure.persistence.model.ServicePackageEntity;
 import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
 import at.backend.MarketingCompany.user.api.Model.User;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,3 +1,5 @@
 package at.backend.MarketingCompany.crm.tasks.application.queries;
 
-public record GetTasksByOpportunityQuery(String opportunityId) {}
+import org.springframework.data.domain.Pageable;
+
+public record GetTasksByOpportunityQuery(OpportunityId opportunityId, Pageable pageable) {}

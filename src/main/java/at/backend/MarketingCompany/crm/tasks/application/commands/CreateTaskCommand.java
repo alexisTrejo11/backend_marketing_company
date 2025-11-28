@@ -1,10 +1,10 @@
 package at.backend.MarketingCompany.crm.tasks.application.commands;
 
-import at.backend.MarketingCompany.crm.Utils.enums.TaskPriority;
-import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.*;
+import at.backend.MarketingCompany.crm.shared.enums.TaskPriority;
+import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.EmployeeId;
+import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.tasks.domain.entity.valueobject.DueDate;
-
-import java.time.LocalDateTime;
+import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
 
 public record CreateTaskCommand(
     CustomerId customerId,

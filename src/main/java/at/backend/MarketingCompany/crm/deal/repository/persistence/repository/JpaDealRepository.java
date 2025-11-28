@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.crm.deal.repository.persistence.repository;
 
-import at.backend.MarketingCompany.crm.Utils.enums.DealStatus;
+import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
 import at.backend.MarketingCompany.crm.deal.repository.persistence.model.DealEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 @Repository
 public interface JpaDealRepository extends JpaRepository<DealEntity, String> {

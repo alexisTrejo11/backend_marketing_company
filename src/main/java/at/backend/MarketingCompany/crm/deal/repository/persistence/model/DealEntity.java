@@ -1,11 +1,11 @@
 package at.backend.MarketingCompany.crm.deal.repository.persistence.model;
 
 import at.backend.MarketingCompany.common.jpa.BaseJpaEntity;
-import at.backend.MarketingCompany.crm.opportunity.domain.Opportunity;
-import at.backend.MarketingCompany.crm.servicePackage.v2.infrastructure.persistence.model.ServicePackageEntity;
+import at.backend.MarketingCompany.crm.opportunity.infrastructure.persistence.OpportunityEntity;
+import at.backend.MarketingCompany.crm.servicePackage.infrastructure.persistence.model.ServicePackageEntity;
 import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
 import at.backend.MarketingCompany.user.api.Model.User;
-import at.backend.MarketingCompany.crm.Utils.enums.DealStatus;
+import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -49,7 +49,7 @@ public class DealEntity extends BaseJpaEntity {
 
     @ManyToOne
     @JoinColumn(name = "opportunity_id", nullable = false)
-    private Opportunity opportunity;
+    private OpportunityEntity opportunity;
 
     @ManyToMany
     @JoinTable(

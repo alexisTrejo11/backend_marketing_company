@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain;
 
-import at.backend.MarketingCompany.crm.Utils.enums.DealStatus;
+import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
 import at.backend.MarketingCompany.crm.deal.domain.entity.Deal;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.*;

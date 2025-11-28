@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.user.infrastructure;
 
-import at.backend.MarketingCompany.crm.Utils.enums.UserRole;
+import at.backend.MarketingCompany.crm.shared.enums.UserRole;
 import jakarta.validation.constraints.*;
 
 public record UserInput(

@@ -1,13 +1,13 @@
 package at.backend.MarketingCompany.crm.interaction.infrastructure.autoMappers;
 
-import at.backend.MarketingCompany.crm.interaction.domain.Interaction;
+import at.backend.MarketingCompany.crm.interaction.infrastructure.persistence.Interaction;
 import at.backend.MarketingCompany.crm.interaction.infrastructure.DTOs.InteractionInput;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-11-27T17:36:06-0600",
+    date = "2025-11-28T02:41:36-0600",
     comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.13.jar, environment: Java 23.0.2 (Homebrew)"
 )
 @Component

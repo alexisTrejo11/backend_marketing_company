@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.crm.quote.domain;
 
-import at.backend.MarketingCompany.crm.opportunity.domain.Opportunity;
-import at.backend.MarketingCompany.crm.Utils.enums.QuoteStatus;
+import at.backend.MarketingCompany.crm.shared.enums.QuoteStatus;
+import at.backend.MarketingCompany.crm.opportunity.infrastructure.persistence.OpportunityEntity;
 import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -30,7 +30,7 @@ public class Quote {
 
     @ManyToOne
     @JoinColumn(name = "opportunity_id", nullable = true)
-    private Opportunity opportunity;
+    private OpportunityEntity opportunity;
 
     @Column(name = "valid_until", nullable = false)
     private LocalDate validUntil;

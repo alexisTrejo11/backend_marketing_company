@@ -1,0 +1,20 @@
+package at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject;
+
+import at.backend.MarketingCompany.common.exceptions.MissingFieldException;
+
+import java.util.UUID;
+
+public record OpportunityId(String value) {
+    public OpportunityId {
+        if (value == null || value.isBlank()) {
+            throw new MissingFieldException("OpportunityId", "value");
+        }
+    }
+
+    public static OpportunityId create() {
+        return new OpportunityId(UUID.randomUUID().toString());
+    }
+    public static OpportunityId from(String value) {
+        return new OpportunityId(value);
+    }
+}

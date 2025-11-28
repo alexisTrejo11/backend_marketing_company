@@ -1,3 +1,5 @@
 package at.backend.MarketingCompany.crm.tasks.application.queries;
 
-public record GetPendingTasksQuery() {}
+import org.springframework.data.domain.Pageable;
+
+public record GetPendingTasksQuery(Pageable pageable) {}

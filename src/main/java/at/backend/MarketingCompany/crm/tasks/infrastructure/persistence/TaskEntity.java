@@ -1,13 +1,14 @@
 package at.backend.MarketingCompany.crm.tasks.infrastructure.persistence;
 
 import at.backend.MarketingCompany.common.jpa.BaseJpaEntity;
-import at.backend.MarketingCompany.crm.opportunity.domain.Opportunity;
+import at.backend.MarketingCompany.crm.opportunity.infrastructure.persistence.OpportunityEntity;
 import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
 import at.backend.MarketingCompany.user.api.Model.User;
-import at.backend.MarketingCompany.crm.Utils.enums.TaskPriority;
-import at.backend.MarketingCompany.crm.Utils.enums.TaskStatus;
+import at.backend.MarketingCompany.crm.shared.enums.TaskPriority;
+import at.backend.MarketingCompany.crm.shared.enums.TaskStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 
 @Setter
 @NoArgsConstructor
+@Getter
 @SuperBuilder
 @AllArgsConstructor
 @Entity
@@ -44,7 +46,7 @@ public class TaskEntity extends BaseJpaEntity {
 
     @ManyToOne
     @JoinColumn(name = "opportunity_id")
-    private Opportunity opportunity;
+    private OpportunityEntity opportunity;
 
     @ManyToOne
     @JoinColumn(name = "assigned_to_user_id")

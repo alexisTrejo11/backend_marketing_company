@@ -1,9 +1,9 @@
 package at.backend.MarketingCompany.crm.tasks.domain.entity.valueobject;
 
-import at.backend.MarketingCompany.crm.Utils.enums.TaskPriority;
-import at.backend.MarketingCompany.crm.Utils.enums.TaskStatus;
+import at.backend.MarketingCompany.crm.shared.enums.TaskPriority;
+import at.backend.MarketingCompany.crm.shared.enums.TaskStatus;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.EmployeeId;
-import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.OpportunityId;
+import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
 import lombok.Builder;
 

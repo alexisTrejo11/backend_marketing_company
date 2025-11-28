@@ -1,7 +1,8 @@
 package at.backend.MarketingCompany.crm.quote.api.service;
 
-import at.backend.MarketingCompany.crm.opportunity.api.repository.OpportunityRepository;
-import at.backend.MarketingCompany.crm.opportunity.domain.Opportunity;
+import at.backend.MarketingCompany.crm.opportunity.domain.entity.Opportunity;
+import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
+import at.backend.MarketingCompany.crm.opportunity.domain.repository.OpportunityRepository;
 import at.backend.MarketingCompany.crm.quote.infrastructure.DTOs.QuoteInput;
 import at.backend.MarketingCompany.crm.quote.infrastructure.DTOs.QuoteItemInput;
 import at.backend.MarketingCompany.crm.quote.infrastructure.autoMappers.QuoteMappers;
@@ -10,7 +11,8 @@ import at.backend.MarketingCompany.crm.quote.api.repository.QuoteItemRepository;
 import at.backend.MarketingCompany.crm.quote.api.repository.QuoteRepository;
 import at.backend.MarketingCompany.crm.quote.domain.Quote;
 import at.backend.MarketingCompany.crm.quote.domain.QuoteItem;
-import at.backend.MarketingCompany.crm.servicePackage.v2.infrastructure.persistence.model.ServicePackageEntity;
+import at.backend.MarketingCompany.crm.servicePackage.infrastructure.persistence.repository.JpaServicePackageRepository;
+import at.backend.MarketingCompany.crm.servicePackage.infrastructure.persistence.model.ServicePackageEntity;
 import at.backend.MarketingCompany.customer.api.repository.CustomerRepository;
 import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
 import jakarta.persistence.EntityNotFoundException;
@@ -34,7 +36,7 @@ public class QuoteServiceImpl implements QuoteService {
     public final QuoteItemRepository quoteItemRepository;
     public final CustomerRepository customerRepository;
     public final OpportunityRepository opportunityRepository;
-    public final at.backend.MarketingCompany.crm.servicePackage.v2.infrastructure.persistence.repository.JpaServicePackageRepository jpaServicePackageRepository;
+    public final JpaServicePackageRepository jpaServicePackageRepository;
     public final QuoteMappers quoteMappers;
 
     @Override
@@ -186,7 +188,7 @@ public class QuoteServiceImpl implements QuoteService {
         return customerRepository.findById(customerId).orElseThrow(() -> new EntityNotFoundException("CustomerModel not found"));
     }
 
-    private Opportunity getOpportunity(Long opportunityId) {
+    private Opportunity getOpportunity(OpportunityId opportunityId) {
         return opportunityRepository.findById(opportunityId).orElseThrow(() -> new EntityNotFoundException("Opportunity not found"));
     }
 

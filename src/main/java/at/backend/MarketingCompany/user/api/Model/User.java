@@ -1,12 +1,11 @@
 package at.backend.MarketingCompany.user.api.Model;
 
-import at.backend.MarketingCompany.crm.Utils.enums.UserRole;
+import at.backend.MarketingCompany.crm.shared.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -15,7 +14,7 @@ import java.util.UUID;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    private String id;
 
     @Column(name = "username", unique = true, nullable = false)
     private String username;
@@ -35,7 +34,7 @@ public class User {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public User(UUID id) {
+    public User(String id) {
         this.id = id;
     }
 

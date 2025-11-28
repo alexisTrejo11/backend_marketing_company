@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.crm.deal.application.queries;
 
-import at.backend.MarketingCompany.crm.Utils.enums.DealStatus;
+import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
 
 import java.util.List;
 

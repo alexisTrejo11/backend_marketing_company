@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-11-27T17:36:06-0600",
+    date = "2025-11-28T02:41:36-0600",
     comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.13.jar, environment: Java 23.0.2 (Homebrew)"
 )
 @Component
@@ -54,7 +54,10 @@ public class CampaignInteractionMappersImpl implements CampaignInteractionMapper
         CampaignInteractionDTO.CampaignInteractionDTOBuilder campaignInteractionDTO = CampaignInteractionDTO.builder();
 
         campaignInteractionDTO.campaignId( entityCampaignId( entity ) );
-        campaignInteractionDTO.customerId( entityCustomerId( entity ) );
+        String id1 = entityCustomerId( entity );
+        if ( id1 != null ) {
+            campaignInteractionDTO.customerId( UUID.fromString( id1 ) );
+        }
         campaignInteractionDTO.id( entity.getId() );
         campaignInteractionDTO.interactionType( entity.getInteractionType() );
         campaignInteractionDTO.interactionDate( entity.getInteractionDate() );
@@ -123,7 +126,7 @@ public class CampaignInteractionMappersImpl implements CampaignInteractionMapper
         return id;
     }
 
-    private UUID entityCustomerId(CampaignInteractionModel campaignInteractionModel) {
+    private String entityCustomerId(CampaignInteractionModel campaignInteractionModel) {
         if ( campaignInteractionModel == null ) {
             return null;
         }
@@ -131,7 +134,7 @@ public class CampaignInteractionMappersImpl implements CampaignInteractionMapper
         if ( customer == null ) {
             return null;
         }
-        UUID id = customer.getId();
+        String id = customer.getId();
         if ( id == null ) {
             return null;
         }

@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.crm.tasks.application.commands;
 
-import at.backend.MarketingCompany.crm.Utils.enums.TaskPriority;
+import at.backend.MarketingCompany.crm.shared.enums.TaskPriority;
 
 public record UpdateTaskDetailsCommand(
     String taskId,

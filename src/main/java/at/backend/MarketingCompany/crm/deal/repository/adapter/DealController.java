@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.crm.deal.repository.adapter;
 
-import at.backend.MarketingCompany.crm.Utils.enums.DealStatus;
+import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
 import at.backend.MarketingCompany.crm.deal.application.DealApplicationServiceImpl;
 import at.backend.MarketingCompany.crm.deal.application.commands.*;
 import at.backend.MarketingCompany.crm.deal.application.queries.GetDealByIdQuery;

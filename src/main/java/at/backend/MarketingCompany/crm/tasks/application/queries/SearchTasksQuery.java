@@ -1,15 +1,17 @@
 package at.backend.MarketingCompany.crm.tasks.application.queries;
 
-import at.backend.MarketingCompany.crm.Utils.enums.TaskPriority;
-import at.backend.MarketingCompany.crm.Utils.enums.TaskStatus;
+import at.backend.MarketingCompany.crm.shared.enums.TaskPriority;
+import at.backend.MarketingCompany.crm.shared.enums.TaskStatus;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
+import java.util.Set;
 
 public record SearchTasksQuery(
     String searchTerm,
-    List<TaskStatus> statuses,
-    List<TaskPriority> priorities,
+    Set<TaskStatus> statuses,
+    Set<TaskPriority> priorities,
     String customerId,
     String assigneeId,
-    Boolean overdueOnly
+    Boolean overdueOnly,
+    Pageable pageable
 ) {}

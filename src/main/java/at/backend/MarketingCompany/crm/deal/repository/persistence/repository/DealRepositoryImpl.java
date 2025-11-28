@@ -1,12 +1,14 @@
 package at.backend.MarketingCompany.crm.deal.repository.persistence.repository;
 
-import at.backend.MarketingCompany.crm.Utils.enums.DealStatus;
+import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
 import at.backend.MarketingCompany.crm.deal.domain.entity.Deal;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.DealId;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.*;
 import at.backend.MarketingCompany.crm.deal.domain.respository.DealRepository;
 import at.backend.MarketingCompany.crm.deal.repository.persistence.model.DealEntity;
 import at.backend.MarketingCompany.crm.deal.repository.persistence.model.DealEntityMapper;
+import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
+import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -50,7 +52,7 @@ public class DealRepositoryImpl implements DealRepository {
     public List<Deal> findByCustomer(CustomerId customerId) {
         log.debug("Finding deals by customer ID: {}", customerId.value());
 
-        return jpaDealRepository.findByCustomerModelId(customerId.value().toString()).stream()
+        return jpaDealRepository.findByCustomerModelId(customerId.value()).stream()
                 .map(dealEntityMapper::toDomain)
                 .toList();
     }
@@ -86,7 +88,7 @@ public class DealRepositoryImpl implements DealRepository {
     public List<Deal> findByOpportunity(OpportunityId opportunityId) {
         log.debug("Finding deals by opportunity ID: {}", opportunityId.value());
 
-        return jpaDealRepository.findByOpportunityId(opportunityId.value().toString()).stream()
+        return jpaDealRepository.findByOpportunityId(opportunityId.value()).stream()
                 .map(dealEntityMapper::toDomain)
                 .toList();
     }
@@ -95,7 +97,7 @@ public class DealRepositoryImpl implements DealRepository {
     public List<Deal> findByCampaignManager(EmployeeId employeeId) {
         log.debug("Finding deals by campaign manager ID: {}", employeeId.value());
 
-        return jpaDealRepository.findByCampaignManagerId(employeeId.value().toString()).stream()
+        return jpaDealRepository.findByCampaignManagerId(employeeId.value()).stream()
                 .map(dealEntityMapper::toDomain)
                 .toList();
     }

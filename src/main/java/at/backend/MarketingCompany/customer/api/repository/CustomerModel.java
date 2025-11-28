@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.customer.api.repository;
 
-import at.backend.MarketingCompany.crm.interaction.domain.Interaction;
-import at.backend.MarketingCompany.crm.opportunity.domain.Opportunity;
+import at.backend.MarketingCompany.crm.interaction.infrastructure.persistence.Interaction;
+import at.backend.MarketingCompany.crm.opportunity.infrastructure.persistence.OpportunityEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -17,9 +16,8 @@ import java.util.UUID;
 @Table(name = "customers")
 public class CustomerModel {
     @Id
-    @GeneratedValue(generator = "UUID")
     @Column(updatable = false, nullable = false)
-    private UUID id;
+    private String id;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
@@ -62,12 +60,12 @@ public class CustomerModel {
 
 
     @OneToMany(mappedBy = "customerModel", fetch = FetchType.LAZY)
-    private List<Opportunity> opportunities;
+    private List<OpportunityEntity> opportunities;
 
     @OneToMany(mappedBy = "customerModel", fetch = FetchType.LAZY)
     private List<Interaction> interactions;
 
-    public CustomerModel(UUID id) {
+    public CustomerModel(String id) {
         this.id = id;
     }
 

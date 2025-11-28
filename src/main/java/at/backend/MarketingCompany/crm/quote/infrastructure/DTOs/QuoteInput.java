@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.crm.quote.infrastructure.DTOs;
 
-import at.backend.MarketingCompany.crm.Utils.enums.QuoteStatus;
+import at.backend.MarketingCompany.crm.shared.enums.QuoteStatus;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.List;
