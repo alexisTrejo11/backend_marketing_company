@@ -116,7 +116,7 @@ public class DealApplicationServiceImpl implements DealApplicationService {
         Deal updatedDeal = dealRepository.save(deal);
         log.info("Deal {} cancelled", command.dealId());
 
-        return deal;
+        return updatedDeal;
     }
 
     

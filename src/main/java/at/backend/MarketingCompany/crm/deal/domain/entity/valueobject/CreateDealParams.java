@@ -10,13 +10,14 @@ import java.util.List;
 import java.util.Objects;
 
 
+@Builder
 public record CreateDealParams(
         CustomerId customerId,
         OpportunityId opportunityId,
         LocalDate startDate,
         List<ServicePackageId> servicePackageIds
 ) {
-    @Builder
+    
     public CreateDealParams {
         Objects.requireNonNull(customerId, "CustomerId must not be null");
         Objects.requireNonNull(opportunityId, "OpportunityId must not be null");

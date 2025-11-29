@@ -7,23 +7,23 @@ import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects
 import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
 import lombok.Builder;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Builder
 public record DealReconstructParams(
-        DealId id,
-        Integer version,
-        java.time.LocalDateTime deletedAt,
-        java.time.LocalDateTime createdAt,
-        java.time.LocalDateTime updatedAt,
-        CustomerId customerId,
-        OpportunityId opportunityId,
-        DealStatus dealStatus,
-        FinalAmount finalAmount,
-        ContractPeriod period,
-        EmployeeId campaignManagerId,
-        String deliverables,
-        String terms,
-        List<ServicePackageId>servicePackageIds
-) {
+                DealId id,
+                Integer version,
+                LocalDateTime deletedAt,
+                LocalDateTime createdAt,
+                LocalDateTime updatedAt,
+                CustomerId customerId,
+                OpportunityId opportunityId,
+                DealStatus dealStatus,
+                FinalAmount finalAmount,
+                ContractPeriod period,
+                EmployeeId campaignManagerId,
+                String deliverables,
+                String terms,
+                List<ServicePackageId> servicePackageIds) {
 }

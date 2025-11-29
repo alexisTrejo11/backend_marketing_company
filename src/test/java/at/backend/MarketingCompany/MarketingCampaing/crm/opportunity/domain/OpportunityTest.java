@@ -48,7 +48,7 @@ class OpportunityTest {
     class CreationTests {
 
         @Test
-        @DisplayName("should create opportunity with valid parameters")
+        @DisplayName("should generate opportunity with valid parameters")
         void createOpportunity_WithValidParams_ShouldCreateOpportunity() {
             // When
             Opportunity opportunity = Opportunity.create(validCreateParams().build());
@@ -67,7 +67,7 @@ class OpportunityTest {
         }
 
         @Test
-        @DisplayName("should create opportunity with minimal parameters")
+        @DisplayName("should generate opportunity with minimal parameters")
         void createOpportunity_WithMinimalParams_ShouldCreateOpportunity() {
             // Given
             var minimalParams = CreateOpportunityParams.builder()
@@ -86,7 +86,7 @@ class OpportunityTest {
         }
 
         @Test
-        @DisplayName("should throw exception when create params are null")
+        @DisplayName("should throw exception when generate params are null")
         void createOpportunity_WithNullParams_ShouldThrowException() {
             // When & Then
             assertThatThrownBy(() -> Opportunity.create(null))
@@ -519,7 +519,7 @@ class OpportunityTest {
         }
 
         @Test
-        @DisplayName("should create value objects from nullable values")
+        @DisplayName("should generate value objects from nullable values")
         void valueObjects_FromNullableValues_ShouldHandleCorrectly() {
             // When
             var nullAmount = OpportunityAmount.from(null);
@@ -577,14 +577,14 @@ class OpportunityTest {
         }
     }
 
-    // Helper method to create ExpectedCloseDate for testing overdue scenarios
+    // Helper method to generate ExpectedCloseDate for testing overdue scenarios
     // This bypasses the constructor validation for testing purposes
     private ExpectedCloseDate createExpectedCloseDateForTesting(LocalDate date) {
         try {
             return new ExpectedCloseDate(date);
         } catch (OpportunityValidationException e) {
-            // For testing, we need to create an instance that allows past dates
-            // We'll use reflection or create a test-specific method
+            // For testing, we need to generate an instance that allows past dates
+            // We'll use reflection or generate a test-specific method
             // Since we can't modify the production code, we'll test the logic differently
             return null;
         }

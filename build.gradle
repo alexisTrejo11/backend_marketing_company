@@ -36,8 +36,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-graphql'
 	implementation 'com.graphql-java:graphql-java-extended-scalars:20.2'
 
-
-
 	// Lombok
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.postgresql:postgresql'
@@ -47,13 +45,12 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql'
 	implementation 'org.postgresql:postgresql'
 
-	// AutoMappers
-	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
-	implementation 'org.modelmapper:modelmapper:2.4.4'
-
 	// Security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// Redis
+  implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+  implementation 'redis.clients:jedis'
 
 	// AOP
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
