@@ -1,6 +1,8 @@
 package at.backend.MarketingCompany.crm.deal.application.commands;
 
+import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
+import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,8 +21,8 @@ public record CreateDealCommand(
         LocalDate startDate
     ) {
         return new CreateDealCommand(
-            new CustomerId(customerId),
-            new OpportunityId(opportunityId),
+            new CustomerId(customerId.toString()),
+            new OpportunityId(opportunityId.toString()),
             servicePackageIds.stream()
                 .map(ServicePackageId::new)
                 .toList(),

@@ -1,5 +1,7 @@
 package at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence;
 
+import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
+import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
 import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
 import at.backend.MarketingCompany.crm.deal.domain.entity.Deal;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.*;
@@ -8,6 +10,7 @@ import at.backend.MarketingCompany.crm.deal.repository.persistence.model.DealEnt
 import at.backend.MarketingCompany.crm.deal.repository.persistence.model.DealEntityMapper;
 import at.backend.MarketingCompany.crm.deal.repository.persistence.repository.DealRepositoryImpl;
 import at.backend.MarketingCompany.crm.deal.repository.persistence.repository.JpaDealRepository;
+import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,18 +61,18 @@ class DealRepositoryIntegrationTest {
 
     private CustomerId customerId;
     private OpportunityId opportunityId;
-    private List<ServiceId> serviceIds;
+    private List<ServicePackageId> serviceIds;
     private LocalDate startDate;
 
     @BeforeEach
     void setUp() {
         jpaDealRepository.deleteAll();
         
-        customerId = CustomerId.create();
-        opportunityId = OpportunityId.create();
+        customerId = CustomerId.generate();
+        opportunityId = OpportunityId.generate();
         serviceIds = List.of(
-            ServiceId.create(),
-            ServiceId.create()
+            ServicePackageId.generate(),
+            ServicePackageId.generate()
         );
         startDate = LocalDate.now().plusDays(1);
     }
@@ -160,7 +163,7 @@ class DealRepositoryIntegrationTest {
         signedDeal.signDeal(
             new FinalAmount(new BigDecimal("5000.00")),
             "Payment terms",
-            EmployeeId.create()
+            EmployeeId.generate()
         );
         
         dealRepository.save(draftDeal);
@@ -185,7 +188,7 @@ class DealRepositoryIntegrationTest {
         
         var finalAmount = new FinalAmount(new BigDecimal("7500.50"));
         var terms = "Payment in 30 days with 50% advance";
-        var managerId = EmployeeId.create();
+        var managerId = EmployeeId.generate();
         
         deal.signDeal(finalAmount, terms, managerId);
         
@@ -213,7 +216,7 @@ class DealRepositoryIntegrationTest {
         deal.signDeal(
             new FinalAmount(new BigDecimal("5000.00")),
             "Terms",
-            EmployeeId.create()
+            EmployeeId.generate()
         );
         deal.markAsPaid();
         deal.startExecution();
@@ -283,9 +286,9 @@ class DealRepositoryIntegrationTest {
         Deal savedDeal = dealRepository.save(deal);
         
         var newServices = List.of(
-            new ServiceId(UUID.randomUUID().toString()),
-            new ServiceId(UUID.randomUUID().toString()),
-            new ServiceId(UUID.randomUUID().toString())
+            ServicePackageId.generate(),
+            ServicePackageId.generate(),
+            ServicePackageId.generate()
         );
         
         savedDeal.updateServicePackages(newServices);

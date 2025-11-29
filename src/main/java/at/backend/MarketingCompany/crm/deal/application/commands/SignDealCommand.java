@@ -18,7 +18,7 @@ public record SignDealCommand(
             new DealId(dealId),
             new FinalAmount(finalAmount),
             terms,
-            new EmployeeId(campaignManagerId)
+            new EmployeeId(campaignManagerId.toString())
         );
     }
 }

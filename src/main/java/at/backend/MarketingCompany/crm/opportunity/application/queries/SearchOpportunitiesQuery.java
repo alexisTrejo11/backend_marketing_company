@@ -11,4 +11,13 @@ public record SearchOpportunitiesQuery(
     Set<OpportunityStage> stages,
     CustomerId customerId,
     Pageable pageable
-) {}
+) {
+    public static SearchOpportunitiesQuery empty() {
+        return new SearchOpportunitiesQuery(
+            "",
+            Set.of(),
+            null,
+            Pageable.unpaged()
+        );
+    }
+}

@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -64,10 +65,19 @@ public class OpportunityRepositoryImpl implements OpportunityRepository {
     @Override
     @Transactional(readOnly = true)
     public Page<Opportunity> findByCustomer(CustomerId customerId, Pageable pageable) {
-        log.debug("Finding opportunities by customer ID: {}", customerId.value());
+        log.debug("Finding paginated opportunities by customer ID: {}", customerId.value());
 
         return jpaOpportunityRepository.findByCustomerId(customerId.value(), pageable)
                 .map(opportunityEntityMapper::toDomain);
+    }
+
+    @Override
+    public List<Opportunity> findByCustomer(CustomerId customerId) {
+        log.debug("Finding all opportunities by customer ID: {}", customerId.value());
+
+        return jpaOpportunityRepository.findByCustomerId(customerId.value()).stream()
+                .map(opportunityEntityMapper::toDomain)
+                .toList();
     }
 
     @Override
@@ -151,7 +161,7 @@ public class OpportunityRepositoryImpl implements OpportunityRepository {
             OpportunityStage.NEGOTIATION
         );
 
-        return jpaOpportunityRepository.countByCustomerModelIdAndStageIn(customerId.value(), activeStages);
+        return jpaOpportunityRepository.countByCustomerIdAndStageIn(customerId.value(), activeStages);
     }
 
     @Override
@@ -159,7 +169,7 @@ public class OpportunityRepositoryImpl implements OpportunityRepository {
     public double calculateWinRateByCustomer(CustomerId customerId) {
         log.debug("Calculating win rate for customer: {}", customerId.value());
 
-        long totalClosed = jpaOpportunityRepository.countByCustomerModelIdAndStageIn(
+        long totalClosed = jpaOpportunityRepository.countByCustomerIdAndStageIn(
             customerId.value(),
             Set.of(OpportunityStage.CLOSED_WON, OpportunityStage.CLOSED_LOST)
         );

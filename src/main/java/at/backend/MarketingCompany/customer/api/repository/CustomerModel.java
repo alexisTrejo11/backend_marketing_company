@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.customer.api.repository;
 
-import at.backend.MarketingCompany.crm.interaction.infrastructure.persistence.Interaction;
+import at.backend.MarketingCompany.crm.interaction.infrastructure.persistence.InteractionEntity;
 import at.backend.MarketingCompany.crm.opportunity.infrastructure.persistence.OpportunityEntity;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -59,11 +59,11 @@ public class CustomerModel {
     private String socialMediaHandles;
 
 
-    @OneToMany(mappedBy = "customerModel", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     private List<OpportunityEntity> opportunities;
 
-    @OneToMany(mappedBy = "customerModel", fetch = FetchType.LAZY)
-    private List<Interaction> interactions;
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
+    private List<InteractionEntity> interactions;
 
     public CustomerModel(String id) {
         this.id = id;

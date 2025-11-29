@@ -9,7 +9,7 @@ public record EmployeeId(String value) {
         }
     }
 
-    public static EmployeeId create() {
+    public static EmployeeId generate() {
         return new EmployeeId(UUID.randomUUID().toString());
     }
 }

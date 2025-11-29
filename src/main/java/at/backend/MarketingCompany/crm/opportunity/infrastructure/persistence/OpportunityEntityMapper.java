@@ -37,8 +37,7 @@ public class OpportunityEntityMapper {
         
         // Relations - solo IDs
         if (opportunity.getCustomerId() != null) {
-            var customer = new CustomerModel(opportunity.getCustomerId().value());
-            entity.setCustomerModel(customer);
+            entity.setCustomer(new CustomerModel(opportunity.getCustomerId().value()));
         }
 
         return entity;
@@ -49,8 +48,8 @@ public class OpportunityEntityMapper {
 
         var reconstructParams = OpportunityReconstructParams.builder()
             .id(OpportunityId.from(entity.getId()))
-            .customerId(entity.getCustomerModel() != null ? 
-                new CustomerId(entity.getCustomerModel().getId().toString()) : null)
+            .customerId(entity.getCustomer() != null ?
+                new CustomerId(entity.getCustomer().getId()) : null)
             .title(entity.getTitle())
             .amount(entity.getAmount() != null ? 
                 new OpportunityAmount(entity.getAmount()) : null)

@@ -3,10 +3,12 @@ package at.backend.MarketingCompany.crm.deal.repository.persistence.model;
 import at.backend.MarketingCompany.crm.deal.domain.entity.Deal;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.*;
-import at.backend.MarketingCompany.crm.opportunity.domain.Opportunity;
+import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
+import at.backend.MarketingCompany.crm.opportunity.infrastructure.persistence.OpportunityEntity;
 import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
 import at.backend.MarketingCompany.crm.servicePackage.infrastructure.persistence.model.ServicePackageEntity;
 import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
+import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
 import at.backend.MarketingCompany.user.api.Model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -48,7 +50,7 @@ public class DealEntityMapper {
         }
 
         if (deal.getOpportunityId() != null) {
-            var opportunity = new Opportunity((deal.getOpportunityId().value()));
+            var opportunity = new OpportunityEntity((deal.getOpportunityId().value()));
             entity.setOpportunity(opportunity);
         }
 

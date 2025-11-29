@@ -3,8 +3,8 @@ package at.backend.MarketingCompany.customer.domain.ValueObjects;
 import java.util.UUID;
 
 public record CustomerId(String value) {
-    public static CustomerId of(UUID id) {
-        return new CustomerId(id.toString());
+    public static CustomerId of(String id) {
+        return new CustomerId(id);
     }
 
     public static CustomerId generate() {

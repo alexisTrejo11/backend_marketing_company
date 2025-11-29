@@ -5,5 +5,9 @@ import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.Opp
 
 import java.util.List;
 
-public record GetOpportunityByIdQuery(OpportunityId opportunityId) {}
+public record GetOpportunityByIdQuery(OpportunityId opportunityId) {
+    public static GetOpportunityByIdQuery from(String id) {
+        return new GetOpportunityByIdQuery(new OpportunityId(id));
+    }
+}
 

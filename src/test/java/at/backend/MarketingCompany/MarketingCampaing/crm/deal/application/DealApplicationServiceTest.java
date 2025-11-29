@@ -1,5 +1,6 @@
 package at.backend.MarketingCompany.MarketingCampaing.crm.deal.application;
 
+import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
 import at.backend.MarketingCompany.crm.deal.application.DealApplicationServiceImpl;
 import at.backend.MarketingCompany.crm.deal.application.ExternalModuleValidator;
@@ -14,6 +15,7 @@ import at.backend.MarketingCompany.crm.deal.domain.exceptions.DealValidationExce
 import at.backend.MarketingCompany.crm.deal.domain.respository.DealRepository;
 import at.backend.MarketingCompany.common.exceptions.ExternalServiceException;
 import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
+import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -65,9 +67,9 @@ class DealApplicationServiceTest {
     @BeforeEach
     void setUp() {
         validDealId = DealId.create();
-        validCustomerId = new CustomerId(UUID.randomUUID());
-        validOpportunityId = new OpportunityId(UUID.randomUUID());
-        validEmployeeId = new EmployeeId(UUID.randomUUID());
+        validCustomerId = CustomerId.generate();
+        validOpportunityId = OpportunityId.generate();
+        validEmployeeId = EmployeeId.generate();
         validServiceIds = List.of(
                 ServicePackageId.generate(),
                 ServicePackageId.generate()
@@ -85,7 +87,7 @@ class DealApplicationServiceTest {
     class CreateDealCommandTests {
 
         @Test
-        @DisplayName("should create deal successfully with valid commands")
+        @DisplayName("should generate deal successfully with valid commands")
         void handleCreateDeal_WithValidCommand_ShouldCreateDeal() {
             // Given
             var command = new CreateDealCommand(

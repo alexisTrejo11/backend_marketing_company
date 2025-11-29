@@ -40,6 +40,52 @@ input CustomerInput {
 
 
 # Opportunity
+type Opportunity {
+    id: ID!
+    customerId: ID!
+    customer: CustomerInfo!
+    title: String!
+    amount: Float
+    stage: OpportunityStage!
+    expectedCloseDate: String
+    isClosed: Boolean!
+    isWon: Boolean!
+    isLost: Boolean!
+    isOverdue: Boolean!
+    canBeModified: Boolean!
+    createdAt: String!
+    updatedAt: String!
+}
+type OpportunityStatistics {
+    totalOpportunities: Int!
+    activeOpportunities: Int!
+    wonOpportunities: Int!
+    lostOpportunities: Int!
+    winRate: Float!
+}
+
+# Input Types
+input CreateOpportunityInput {
+    customerId: ID!
+    title: String!
+    amount: Float
+    expectedCloseDate: String
+}
+
+input UpdateOpportunityInput {
+    opportunityId: ID!
+    title: String!
+    amount: Float
+    expectedCloseDate: String
+}
+
+input OpportunityFilterInput {
+    searchTerm: String
+    stages: [OpportunityStage!]
+    customerId: ID
+}
+
+# Enums
 enum OpportunityStage {
     LEAD
     QUALIFIED
@@ -48,26 +94,10 @@ enum OpportunityStage {
     CLOSED_WON
     CLOSED_LOST
 }
-type Opportunity {
-    id: ID
-    customerModel: Customer
-    title: String
-    amount: Float
-    stage: OpportunityStage
-    expectedCloseDate: String
-}
-
-input OpportunityInput {
-    customerId: ID!
-    title: String!
-    amount: Float!
-    stage: OpportunityStage!
-    expectedCloseDate: String!
-}
 
 
 
-# Task
+# TaskEntity
 enum TaskStatus {
     PENDING
     IN_PROGRESS
@@ -714,9 +744,17 @@ type Mutation {
     updateCustomer(id: ID!, input: CustomerInput!): Customer!
     deleteCustomer(id: ID!): Boolean!
 
-    createOpportunity(input: OpportunityInput!): Opportunity!
-    updateOpportunity(id: ID!, input: OpportunityInput!): Opportunity!
-    deleteOpportunity(id: ID!): Boolean!
+    # Opportunities
+    createOpportunity(input: CreateOpportunityInput!): Opportunity!
+    updateOpportunity(input: UpdateOpportunityInput!): Opportunity!
+    qualifyOpportunity(opportunityId: ID!): Opportunity!
+    moveToProposal(opportunityId: ID!): Opportunity!
+    moveToNegotiation(opportunityId: ID!): Opportunity!
+    closeOpportunityWon(opportunityId: ID!): Opportunity!
+    closeOpportunityLost(opportunityId: ID!): Opportunity!
+    reopenOpportunity(opportunityId: ID!): Opportunity!
+    deleteOpportunity(opportunityId: ID!): Boolean!
+
 
     createTask(input: TaskInput!): Task!
     updateTask(id: ID!, input: TaskInput!): Task!

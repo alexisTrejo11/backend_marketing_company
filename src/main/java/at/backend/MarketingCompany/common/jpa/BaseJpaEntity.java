@@ -29,7 +29,7 @@ public abstract class BaseJpaEntity {
 
     @Version
     @Column(name = "version", nullable = false)
-    protected Integer version;
+    protected Integer version = 1;
 
     @PrePersist
     public void prePersist() {

@@ -20,7 +20,7 @@ class ValueObjectTest {
     class FinalAmountTest {
 
         @Test
-        @DisplayName("should create with valid amount")
+        @DisplayName("should generate with valid amount")
         void create_WithValidAmount_ShouldCreate() {
             // When
             var amount = new FinalAmount(new BigDecimal("1000.50"));
@@ -30,7 +30,7 @@ class ValueObjectTest {
         }
 
         @Test
-        @DisplayName("should create zero amount")
+        @DisplayName("should generate zero amount")
         void zero_ShouldCreateZeroAmount() {
             // When
             var zeroAmount = FinalAmount.zero();
@@ -83,7 +83,7 @@ class ValueObjectTest {
     class ContractPeriodTest {
 
         @Test
-        @DisplayName("should create with valid dates")
+        @DisplayName("should generate with valid dates")
         void create_WithValidDates_ShouldCreate() {
             // Given
             var startDate = LocalDate.now();
@@ -98,7 +98,7 @@ class ValueObjectTest {
         }
 
         @Test
-        @DisplayName("should create with null end date")
+        @DisplayName("should generate with null end date")
         void create_WithNullEndDate_ShouldCreate() {
             // Given
             var startDate = LocalDate.now();
@@ -139,7 +139,7 @@ class ValueObjectTest {
     class DealIdTest {
 
         @Test
-        @DisplayName("should create with valid UUID")
+        @DisplayName("should generate with valid UUID")
         void create_WithValidUUID_ShouldCreate() {
             // Given
             var uuid = java.util.UUID.randomUUID();

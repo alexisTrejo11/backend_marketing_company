@@ -11,7 +11,7 @@ public record OpportunityId(String value) {
         }
     }
 
-    public static OpportunityId create() {
+    public static OpportunityId generate() {
         return new OpportunityId(UUID.randomUUID().toString());
     }
     public static OpportunityId from(String value) {

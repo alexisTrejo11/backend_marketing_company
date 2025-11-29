@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Business Logic Methods" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-11-29T06:16:02" hostname="alexiss-MacBook-Air.local" time="0.051">
+  <properties/>
+  <testcase name="should detect overdue opportunities" classname="at.backend.MarketingCompany.MarketingCampaing.crm.opportunity.domain.OpportunityTest$BusinessLogicTests" time="0.051"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

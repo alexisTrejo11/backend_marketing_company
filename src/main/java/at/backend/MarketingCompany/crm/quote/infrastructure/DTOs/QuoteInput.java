@@ -12,7 +12,7 @@ public record QuoteInput(
         UUID customerId,
 
         @NotNull(message = "Opportunity ID is required.")
-        Long opportunityId,
+        String opportunityId,
 
         @NotNull(message = "Valid until date is required.")
         @Future(message = "Valid until date must be in the future.")

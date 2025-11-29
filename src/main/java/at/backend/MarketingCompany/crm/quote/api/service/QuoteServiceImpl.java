@@ -55,7 +55,7 @@ public class QuoteServiceImpl implements QuoteService {
         Quote newQuote = quoteMappers.inputToEntity(input);
 
         newQuote.setCustomerModel(getCustomer(input.customerId()));
-        newQuote.setOpportunity(getOpportunity(input.opportunityId()));
+        newQuote.setOpportunity(null);
 
         List<QuoteItem> items = generateItems(newQuote, input.items());
         newQuote.setItems(items);

@@ -1,11 +1,16 @@
     package at.backend.MarketingCompany.crm.opportunity.infrastructure.graphql.controller;
 
+import at.backend.MarketingCompany.common.PageResponse;
 import at.backend.MarketingCompany.crm.opportunity.application.OpportunityApplicationService;
 import at.backend.MarketingCompany.crm.opportunity.application.commands.*;
 import at.backend.MarketingCompany.crm.opportunity.application.queries.*;
 import at.backend.MarketingCompany.common.utils.PageInput;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityStage;
 import at.backend.MarketingCompany.crm.opportunity.infrastructure.graphql.dto.*;
+import at.backend.MarketingCompany.crm.opportunity.infrastructure.graphql.dto.input.*;
+import at.backend.MarketingCompany.crm.opportunity.infrastructure.graphql.dto.output.OpportunityResponse;
+import at.backend.MarketingCompany.crm.opportunity.infrastructure.graphql.dto.output.OpportunityStatisticsResponse;
+import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,189 +19,175 @@ import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
-import java.util.List;
+import java.util.stream.Collectors;
 
-@Slf4j
+    @Slf4j
 @Controller
 @RequiredArgsConstructor
 public class OpportunityController {
     
     private final OpportunityApplicationService opportunityApplicationService;
-    private final OpportunityGraphQLMapper opportunityGraphQLMapper;
-
+    private final OpportunityResponseMapper opportunityResponseMapper;
 
     @QueryMapping
     public OpportunityResponse opportunity(@Argument String id) {
         log.debug("Fetching opportunity by ID: {}", id);
         
-        var query = new GetOpportunityByIdQuery(id);
+        var query = GetOpportunityByIdQuery.from(id);
         var opportunity = opportunityApplicationService.handle(query);
         
-        return opportunityGraphQLMapper.toGraphQLResponse(opportunity);
+        return opportunityResponseMapper.toResponse(opportunity);
     }
 
     @QueryMapping
-    public List<OpportunityResponse> opportunities(@Argument PageInput pageInput, @Argument OpportunityFilterInput filter) {
+    public PageResponse<OpportunityResponse> opportunities(@Argument OpportunityFilterInput filter) {
         log.debug("Fetching opportunities with filter: {}", filter);
         
         var searchQuery = createSearchQuery(filter);
         var opportunities = opportunityApplicationService.handle(searchQuery);
         
-        return opportunityGraphQLMapper.toGraphQLResponseList(opportunities);
+        return opportunityResponseMapper.toPageResponse(opportunities);
     }
 
     @QueryMapping
-    public List<OpportunityResponse> opportunitiesByCustomer(@Argument String customerId) {
-        log.debug("Fetching opportunities for customer: {}", customerId);
-        
-        var query = new GetOpportunitiesByCustomerQuery(customerId);
+    public PageResponse<OpportunityResponse> opportunitiesByCustomer(@Argument GetOpportunitiesByCustomerInput input) {
+        log.debug("Fetching opportunities for customer: {}", input.customerId());
+
+        var query = input.toQuery();
         var opportunities = opportunityApplicationService.handle(query);
         
-        return opportunityGraphQLMapper.toGraphQLResponseList(opportunities);
+        return opportunityResponseMapper.toPageResponse(opportunities);
     }
 
     @QueryMapping
-    public List<OpportunityResponse> opportunitiesByStage(@Argument String stage) {
-        log.debug("Fetching opportunities by stage: {}", stage);
+    public PageResponse<OpportunityResponse> opportunitiesByStage(@Argument GetOpportunitiesByStageInput input) {
+        log.debug("Fetching opportunities by stage: {}", input.stage());
         
-        var query = new GetOpportunitiesByStageQuery(
-            OpportunityStage.valueOf(stage)
-        );
+        var query = input.toQuery();
         var opportunities = opportunityApplicationService.handle(query);
         
-        return opportunityGraphQLMapper.toGraphQLResponseList(opportunities);
+        return opportunityResponseMapper.toPageResponse(opportunities);
     }
 
     @QueryMapping
-    public List<OpportunityResponse> activeOpportunities() {
+    public PageResponse<OpportunityResponse> activeOpportunities(@Argument PageInput pageInput) {
         log.debug("Fetching active opportunities");
         
-        var query = new GetActiveOpportunitiesQuery();
+        var query = new GetActiveOpportunitiesQuery(pageInput.toPageable());
         var opportunities = opportunityApplicationService.handle(query);
         
-        return opportunityGraphQLMapper.toGraphQLResponseList(opportunities);
+        return opportunityResponseMapper.toPageResponse(opportunities);
     }
 
     @QueryMapping
-    public List<OpportunityResponse> overdueOpportunities() {
+    public PageResponse<OpportunityResponse> overdueOpportunities(@Argument PageInput pageInput) {
         log.debug("Fetching overdue opportunities");
         
-        var query = new GetOverdueOpportunitiesQuery();
+        var query = new GetOverdueOpportunitiesQuery(pageInput.toPageable());
         var opportunities = opportunityApplicationService.handle(query);
         
-        return opportunityGraphQLMapper.toGraphQLResponseList(opportunities);
+        return opportunityResponseMapper.toPageResponse(opportunities);
     }
 
     @QueryMapping
-    public List<OpportunityResponse> wonOpportunities() {
+    public PageResponse<OpportunityResponse> wonOpportunities(@Argument PageInput pageInput) {
         log.debug("Fetching won opportunities");
         
-        var query = new GetWonOpportunitiesQuery();
+        var query = new GetWonOpportunitiesQuery(pageInput.toPageable());
         var opportunities = opportunityApplicationService.handle(query);
         
-        return opportunityGraphQLMapper.toGraphQLResponseList(opportunities);
+        return opportunityResponseMapper.toPageResponse(opportunities);
     }
 
     @QueryMapping
-    public List<OpportunityResponse> lostOpportunities() {
+    public PageResponse<OpportunityResponse> lostOpportunities(@Argument PageInput pageInput) {
         log.debug("Fetching lost opportunities");
-        
-        var query = new GetLostOpportunitiesQuery();
+
+        var query = new GetLostOpportunitiesQuery(pageInput.toPageable());
         var opportunities = opportunityApplicationService.handle(query);
         
-        return opportunityGraphQLMapper.toGraphQLResponseList(opportunities);
+        return opportunityResponseMapper.toPageResponse(opportunities);
     }
 
     @QueryMapping
-    public OpportunityStatisticsResponse opportunityStatistics(@Argument String customerId) {
-        log.debug("Fetching opportunity statistics for customer: {}", customerId);
-        
-        var query = new GetOpportunityStatisticsQuery(customerId);
+    public OpportunityStatisticsResponse opportunityStatistics(@Argument GetOpportunityStatisticsInput input) {
+        log.debug("Fetching opportunity statistics for customer: {}", input.customerId());
+
+        var query = input.toQuery();
         var statistics = opportunityApplicationService.handle(query);
         
-        return opportunityGraphQLMapper.toStatisticsResponse(statistics);
+        return opportunityResponseMapper.toStatisticsResponse(statistics);
     }
 
-    // ===== MUTATIONS =====
 
     @MutationMapping
     public OpportunityResponse createOpportunity(@Valid @Argument CreateOpportunityInput input) {
         log.info("Creating new opportunity for customer: {}", input.customerId());
         
-        var command = new CreateOpportunityCommand(
-            new at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.external.CustomerId(input.customerId()),
-            input.title(),
-            at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityAmount.from(input.amount()),
-            at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.ExpectedCloseDate.from(input.expectedCloseDate())
-        );
+        var command = input.toCommand();
         
         var result = opportunityApplicationService.handle(command);
-        return opportunityGraphQLMapper.toGraphQLResponse(result);
+        return opportunityResponseMapper.toResponse(result);
     }
 
     @MutationMapping
     public OpportunityResponse updateOpportunity(@Valid @Argument UpdateOpportunityInput input) {
         log.info("Updating opportunity: {}", input.opportunityId());
         
-        var command = new UpdateOpportunityDetailsCommand(
-            input.opportunityId(),
-            input.title(),
-            at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityAmount.from(input.amount()),
-            at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.ExpectedCloseDate.from(input.expectedCloseDate())
-        );
+        var command = input.toCommand();
         
         var result = opportunityApplicationService.handle(command);
-        return opportunityGraphQLMapper.toGraphQLResponse(result);
+        return opportunityResponseMapper.toResponse(result);
     }
 
     @MutationMapping
     public OpportunityResponse qualifyOpportunity(@Argument String opportunityId) {
         log.info("Qualifying opportunity: {}", opportunityId);
         
-        var command = new QualifyOpportunityCommand(opportunityId);
+        var command = QualifyOpportunityCommand.from(opportunityId);
         var result = opportunityApplicationService.handle(command);
         
-        return opportunityGraphQLMapper.toGraphQLResponse(result);
+        return opportunityResponseMapper.toResponse(result);
     }
 
     @MutationMapping
     public OpportunityResponse moveToProposal(@Argument String opportunityId) {
         log.info("Moving opportunity to proposal: {}", opportunityId);
         
-        var command = new MoveToProposalCommand(opportunityId);
+        var command = MoveToProposalCommand.from(opportunityId);
         var result = opportunityApplicationService.handle(command);
         
-        return opportunityGraphQLMapper.toGraphQLResponse(result);
+        return opportunityResponseMapper.toResponse(result);
     }
 
     @MutationMapping
     public OpportunityResponse moveToNegotiation(@Argument String opportunityId) {
         log.info("Moving opportunity to negotiation: {}", opportunityId);
         
-        var command = new MoveToNegotiationCommand(opportunityId);
+        var command = MoveToNegotiationCommand.from(opportunityId);
         var result = opportunityApplicationService.handle(command);
         
-        return opportunityGraphQLMapper.toGraphQLResponse(result);
+        return opportunityResponseMapper.toResponse(result);
     }
 
     @MutationMapping
     public OpportunityResponse closeOpportunityWon(@Argument String opportunityId) {
         log.info("Closing opportunity as won: {}", opportunityId);
         
-        var command = new CloseOpportunityWonCommand(opportunityId);
+        var command = CloseOpportunityWonCommand.from(opportunityId);
         var result = opportunityApplicationService.handle(command);
         
-        return opportunityGraphQLMapper.toGraphQLResponse(result);
+        return opportunityResponseMapper.toResponse(result);
     }
 
     @MutationMapping
     public OpportunityResponse closeOpportunityLost(@Argument String opportunityId) {
         log.info("Closing opportunity as lost: {}", opportunityId);
         
-        var command = new CloseOpportunityLostCommand(opportunityId);
+        var command = CloseOpportunityLostCommand.from(opportunityId);
         var result = opportunityApplicationService.handle(command);
         
-        return opportunityGraphQLMapper.toGraphQLResponse(result);
+        return opportunityResponseMapper.toResponse(result);
     }
 
     @MutationMapping
@@ -206,35 +197,35 @@ public class OpportunityController {
         var command = ReopenOpportunityCommand.from(opportunityId);
         var result = opportunityApplicationService.handle(command);
         
-        return opportunityGraphQLMapper.toGraphQLResponse(result);
+        return opportunityResponseMapper.toResponse(result);
     }
 
     @MutationMapping
     public Boolean deleteOpportunity(@Argument String opportunityId) {
         log.info("Deleting opportunity: {}", opportunityId);
         
-        var command = new DeleteOpportunityCommand(opportunityId);
+        var command = DeleteOpportunityCommand.from(opportunityId);
         opportunityApplicationService.handle(command);
         
         return true;
     }
 
-    // ===== PRIVATE METHODS =====
 
     private SearchOpportunitiesQuery createSearchQuery(OpportunityFilterInput filter) {
         if (filter == null) {
-            return new SearchOpportunitiesQuery(null, null, null);
+            return SearchOpportunitiesQuery.empty();
         }
 
         var stages = filter.stages() != null ? 
             filter.stages().stream()
-                .map(Enum::valueOf)
-                .toList() : null;
+                .map(OpportunityStage::valueOf)
+                .collect(Collectors.toSet()) : null;
 
         return new SearchOpportunitiesQuery(
             filter.searchTerm(),
             stages,
-            filter.customerId()
+            CustomerId.of(filter.customerId()),
+            filter.pageInput().toPageable()
         );
     }
 }

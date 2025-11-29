@@ -1,14 +1,13 @@
 package at.backend.MarketingCompany.crm.interaction.infrastructure.persistence;
 
 import at.backend.MarketingCompany.common.jpa.BaseJpaEntity;
-import at.backend.MarketingCompany.crm.shared.enums.FeedbackType;
-import at.backend.MarketingCompany.crm.shared.enums.InteractionType;
+import at.backend.MarketingCompany.crm.interaction.domain.entity.valueobject.FeedbackType;
+import at.backend.MarketingCompany.crm.interaction.domain.entity.valueobject.InteractionType;
 import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-
 
 @Getter
 @Setter
@@ -20,7 +19,10 @@ public class InteractionEntity extends BaseJpaEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
-    private CustomerModel customerModel;
+    private CustomerModel customer;
+
+    @Column(name = "customer_id", insertable = false, updatable = false)
+    private String customerId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false, length = 50)
@@ -41,5 +43,4 @@ public class InteractionEntity extends BaseJpaEntity {
 
     @Column(name = "channel_preference", length = 50)
     private String channelPreference;
-
 }

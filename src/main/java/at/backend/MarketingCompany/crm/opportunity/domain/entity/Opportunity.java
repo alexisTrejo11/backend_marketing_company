@@ -37,7 +37,7 @@ public class Opportunity extends BaseDomainEntity<OpportunityId> {
     public static Opportunity create(CreateOpportunityParams params) {
         validateCreationParams(params);
 
-        Opportunity newOpportunity = new Opportunity(OpportunityId.create());
+        Opportunity newOpportunity = new Opportunity(OpportunityId.generate());
         newOpportunity.customerId = params.customerId();
         newOpportunity.title = params.title();
         newOpportunity.amount = params.amount();
@@ -127,7 +127,6 @@ public class Opportunity extends BaseDomainEntity<OpportunityId> {
         return !isClosed();
     }
 
-    // ===== VALIDATIONS =====
     private void validateState() {
         if (customerId == null) {
             throw new OpportunityValidationException("Customer ID is required");
@@ -168,7 +167,6 @@ public class Opportunity extends BaseDomainEntity<OpportunityId> {
         this.updatedAt = LocalDateTime.now();
     }
 
-    // ===== ACCESSORS =====
     public Optional<OpportunityAmount> getAmount() {
         return Optional.ofNullable(amount);
     }

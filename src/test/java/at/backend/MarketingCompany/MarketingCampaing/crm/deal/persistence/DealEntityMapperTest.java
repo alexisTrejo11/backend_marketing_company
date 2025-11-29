@@ -1,15 +1,17 @@
 package at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence;
 
+import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
+import at.backend.MarketingCompany.crm.opportunity.infrastructure.persistence.OpportunityEntity;
 import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
 import at.backend.MarketingCompany.crm.deal.domain.entity.Deal;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.*;
 import at.backend.MarketingCompany.crm.deal.repository.persistence.model.DealEntity;
 import at.backend.MarketingCompany.crm.deal.repository.persistence.model.DealEntityMapper;
-import at.backend.MarketingCompany.crm.opportunity.domain.Opportunity;
 import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
 import at.backend.MarketingCompany.crm.servicePackage.infrastructure.persistence.model.ServicePackageEntity;
 import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
+import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
 import at.backend.MarketingCompany.user.api.Model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,8 +36,8 @@ class DealEntityMapperTest {
     void setUp() {
         mapper = new DealEntityMapper();
         
-        customerId = new CustomerId(UUID.randomUUID());
-        opportunityId = new OpportunityId(UUID.randomUUID());
+        customerId = CustomerId.generate();
+        opportunityId = OpportunityId.generate();
         serviceIds = List.of(
             new ServicePackageId(UUID.randomUUID().toString()),
             new ServicePackageId(UUID.randomUUID().toString())
@@ -85,7 +87,7 @@ class DealEntityMapperTest {
         
         var finalAmount = new FinalAmount(new BigDecimal("5000.00"));
         var terms = "Payment terms";
-        var managerId = new EmployeeId(UUID.randomUUID());
+        var managerId = EmployeeId.generate();
         
         deal.signDeal(finalAmount, terms, managerId);
 
@@ -114,10 +116,10 @@ class DealEntityMapperTest {
         entity.setUpdatedAt(LocalDateTime.now());
         entity.setVersion(1);
         
-        // Set up relationships with mock entities
+        // Set up relationships with mock entity
         var customer = new CustomerModel(customerId.value());
-        var opportunity = new Opportunity(opportunityId.value());
-        var manager = new User(UUID.randomUUID());
+        var opportunity = new OpportunityEntity(UUID.randomUUID().toString());
+        var manager = new User(UUID.randomUUID().toString());
         var services = serviceIds.stream()
             .map(id -> new ServicePackageEntity(id.value()))
             .toList();
@@ -157,7 +159,7 @@ class DealEntityMapperTest {
         originalDeal.signDeal(
             new FinalAmount(new BigDecimal("3000.00")),
             "Test terms",
-            new EmployeeId(UUID.randomUUID())
+            EmployeeId.generate()
         );
 
         // When
@@ -192,7 +194,7 @@ class DealEntityMapperTest {
         originalDeal.signDeal(
             new FinalAmount(new BigDecimal("4000.00")),
             "Updated terms",
-            new EmployeeId(UUID.randomUUID())
+             EmployeeId.generate()
         );
 
         // When

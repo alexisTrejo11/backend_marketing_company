@@ -2,10 +2,11 @@ package at.backend.MarketingCompany.crm.interaction.infrastructure.persistence;
 
 import at.backend.MarketingCompany.crm.interaction.domain.entity.Interaction;
 import at.backend.MarketingCompany.crm.interaction.domain.entity.valueobject.*;
-import at.backend.MarketingCompany.crm.interaction.domain.entity.valueobject.external.CustomerId;
+import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
+import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
+import java.util.List;
 
 @Component
 public class InteractionEntityMapper {
@@ -41,7 +42,7 @@ public class InteractionEntityMapper {
         // Relations - solo IDs
         if (interaction.getCustomerId() != null) {
             var customer = new CustomerModel(interaction.getCustomerId().value());
-            entity.setCustomerModel(customer);
+            entity.setCustomer(customer);
         }
 
         return entity;
@@ -52,8 +53,8 @@ public class InteractionEntityMapper {
 
         var reconstructParams = InteractionReconstructParams.builder()
             .id(InteractionId.from(entity.getId()))
-            .customerId(entity.getCustomerModel() != null ? 
-                new CustomerId(entity.getCustomerModel().getId()) : null)
+            .customerId(entity.getCustomer() != null ?
+                new CustomerId(entity.getCustomerId()) : null)
             .type(entity.getType())
             .dateTime(InteractionDateTime.from(entity.getDateTime()))
             .description(InteractionDescription.from(entity.getDescription()))
@@ -70,12 +71,10 @@ public class InteractionEntityMapper {
     }
 
     public void updateEntity(InteractionEntity existingEntity, Interaction interaction) {
-        // No actualizar ID ni relaciones (se manejan por separado)
         existingEntity.setType(interaction.getType());
         existingEntity.setDateTime(interaction.getDateTime().value());
         existingEntity.setOutcome(interaction.getOutcome().value());
         
-        // Optional fields
         interaction.getDescription().ifPresentOrElse(
             description -> existingEntity.setDescription(description.value()),
             () -> existingEntity.setDescription(null)
@@ -91,10 +90,8 @@ public class InteractionEntityMapper {
             () -> existingEntity.setChannelPreference(null)
         );
         
-        // Audit fields se actualizan automáticamente con @PreUpdate
     }
 
-    // Batch operations (si son necesarias)
     public List<InteractionEntity> toEntityList(List<Interaction> interactions) {
         return interactions.stream()
             .map(this::toEntity)

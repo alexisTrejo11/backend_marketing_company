@@ -1,11 +1,14 @@
 package at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain;
 
+import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
+import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
 import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
 import at.backend.MarketingCompany.crm.deal.domain.entity.Deal;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.*;
 import at.backend.MarketingCompany.crm.deal.domain.exceptions.DealStatusTransitionException;
 import at.backend.MarketingCompany.crm.deal.domain.exceptions.DealValidationException;
+import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -19,7 +22,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -28,16 +30,16 @@ class DealTest {
 
     private CustomerId validCustomerId;
     private OpportunityId validOpportunityId;
-    private List<ServiceId> validServiceIds;
+    private List<ServicePackageId> validServiceIds;
     private LocalDate validStartDate;
     
     @BeforeEach
     void setUp() {
-        validCustomerId = new CustomerId(UUID.randomUUID());
-        validOpportunityId = new OpportunityId(UUID.randomUUID());
+        validCustomerId = CustomerId.generate() ;
+        validOpportunityId = OpportunityId.generate();
         validServiceIds = List.of(
-            ServiceId.create(),
-                ServiceId.create()
+                ServicePackageId.generate(),
+                ServicePackageId.generate()
         );
         validStartDate = LocalDate.now().plusDays(1);
     }
@@ -55,7 +57,7 @@ class DealTest {
     class CreationTests {
 
         @Test
-        @DisplayName("should create deal with valid parameters")
+        @DisplayName("should generate deal with valid parameters")
         void createDeal_WithValidParams_ShouldCreateDeal() {
             // When
             Deal deal = Deal.create(validCreateParams().build());
@@ -76,7 +78,7 @@ class DealTest {
         }
 
         @Test
-        @DisplayName("should throw exceptions when create params are null")
+        @DisplayName("should throw exceptions when generate params are null")
         void createDeal_WithNullParams_ShouldThrowException() {
             // When & Then
             assertThatThrownBy(() -> Deal.create(null))
@@ -144,7 +146,7 @@ class DealTest {
             draftDeal.startNegotiation();
             var amount = new FinalAmount(new BigDecimal("5000.00"));
             var terms = "Payment in 30 days";
-            var managerId = new EmployeeId(UUID.randomUUID());
+            var managerId = EmployeeId.generate();
 
             // When
             draftDeal.signDeal(amount, terms, managerId);
@@ -164,7 +166,7 @@ class DealTest {
 
             // When & Then
             assertThatThrownBy(() -> 
-                draftDeal.signDeal(null, "terms", new EmployeeId(UUID.randomUUID())))
+                draftDeal.signDeal(null, "terms", EmployeeId.generate()))
                 .isInstanceOf(DealValidationException.class)
                 .hasMessageContaining("Final amount must be positive");
         }
@@ -178,7 +180,7 @@ class DealTest {
 
             // When & Then
             assertThatThrownBy(() -> 
-                draftDeal.signDeal(zeroAmount, "terms", new EmployeeId(UUID.randomUUID())))
+                draftDeal.signDeal(zeroAmount, "terms", EmployeeId.generate()))
                 .isInstanceOf(DealValidationException.class)
                 .hasMessageContaining("Final amount must be positive");
         }
@@ -193,7 +195,7 @@ class DealTest {
 
             // When & Then
             assertThatThrownBy(() -> 
-                draftDeal.signDeal(amount, invalidTerms, new EmployeeId(UUID.randomUUID())))
+                draftDeal.signDeal(amount, invalidTerms, EmployeeId.generate()))
                 .isInstanceOf(DealValidationException.class)
                 .hasMessageContaining("Terms must be provided");
         }
@@ -304,9 +306,9 @@ class DealTest {
             // Given
             var deal = Deal.create(validCreateParams().build());
             var newServices = List.of(
-                    ServiceId.create(),
-                    ServiceId.create(),
-                    ServiceId.create()
+                    ServicePackageId.generate(),
+                    ServicePackageId.generate(),
+                    ServicePackageId.generate()
             );
 
             // When
@@ -321,7 +323,7 @@ class DealTest {
         void updateServicePackages_InCompletedState_ShouldThrowException() {
             // Given
             var completedDeal = createCompletedDeal();
-            var newServices = List.of(ServiceId.create());
+            var newServices = List.of(ServicePackageId.generate());
 
             // When & Then
             assertThatThrownBy(() -> completedDeal.updateServicePackages(newServices))
@@ -332,7 +334,7 @@ class DealTest {
         @ParameterizedTest
         @NullAndEmptySource
         @DisplayName("should throw exceptions when updating with invalid service list")
-        void updateServicePackages_WithInvalidList_ShouldThrowException(List<ServiceId> invalidServices) {
+        void updateServicePackages_WithInvalidList_ShouldThrowException(List<ServicePackageId> invalidServices) {
             // Given
             var deal = Deal.create(validCreateParams().build());
 
@@ -365,7 +367,7 @@ class DealTest {
                 .dealStatus(DealStatus.SIGNED)
                 .finalAmount(new FinalAmount(new BigDecimal("7500.00")))
                 .period(new ContractPeriod(validStartDate, Optional.of(validStartDate.plusDays(60))))
-                .campaignManagerId(new EmployeeId(UUID.randomUUID()))
+                .campaignManagerId(EmployeeId.generate())
                 .terms("Payment terms")
                 .deliverables("Initial deliverables")
                 .servicePackageIds(validServiceIds)
@@ -456,7 +458,7 @@ class DealTest {
         deal.signDeal(
             new FinalAmount(new BigDecimal("5000.00")),
             "Payment terms",
-            new EmployeeId(UUID.randomUUID())
+            EmployeeId.generate()
         );
         return deal;
     }

@@ -5,10 +5,13 @@ import at.backend.MarketingCompany.crm.opportunity.domain.exceptions.Opportunity
 import java.time.LocalDate;
 
 public record ExpectedCloseDate(LocalDate value) {
-    public ExpectedCloseDate {
-        if (value != null && value.isBefore(LocalDate.now())) {
+
+    public static ExpectedCloseDate create(LocalDate date) {
+        if (date != null && date.isBefore(LocalDate.now())) {
             throw new OpportunityValidationException("Expected close date cannot be in the past");
         }
+
+        return date != null ? new ExpectedCloseDate(date) : null;
     }
 
     public boolean isOverdue() {
