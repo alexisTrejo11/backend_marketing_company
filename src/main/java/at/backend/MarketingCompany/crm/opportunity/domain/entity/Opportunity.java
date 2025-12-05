@@ -12,7 +12,7 @@ import java.util.Optional;
 public class Opportunity extends BaseDomainEntity<OpportunityId> {
     private at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId customerId;
     private String title;
-    private OpportunityAmount amount;
+    private Amount amount;
     private OpportunityStage stage;
     private ExpectedCloseDate expectedCloseDate;
 
@@ -50,7 +50,7 @@ public class Opportunity extends BaseDomainEntity<OpportunityId> {
         return newOpportunity;
     }
 
-    public void updateDetails(String title, OpportunityAmount amount, ExpectedCloseDate expectedCloseDate) {
+    public void updateDetails(String title, Amount amount, ExpectedCloseDate expectedCloseDate) {
         if (title == null || title.trim().isEmpty()) {
             throw new OpportunityValidationException("Opportunity title cannot be empty");
         }
@@ -99,7 +99,7 @@ public class Opportunity extends BaseDomainEntity<OpportunityId> {
         updateTimestamp();
     }
 
-    public void updateAmount(OpportunityAmount newAmount) {
+    public void updateAmount(Amount newAmount) {
         if (this.stage == OpportunityStage.CLOSED_WON || this.stage == OpportunityStage.CLOSED_LOST) {
             throw new OpportunityValidationException("Cannot update amount for a closed opportunity");
         }
@@ -167,7 +167,7 @@ public class Opportunity extends BaseDomainEntity<OpportunityId> {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public Optional<OpportunityAmount> getAmount() {
+    public Optional<Amount> getAmount() {
         return Optional.ofNullable(amount);
     }
 

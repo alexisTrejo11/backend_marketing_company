@@ -52,7 +52,7 @@ public class OpportunityEntityMapper {
                 new CustomerId(entity.getCustomer().getId()) : null)
             .title(entity.getTitle())
             .amount(entity.getAmount() != null ? 
-                new OpportunityAmount(entity.getAmount()) : null)
+                new Amount(entity.getAmount()) : null)
             .stage(entity.getStage())
             .expectedCloseDate(entity.getExpectedCloseDate() != null ? 
                 ExpectedCloseDate.from(entity.getExpectedCloseDate()) : null)

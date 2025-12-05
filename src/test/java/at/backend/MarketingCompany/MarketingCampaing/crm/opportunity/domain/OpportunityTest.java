@@ -14,8 +14,6 @@ import org.junit.jupiter.params.provider.NullAndEmptySource;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -24,14 +22,14 @@ class OpportunityTest {
 
     private CustomerId validCustomerId;
     private String validTitle;
-    private OpportunityAmount validAmount;
+    private Amount validAmount;
     private ExpectedCloseDate validCloseDate;
 
     @BeforeEach
     void setUp() {
         validCustomerId = CustomerId.generate();
         validTitle = "New Marketing Campaign";
-        validAmount = new OpportunityAmount(new BigDecimal("50000.00"));
+        validAmount = new Amount(new BigDecimal("50000.00"));
         validCloseDate = new ExpectedCloseDate(LocalDate.now().plusDays(30));
     }
 
@@ -285,7 +283,7 @@ class OpportunityTest {
         void updateDetails_WithValidParams_ShouldUpdateSuccessfully() {
             // Given
             var newTitle = "Updated Marketing Campaign";
-            var newAmount = new OpportunityAmount(new BigDecimal("75000.00"));
+            var newAmount = new Amount(new BigDecimal("75000.00"));
             var newCloseDate = new ExpectedCloseDate(LocalDate.now().plusDays(45));
 
             // When
@@ -303,7 +301,7 @@ class OpportunityTest {
         @DisplayName("should throw exception when updating with invalid title")
         void updateDetails_WithInvalidTitle_ShouldThrowException(String invalidTitle) {
             // Given
-            var newAmount = new OpportunityAmount(new BigDecimal("75000.00"));
+            var newAmount = new Amount(new BigDecimal("75000.00"));
             var newCloseDate = new ExpectedCloseDate(LocalDate.now().plusDays(45));
 
             // When & Then
@@ -317,7 +315,7 @@ class OpportunityTest {
         @DisplayName("should update amount for active opportunity")
         void updateAmount_ForActiveOpportunity_ShouldUpdateSuccessfully() {
             // Given
-            var newAmount = new OpportunityAmount(new BigDecimal("60000.00"));
+            var newAmount = new Amount(new BigDecimal("60000.00"));
 
             // When
             opportunity.updateAmount(newAmount);
@@ -334,7 +332,7 @@ class OpportunityTest {
             opportunity.moveToProposal();
             opportunity.moveToNegotiation();
             opportunity.closeWon(); // Correct path to close as won
-            var newAmount = new OpportunityAmount(new BigDecimal("60000.00"));
+            var newAmount = new Amount(new BigDecimal("60000.00"));
 
             // When & Then
             assertThatThrownBy(() -> opportunity.updateAmount(newAmount))
@@ -501,7 +499,7 @@ class OpportunityTest {
             var negativeAmount = new BigDecimal("-1000.00");
 
             // When & Then
-            assertThatThrownBy(() -> new OpportunityAmount(negativeAmount))
+            assertThatThrownBy(() -> new Amount(negativeAmount))
                     .isInstanceOf(OpportunityValidationException.class)
                     .hasMessageContaining("Opportunity amount cannot be negative");
         }
@@ -522,7 +520,7 @@ class OpportunityTest {
         @DisplayName("should generate value objects from nullable values")
         void valueObjects_FromNullableValues_ShouldHandleCorrectly() {
             // When
-            var nullAmount = OpportunityAmount.from(null);
+            var nullAmount = Amount.from(null);
             var nullCloseDate = ExpectedCloseDate.from(null);
 
             // Then
@@ -534,8 +532,8 @@ class OpportunityTest {
         @DisplayName("should check if amount is positive")
         void opportunityAmount_IsPositive_ShouldReturnCorrectValue() {
             // Given
-            var positiveAmount = new OpportunityAmount(new BigDecimal("1000.00"));
-            var zeroAmount = new OpportunityAmount(BigDecimal.ZERO);
+            var positiveAmount = new Amount(new BigDecimal("1000.00"));
+            var zeroAmount = new Amount(BigDecimal.ZERO);
 
             // Then
             assertThat(positiveAmount.isPositive()).isTrue();

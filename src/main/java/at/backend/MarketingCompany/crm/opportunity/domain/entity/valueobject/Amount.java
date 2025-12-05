@@ -4,8 +4,9 @@ import at.backend.MarketingCompany.crm.opportunity.domain.exceptions.Opportunity
 
 import java.math.BigDecimal;
 
-public record OpportunityAmount(BigDecimal value) {
-    public OpportunityAmount {
+// TODO: Move to a shared kernel if used in multiple bounded contexts
+public record Amount(BigDecimal value) {
+    public Amount {
         if (value == null) {
             throw new OpportunityValidationException("Opportunity amount is required");
         }
@@ -18,7 +19,11 @@ public record OpportunityAmount(BigDecimal value) {
         return value.compareTo(BigDecimal.ZERO) > 0;
     }
 
-    public static OpportunityAmount from(BigDecimal amount) {
-        return amount != null ? new OpportunityAmount(amount) : null;
+    public static Amount from(BigDecimal amount) {
+        return amount != null ? new Amount(amount) : null;
+    }
+
+    public static Amount zero() {
+        return new Amount(BigDecimal.ZERO);
     }
 }

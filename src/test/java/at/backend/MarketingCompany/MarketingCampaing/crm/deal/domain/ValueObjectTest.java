@@ -60,7 +60,7 @@ class ValueObjectTest {
         }
 
         @Test
-        @DisplayName("should throw exceptions for null amount")
+        @DisplayName("should throw exception for null amount")
         void create_WithNullAmount_ShouldThrowException() {
             // When & Then
             assertThatThrownBy(() -> new FinalAmount(null))
@@ -69,7 +69,7 @@ class ValueObjectTest {
         }
 
         @Test
-        @DisplayName("should throw exceptions for negative amount")
+        @DisplayName("should throw exception for negative amount")
         void create_WithNegativeAmount_ShouldThrowException() {
             // When & Then
             assertThatThrownBy(() -> new FinalAmount(new BigDecimal("-100")))
@@ -112,7 +112,7 @@ class ValueObjectTest {
         }
 
         @Test
-        @DisplayName("should throw exceptions for null start date")
+        @DisplayName("should throw exception for null start date")
         void create_WithNullStartDate_ShouldThrowException() {
             // When & Then
             assertThatThrownBy(() -> new ContractPeriod(null, Optional.of(LocalDate.now())))
@@ -121,7 +121,7 @@ class ValueObjectTest {
         }
 
         @Test
-        @DisplayName("should throw exceptions when end date is before start date")
+        @DisplayName("should throw exception when end date is before start date")
         void create_WithEndDateBeforeStart_ShouldThrowException() {
             // Given
             var startDate = LocalDate.now();
@@ -162,7 +162,7 @@ class ValueObjectTest {
         }
 
         @Test
-        @DisplayName("should throw exceptions for null UUID")
+        @DisplayName("should throw exception for null UUID")
         void create_WithNullUUID_ShouldThrowException() {
             // When & Then
             assertThatThrownBy(() -> new DealId(null))

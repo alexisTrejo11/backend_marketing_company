@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.crm.quote.api.controller;
 
 import at.backend.MarketingCompany.common.utils.PageInput;
-import at.backend.MarketingCompany.crm.quote.domain.Quote;
+import at.backend.MarketingCompany.crm.quote.infrastructure.adapter.output.persistence.entity.QuoteEntity;
 import at.backend.MarketingCompany.crm.quote.api.service.QuoteService;
 import at.backend.MarketingCompany.crm.quote.infrastructure.DTOs.QuoteInput;
 import at.backend.MarketingCompany.crm.quote.infrastructure.DTOs.QuoteItemInput;
@@ -21,31 +21,31 @@ public class QuoteController {
     private final QuoteService service;
 
     @QueryMapping
-    public Page<Quote> getAllQuotes(@Argument PageInput input) {
+    public Page<QuoteEntity> getAllQuotes(@Argument PageInput input) {
         Pageable pageable = PageRequest.of(input.page(), input.size());
 
         return service.getAll(pageable);
     }
 
     @QueryMapping
-    public Quote getQuoteById(@Argument Long id) {
+    public QuoteEntity getQuoteById(@Argument Long id) {
         return service.getById(id);
     }
 
     @MutationMapping
-    public Quote createQuote(@Valid @Argument QuoteInput input) {
+    public QuoteEntity createQuote(@Valid @Argument QuoteInput input) {
         service.validate(input);
 
         return service.create(input);
     }
 
     @MutationMapping
-    public Quote addQuoteItem(@Valid @Argument Long id, @Argument QuoteItemInput input) {
+    public QuoteEntity addQuoteItem(@Valid @Argument Long id, @Argument QuoteItemInput input) {
         return service.addItem(id, input);
     }
 
     @MutationMapping
-    public Quote deleteQuoteItem(@Valid @Argument Long itemId) {
+    public QuoteEntity deleteQuoteItem(@Valid @Argument Long itemId) {
         return service.deleteItem(itemId);
     }
 

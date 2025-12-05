@@ -118,7 +118,7 @@ class DealApplicationServiceTest {
         }
 
         @Test
-        @DisplayName("should throw exceptions when customer validation fails")
+        @DisplayName("should throw exception when customer validation fails")
         void handleCreateDeal_WithInvalidCustomer_ShouldThrowException() {
             // Given
             var command = new CreateDealCommand(
@@ -139,7 +139,7 @@ class DealApplicationServiceTest {
         }
 
         @Test
-        @DisplayName("should throw exceptions when services validation fails")
+        @DisplayName("should throw exception when services validation fails")
         void handleCreateDeal_WithInvalidServices_ShouldThrowException() {
             // Given
             var command = new CreateDealCommand(
@@ -194,7 +194,7 @@ class DealApplicationServiceTest {
         }
 
         @Test
-        @DisplayName("should throw exceptions when deal not found")
+        @DisplayName("should throw exception when deal not found")
         void handleSignDeal_WithNonExistentDeal_ShouldThrowException() {
             // Given
             var command = new SignDealCommand(
@@ -215,7 +215,7 @@ class DealApplicationServiceTest {
         }
 
         @Test
-        @DisplayName("should throw exceptions when employee validation fails")
+        @DisplayName("should throw exception when employee validation fails")
         void handleSignDeal_WithInvalidEmployee_ShouldThrowException() {
             // Given
             var command = new SignDealCommand(
@@ -263,7 +263,7 @@ class DealApplicationServiceTest {
         }
 
         @Test
-        @DisplayName("should throw exceptions when deal is not in signed state")
+        @DisplayName("should throw exception when deal is not in signed state")
         void handleMarkAsPaid_WithInvalidState_ShouldThrowException() {
             // Given
             var command = new MarkDealAsPaidCommand(validDealId);
@@ -306,7 +306,7 @@ class DealApplicationServiceTest {
         }
 
         @Test
-        @DisplayName("should throw exceptions when end date is invalid")
+        @DisplayName("should throw exception when end date is invalid")
         void handleCompleteDeal_WithInvalidEndDate_ShouldThrowException() {
             // Given
             var invalidEndDate = validStartDate.minusDays(1); // Before start date
@@ -354,7 +354,7 @@ class DealApplicationServiceTest {
         }
 
         @Test
-        @DisplayName("should throw exceptions when services validation fails")
+        @DisplayName("should throw exception when services validation fails")
         void handleUpdateServices_WithInvalidServices_ShouldThrowException() {
             // Given
             var newServices = List.of(ServicePackageId.generate());
@@ -393,7 +393,7 @@ class DealApplicationServiceTest {
         }
 
         @Test
-        @DisplayName("should throw exceptions when deal not found")
+        @DisplayName("should throw exception when deal not found")
         void handleGetDealById_WithNonExistentDeal_ShouldThrowException() {
             // Given
             var query = new GetDealByIdQuery(validDealId);

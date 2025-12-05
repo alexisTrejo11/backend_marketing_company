@@ -4,7 +4,7 @@ import at.backend.MarketingCompany.common.PageResponse;
 import at.backend.MarketingCompany.crm.interaction.infrastructure.graphql.dto.ExternalDataFetcher;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.Opportunity;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.ExpectedCloseDate;
-import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityAmount;
+import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.Amount;
 import at.backend.MarketingCompany.crm.opportunity.infrastructure.graphql.dto.output.OpportunityResponse;
 import at.backend.MarketingCompany.crm.opportunity.infrastructure.graphql.dto.output.OpportunityStatisticsResponse;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class OpportunityResponseMapper {
             opportunity.getCustomerId().value(),
             customer,
             opportunity.getTitle(),
-            opportunity.getAmount().map(OpportunityAmount::value).orElse(null),
+            opportunity.getAmount().map(Amount::value).orElse(null),
             opportunity.getStage(),
             opportunity.getExpectedCloseDate().map(ExpectedCloseDate::value).orElse(null),
             opportunity.isClosed(),

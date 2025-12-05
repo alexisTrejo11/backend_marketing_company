@@ -78,7 +78,7 @@ class DealTest {
         }
 
         @Test
-        @DisplayName("should throw exceptions when generate params are null")
+        @DisplayName("should throw exception when generate params are null")
         void createDeal_WithNullParams_ShouldThrowException() {
             // When & Then
             assertThatThrownBy(() -> Deal.create(null))
@@ -87,7 +87,7 @@ class DealTest {
         }
 
         @Test
-        @DisplayName("should throw exceptions when customerId is null")
+        @DisplayName("should throw exception when customerId is null")
         void createDeal_WithNullCustomerId_ShouldThrowException() {
             // Given
             var paramsBuilder = validCreateParams();
@@ -99,7 +99,7 @@ class DealTest {
         }
 
         @Test
-        @DisplayName("should throw exceptions when opportunityId is null")
+        @DisplayName("should throw exception when opportunityId is null")
         void createDeal_WithNullOpportunityId_ShouldThrowException() {
             // When & Then
             assertThatThrownBy(() -> validCreateParams().opportunityId(null).build())
@@ -108,7 +108,7 @@ class DealTest {
 
 
         @Test
-        @DisplayName("should throw exceptions when start date is null")
+        @DisplayName("should throw exception when start date is null")
         void createDeal_WithNullStartDate_ShouldThrowException() {
             // When & Then
             assertThatThrownBy(() -> validCreateParams().startDate(null).build())
@@ -159,7 +159,7 @@ class DealTest {
         }
 
         @Test
-        @DisplayName("should throw exceptions when signing with null amount")
+        @DisplayName("should throw exception when signing with null amount")
         void signDeal_WithNullAmount_ShouldThrowException() {
             // Given
             draftDeal.startNegotiation();
@@ -172,7 +172,7 @@ class DealTest {
         }
 
         @Test
-        @DisplayName("should throw exceptions when signing with zero amount")
+        @DisplayName("should throw exception when signing with zero amount")
         void signDeal_WithZeroAmount_ShouldThrowException() {
             // Given
             draftDeal.startNegotiation();
@@ -187,7 +187,7 @@ class DealTest {
 
         @ParameterizedTest
         @NullAndEmptySource
-        @DisplayName("should throw exceptions when signing with invalid terms")
+        @DisplayName("should throw exception when signing with invalid terms")
         void signDeal_WithInvalidTerms_ShouldThrowException(String invalidTerms) {
             // Given
             draftDeal.startNegotiation();
@@ -201,7 +201,7 @@ class DealTest {
         }
 
         @Test
-        @DisplayName("should throw exceptions when signing with null manager")
+        @DisplayName("should throw exception when signing with null manager")
         void signDeal_WithNullManager_ShouldThrowException() {
             // Given
             draftDeal.startNegotiation();
@@ -257,7 +257,7 @@ class DealTest {
         }
 
         @Test
-        @DisplayName("should throw exceptions when completing with end date before start date")
+        @DisplayName("should throw exception when completing with end date before start date")
         void completeDeal_WithEndDateBeforeStart_ShouldThrowException() {
             // Given
             var inProgressDeal = createInProgressDeal();
@@ -319,7 +319,7 @@ class DealTest {
         }
 
         @Test
-        @DisplayName("should throw exceptions when updating services in completed state")
+        @DisplayName("should throw exception when updating services in completed state")
         void updateServicePackages_InCompletedState_ShouldThrowException() {
             // Given
             var completedDeal = createCompletedDeal();
@@ -333,7 +333,7 @@ class DealTest {
 
         @ParameterizedTest
         @NullAndEmptySource
-        @DisplayName("should throw exceptions when updating with invalid service list")
+        @DisplayName("should throw exception when updating with invalid service list")
         void updateServicePackages_WithInvalidList_ShouldThrowException(List<ServicePackageId> invalidServices) {
             // Given
             var deal = Deal.create(validCreateParams().build());

@@ -7,6 +7,6 @@ import lombok.Builder;
 public record CreateOpportunityParams(
     CustomerId customerId,
     String title,
-    OpportunityAmount amount,
+    Amount amount,
     ExpectedCloseDate expectedCloseDate
 ) {}

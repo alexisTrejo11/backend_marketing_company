@@ -1,4 +1,4 @@
-package at.backend.MarketingCompany.crm.shared.enums;
+package at.backend.MarketingCompany.crm.quote.domain.valueobject;
 
 public enum QuoteStatus {
     DRAFT,

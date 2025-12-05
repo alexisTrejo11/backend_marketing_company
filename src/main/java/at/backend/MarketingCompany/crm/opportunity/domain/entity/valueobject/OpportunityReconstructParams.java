@@ -10,7 +10,7 @@ public record OpportunityReconstructParams(
     OpportunityId id,
     CustomerId customerId,
     String title,
-    OpportunityAmount amount,
+    Amount amount,
     OpportunityStage stage,
     ExpectedCloseDate expectedCloseDate,
     Integer version,

@@ -2,7 +2,7 @@ package at.backend.MarketingCompany.crm.opportunity.infrastructure.graphql.dto.i
 
 import at.backend.MarketingCompany.crm.opportunity.application.commands.UpdateOpportunityDetailsCommand;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.ExpectedCloseDate;
-import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityAmount;
+import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.Amount;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
 import jakarta.validation.constraints.NotBlank;
 
@@ -19,7 +19,7 @@ public record UpdateOpportunityInput(
         return new UpdateOpportunityDetailsCommand(
                 OpportunityId.from(opportunityId),
                 title,
-                OpportunityAmount.from(amount),
+                Amount.from(amount),
                 ExpectedCloseDate.from(expectedCloseDate)
         );
     }
