@@ -13,7 +13,8 @@ import java.util.List;
 @Repository
 public interface JpaDealRepository extends JpaRepository<DealEntity, String> {
 
-    List<DealEntity> findByCustomerModelId(String customerId);
+    @Query("SELECT d FROM DealEntity d WHERE d.customerModel.id = :customerId")
+    List<DealEntity> findByCustomerId(String customerId);
 
     List<DealEntity> findByDealStatus(DealStatus status);
 

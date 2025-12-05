@@ -3,7 +3,7 @@ package at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.opportunity.infrastructure.persistence.OpportunityEntity;
 import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
-import at.backend.MarketingCompany.account.user.domain.repository.UserEntity;
+import at.backend.MarketingCompany.account.user.adapters.outbound.persistence.UserEntity;
 import at.backend.MarketingCompany.crm.deal.domain.entity.Deal;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.*;

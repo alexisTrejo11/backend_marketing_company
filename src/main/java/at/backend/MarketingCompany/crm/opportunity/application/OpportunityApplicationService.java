@@ -1,5 +1,6 @@
 package at.backend.MarketingCompany.crm.opportunity.application;
 
+import at.backend.MarketingCompany.crm.deal.application.ExternalModuleValidator;
 import at.backend.MarketingCompany.crm.opportunity.application.commands.*;
 import at.backend.MarketingCompany.crm.opportunity.application.queries.*;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.Opportunity;
@@ -7,7 +8,6 @@ import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.crm.opportunity.domain.exceptions.OpportunityNotFoundException;
 import at.backend.MarketingCompany.crm.opportunity.domain.repository.OpportunityRepository;
 import at.backend.MarketingCompany.common.exceptions.ExternalServiceException;
-import at.backend.MarketingCompany.crm.tasks.application.ExternalServiceValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class OpportunityApplicationService {
     
     private final OpportunityRepository opportunityRepository;
-    private final ExternalServiceValidator externalValidator;
+    private final ExternalModuleValidator externalValidator;
 
     @Transactional
     public Opportunity handle(CreateOpportunityCommand command) {

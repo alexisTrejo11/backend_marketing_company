@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.crm.tasks.infrastructure.persistence;
 
-import at.backend.MarketingCompany.account.user.domain.repository.UserEntity;
+import at.backend.MarketingCompany.account.user.adapters.outbound.persistence.UserEntity;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.EmployeeId;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.opportunity.infrastructure.persistence.OpportunityEntity;
@@ -37,7 +37,7 @@ public class TaskEntityMapper {
 
     if (task.getCustomerId() != null) {
       var customer = new CustomerModel(task.getCustomerId().value());
-      entity.setCustomerModel(customer);
+      entity.setCustomer(customer);
     }
 
     if (task.getOpportunityId() != null) {
@@ -59,7 +59,7 @@ public class TaskEntityMapper {
 
     var reconstructParams = TaskReconstructParams.builder()
         .id(TaskId.from(entity.getId()))
-        .customerId(entity.getCustomerModel() != null ? new CustomerId(entity.getCustomerModel().getId()) : null)
+        .customerId(entity.getCustomer() != null ? new CustomerId(entity.getCustomer().getId()) : null)
         .opportunityId(entity.getOpportunity() != null ? new OpportunityId(entity.getOpportunity().getId()) : null)
         .title(entity.getTitle())
         .description(entity.getDescription())

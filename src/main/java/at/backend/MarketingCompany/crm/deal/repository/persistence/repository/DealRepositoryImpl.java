@@ -52,7 +52,7 @@ public class DealRepositoryImpl implements DealRepository {
     public List<Deal> findByCustomer(CustomerId customerId) {
         log.debug("Finding deals by customer ID: {}", customerId.value());
 
-        return jpaDealRepository.findByCustomerModelId(customerId.value()).stream()
+        return jpaDealRepository.findByCustomerId(customerId.value()).stream()
                 .map(dealEntityMapper::toDomain)
                 .toList();
     }

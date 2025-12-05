@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.crm.tasks.infrastructure.persistence;
 
-import at.backend.MarketingCompany.account.user.domain.repository.UserEntity;
+import at.backend.MarketingCompany.account.user.adapters.outbound.persistence.UserEntity;
 import at.backend.MarketingCompany.common.jpa.BaseJpaEntity;
 import at.backend.MarketingCompany.crm.opportunity.infrastructure.persistence.OpportunityEntity;
 import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
@@ -40,7 +40,7 @@ public class TaskEntity extends BaseJpaEntity {
 
   @ManyToOne
   @JoinColumn(name = "customer_id")
-  private CustomerModel customerModel;
+  private CustomerModel customer;
 
   @ManyToOne
   @JoinColumn(name = "opportunity_id")

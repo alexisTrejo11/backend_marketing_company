@@ -4,9 +4,11 @@ import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.E
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
 import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class ExternalModuleValidatorImpl implements ExternalModuleValidator {
     @Override
     public void validateCustomerExists(CustomerId customerId) {

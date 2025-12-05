@@ -1,5 +1,6 @@
 package at.backend.MarketingCompany.crm.tasks.application;
 
+import at.backend.MarketingCompany.crm.deal.application.ExternalModuleValidator;
 import at.backend.MarketingCompany.crm.shared.enums.TaskStatus;
 import at.backend.MarketingCompany.crm.tasks.application.commands.*;
 import at.backend.MarketingCompany.crm.tasks.application.queries.*;
@@ -22,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TaskApplicationService {
     
     private final TaskRepository taskRepository;
-    private final ExternalServiceValidator externalValidator;
+    private final ExternalModuleValidator externalValidator;
 
     @Transactional
     public Task handle(CreateTaskCommand command) {

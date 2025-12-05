@@ -70,7 +70,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     public Page<Task> findByCustomer(CustomerId customerId, Pageable pageable) {
         log.debug("Finding tasks by customer ID: {}", customerId.value());
 
-        return jpaTaskRepository.findByCustomerModelId(customerId.value())
+        return jpaTaskRepository.findByCustomer_Id(customerId.value(), pageable)
                 .map(taskEntityMapper::toDomain);
     }
 
@@ -84,7 +84,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     public Page<Task> findByOpportunity(OpportunityId opportunityId, Pageable pageable) {
         log.debug("Finding tasks by opportunity ID: {}", opportunityId.value());
 
-        return jpaTaskRepository.findByOpportunityId(opportunityId.value())
+        return jpaTaskRepository.findByOpportunity_Id(opportunityId.value(), pageable)
                 .map(taskEntityMapper::toDomain);
     }
 
@@ -93,7 +93,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     public Page<Task> findByAssignee(EmployeeId assigneeId, Pageable pageable) {
         log.debug("Finding tasks by assignee ID: {}", assigneeId.value());
 
-        return jpaTaskRepository.findByAssignedToId(assigneeId.value())
+        return jpaTaskRepository.findByAssignedTo_Id(assigneeId.value(), pageable)
                 .map(taskEntityMapper::toDomain);
     }
 
@@ -102,7 +102,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     public Page<Task> findByStatuses(Set<TaskStatus> statuses, Pageable pageable) {
         log.debug("Finding tasks by statuses: {}", statuses);
 
-        return jpaTaskRepository.findByStatusIn(statuses)
+        return jpaTaskRepository.findByStatusIn(statuses, pageable)
                 .map(taskEntityMapper::toDomain);
     }
 
@@ -111,7 +111,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     public Page<Task> findByPriorities(Set<TaskPriority> priorities, Pageable pageable) {
         log.debug("Finding tasks by priorities: {}", priorities);
 
-        return jpaTaskRepository.findByPriorityIn(priorities)
+        return jpaTaskRepository.findByPriorityIn(priorities, pageable)
                 .map(taskEntityMapper::toDomain);
     }
 
@@ -129,7 +129,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     public Page<Task> findPendingTasks(Pageable pageable) {
         log.debug("Finding pending tasks");
 
-        return jpaTaskRepository.findByStatusIn(Set.of(TaskStatus.PENDING, TaskStatus.IN_PROGRESS))
+        return jpaTaskRepository.findByStatusIn(Set.of(TaskStatus.PENDING, TaskStatus.IN_PROGRESS), pageable)
                 .map(taskEntityMapper::toDomain);
     }
 
@@ -148,7 +148,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     public long countByCustomerAndStatus(CustomerId customerId, TaskStatus status) {
         log.debug("Counting tasks for customer {} with status: {}", customerId.value(), status);
 
-        return jpaTaskRepository.countByCustomerModelIdAndStatus(customerId.value(), status);
+        return jpaTaskRepository.countByCustomer_IdAndStatus(customerId.value(), status);
     }
 
     @Override
@@ -156,7 +156,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     public long countByAssigneeAndStatus(EmployeeId assigneeId, TaskStatus status) {
         log.debug("Counting tasks for assignee {} with status: {}", assigneeId.value(), status);
 
-        return jpaTaskRepository.countByAssignedToIdAndStatus(assigneeId.value(), status);
+        return jpaTaskRepository.countByAssignedTo_IdAndStatus(assigneeId.value(), status);
     }
 
     @Override

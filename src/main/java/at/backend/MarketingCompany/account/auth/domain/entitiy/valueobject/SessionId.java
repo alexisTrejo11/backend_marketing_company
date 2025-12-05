@@ -17,4 +17,8 @@ public record SessionId(String value) {
     return new SessionId(value);
   }
 
+  public static SessionId from(UUID uuid) {
+    return new SessionId(uuid.toString());
+  }
+
 }

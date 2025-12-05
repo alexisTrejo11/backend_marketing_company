@@ -5,7 +5,6 @@ import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.Opp
 import at.backend.MarketingCompany.crm.opportunity.domain.repository.OpportunityRepository;
 import at.backend.MarketingCompany.crm.quote.infrastructure.DTOs.QuoteInput;
 import at.backend.MarketingCompany.crm.quote.infrastructure.DTOs.QuoteItemInput;
-import at.backend.MarketingCompany.crm.quote.infrastructure.autoMappers.QuoteMappers;
 import at.backend.MarketingCompany.common.exceptions.BusinessLogicException;
 import at.backend.MarketingCompany.crm.quote.api.repository.QuoteItemRepository;
 import at.backend.MarketingCompany.crm.quote.api.repository.QuoteRepository;
@@ -32,164 +31,156 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class QuoteServiceImpl implements QuoteService {
 
-    public final QuoteRepository quoteRepository;
-    public final QuoteItemRepository quoteItemRepository;
-    public final CustomerRepository customerRepository;
-    public final OpportunityRepository opportunityRepository;
-    public final JpaServicePackageRepository jpaServicePackageRepository;
-    public final QuoteMappers quoteMappers;
+  public final QuoteRepository quoteRepository;
+  public final QuoteItemRepository quoteItemRepository;
+  public final CustomerRepository customerRepository;
+  public final OpportunityRepository opportunityRepository;
+  public final JpaServicePackageRepository jpaServicePackageRepository;
 
-    @Override
-    public Page<Quote> getAll(Pageable pageable) {
-        return quoteRepository.findAll(pageable);
+  @Override
+  public Page<Quote> getAll(Pageable pageable) {
+    return quoteRepository.findAll(pageable);
+  }
+
+  @Override
+  public Quote getById(Long id) {
+    return getQuote(id);
+  }
+
+  @Override
+  @Transactional
+  public Quote create(QuoteInput input) {
+    return null;
+  }
+
+  @Override
+  @Transactional
+  public Quote update(Long id, QuoteInput input) {
+    return null;
+  }
+
+  @Override
+  @Transactional
+  public Quote addItem(Long id, QuoteItemInput input) {
+    Quote existingQuote = quoteRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Quote not found"));
+
+    List<QuoteItem> items = generateItems(existingQuote, Collections.singletonList(input));
+    existingQuote.getItems().addAll(items);
+
+    calculateNumbers(existingQuote);
+
+    return quoteRepository.saveAndFlush(existingQuote);
+  }
+
+  @Override
+  @Transactional
+  public Quote deleteItem(Long itemId) {
+    QuoteItem item = quoteItemRepository.findById(itemId)
+        .orElseThrow(() -> new EntityNotFoundException("Quote Item not found"));
+
+    Quote quote = item.getQuote();
+
+    quote.getItems().remove(item);
+
+    calculateNumbers(quote);
+
+    quoteRepository.saveAndFlush(quote);
+
+    return quote;
+  }
+
+  @Override
+  @Transactional
+  public void delete(Long id) {
+    Quote quote = getQuote(id);
+
+    quoteRepository.delete(quote);
+  }
+
+  @Override
+  public void validate(QuoteInput input) {
+    LocalDate validUntil = input.validUntil();
+    LocalDate validUntilLimit = LocalDate.now().plusMonths(10);
+
+    if (validUntil.isAfter(validUntilLimit)) {
+      throw new BusinessLogicException(
+          "The 'valid until' date exceeds the allowed limit. The maximum duration is 10 months from today.");
+    }
+  }
+
+  private List<QuoteItem> generateItems(Quote createdQuote, List<QuoteItemInput> inputs) {
+    List<String> servicePackageIds = inputs.stream()
+        .map(QuoteItemInput::servicePackageId)
+        .toList();
+    Map<String, ServicePackageEntity> servicePackages = jpaServicePackageRepository.findAllById(servicePackageIds)
+        .stream()
+        .collect(Collectors.toMap(ServicePackageEntity::getId, servicePackage -> servicePackage));
+
+    return inputs.stream()
+        .map(input -> {
+          QuoteItem item = new QuoteItem(input.discountPercentage(), createdQuote);
+
+          ServicePackageEntity servicePackageEntity = servicePackages.get(input.servicePackageId());
+          if (servicePackageEntity == null) {
+            throw new EntityNotFoundException("ServicePackageEntity not found for ID: " + input.servicePackageId());
+          }
+          item.setServicePackageEntity(servicePackageEntity);
+
+          calculateItemNumbers(item);
+
+          return item;
+        }).toList();
+  }
+
+  private void calculateNumbers(Quote quote) {
+    List<QuoteItem> items = quote.getItems();
+
+    BigDecimal subtotal = BigDecimal.ZERO;
+    BigDecimal discount = BigDecimal.ZERO;
+    BigDecimal total = BigDecimal.ZERO;
+
+    if (!items.isEmpty()) {
+      for (var item : items) {
+        calculateItemNumbers(item);
+
+        subtotal = subtotal.add(item.getUnitPrice());
+        discount = discount.add(item.getDiscount());
+        total = total.add(item.getTotal());
+      }
     }
 
-    @Override
-    public Quote getById(Long id) {
-        return getQuote(id);
-    }
+    quote.setSubTotal(subtotal);
+    quote.setDiscount(discount);
+    quote.setTotalAmount(total);
+  }
 
-    @Override
-    @Transactional
-    public Quote create(QuoteInput input) {
-        Quote newQuote = quoteMappers.inputToEntity(input);
+  private void calculateItemNumbers(QuoteItem item) {
+    BigDecimal unitPrice = item.getServicePackageEntity().getPrice();
+    item.setUnitPrice(unitPrice);
 
-        newQuote.setCustomerModel(getCustomer(input.customerId()));
-        newQuote.setOpportunity(null);
+    BigDecimal discountPercentage = item.getDiscountPercentage();
+    BigDecimal discount = unitPrice.multiply(discountPercentage)
+        .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
 
-        List<QuoteItem> items = generateItems(newQuote, input.items());
-        newQuote.setItems(items);
+    BigDecimal total = unitPrice.subtract(discount);
 
-        calculateNumbers(newQuote);
+    item.setDiscount(discount);
+    item.setTotal(total);
+  }
 
-        return quoteRepository.saveAndFlush(newQuote);
-    }
+  private Quote getQuote(Long id) {
+    return quoteRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Quote not found"));
+  }
 
-    @Override
-    @Transactional
-    public Quote update(Long id, QuoteInput input) {
-       return null;
-    }
+  private CustomerModel getCustomer(UUID customerId) {
+    return customerRepository.findById(customerId)
+        .orElseThrow(() -> new EntityNotFoundException("CustomerModel not found"));
+  }
 
-    @Override
-    @Transactional
-    public Quote addItem(Long id, QuoteItemInput input) {
-         Quote existingQuote = quoteRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Quote not found"));
-
-        List<QuoteItem> items = generateItems(existingQuote, Collections.singletonList(input));
-        existingQuote.getItems().addAll(items);
-
-        calculateNumbers(existingQuote);
-
-        return quoteRepository.saveAndFlush(existingQuote);
-    }
-
-    @Override
-    @Transactional
-    public Quote deleteItem(Long itemId) {
-        QuoteItem item = quoteItemRepository.findById(itemId)
-                .orElseThrow(() -> new EntityNotFoundException("Quote Item not found"));
-
-        Quote quote = item.getQuote();
-
-        quote.getItems().remove(item);
-
-        calculateNumbers(quote);
-
-        quoteRepository.saveAndFlush(quote);
-
-        return quote;
-    }
-
-    @Override
-    @Transactional
-    public void delete(Long id) {
-        Quote quote = getQuote(id);
-
-        quoteRepository.delete(quote);
-    }
-
-    @Override
-    public void validate(QuoteInput input) {
-        LocalDate validUntil = input.validUntil();
-        LocalDate validUntilLimit = LocalDate.now().plusMonths(10);
-
-        if (validUntil.isAfter(validUntilLimit)) {
-            throw new BusinessLogicException("The 'valid until' date exceeds the allowed limit. The maximum duration is 10 months from today.");
-        }
-    }
-
-    private List<QuoteItem> generateItems(Quote createdQuote, List<QuoteItemInput> inputs) {
-        List<String> servicePackageIds = inputs.stream()
-                .map(QuoteItemInput::servicePackageId)
-                .toList();
-        Map<String, ServicePackageEntity> servicePackages = jpaServicePackageRepository.findAllById(servicePackageIds)
-                .stream()
-                .collect(Collectors.toMap(ServicePackageEntity::getId, servicePackage -> servicePackage));
-
-        return inputs.stream()
-                .map(input -> {
-                    QuoteItem item =  new QuoteItem(input.discountPercentage(), createdQuote);
-
-                    ServicePackageEntity servicePackageEntity = servicePackages.get(input.servicePackageId());
-                    if (servicePackageEntity == null) {
-                        throw new EntityNotFoundException("ServicePackageEntity not found for ID: " + input.servicePackageId());
-                    }
-                    item.setServicePackageEntity(servicePackageEntity);
-
-                    calculateItemNumbers(item);
-
-                    return item;
-                }).toList();
-    }
-
-
-    private void calculateNumbers(Quote quote) {
-        List<QuoteItem> items = quote.getItems();
-
-        BigDecimal subtotal = BigDecimal.ZERO;
-        BigDecimal discount = BigDecimal.ZERO;
-        BigDecimal total = BigDecimal.ZERO;
-
-        if (!items.isEmpty()) {
-            for (var item : items) {
-                calculateItemNumbers(item);
-
-                subtotal = subtotal.add(item.getUnitPrice());
-                discount = discount.add(item.getDiscount());
-                total = total.add(item.getTotal());
-            }
-        }
-
-        quote.setSubTotal(subtotal);
-        quote.setDiscount(discount);
-        quote.setTotalAmount(total);
-    }
-
-    private void calculateItemNumbers(QuoteItem item) {
-        BigDecimal unitPrice = item.getServicePackageEntity().getPrice();
-        item.setUnitPrice(unitPrice);
-
-        BigDecimal discountPercentage = item.getDiscountPercentage();
-        BigDecimal discount = unitPrice.multiply(discountPercentage)
-                .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
-
-        BigDecimal total = unitPrice.subtract(discount);
-
-        item.setDiscount(discount);
-        item.setTotal(total);
-    }
-
-    private Quote getQuote(Long id) {
-        return quoteRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Quote not found"));
-    }
-
-    private CustomerModel getCustomer(UUID customerId) {
-        return customerRepository.findById(customerId).orElseThrow(() -> new EntityNotFoundException("CustomerModel not found"));
-    }
-
-    private Opportunity getOpportunity(OpportunityId opportunityId) {
-        return opportunityRepository.findById(opportunityId).orElseThrow(() -> new EntityNotFoundException("Opportunity not found"));
-    }
+  private Opportunity getOpportunity(OpportunityId opportunityId) {
+    return opportunityRepository.findById(opportunityId)
+        .orElseThrow(() -> new EntityNotFoundException("Opportunity not found"));
+  }
 
 }

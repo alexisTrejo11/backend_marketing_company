@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.crm.deal.repository.persistence.model;
 
-import at.backend.MarketingCompany.account.user.domain.repository.UserEntity;
+import at.backend.MarketingCompany.account.user.adapters.outbound.persistence.UserEntity;
 import at.backend.MarketingCompany.common.jpa.BaseJpaEntity;
 import at.backend.MarketingCompany.crm.opportunity.infrastructure.persistence.OpportunityEntity;
 import at.backend.MarketingCompany.crm.servicePackage.infrastructure.persistence.model.ServicePackageEntity;

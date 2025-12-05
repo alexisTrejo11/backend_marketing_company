@@ -14,20 +14,20 @@ import java.util.Set;
 
 public interface JpaTaskRepository extends JpaRepository<TaskEntity, String> {
 
-    // Basic finders
-    Page<TaskEntity> findByCustomerModelId(String customerId);
-    Page<TaskEntity> findByOpportunityId(String opportunityId);
-    Page<TaskEntity> findByAssignedToId(String assignedToId);
-    Page<TaskEntity> findByStatus(TaskStatus status);
-    Page<TaskEntity> findByStatusIn(Set<TaskStatus> statuses);
-    Page<TaskEntity> findByPriority(TaskPriority priority);
-    Page<TaskEntity> findByPriorityIn(Set<TaskPriority> priorities);
+    // Basic finders (use nested property traversal with underscore)
+    Page<TaskEntity> findByCustomer_Id(String customerId, Pageable pageable);
+    Page<TaskEntity> findByOpportunity_Id(String opportunityId, Pageable pageable);
+    Page<TaskEntity> findByAssignedTo_Id(String assignedToId, Pageable pageable);
+    Page<TaskEntity> findByStatus(TaskStatus status, Pageable pageable);
+    Page<TaskEntity> findByStatusIn(Set<TaskStatus> statuses, Pageable pageable);
+    Page<TaskEntity> findByPriority(TaskPriority priority, Pageable pageable);
+    Page<TaskEntity> findByPriorityIn(Set<TaskPriority> priorities, Pageable pageable);
 
     // Search
     @Query("SELECT t FROM TaskEntity t WHERE " +
             "(LOWER(t.title) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
             "LOWER(t.description) LIKE LOWER(CONCAT('%', :searchTerm, '%')))")
-    Page<TaskEntity> searchByTitleOrDescription(@Param("searchTerm") String searchTerm);
+    Page<TaskEntity> searchByTitleOrDescription(@Param("searchTerm") String searchTerm, Pageable pageable);
 
     // Overdue tasks (due date is past and status is not completed/cancelled)
     @Query("SELECT t FROM TaskEntity t WHERE " +
@@ -46,9 +46,9 @@ public interface JpaTaskRepository extends JpaRepository<TaskEntity, String> {
         );
     }
 
-    // Count queries
-    long countByCustomerModelIdAndStatus(String customerId, TaskStatus status);
-    long countByAssignedToIdAndStatus(String assignedToId, TaskStatus status);
+    // Count queries (use nested property)
+    long countByCustomer_IdAndStatus(String customerId, TaskStatus status);
+    long countByAssignedTo_IdAndStatus(String assignedToId, TaskStatus status);
 
     // Count overdue tasks by assignee
     @Query("SELECT COUNT(t) FROM TaskEntity t WHERE " +
@@ -68,9 +68,9 @@ public interface JpaTaskRepository extends JpaRepository<TaskEntity, String> {
         );
     }
 
-    // Find tasks by multiple criteria
+    // Find tasks by multiple criteria (fix property names to use t.customer.id)
     @Query("SELECT t FROM TaskEntity t WHERE " +
-            "(:customerId IS NULL OR t.customerModel.id = :customerId) AND " +
+            "(:customerId IS NULL OR t.customer.id = :customerId) AND " +
             "(:assigneeId IS NULL OR t.assignedTo.id = :assigneeId) AND " +
             "(:statuses IS NULL OR t.status IN :statuses) AND " +
             "(:priorities IS NULL OR t.priority IN :priorities)")

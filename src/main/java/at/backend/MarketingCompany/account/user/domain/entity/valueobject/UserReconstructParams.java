@@ -15,13 +15,11 @@ public record UserReconstructParams(
     HashedPassword hashedPassword,
     PersonName name,
     Set<Role> roles,
-    boolean emailVerified,
-    boolean phoneVerified,
-    boolean active,
+    UserStatus status,
     LocalDateTime lastLoginAt,
     LocalDateTime passwordChangedAt,
     Integer version,
     LocalDateTime deletedAt,
     LocalDateTime createdAt,
-    LocalDateTime updatedAt
-) {}
+    LocalDateTime updatedAt) {
+}

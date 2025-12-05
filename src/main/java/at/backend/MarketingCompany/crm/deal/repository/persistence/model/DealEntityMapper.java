@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.crm.deal.repository.persistence.model;
 
-import at.backend.MarketingCompany.account.user.domain.repository.UserEntity;
+import at.backend.MarketingCompany.account.user.adapters.outbound.persistence.UserEntity;
 import at.backend.MarketingCompany.crm.deal.domain.entity.Deal;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.*;

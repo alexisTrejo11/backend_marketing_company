@@ -1,0 +1,59 @@
+package at.backend.MarketingCompany.account.user.adapters.outbound.persistence;
+
+import at.backend.MarketingCompany.account.auth.domain.entitiy.valueobject.HashedPassword;
+import at.backend.MarketingCompany.account.user.domain.entity.User;
+import at.backend.MarketingCompany.account.user.domain.entity.valueobject.Email;
+import at.backend.MarketingCompany.account.user.domain.entity.valueobject.PersonName;
+import at.backend.MarketingCompany.account.user.domain.entity.valueobject.UserId;
+import at.backend.MarketingCompany.account.user.domain.entity.valueobject.UserReconstructParams;
+import org.springframework.stereotype.Component;
+
+@Component
+public class UserEntityMapper {
+  public UserEntity toEntity(User userDomain) {
+    if (userDomain == null)
+      throw new IllegalArgumentException("User domain object cannot be null");
+
+    UserEntity entity = new UserEntity();
+    if (userDomain.getId() != null)
+      entity.setId(userDomain.getId().value());
+    entity.setEmail(userDomain.getEmail().value());
+    entity.setFirstName(userDomain.getName() != null ? userDomain.getName().firstName() : null);
+    entity.setLastName(userDomain.getName() != null ? userDomain.getName().lastName() : null);
+    entity.setRoles(userDomain.getRoles());
+
+    // Audit fields
+    entity.setCreatedAt(userDomain.getCreatedAt());
+    entity.setUpdatedAt(userDomain.getUpdatedAt());
+    entity.setDeletedAt(userDomain.getDeletedAt());
+    entity.setVersion(userDomain.getVersion());
+
+    return entity;
+  }
+
+  public User toDomain(UserEntity userEntity) {
+    if (userEntity == null)
+      return null;
+
+    return User.reconstruct(UserReconstructParams.builder()
+        .id(userEntity.getId() != null ? UserId.from(userEntity.getId()) : null)
+        .email(
+            userEntity.getEmail() != null ? Email.from(userEntity.getEmail()) : null)
+        .name(
+            userEntity.getFirstName() != null && userEntity.getLastName() != null
+                ? PersonName.from(userEntity.getFirstName(), userEntity.getLastName())
+                : null)
+        .hashedPassword(
+            userEntity.getHashedPassword() != null ? HashedPassword.from(userEntity.getHashedPassword()) : null)
+        .lastLoginAt(userEntity.getLastLoginAt())
+        .passwordChangedAt(userEntity.getPasswordChangedAt())
+        .roles(userEntity.getRoles())
+        .status(userEntity.getStatus())
+        .createdAt(userEntity.getCreatedAt())
+        .updatedAt(userEntity.getUpdatedAt())
+        .deletedAt(userEntity.getDeletedAt())
+        .version(userEntity.getVersion())
+        .build());
+
+  }
+}

@@ -4,6 +4,8 @@ import lombok.Builder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public record PageResponse<T>(
     Iterable<T> item,
     PaginationMetadata pagination) {
@@ -35,5 +37,16 @@ public record PageResponse<T>(
       int totalPages,
       boolean hasNextPage,
       boolean hasPreviousPage) {
+  }
+
+  public static <T> PageResponse<T> empty() {
+    return new PageResponse<>(List.of(), PaginationMetadata.builder()
+        .currentPage(0)
+        .pageSize(0)
+        .total(0)
+        .totalPages(0)
+        .hasNextPage(false)
+        .hasPreviousPage(false)
+        .build());
   }
 }

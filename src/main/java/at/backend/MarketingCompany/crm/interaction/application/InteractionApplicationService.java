@@ -1,5 +1,6 @@
 package at.backend.MarketingCompany.crm.interaction.application;
 
+import at.backend.MarketingCompany.crm.deal.application.ExternalModuleValidator;
 import at.backend.MarketingCompany.crm.interaction.application.commands.*;
 import at.backend.MarketingCompany.crm.interaction.application.queries.*;
 import at.backend.MarketingCompany.crm.interaction.domain.entity.Interaction;
@@ -10,7 +11,6 @@ import at.backend.MarketingCompany.crm.interaction.domain.entity.valueobject.Int
 import at.backend.MarketingCompany.crm.interaction.domain.exceptions.InteractionNotFoundException;
 import at.backend.MarketingCompany.common.exceptions.ExternalServiceException;
 import at.backend.MarketingCompany.crm.interaction.domain.repository.InteractionRepository;
-import at.backend.MarketingCompany.crm.tasks.application.ExternalServiceValidator;
 import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ import java.util.List;
 public class InteractionApplicationService {
     
     private final InteractionRepository interactionRepository;
-    private final ExternalServiceValidator externalValidator;
+    private final ExternalModuleValidator externalValidator;
 
 
     @Transactional
