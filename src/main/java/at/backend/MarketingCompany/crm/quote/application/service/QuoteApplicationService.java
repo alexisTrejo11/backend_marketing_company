@@ -2,8 +2,10 @@ package at.backend.MarketingCompany.crm.quote.application.service;
 
 import at.backend.MarketingCompany.crm.deal.application.ExternalModuleValidator;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.Amount;
-import at.backend.MarketingCompany.crm.quote.application.dto.QuoteCommand;
-import at.backend.MarketingCompany.crm.quote.application.dto.QuoteItemCommand;
+import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.Discount;
+import at.backend.MarketingCompany.crm.quote.application.dto.AddQuoteItemsCommand;
+import at.backend.MarketingCompany.crm.quote.application.dto.GetQuoteByIdQuery;
+import at.backend.MarketingCompany.crm.quote.application.dto.QuoteCreateCommand;
 import at.backend.MarketingCompany.crm.quote.application.input.QuoteQueryPort;
 import at.backend.MarketingCompany.crm.quote.application.input.QuoteServicePort;
 import at.backend.MarketingCompany.crm.quote.application.output.QuoteItemRepositoryPort;
@@ -14,6 +16,10 @@ import at.backend.MarketingCompany.crm.quote.domain.service.QuoteDomainService;
 import at.backend.MarketingCompany.crm.quote.domain.valueobject.*;
 import at.backend.MarketingCompany.crm.servicePackage.domain.repository.ServicePackageRepository;
 import lombok.RequiredArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,86 +29,93 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 public class QuoteApplicationService implements QuoteServicePort, QuoteQueryPort {
-    
-    private final QuoteRepositoryPort quoteRepositoryPort;
-    private final QuoteItemRepositoryPort quoteItemRepositoryPort;
-    private final QuoteDomainService quoteDomainService;
-    private final ServicePackageRepository servicePackageRepository;
-    private final ExternalModuleValidator externalModuleValidator;
 
-    @Override
-    @Transactional(readOnly = true)
-    public Page<Quote> getAllQuotes(Pageable pageable) {
-        return quoteRepositoryPort.findAll(pageable);
+  private final QuoteRepositoryPort quoteRepositoryPort;
+  private final QuoteItemRepositoryPort quoteItemRepositoryPort;
+  private final QuoteDomainService quoteDomainService;
+  private final ServicePackageRepository servicePackageRepository;
+  private final ExternalModuleValidator externalModuleValidator;
+
+  @Override
+  @Transactional(readOnly = true)
+  public Page<Quote> handle(Pageable pageable) {
+    return quoteRepositoryPort.findAll(pageable);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public Quote handle(GetQuoteByIdQuery query) {
+    return quoteRepositoryPort.findById(query.id())
+        .orElseThrow(() -> new QuoteNotFoundException(query.id()));
+  }
+
+  @Override
+  public Quote handle(QuoteCreateCommand command) {
+    validateQuote(command);
+    externalModuleValidator.validateCustomerExists(command.customerId());
+
+    Quote quote = Quote.create(command.customerId(), command.validUntil());
+    return quoteRepositoryPort.save(quote);
+  }
+
+  @Override
+  public Quote handle(AddQuoteItemsCommand command) {
+    Quote quote = quoteRepositoryPort.findById(command.quoteId())
+        .orElseThrow(() -> new QuoteNotFoundException(command.quoteId()));
+
+    var servicePackages = servicePackageRepository.findByIdIn(command.getServicePackageIds());
+
+    // TODO: Optimize lookup
+    List<QuoteItem> items = new ArrayList<>();
+    for (var servicePackage : servicePackages) {
+      Amount unitPrice = new Amount(servicePackage.getPrice().amount());
+
+      var itemCommand = command.input().stream()
+          .filter(item -> item.servicePackageId() != null && item.servicePackageId().equals(servicePackage.getId()))
+          .findFirst()
+          .orElseThrow(() -> new IllegalArgumentException(
+              "Quote item command not found for service package: " + servicePackage.getId().value()));
+
+      QuoteItem item = quoteDomainService.createQuoteItem(
+          quote,
+          servicePackage.getId(),
+          unitPrice,
+          new Discount(itemCommand.discountPercentage()));
+      items.add(item);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Quote getQuoteById(QuoteId id) {
-        Quote quote = quoteRepositoryPort.findById(id)
-            .orElseThrow(() -> new QuoteNotFoundException(id));
-    }
-    
-    @Override
-    public Quote createQuote(QuoteCommand command) {
-        validateQuote(command);
-        externalModuleValidator.validateCustomerExists(command.customerId());
+    quote.addItems(items);
 
-        Quote quote = Quote.create(command.customerId(), command.validUntil());
-        return quoteRepositoryPort.save(quote);
-    }
+    quoteItemRepositoryPort.bulkSave(items);
+    return quoteRepositoryPort.save(quote);
+  }
 
-    @Override
-    public Quote addQuoteItem(QuoteId quoteId, QuoteItemCommand command) {
-        Quote quote = quoteRepositoryPort.findById(quoteId)
-            .orElseThrow(() -> new QuoteNotFoundException(quoteId));
-        
-        // Get service package
-        var servicePackage = servicePackageRepository.findById(command.servicePackageId())
-            .orElseThrow(() -> new IllegalArgumentException("Service package not found"));
-        
-        Amount unitPrice = new Amount(servicePackage.getPrice().amount());
-        Discount discountPercentage = new Discount(input.discountPercentage());
-        
-        QuoteItem item = quoteDomainService.createQuoteItem(
-            quote,
-            command.servicePackageId(),
-            unitPrice,
-            discountPercentage
-        );
-        
-        quote.addItem(item);
+  @Override
+  public Quote handle(QuoteItemId itemId) {
+    QuoteItem item = quoteItemRepositoryPort.findById(itemId)
+        .orElseThrow(() -> new IllegalArgumentException("Quote item not found"));
 
-        quoteItemRepositoryPort.save(item);
-        return quoteRepositoryPort.save(quote);
-    }
-    
-    @Override
-    public Quote removeQuoteItem(QuoteItemId itemId) {
-        QuoteItem item = quoteItemRepositoryPort.findById(itemId)
-            .orElseThrow(() -> new IllegalArgumentException("Quote item not found"));
-        
-        Quote quote = quoteRepositoryPort.findById(item.getQuoteId())
-            .orElseThrow(() -> new QuoteNotFoundException(item.getQuoteId().value()));
-        
-        quote.removeItem(itemId);
-        quoteItemRepositoryPort.delete(itemId);
-        
-        return quoteRepositoryPort.save(quote);
-        
-    }
-    
-    @Override
-    public Quote deleteQuote(QuoteId quoteId) {
-        Quote quote = quoteRepositoryPort.findById(quoteId)
-            .orElseThrow(() -> new QuoteNotFoundException(quoteId));
-        
-        quoteRepositoryPort.delete(quote.getId());
+    Quote quote = quoteRepositoryPort.findById(item.getQuoteId())
+        .orElseThrow(() -> new QuoteNotFoundException(item.getQuoteId().value()));
 
-        return quote;
-    }
-    
-    private void validateQuote(QuoteCommand input) {
-        quoteDomainService.validateQuoteDates(input.validUntil());
-    }
+    quote.removeItem(itemId);
+    quoteItemRepositoryPort.delete(itemId);
+
+    return quoteRepositoryPort.save(quote);
+
+  }
+
+  @Override
+  public Quote handle(QuoteId quoteId) {
+    Quote quote = quoteRepositoryPort.findById(quoteId)
+        .orElseThrow(() -> new QuoteNotFoundException(quoteId));
+
+    quoteRepositoryPort.delete(quote.getId());
+
+    return quote;
+  }
+
+  private void validateQuote(QuoteCreateCommand input) {
+    quoteDomainService.validateQuoteDates(input.validUntil());
+  }
 }

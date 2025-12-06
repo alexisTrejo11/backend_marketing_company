@@ -1,8 +1,11 @@
-package at.backend.MarketingCompany.crm.quote.api.dto;
+package at.backend.MarketingCompany.crm.quote.infrastructure.adapter.input.web.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import lombok.Builder;
+
+@Builder
 public record QuoteItemOutput(
     String id,
     String quoteId,
@@ -12,5 +15,7 @@ public record QuoteItemOutput(
     BigDecimal discountPercentage,
     BigDecimal discount,
     LocalDateTime createdAt,
-    LocalDateTime updatedAt
-) {}
+    LocalDateTime updatedAt,
+    LocalDateTime deletedAt,
+    Integer version) {
+}

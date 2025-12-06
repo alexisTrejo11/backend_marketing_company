@@ -18,31 +18,30 @@ import java.util.List;
 @Table(name = "quotes")
 public class QuoteEntity extends BaseJpaEntity {
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
-    private CustomerModel customer;
+  @ManyToOne
+  @JoinColumn(name = "customer_id", nullable = false)
+  private CustomerModel customer;
 
-    @ManyToOne
-    @JoinColumn(name = "opportunity_id", nullable = true)
-    private OpportunityEntity opportunity;
+  @ManyToOne
+  @JoinColumn(name = "opportunity_id", nullable = true)
+  private OpportunityEntity opportunity;
 
-    @Column(name = "valid_until", nullable = false)
-    private LocalDate validUntil;
+  @Column(name = "valid_until", nullable = false)
+  private LocalDate validUntil;
 
-    @Column(name = "sub_total", nullable = false, precision = 10, scale = 2)
-    private BigDecimal subTotal;
+  @Column(name = "sub_total", nullable = false, precision = 10, scale = 2)
+  private BigDecimal subTotal;
 
-    @Column(name = "discount", precision = 5, scale = 2)
-    private BigDecimal discount;
+  @Column(name = "discount", precision = 5, scale = 2)
+  private BigDecimal discount;
 
-    @Column(name = "total_amount", nullable = false, precision = 10, scale = 2)
-    private BigDecimal totalAmount;
+  @Column(name = "total_amount", nullable = false, precision = 10, scale = 2)
+  private BigDecimal totalAmount;
 
+  @Column(name = "status", nullable = false, length = 20)
+  @Enumerated(EnumType.STRING)
+  private QuoteStatus status;
 
-    @Column(name = "status", nullable = false, length = 20)
-    @Enumerated(EnumType.STRING)
-    private QuoteStatus status;
-
-    @OneToMany(mappedBy = "quote", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<QuoteItemEntity> items;
+  @OneToMany(mappedBy = "quote", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
+  private List<QuoteItemEntity> items;
 }

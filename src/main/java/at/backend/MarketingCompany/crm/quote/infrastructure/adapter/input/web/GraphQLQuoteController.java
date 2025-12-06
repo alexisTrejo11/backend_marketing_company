@@ -1,16 +1,22 @@
 package at.backend.MarketingCompany.crm.quote.infrastructure.adapter.input.web;
 
-import at.backend.MarketingCompany.crm.quote.api.dto.QuoteOutput;
+import at.backend.MarketingCompany.crm.quote.application.dto.AddQuoteItemsCommand;
+import at.backend.MarketingCompany.crm.quote.application.dto.GetQuoteByIdQuery;
 import at.backend.MarketingCompany.crm.quote.application.input.QuoteQueryPort;
 import at.backend.MarketingCompany.crm.quote.application.input.QuoteServicePort;
-import at.backend.MarketingCompany.crm.quote.application.port.in.QuoteQueryPort;
-import at.backend.MarketingCompany.crm.quote.application.port.in.QuoteServicePort;
-import at.backend.MarketingCompany.crm.quote.application.dto.QuoteInput;
-import at.backend.MarketingCompany.crm.quote.application.dto.QuoteItemInput;
-import at.backend.MarketingCompany.crm.quote.application.dto.QuoteOutput;
+import at.backend.MarketingCompany.crm.quote.domain.valueobject.QuoteId;
+import at.backend.MarketingCompany.crm.quote.domain.valueobject.QuoteItemId;
+import at.backend.MarketingCompany.crm.quote.infrastructure.adapter.input.web.dto.QuoteInput;
+import at.backend.MarketingCompany.crm.quote.infrastructure.adapter.input.web.dto.QuoteItemInput;
+import at.backend.MarketingCompany.crm.quote.infrastructure.adapter.input.web.dto.QuoteOutput;
 import at.backend.MarketingCompany.common.utils.PageInput;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,39 +28,55 @@ import org.springframework.stereotype.Controller;
 @Controller
 @RequiredArgsConstructor
 public class GraphQLQuoteController {
-    
-    private final QuoteServicePort quoteServicePort;
-    private final QuoteQueryPort quoteQueryPort;
-    
-    @QueryMapping
-    public Page<QuoteOutput> getAllQuotes(@Argument PageInput input) {
-        Pageable pageable = PageRequest.of(input.page(), input.size());
-        return quoteQueryPort.getAllQuotes(pageable);
-    }
-    
-    @QueryMapping
-    public QuoteOutput getQuoteById(@Argument Long id) {
-        return quoteQueryPort.getQuoteById(id);
-    }
-    
-    @MutationMapping
-    public QuoteOutput createQuote(@Valid @Argument QuoteInput input) {
-        return quoteServicePort.createQuote(input);
-    }
-    
-    @MutationMapping
-    public QuoteOutput addQuoteItem(@Valid @Argument Long id, @Argument QuoteItemInput input) {
-        return quoteServicePort.addQuoteItem(id, input);
-    }
-    
-    @MutationMapping
-    public QuoteOutput deleteQuoteItem(@Valid @Argument Long itemId) {
-        return quoteServicePort.removeQuoteItem(itemId);
-    }
-    
-    @MutationMapping
-    public boolean deleteQuote(@Argument Long id) {
-        quoteServicePort.deleteQuote(id);
-        return true;
-    }
+  private final QuoteResponseMapper responseMapper;
+  private final QuoteServicePort commandPortHandler;
+  private final QuoteQueryPort queryPortHandler;
+
+  @QueryMapping
+  public Page<QuoteOutput> getAllQuotes(@Argument PageInput input) {
+    Pageable pageable = PageRequest.of(input.page(), input.size());
+    var quotes = queryPortHandler.handle(pageable);
+    return quotes.map(responseMapper::toResponse);
+  }
+
+  @QueryMapping
+  public QuoteOutput getQuoteById(@Argument String id) {
+    var getQuoteById = GetQuoteByIdQuery.from(id);
+    var quote = queryPortHandler.handle(getQuoteById);
+    return responseMapper.toResponse(quote);
+  }
+
+  @MutationMapping
+  public QuoteOutput createQuote(@Valid @Argument QuoteInput input) {
+    var createQuoteCommand = input.toCommand();
+    var quote = commandPortHandler.handle(createQuoteCommand);
+
+    return responseMapper.toResponse(quote);
+  }
+
+  @MutationMapping
+  public QuoteOutput addQuoteItems(@Valid @Argument String id,
+      @Argument @NotNull @Size(min = 1) List<QuoteItemInput> input) {
+
+    var itemsCommands = input.stream()
+        .map(QuoteItemInput::toCommand)
+        .toList();
+    var command = AddQuoteItemsCommand.from(id, itemsCommands);
+
+    var quote = commandPortHandler.handle(command);
+
+    return responseMapper.toResponse(quote);
+  }
+
+  @MutationMapping
+  public QuoteOutput deleteQuoteItem(@Valid @Argument String itemId) {
+    var quote = commandPortHandler.handle(QuoteItemId.of(itemId));
+    return responseMapper.toResponse(quote);
+  }
+
+  @MutationMapping
+  public QuoteOutput deleteQuote(@Argument String id) {
+    var quote = commandPortHandler.handle(QuoteId.of(id));
+    return responseMapper.toResponse(quote);
+  }
 }

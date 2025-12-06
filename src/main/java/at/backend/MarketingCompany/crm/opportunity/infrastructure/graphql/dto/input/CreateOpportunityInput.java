@@ -13,15 +13,12 @@ public record CreateOpportunityInput(
     @NotBlank String customerId,
     @NotBlank String title,
     BigDecimal amount,
-    LocalDate expectedCloseDate
-) {
-    public CreateOpportunityCommand toCommand() {
-        return new CreateOpportunityCommand(
-                CustomerId.of(customerId),
-                title,
-                Amount.from(amount),
-                ExpectedCloseDate.from(expectedCloseDate)
-        );
-    }
+    LocalDate expectedCloseDate) {
+  public CreateOpportunityCommand toCommand() {
+    return new CreateOpportunityCommand(
+        CustomerId.of(customerId),
+        title,
+        new Amount(amount),
+        ExpectedCloseDate.from(expectedCloseDate));
+  }
 }
-

@@ -5,12 +5,19 @@ import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ServicePackageRepository {
-    ServicePackage save(ServicePackage servicePackage);
-    Optional<ServicePackage> findById(ServicePackageId id);
-    Page<ServicePackage> findAll(Pageable pageable);
-    void delete(ServicePackage servicePackage);
-    boolean existsById(ServicePackageId id);
+  ServicePackage save(ServicePackage servicePackage);
+
+  Optional<ServicePackage> findById(ServicePackageId id);
+
+  List<ServicePackage> findByIdIn(List<ServicePackageId> ids);
+
+  Page<ServicePackage> findAll(Pageable pageable);
+
+  void delete(ServicePackage servicePackage);
+
+  boolean existsById(ServicePackageId id);
 }

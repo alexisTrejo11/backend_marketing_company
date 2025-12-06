@@ -13,14 +13,12 @@ public record UpdateOpportunityInput(
     @NotBlank String opportunityId,
     @NotBlank String title,
     BigDecimal amount,
-    LocalDate expectedCloseDate
-) {
-    public UpdateOpportunityDetailsCommand toCommand() {
-        return new UpdateOpportunityDetailsCommand(
-                OpportunityId.from(opportunityId),
-                title,
-                Amount.from(amount),
-                ExpectedCloseDate.from(expectedCloseDate)
-        );
-    }
+    LocalDate expectedCloseDate) {
+  public UpdateOpportunityDetailsCommand toCommand() {
+    return new UpdateOpportunityDetailsCommand(
+        OpportunityId.from(opportunityId),
+        title,
+        new Amount(amount),
+        ExpectedCloseDate.from(expectedCloseDate));
+  }
 }

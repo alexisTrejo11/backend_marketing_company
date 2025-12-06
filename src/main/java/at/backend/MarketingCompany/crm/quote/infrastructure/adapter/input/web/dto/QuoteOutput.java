@@ -1,14 +1,16 @@
-package at.backend.MarketingCompany.crm.quote.api.dto;
-
-import at.backend.MarketingCompany.crm.quote.domain.valueobject.QuoteStatus;
+package at.backend.MarketingCompany.crm.quote.infrastructure.adapter.input.web.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import at.backend.MarketingCompany.crm.quote.domain.valueobject.QuoteStatus;
+import lombok.Builder;
+
+@Builder
 public record QuoteOutput(
-    Long id,
+    String id,
     String customerId,
     String opportunityId,
     LocalDate validUntil,
@@ -18,5 +20,7 @@ public record QuoteOutput(
     QuoteStatus status,
     List<QuoteItemOutput> items,
     LocalDateTime createdAt,
-    LocalDateTime updatedAt
-) {}
+    LocalDateTime updatedAt,
+    LocalDateTime deletedAt,
+    Integer version) {
+}

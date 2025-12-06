@@ -194,7 +194,7 @@ input ServicePackageInput {
     active: Boolean!
 }
 
-# Quote
+# QuoteEntity
 type Quote {
     id: ID!
     customerModel: Customer!
@@ -215,10 +215,10 @@ input QuoteInput {
     status: QuoteStatus!
     items: [QuoteItemInput!]!
 }
-# Quote Item
+# QuoteEntity Item
 type QuoteItem {
     id: ID!
-    quote: Quote!
+    quoteEntity: Quote!
     servicePackageEntity: ServicePackage!
     unitPrice: Float!
     total: Float!

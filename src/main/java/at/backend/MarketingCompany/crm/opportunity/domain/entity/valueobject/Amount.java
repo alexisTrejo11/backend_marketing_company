@@ -1,29 +1,36 @@
 package at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject;
 
-import at.backend.MarketingCompany.crm.opportunity.domain.exceptions.OpportunityValidationException;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
-// TODO: Move to a shared kernel if used in multiple bounded contexts
 public record Amount(BigDecimal value) {
+
+    public static final Amount ZERO = new Amount(BigDecimal.ZERO);
+
     public Amount {
         if (value == null) {
-            throw new OpportunityValidationException("Opportunity amount is required");
+            throw new IllegalArgumentException("Amount cannot be null");
         }
         if (value.compareTo(BigDecimal.ZERO) < 0) {
-            throw new OpportunityValidationException("Opportunity amount cannot be negative");
+            throw new IllegalArgumentException("Amount cannot be negative");
         }
+        value = value.setScale(2, RoundingMode.HALF_UP);
     }
 
-    public boolean isPositive() {
-        return value.compareTo(BigDecimal.ZERO) > 0;
+    public Amount add(Amount other) {
+        return new Amount(this.value.add(other.value));
     }
 
-    public static Amount from(BigDecimal amount) {
-        return amount != null ? new Amount(amount) : null;
+    public Amount subtract(Amount other) {
+        return new Amount(this.value.subtract(other.value));
     }
 
-    public static Amount zero() {
-        return new Amount(BigDecimal.ZERO);
+    public Amount multiply(BigDecimal multiplier) {
+        return new Amount(this.value.multiply(multiplier).setScale(2, RoundingMode.HALF_UP));
+    }
+
+    public boolean isGreaterThan(Amount other) {
+        return this.value.compareTo(other.value) > 0;
     }
 }

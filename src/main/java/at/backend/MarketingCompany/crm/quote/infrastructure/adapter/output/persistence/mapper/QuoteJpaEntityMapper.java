@@ -1,0 +1,69 @@
+package at.backend.MarketingCompany.crm.quote.infrastructure.adapter.output.persistence.mapper;
+
+import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.Amount;
+import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.Discount;
+import at.backend.MarketingCompany.crm.quote.domain.model.*;
+import at.backend.MarketingCompany.crm.quote.domain.valueobject.QuoteId;
+import at.backend.MarketingCompany.crm.quote.domain.valueobject.QuoteReconstructParams;
+import at.backend.MarketingCompany.crm.quote.infrastructure.adapter.output.persistence.entity.QuoteEntity;
+import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
+import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class QuoteJpaEntityMapper {
+  private final QuoteItemMapper quoteItemMapper;
+
+  @Autowired
+  public QuoteJpaEntityMapper(QuoteItemMapper quoteItemMapper) {
+    this.quoteItemMapper = quoteItemMapper;
+  }
+
+  public Quote toDomain(QuoteEntity entity) {
+    if (entity == null)
+      return null;
+
+    return Quote.reconstruct(
+        QuoteReconstructParams.builder()
+            .id(entity.getId() != null ? new QuoteId(entity.getId()) : null)
+            .customerId(entity.getCustomer() != null ? new CustomerId(entity.getCustomer().getId()) : null)
+            .validUntil(entity.getValidUntil())
+            .subTotal(entity.getSubTotal() != null ? new Amount(entity.getSubTotal()) : null)
+            .discount(entity.getDiscount() != null ? new Discount(entity.getDiscount()) : null)
+            .totalAmount(entity.getTotalAmount() != null ? new Amount(entity.getTotalAmount()) : null)
+            .status(entity.getStatus())
+            .createdAt(entity.getCreatedAt())
+            .updatedAt(entity.getUpdatedAt())
+            .deletedAt(entity.getDeletedAt())
+            .items(entity.getItems() != null ? entity.getItems().stream()
+                .map(quoteItemMapper::toDomain)
+                .toList() : List.of())
+            .version(entity.getVersion())
+            .build());
+  }
+
+  public QuoteEntity toEntity(Quote domain) {
+    if (domain == null) {
+      return null;
+    }
+
+    QuoteEntity entity = new QuoteEntity();
+    entity.setId(domain.getId() != null ? domain.getId().value() : null);
+    entity.setCustomer(domain.getCustomerId() != null ? new CustomerModel(domain.getCustomerId().value()) : null);
+    entity.setValidUntil(domain.getValidUntil());
+    entity.setSubTotal(domain.getSubTotal() != null ? domain.getSubTotal().value() : null);
+    entity.setDiscount(domain.getDiscount() != null ? domain.getDiscount().percentage() : null);
+    entity.setTotalAmount(domain.getTotalAmount() != null ? domain.getTotalAmount().value() : null);
+    entity.setStatus(domain.getStatus());
+    entity.setCreatedAt(domain.getCreatedAt());
+    entity.setUpdatedAt(domain.getUpdatedAt());
+    entity.setDeletedAt(domain.getDeletedAt());
+    entity.setVersion(domain.getVersion());
+
+    return entity;
+  }
+}

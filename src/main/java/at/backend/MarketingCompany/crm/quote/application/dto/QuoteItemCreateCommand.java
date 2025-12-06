@@ -4,7 +4,7 @@ import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects
 
 import java.math.BigDecimal;
 
-public record QuoteItemCommand(
+public record QuoteItemCreateCommand(
     ServicePackageId servicePackageId,
-    BigDecimal discountPercentage
-) {}
+    BigDecimal discountPercentage) {
+}
