@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.crm.opportunity.infrastructure.persistence;
 
 import at.backend.MarketingCompany.common.jpa.BaseJpaEntity;
-import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
+import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerEntity;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityStage;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -20,24 +20,24 @@ import java.time.LocalDate;
 @Table(name = "opportunities")
 public class OpportunityEntity extends BaseJpaEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", nullable = false)
-    private CustomerModel customer;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "customer_id", nullable = false)
+  private CustomerEntity customer;
 
-    @Column(name = "title", nullable = false)
-    private String title;
+  @Column(name = "title", nullable = false)
+  private String title;
 
-    @Column(name = "amount", precision = 15, scale = 2)
-    private BigDecimal amount;
+  @Column(name = "amount", precision = 15, scale = 2)
+  private BigDecimal amount;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "stage", nullable = false)
-    private OpportunityStage stage;
+  @Enumerated(EnumType.STRING)
+  @Column(name = "stage", nullable = false)
+  private OpportunityStage stage;
 
-    @Column(name = "expected_close_date")
-    private LocalDate expectedCloseDate;
+  @Column(name = "expected_close_date")
+  private LocalDate expectedCloseDate;
 
-    public OpportunityEntity(String id) {
-        this.setId(id);
-    }
+  public OpportunityEntity(String id) {
+    this.setId(id);
+  }
 }

@@ -13,30 +13,30 @@ import java.util.List;
 @Repository
 public interface JpaDealRepository extends JpaRepository<DealEntity, String> {
 
-    @Query("SELECT d FROM DealEntity d WHERE d.customerModel.id = :customerId")
-    List<DealEntity> findByCustomerId(String customerId);
+  @Query("SELECT d FROM DealEntity d WHERE d.CustomerEntity.id = :customerId")
+  List<DealEntity> findByCustomerId(String customerId);
 
-    List<DealEntity> findByDealStatus(DealStatus status);
+  List<DealEntity> findByDealStatus(DealStatus status);
 
-    List<DealEntity> findByDealStatusIn(List<DealStatus> statuses);
+  List<DealEntity> findByDealStatusIn(List<DealStatus> statuses);
 
-    List<DealEntity> findByOpportunityId(String opportunityId);
+  List<DealEntity> findByOpportunityId(String opportunityId);
 
-    List<DealEntity> findByCampaignManagerId(String campaignManagerId);
+  List<DealEntity> findByCampaignManagerId(String campaignManagerId);
 
-    @Query("SELECT d FROM DealEntity d WHERE d.startDate BETWEEN :startDate AND :endDate")
-    List<DealEntity> findDealsBetweenDates(@Param("startDate") LocalDate startDate,
-                                           @Param("endDate") LocalDate endDate);
+  @Query("SELECT d FROM DealEntity d WHERE d.startDate BETWEEN :startDate AND :endDate")
+  List<DealEntity> findDealsBetweenDates(@Param("startDate") LocalDate startDate,
+      @Param("endDate") LocalDate endDate);
 
-    @Query("SELECT d FROM DealEntity d WHERE d.customerModel.id = :customerId AND d.dealStatus IN :statuses")
-    List<DealEntity> findByCustomerAndStatuses(@Param("customerId") String customerId,
-                                               @Param("statuses") List<DealStatus> statuses);
+  @Query("SELECT d FROM DealEntity d WHERE d.CustomerEntity.id = :customerId AND d.dealStatus IN :statuses")
+  List<DealEntity> findByCustomerAndStatuses(@Param("customerId") String customerId,
+      @Param("statuses") List<DealStatus> statuses);
 
-    @Query("SELECT COUNT(d) FROM DealEntity d WHERE d.dealStatus = :status")
-    long countByStatus(@Param("status") DealStatus status);
+  @Query("SELECT COUNT(d) FROM DealEntity d WHERE d.dealStatus = :status")
+  long countByStatus(@Param("status") DealStatus status);
 
-    @Query("SELECT d FROM DealEntity d WHERE d.dealStatus NOT IN (:excludedStatuses)")
-    List<DealEntity> findActiveDeals(@Param("excludedStatuses") List<DealStatus> excludedStatuses);
+  @Query("SELECT d FROM DealEntity d WHERE d.dealStatus NOT IN (:excludedStatuses)")
+  List<DealEntity> findActiveDeals(@Param("excludedStatuses") List<DealStatus> excludedStatuses);
 
-    boolean existsByOpportunityId(String opportunityId);
+  boolean existsByOpportunityId(String opportunityId);
 }

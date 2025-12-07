@@ -11,8 +11,9 @@ import at.backend.MarketingCompany.crm.deal.repository.persistence.model.DealEnt
 import at.backend.MarketingCompany.crm.deal.repository.persistence.model.DealEntityMapper;
 import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
 import at.backend.MarketingCompany.crm.servicePackage.infrastructure.persistence.model.ServicePackageEntity;
-import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
-import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
+import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerEntity;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -66,7 +67,7 @@ class DealEntityMapperTest {
     assertThat(entity.getStartDate()).isEqualTo(startDate);
     assertThat(entity.getEndDate()).isNull();
     assertThat(entity.getFinalAmount()).isEqualByComparingTo(BigDecimal.ZERO);
-    assertThat(entity.getCustomerModel().getId()).isEqualTo(customerId.value());
+    assertThat(entity.getCustomerEntity().getId()).isEqualTo(customerId.value());
     assertThat(entity.getOpportunity().getId()).isEqualTo(opportunityId.value());
     assertThat(entity.getServices()).hasSize(2);
   }
@@ -116,14 +117,14 @@ class DealEntityMapperTest {
     entity.setVersion(1);
 
     // Set up relationships with mock entity
-    var customer = new CustomerModel(customerId.value());
+    var customer = new CustomerEntity(customerId.value());
     var opportunity = new OpportunityEntity(UUID.randomUUID().toString());
     var manager = new UserEntity(UUID.randomUUID().toString());
     var services = serviceIds.stream()
         .map(id -> new ServicePackageEntity(id.value()))
         .toList();
 
-    entity.setCustomerModel(customer);
+    entity.setCustomerEntity(customer);
     entity.setOpportunity(opportunity);
     entity.setCampaignManager(manager);
     entity.setServices(services);
@@ -203,6 +204,6 @@ class DealEntityMapperTest {
     assertThat(entity.getTerms()).isEqualTo("Updated terms");
     // ID and relationships should remain unchanged
     assertThat(entity.getId()).isEqualTo(originalDeal.getId().value());
-    assertThat(entity.getCustomerModel().getId()).isEqualTo(customerId.value());
+    assertThat(entity.getCustomerEntity().getId()).isEqualTo(customerId.value());
   }
 }

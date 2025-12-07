@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.crm.quote.application.dto;
 
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
-import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 
 import java.time.LocalDate;
 import java.util.List;

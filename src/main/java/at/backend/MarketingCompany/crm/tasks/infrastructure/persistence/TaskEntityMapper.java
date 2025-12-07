@@ -6,8 +6,9 @@ import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.Opp
 import at.backend.MarketingCompany.crm.opportunity.infrastructure.persistence.OpportunityEntity;
 import at.backend.MarketingCompany.crm.tasks.domain.entity.Task;
 import at.backend.MarketingCompany.crm.tasks.domain.entity.valueobject.*;
-import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
-import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
+import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerEntity;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -36,7 +37,7 @@ public class TaskEntityMapper {
     entity.setVersion(task.getVersion());
 
     if (task.getCustomerId() != null) {
-      var customer = new CustomerModel(task.getCustomerId().value());
+      var customer = new CustomerEntity(task.getCustomerId().value());
       entity.setCustomer(customer);
     }
 

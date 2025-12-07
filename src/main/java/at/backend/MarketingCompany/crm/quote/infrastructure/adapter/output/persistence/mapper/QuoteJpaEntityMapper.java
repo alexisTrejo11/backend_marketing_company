@@ -6,8 +6,8 @@ import at.backend.MarketingCompany.crm.quote.domain.model.*;
 import at.backend.MarketingCompany.crm.quote.domain.valueobject.QuoteId;
 import at.backend.MarketingCompany.crm.quote.domain.valueobject.QuoteReconstructParams;
 import at.backend.MarketingCompany.crm.quote.infrastructure.adapter.output.persistence.entity.QuoteEntity;
-import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
-import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
+import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerEntity;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 
 import java.util.List;
 
@@ -53,7 +53,7 @@ public class QuoteJpaEntityMapper {
 
     QuoteEntity entity = new QuoteEntity();
     entity.setId(domain.getId() != null ? domain.getId().value() : null);
-    entity.setCustomer(domain.getCustomerId() != null ? new CustomerModel(domain.getCustomerId().value()) : null);
+    entity.setCustomer(domain.getCustomerId() != null ? new CustomerEntity(domain.getCustomerId().value()) : null);
     entity.setValidUntil(domain.getValidUntil());
     entity.setSubTotal(domain.getSubTotal() != null ? domain.getSubTotal().value() : null);
     entity.setDiscount(domain.getDiscount() != null ? domain.getDiscount().percentage() : null);

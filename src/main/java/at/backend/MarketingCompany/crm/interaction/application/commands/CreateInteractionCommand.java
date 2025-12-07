@@ -1,8 +1,7 @@
 package at.backend.MarketingCompany.crm.interaction.application.commands;
 
-
 import at.backend.MarketingCompany.crm.interaction.domain.entity.valueobject.*;
-import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 
 public record CreateInteractionCommand(
     CustomerId customerId,
@@ -11,6 +10,5 @@ public record CreateInteractionCommand(
     InteractionDescription description,
     InteractionOutcome outcome,
     FeedbackType feedbackType,
-    ChannelPreference channelPreference
-) {}
-
+    ChannelPreference channelPreference) {
+}

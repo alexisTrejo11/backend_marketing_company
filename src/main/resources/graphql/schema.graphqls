@@ -110,7 +110,7 @@ enum TaskPriority {
 }
 type Task {
     id: ID!
-    customerModel: Customer!
+    CustomerEntity: Customer!
     opportunity: Opportunity!
     title: String!
     description: String
@@ -197,7 +197,7 @@ input ServicePackageInput {
 # QuoteEntity
 type Quote {
     id: ID!
-    customerModel: Customer!
+    CustomerEntity: Customer!
     opportunity: Opportunity
     validUntil: String!
     subTotal: Float!
@@ -240,7 +240,7 @@ enum QuoteStatus {
 # Interaction
 type Interaction {
     id: ID!
-    customerModel: Customer!
+    CustomerEntity: Customer!
     type: InteractionType!
     dateTime: String!
     description: String

@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.crm.interaction.domain.entity.valueobject;
 
-import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 import lombok.Builder;
 
 @Builder
@@ -11,5 +11,5 @@ public record CreateInteractionParams(
     InteractionDescription description,
     InteractionOutcome outcome,
     FeedbackType feedbackType,
-    ChannelPreference channelPreference
-) {}
+    ChannelPreference channelPreference) {
+}

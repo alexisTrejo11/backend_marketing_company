@@ -1,9 +1,10 @@
 package at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject;
 
-import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
+
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 
 @Builder
 public record OpportunityReconstructParams(
@@ -16,6 +17,5 @@ public record OpportunityReconstructParams(
     Integer version,
     LocalDateTime deletedAt,
     LocalDateTime createdAt,
-    LocalDateTime updatedAt
-) {}
-
+    LocalDateTime updatedAt) {
+}

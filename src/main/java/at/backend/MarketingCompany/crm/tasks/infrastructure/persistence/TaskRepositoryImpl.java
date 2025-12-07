@@ -7,7 +7,7 @@ import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.Opp
 import at.backend.MarketingCompany.crm.tasks.domain.entity.Task;
 import at.backend.MarketingCompany.crm.tasks.domain.entity.valueobject.TaskId;
 import at.backend.MarketingCompany.crm.tasks.domain.repository.TaskRepository;
-import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -24,146 +24,146 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class TaskRepositoryImpl implements TaskRepository {
 
-    private final JpaTaskRepository jpaTaskRepository;
-    private final TaskEntityMapper taskEntityMapper;
+  private final JpaTaskRepository jpaTaskRepository;
+  private final TaskEntityMapper taskEntityMapper;
 
-    @Override
-    @Transactional
-    public Task save(Task task) {
-        log.debug("Saving task with ID: {}", task.getId().value());
+  @Override
+  @Transactional
+  public Task save(Task task) {
+    log.debug("Saving task with ID: {}", task.getId().value());
 
-        TaskEntity entity = taskEntityMapper.toEntity(task);
-        TaskEntity savedEntity = jpaTaskRepository.save(entity);
+    TaskEntity entity = taskEntityMapper.toEntity(task);
+    TaskEntity savedEntity = jpaTaskRepository.save(entity);
 
-        log.info("Task saved successfully with ID: {}", savedEntity.getId());
-        return taskEntityMapper.toDomain(savedEntity);
-    }
+    log.info("Task saved successfully with ID: {}", savedEntity.getId());
+    return taskEntityMapper.toDomain(savedEntity);
+  }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<Task> findById(TaskId taskId) {
-        log.debug("Finding task by ID: {}", taskId.value());
+  @Override
+  @Transactional(readOnly = true)
+  public Optional<Task> findById(TaskId taskId) {
+    log.debug("Finding task by ID: {}", taskId.value());
 
-        return jpaTaskRepository.findById(taskId.value())
-                .map(taskEntityMapper::toDomain);
-    }
+    return jpaTaskRepository.findById(taskId.value())
+        .map(taskEntityMapper::toDomain);
+  }
 
-    @Override
-    @Transactional
-    public void delete(Task task) {
-        log.debug("Deleting task with ID: {}", task.getId().value());
+  @Override
+  @Transactional
+  public void delete(Task task) {
+    log.debug("Deleting task with ID: {}", task.getId().value());
 
-        TaskEntity entity = taskEntityMapper.toEntity(task);
-        jpaTaskRepository.delete(entity);
+    TaskEntity entity = taskEntityMapper.toEntity(task);
+    jpaTaskRepository.delete(entity);
 
-        log.info("Task deleted successfully with ID: {}", task.getId().value());
-    }
+    log.info("Task deleted successfully with ID: {}", task.getId().value());
+  }
 
-    @Override
-    @Transactional(readOnly = true)
-    public boolean existsById(TaskId taskId) {
-        return jpaTaskRepository.existsById(taskId.value());
-    }
+  @Override
+  @Transactional(readOnly = true)
+  public boolean existsById(TaskId taskId) {
+    return jpaTaskRepository.existsById(taskId.value());
+  }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Page<Task> findByCustomer(CustomerId customerId, Pageable pageable) {
-        log.debug("Finding tasks by customer ID: {}", customerId.value());
+  @Override
+  @Transactional(readOnly = true)
+  public Page<Task> findByCustomer(CustomerId customerId, Pageable pageable) {
+    log.debug("Finding tasks by customer ID: {}", customerId.value());
 
-        return jpaTaskRepository.findByCustomer_Id(customerId.value(), pageable)
-                .map(taskEntityMapper::toDomain);
-    }
+    return jpaTaskRepository.findByCustomer_Id(customerId.value(), pageable)
+        .map(taskEntityMapper::toDomain);
+  }
 
-    @Override
-    public List<Task> findByCustomer(CustomerId customerId) {
-        return List.of();
-    }
+  @Override
+  public List<Task> findByCustomer(CustomerId customerId) {
+    return List.of();
+  }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Page<Task> findByOpportunity(OpportunityId opportunityId, Pageable pageable) {
-        log.debug("Finding tasks by opportunity ID: {}", opportunityId.value());
+  @Override
+  @Transactional(readOnly = true)
+  public Page<Task> findByOpportunity(OpportunityId opportunityId, Pageable pageable) {
+    log.debug("Finding tasks by opportunity ID: {}", opportunityId.value());
 
-        return jpaTaskRepository.findByOpportunity_Id(opportunityId.value(), pageable)
-                .map(taskEntityMapper::toDomain);
-    }
+    return jpaTaskRepository.findByOpportunity_Id(opportunityId.value(), pageable)
+        .map(taskEntityMapper::toDomain);
+  }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Page<Task> findByAssignee(EmployeeId assigneeId, Pageable pageable) {
-        log.debug("Finding tasks by assignee ID: {}", assigneeId.value());
+  @Override
+  @Transactional(readOnly = true)
+  public Page<Task> findByAssignee(EmployeeId assigneeId, Pageable pageable) {
+    log.debug("Finding tasks by assignee ID: {}", assigneeId.value());
 
-        return jpaTaskRepository.findByAssignedTo_Id(assigneeId.value(), pageable)
-                .map(taskEntityMapper::toDomain);
-    }
+    return jpaTaskRepository.findByAssignedTo_Id(assigneeId.value(), pageable)
+        .map(taskEntityMapper::toDomain);
+  }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Page<Task> findByStatuses(Set<TaskStatus> statuses, Pageable pageable) {
-        log.debug("Finding tasks by statuses: {}", statuses);
+  @Override
+  @Transactional(readOnly = true)
+  public Page<Task> findByStatuses(Set<TaskStatus> statuses, Pageable pageable) {
+    log.debug("Finding tasks by statuses: {}", statuses);
 
-        return jpaTaskRepository.findByStatusIn(statuses, pageable)
-                .map(taskEntityMapper::toDomain);
-    }
+    return jpaTaskRepository.findByStatusIn(statuses, pageable)
+        .map(taskEntityMapper::toDomain);
+  }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Page<Task> findByPriorities(Set<TaskPriority> priorities, Pageable pageable) {
-        log.debug("Finding tasks by priorities: {}", priorities);
+  @Override
+  @Transactional(readOnly = true)
+  public Page<Task> findByPriorities(Set<TaskPriority> priorities, Pageable pageable) {
+    log.debug("Finding tasks by priorities: {}", priorities);
 
-        return jpaTaskRepository.findByPriorityIn(priorities, pageable)
-                .map(taskEntityMapper::toDomain);
-    }
+    return jpaTaskRepository.findByPriorityIn(priorities, pageable)
+        .map(taskEntityMapper::toDomain);
+  }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Page<Task> findOverdueTasks(Pageable pageable) {
-        log.debug("Finding overdue tasks");
+  @Override
+  @Transactional(readOnly = true)
+  public Page<Task> findOverdueTasks(Pageable pageable) {
+    log.debug("Finding overdue tasks");
 
-        return jpaTaskRepository.findOverdueTasks(pageable)
-                .map(taskEntityMapper::toDomain);
-    }
+    return jpaTaskRepository.findOverdueTasks(pageable)
+        .map(taskEntityMapper::toDomain);
+  }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Page<Task> findPendingTasks(Pageable pageable) {
-        log.debug("Finding pending tasks");
+  @Override
+  @Transactional(readOnly = true)
+  public Page<Task> findPendingTasks(Pageable pageable) {
+    log.debug("Finding pending tasks");
 
-        return jpaTaskRepository.findByStatusIn(Set.of(TaskStatus.PENDING, TaskStatus.IN_PROGRESS), pageable)
-                .map(taskEntityMapper::toDomain);
-    }
+    return jpaTaskRepository.findByStatusIn(Set.of(TaskStatus.PENDING, TaskStatus.IN_PROGRESS), pageable)
+        .map(taskEntityMapper::toDomain);
+  }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Page<Task> searchTasks(String searchTerm, Set<TaskStatus> statuses,
-                                 Set<TaskPriority> priorities, String customerId,
-                                 String assigneeId, Boolean overdueOnly, Pageable pageable) {
-        log.debug("Searching tasks with criteria - term: {}, statuses: {}, priorities: {}", 
-                 searchTerm, statuses, priorities);
-        return null;
-    }
+  @Override
+  @Transactional(readOnly = true)
+  public Page<Task> searchTasks(String searchTerm, Set<TaskStatus> statuses,
+      Set<TaskPriority> priorities, String customerId,
+      String assigneeId, Boolean overdueOnly, Pageable pageable) {
+    log.debug("Searching tasks with criteria - term: {}, statuses: {}, priorities: {}",
+        searchTerm, statuses, priorities);
+    return null;
+  }
 
-    @Override
-    @Transactional(readOnly = true)
-    public long countByCustomerAndStatus(CustomerId customerId, TaskStatus status) {
-        log.debug("Counting tasks for customer {} with status: {}", customerId.value(), status);
+  @Override
+  @Transactional(readOnly = true)
+  public long countByCustomerAndStatus(CustomerId customerId, TaskStatus status) {
+    log.debug("Counting tasks for customer {} with status: {}", customerId.value(), status);
 
-        return jpaTaskRepository.countByCustomer_IdAndStatus(customerId.value(), status);
-    }
+    return jpaTaskRepository.countByCustomer_IdAndStatus(customerId.value(), status);
+  }
 
-    @Override
-    @Transactional(readOnly = true)
-    public long countByAssigneeAndStatus(EmployeeId assigneeId, TaskStatus status) {
-        log.debug("Counting tasks for assignee {} with status: {}", assigneeId.value(), status);
+  @Override
+  @Transactional(readOnly = true)
+  public long countByAssigneeAndStatus(EmployeeId assigneeId, TaskStatus status) {
+    log.debug("Counting tasks for assignee {} with status: {}", assigneeId.value(), status);
 
-        return jpaTaskRepository.countByAssignedTo_IdAndStatus(assigneeId.value(), status);
-    }
+    return jpaTaskRepository.countByAssignedTo_IdAndStatus(assigneeId.value(), status);
+  }
 
-    @Override
-    @Transactional(readOnly = true)
-    public long countOverdueByAssignee(EmployeeId assigneeId) {
-        log.debug("Counting overdue tasks for assignee: {}", assigneeId.value());
+  @Override
+  @Transactional(readOnly = true)
+  public long countOverdueByAssignee(EmployeeId assigneeId) {
+    log.debug("Counting overdue tasks for assignee: {}", assigneeId.value());
 
-        return jpaTaskRepository.countOverdueTasksByAssignee(assigneeId.value());
-    }
+    return jpaTaskRepository.countOverdueTasksByAssignee(assigneeId.value());
+  }
 }

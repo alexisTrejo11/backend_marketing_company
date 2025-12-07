@@ -1,9 +1,10 @@
 package at.backend.MarketingCompany.crm.interaction.domain.entity.valueobject;
 
-import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
+
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 
 @Builder
 public record InteractionReconstructParams(
@@ -18,5 +19,5 @@ public record InteractionReconstructParams(
     Integer version,
     LocalDateTime deletedAt,
     LocalDateTime createdAt,
-    LocalDateTime updatedAt
-) {}
+    LocalDateTime updatedAt) {
+}

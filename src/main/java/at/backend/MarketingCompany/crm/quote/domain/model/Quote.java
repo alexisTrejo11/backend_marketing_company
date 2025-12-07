@@ -8,7 +8,7 @@ import at.backend.MarketingCompany.crm.quote.domain.valueobject.QuoteId;
 import at.backend.MarketingCompany.crm.quote.domain.valueobject.QuoteItemId;
 import at.backend.MarketingCompany.crm.quote.domain.valueobject.QuoteReconstructParams;
 import at.backend.MarketingCompany.crm.quote.domain.valueobject.QuoteStatus;
-import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 import lombok.Getter;
 
 import java.time.LocalDate;

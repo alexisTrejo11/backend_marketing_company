@@ -8,8 +8,8 @@ import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.Opp
 import at.backend.MarketingCompany.crm.opportunity.infrastructure.persistence.OpportunityEntity;
 import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
 import at.backend.MarketingCompany.crm.servicePackage.infrastructure.persistence.model.ServicePackageEntity;
-import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
-import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
+import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerEntity;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -45,8 +45,8 @@ public class DealEntityMapper {
 
     // Relations
     if (deal.getCustomerId() != null) {
-      var customer = new CustomerModel(deal.getCustomerId().value());
-      entity.setCustomerModel(customer);
+      var customer = new CustomerEntity(deal.getCustomerId().value());
+      entity.setCustomerEntity(customer);
     }
 
     if (deal.getOpportunityId() != null) {
@@ -75,8 +75,8 @@ public class DealEntityMapper {
 
     var reconstructParams = DealReconstructParams.builder()
         .id(DealId.from(entity.getId()))
-        .customerId(entity.getCustomerModel() != null
-            ? new CustomerId(entity.getCustomerModel().getId())
+        .customerId(entity.getCustomerEntity() != null
+            ? new CustomerId(entity.getCustomerEntity().getId())
             : null)
         .opportunityId(entity.getOpportunity() != null
             ? new OpportunityId(entity.getOpportunity().getId())

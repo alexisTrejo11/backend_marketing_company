@@ -2,9 +2,9 @@ package at.backend.MarketingCompany.crm.tasks.domain.entity.valueobject;
 
 import at.backend.MarketingCompany.crm.shared.enums.TaskPriority;
 import at.backend.MarketingCompany.crm.shared.enums.TaskStatus;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.EmployeeId;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
-import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -23,5 +23,5 @@ public record TaskReconstructParams(
     Integer version,
     LocalDateTime deletedAt,
     LocalDateTime createdAt,
-    LocalDateTime updatedAt
-) {}
+    LocalDateTime updatedAt) {
+}

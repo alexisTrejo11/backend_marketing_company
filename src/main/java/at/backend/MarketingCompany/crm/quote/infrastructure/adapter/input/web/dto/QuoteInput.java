@@ -6,7 +6,7 @@ import java.util.List;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.quote.application.dto.QuoteCreateCommand;
 import at.backend.MarketingCompany.crm.quote.application.dto.QuoteItemCreateCommand;
-import at.backend.MarketingCompany.customer.domain.ValueObjects.CustomerId;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 

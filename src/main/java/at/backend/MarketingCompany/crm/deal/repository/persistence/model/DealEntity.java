@@ -4,7 +4,7 @@ import at.backend.MarketingCompany.account.user.adapters.outbound.persistence.Us
 import at.backend.MarketingCompany.common.jpa.BaseJpaEntity;
 import at.backend.MarketingCompany.crm.opportunity.infrastructure.persistence.OpportunityEntity;
 import at.backend.MarketingCompany.crm.servicePackage.infrastructure.persistence.model.ServicePackageEntity;
-import at.backend.MarketingCompany.customer.api.repository.CustomerModel;
+import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerEntity;
 import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -45,7 +45,7 @@ public class DealEntity extends BaseJpaEntity {
 
   @ManyToOne
   @JoinColumn(name = "customer_id", nullable = false)
-  private CustomerModel customerModel;
+  private CustomerEntity CustomerEntity;
 
   @ManyToOne
   @JoinColumn(name = "opportunity_id", nullable = false)
