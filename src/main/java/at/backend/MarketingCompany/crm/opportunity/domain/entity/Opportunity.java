@@ -1,6 +1,7 @@
 package at.backend.MarketingCompany.crm.opportunity.domain.entity;
 
-import at.backend.MarketingCompany.common.utils.BaseDomainEntity;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.shared.domain.BaseDomainEntity;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.crm.opportunity.domain.exceptions.OpportunityValidationException;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import java.util.Optional;
 
 @Getter
 public class Opportunity extends BaseDomainEntity<OpportunityId> {
-  private at.backend.MarketingCompany.customer.domain.valueobject.CustomerId customerId;
+  private CustomerCompanyId customerCompanyId;
   private String title;
   private Amount amount;
   private OpportunityStage stage;
@@ -22,7 +23,7 @@ public class Opportunity extends BaseDomainEntity<OpportunityId> {
 
   private Opportunity(OpportunityReconstructParams params) {
     super(params.id(), params.version(), params.deletedAt(), params.createdAt(), params.updatedAt());
-    this.customerId = params.customerId();
+    this.customerCompanyId = params.customerCompanyId();
     this.title = params.title();
     this.amount = params.amount();
     this.stage = params.stage();
@@ -38,7 +39,7 @@ public class Opportunity extends BaseDomainEntity<OpportunityId> {
     validateCreationParams(params);
 
     Opportunity newOpportunity = new Opportunity(OpportunityId.generate());
-    newOpportunity.customerId = params.customerId();
+    newOpportunity.customerCompanyId = params.customerCompanyId();
     newOpportunity.title = params.title();
     newOpportunity.amount = params.amount();
     newOpportunity.stage = OpportunityStage.LEAD;
@@ -128,7 +129,7 @@ public class Opportunity extends BaseDomainEntity<OpportunityId> {
   }
 
   private void validateState() {
-    if (customerId == null) {
+    if (customerCompanyId == null) {
       throw new OpportunityValidationException("Customer ID is required");
     }
     if (title == null || title.trim().isEmpty()) {
@@ -143,7 +144,7 @@ public class Opportunity extends BaseDomainEntity<OpportunityId> {
     if (params == null) {
       throw new OpportunityValidationException("Creation parameters cannot be null");
     }
-    if (params.customerId() == null) {
+    if (params.customerCompanyId() == null) {
       throw new OpportunityValidationException("Customer ID is required");
     }
     if (params.title() == null || params.title().trim().isEmpty()) {

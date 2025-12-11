@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.crm.servicePackage.domain.entity;
 
-import at.backend.MarketingCompany.common.utils.BaseDomainEntity;
+import at.backend.MarketingCompany.shared.domain.BaseDomainEntity;
 import at.backend.MarketingCompany.crm.shared.enums.Complexity;
 import at.backend.MarketingCompany.crm.shared.enums.SocialNetworkPlatform;
 import at.backend.MarketingCompany.crm.shared.enums.ServiceType;

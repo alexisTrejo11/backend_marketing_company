@@ -1,10 +1,10 @@
 package at.backend.MarketingCompany.crm.interaction.application.commands;
 
 import at.backend.MarketingCompany.crm.interaction.domain.entity.valueobject.*;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
 
 public record CreateInteractionCommand(
-    CustomerId customerId,
+    CustomerCompanyId customerCompanyId,
     InteractionType type,
     InteractionDateTime dateTime,
     InteractionDescription description,

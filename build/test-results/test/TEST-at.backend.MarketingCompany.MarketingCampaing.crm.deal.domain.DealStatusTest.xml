@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="DealStatus" tests="16" skipped="0" failures="0" errors="0" timestamp="2025-12-09T06:02:33.884Z" hostname="Administrator" time="0.019">
+  <properties/>
+  <testcase name="[1] from=DRAFT, to=IN_NEGOTIATION" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.DealStatusTest" time="0.004"/>
+  <testcase name="[2] from=DRAFT, to=CANCELLED" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.DealStatusTest" time="0.001"/>
+  <testcase name="[3] from=IN_NEGOTIATION, to=SIGNED" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.DealStatusTest" time="0.001"/>
+  <testcase name="[4] from=IN_NEGOTIATION, to=CANCELLED" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.DealStatusTest" time="0.0"/>
+  <testcase name="[5] from=SIGNED, to=PAID" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.DealStatusTest" time="0.0"/>
+  <testcase name="[6] from=SIGNED, to=CANCELLED" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.DealStatusTest" time="0.0"/>
+  <testcase name="[7] from=PAID, to=IN_PROGRESS" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.DealStatusTest" time="0.0"/>
+  <testcase name="[8] from=PAID, to=CANCELLED" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.DealStatusTest" time="0.0"/>
+  <testcase name="[9] from=IN_PROGRESS, to=COMPLETED" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.DealStatusTest" time="0.0"/>
+  <testcase name="[10] from=IN_PROGRESS, to=CANCELLED" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.DealStatusTest" time="0.001"/>
+  <testcase name="[1] from=COMPLETED, to=IN_NEGOTIATION" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.DealStatusTest" time="0.0"/>
+  <testcase name="[2] from=CANCELLED, to=SIGNED" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.DealStatusTest" time="0.0"/>
+  <testcase name="[3] from=SIGNED, to=DRAFT" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.DealStatusTest" time="0.0"/>
+  <testcase name="[4] from=PAID, to=IN_NEGOTIATION" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.DealStatusTest" time="0.001"/>
+  <testcase name="[5] from=COMPLETED, to=CANCELLED" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.DealStatusTest" time="0.001"/>
+  <testcase name="[6] from=CANCELLED, to=COMPLETED" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.DealStatusTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

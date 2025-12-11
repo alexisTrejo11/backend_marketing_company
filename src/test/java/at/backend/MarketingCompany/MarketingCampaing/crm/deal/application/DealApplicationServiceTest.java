@@ -2,7 +2,6 @@ package at.backend.MarketingCompany.MarketingCampaing.crm.deal.application;
 
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 import at.backend.MarketingCompany.crm.deal.application.DealApplicationServiceImpl;
 import at.backend.MarketingCompany.crm.deal.application.ExternalModuleValidator;
 import at.backend.MarketingCompany.crm.deal.application.commands.*;
@@ -14,7 +13,8 @@ import at.backend.MarketingCompany.crm.deal.domain.exceptions.DealNotFoundExcept
 import at.backend.MarketingCompany.crm.deal.domain.exceptions.DealStatusTransitionException;
 import at.backend.MarketingCompany.crm.deal.domain.exceptions.DealValidationException;
 import at.backend.MarketingCompany.crm.deal.domain.respository.DealRepository;
-import at.backend.MarketingCompany.common.exceptions.ExternalServiceException;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.shared.domain.exceptions.ExternalServiceException;
 import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +32,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -55,7 +54,7 @@ class DealApplicationServiceTest {
   private ArgumentCaptor<Deal> dealCaptor;
 
   private DealId validDealId;
-  private CustomerId validCustomerId;
+  private CustomerCompanyId validCustomerCompanyId;
   private OpportunityId validOpportunityId;
   private EmployeeId validEmployeeId;
   private List<ServicePackageId> validServiceIds;
@@ -67,7 +66,7 @@ class DealApplicationServiceTest {
   @BeforeEach
   void setUp() {
     validDealId = DealId.create();
-    validCustomerId = CustomerId.generate();
+    validCustomerCompanyId = CustomerCompanyId.generate();
     validOpportunityId = OpportunityId.generate();
     validEmployeeId = EmployeeId.generate();
     validServiceIds = List.of(
@@ -90,11 +89,11 @@ class DealApplicationServiceTest {
     void handleCreateDeal_WithValidCommand_ShouldCreateDeal() {
       // Given
       var command = new CreateDealCommand(
-          validCustomerId,
+              validCustomerCompanyId,
           validOpportunityId,
           validServiceIds, validStartDate);
 
-      doNothing().when(externalValidator).validateCustomerExists(validCustomerId);
+      doNothing().when(externalValidator).validateCustomerExists(validCustomerCompanyId);
       doNothing().when(externalValidator).validateOpportunityExists(validOpportunityId);
       doNothing().when(externalValidator).validateServicesExist(validServiceIds);
 
@@ -106,10 +105,10 @@ class DealApplicationServiceTest {
       // Then
       assertThat(result).isNotNull();
       assertThat(result.getDealStatus()).isEqualTo(DealStatus.DRAFT);
-      assertThat(result.getCustomerId()).isEqualTo(validCustomerId);
+      assertThat(result.getCustomerId()).isEqualTo(validCustomerCompanyId);
       assertThat(result.getOpportunityId()).isEqualTo(validOpportunityId);
 
-      verify(externalValidator).validateCustomerExists(validCustomerId);
+      verify(externalValidator).validateCustomerExists(validCustomerCompanyId);
       verify(externalValidator).validateOpportunityExists(validOpportunityId);
       verify(externalValidator).validateServicesExist(validServiceIds);
       verify(dealRepository).save(any(Deal.class));
@@ -120,12 +119,12 @@ class DealApplicationServiceTest {
     void handleCreateDeal_WithInvalidCustomer_ShouldThrowException() {
       // Given
       var command = new CreateDealCommand(
-          validCustomerId,
+              validCustomerCompanyId,
           validOpportunityId,
           validServiceIds, validStartDate);
 
       doThrow(new ExternalServiceException("Customer not found"))
-          .when(externalValidator).validateCustomerExists(validCustomerId);
+          .when(externalValidator).validateCustomerExists(validCustomerCompanyId);
 
       // When & Then
       assertThatThrownBy(() -> dealApplicationService.handle(command))
@@ -140,11 +139,11 @@ class DealApplicationServiceTest {
     void handleCreateDeal_WithInvalidServices_ShouldThrowException() {
       // Given
       var command = new CreateDealCommand(
-          validCustomerId,
+              validCustomerCompanyId,
           validOpportunityId,
           validServiceIds, validStartDate);
 
-      doNothing().when(externalValidator).validateCustomerExists(validCustomerId);
+      doNothing().when(externalValidator).validateCustomerExists(validCustomerCompanyId);
       doNothing().when(externalValidator).validateOpportunityExists(validOpportunityId);
       doThrow(new ExternalServiceException("Relationship Entity not found"))
           .when(externalValidator).validateServicesExist(any());
@@ -420,17 +419,17 @@ class DealApplicationServiceTest {
     @DisplayName("should return deals by customer")
     void handleGetDealsByCustomer_WithValidQuery_ShouldReturnDeals() {
       // Given
-      var query = new GetDealsByCustomerQuery(validCustomerId);
+      var query = new GetDealsByCustomerQuery(validCustomerCompanyId);
       var deals = List.of(draftDeal, signedDeal);
 
-      when(dealRepository.findByCustomer(validCustomerId)).thenReturn(deals);
+      when(dealRepository.findByCustomer(validCustomerCompanyId)).thenReturn(deals);
 
       // When
       List<Deal> result = dealApplicationService.handle(query);
 
       // Then
       assertThat(result).hasSize(2);
-      verify(dealRepository).findByCustomer(validCustomerId);
+      verify(dealRepository).findByCustomer(validCustomerCompanyId);
     }
   }
 
@@ -462,7 +461,7 @@ class DealApplicationServiceTest {
 
   private Deal createDealInState(DealStatus state) {
     var createParams = CreateDealParams.builder()
-        .customerId(validCustomerId)
+        .customerCompanyId(validCustomerCompanyId)
         .opportunityId(validOpportunityId)
         .startDate(validStartDate)
         .servicePackageIds(validServiceIds)

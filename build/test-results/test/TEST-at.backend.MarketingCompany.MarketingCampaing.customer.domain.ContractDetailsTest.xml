@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContractDetailsTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2025-12-09T06:03:38.686Z" hostname="Administrator" time="0.008">
+  <properties/>
+  <testcase name="[1] type=MONTHLY" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContractDetailsTest" time="0.001"/>
+  <testcase name="[2] type=QUARTERLY" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContractDetailsTest" time="0.001"/>
+  <testcase name="[3] type=ANNUAL" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContractDetailsTest" time="0.0"/>
+  <testcase name="[4] type=ENTERPRISE" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContractDetailsTest" time="0.001"/>
+  <testcase name="[5] type=CUSTOM" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContractDetailsTest" time="0.001"/>
+  <testcase name="isActive_AfterEndDate_ShouldReturnFalse()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContractDetailsTest" time="0.0"/>
+  <testcase name="isExpiringSoon_ExpiresAfter30Days_ShouldReturnFalse()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContractDetailsTest" time="0.0"/>
+  <testcase name="isActive_BeforeStartDate_ShouldReturnFalse()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContractDetailsTest" time="0.001"/>
+  <testcase name="isActive_CurrentDateBetweenStartAndEnd_ShouldReturnTrue()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContractDetailsTest" time="0.0"/>
+  <testcase name="isExpiringSoon_ExpiresWithin30Days_ShouldReturnTrue()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContractDetailsTest" time="0.0"/>
+  <testcase name="isExpiringSoon_NotActive_ShouldReturnFalse()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContractDetailsTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

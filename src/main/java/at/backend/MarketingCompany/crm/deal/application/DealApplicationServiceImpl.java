@@ -27,12 +27,12 @@ public class DealApplicationServiceImpl implements DealApplicationService {
     public Deal handle(CreateDealCommand command) {
         log.info("Creating deal for opportunity: {}", command.opportunityId());
         
-        externalValidator.validateCustomerExists(command.customerId());
+        externalValidator.validateCustomerExists(command.customerCompanyId());
         externalValidator.validateOpportunityExists(command.opportunityId());
         externalValidator.validateServicesExist(command.servicePackageIds());
         
         var createParams = CreateDealParams.builder()
-            .customerId(command.customerId())
+            .customerCompanyId(command.customerCompanyId())
             .opportunityId(command.opportunityId())
             .startDate(command.startDate())
             .servicePackageIds(command.servicePackageIds())
@@ -155,9 +155,9 @@ public class DealApplicationServiceImpl implements DealApplicationService {
     
     @Transactional(readOnly = true)
     public List<Deal> handle(GetDealsByCustomerQuery query) {
-        log.debug("Fetching deals for customer: {}", query.customerId());
+        log.debug("Fetching deals for customer: {}", query.customerCompanyId());
         
-        return dealRepository.findByCustomer(query.customerId()).stream()
+        return dealRepository.findByCustomer(query.customerCompanyId()).stream()
             .toList();
     }
     

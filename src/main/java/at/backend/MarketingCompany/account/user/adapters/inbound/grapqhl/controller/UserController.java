@@ -10,8 +10,8 @@ import at.backend.MarketingCompany.account.user.application.queries.GetUserByEma
 import at.backend.MarketingCompany.account.user.application.queries.GetUserByIdQuery;
 import at.backend.MarketingCompany.account.user.application.queries.GetUserStatisticsQuery;
 import at.backend.MarketingCompany.account.user.application.queries.SearchUsersQuery;
-import at.backend.MarketingCompany.common.PageResponse;
-import at.backend.MarketingCompany.common.utils.PageInput;
+import at.backend.MarketingCompany.shared.PageResponse;
+import at.backend.MarketingCompany.shared.dto.PageInput;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.graphql.data.method.annotation.Argument;

@@ -7,9 +7,9 @@ import at.backend.MarketingCompany.crm.tasks.application.queries.*;
 import at.backend.MarketingCompany.crm.tasks.domain.entity.Task;
 import at.backend.MarketingCompany.crm.tasks.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.crm.tasks.domain.exceptions.TaskNotFoundException;
-import at.backend.MarketingCompany.common.exceptions.ExternalServiceException;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.shared.domain.exceptions.ExternalServiceException;
 import at.backend.MarketingCompany.crm.tasks.domain.repository.TaskRepository;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -26,12 +26,12 @@ public class TaskApplicationService {
 
   @Transactional
   public Task handle(CreateTaskCommand command) {
-    log.info("Creating task for customer: {}", command.customerId().value());
+    log.info("Creating task for customer: {}", command.customerCompanyId().value());
 
     validateExternalDependencies(command);
 
     var createParams = CreateTaskParams.builder()
-        .customerId(command.customerId())
+        .customerCompanyId(command.customerCompanyId())
         .opportunityId(command.opportunityId())
         .title(command.title())
         .description(command.description())
@@ -168,9 +168,9 @@ public class TaskApplicationService {
 
   @Transactional(readOnly = true)
   public Page<Task> handle(GetTasksByCustomerQuery query) {
-    log.debug("Fetching tasks for customer: {}", query.customerId());
+    log.debug("Fetching tasks for customer: {}", query.customerCompanyId());
 
-    return taskRepository.findByCustomer(query.customerId(), query.pageable());
+    return taskRepository.findByCustomer(query.customerCompanyId(), query.pageable());
   }
 
   @Transactional(readOnly = true)
@@ -225,17 +225,17 @@ public class TaskApplicationService {
   @Transactional(readOnly = true)
   public TaskStatistics handle(GetTaskStatisticsQuery query) {
     log.debug("Fetching task statistics for customer: {}, assignee: {}",
-        query.customerId(), query.assigneeId());
+        query.customerCompanyId(), query.assigneeId());
 
     long totalTasks = 0;
     long pendingTasks = 0;
     long completedTasks = 0;
     long overdueTasks = 0;
 
-    if (query.customerId() != null) {
-      totalTasks = countTasksByCustomer(query.customerId());
-      pendingTasks = taskRepository.countByCustomerAndStatus(query.customerId(), TaskStatus.PENDING);
-      completedTasks = taskRepository.countByCustomerAndStatus(query.customerId(), TaskStatus.COMPLETED);
+    if (query.customerCompanyId() != null) {
+      totalTasks = countTasksByCustomer(query.customerCompanyId());
+      pendingTasks = taskRepository.countByCustomerAndStatus(query.customerCompanyId(), TaskStatus.PENDING);
+      completedTasks = taskRepository.countByCustomerAndStatus(query.customerCompanyId(), TaskStatus.COMPLETED);
     }
 
     if (query.assigneeId() != null) {
@@ -266,7 +266,7 @@ public class TaskApplicationService {
 
   private void validateExternalDependencies(CreateTaskCommand command) {
     try {
-      externalValidator.validateCustomerExists(command.customerId());
+      externalValidator.validateCustomerExists(command.customerCompanyId());
 
       if (command.opportunityId() != null) {
         externalValidator.validateOpportunityExists(command.opportunityId());
@@ -281,8 +281,8 @@ public class TaskApplicationService {
     }
   }
 
-  private long countTasksByCustomer(CustomerId customerId) {
-    return taskRepository.findByCustomer(customerId).size();
+  private long countTasksByCustomer(CustomerCompanyId customerCompanyId) {
+    return taskRepository.findByCustomer(customerCompanyId).size();
   }
 
   @FunctionalInterface

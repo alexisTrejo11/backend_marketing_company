@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContactPersonTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2025-12-09T06:03:38.665Z" hostname="Administrator" time="0.018">
+  <properties/>
+  <testcase name="isExecutive_NonExecutivePosition_ShouldReturnFalse()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContactPersonTest" time="0.001"/>
+  <testcase name="equals_SameValues_ShouldBeEqual()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContactPersonTest" time="0.001"/>
+  <testcase name="create_ValidContact_ShouldCreate()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContactPersonTest" time="0.001"/>
+  <testcase name="[1] department=SALES" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContactPersonTest" time="0.001"/>
+  <testcase name="[2] department=MARKETING" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContactPersonTest" time="0.0"/>
+  <testcase name="[3] department=IT" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContactPersonTest" time="0.0"/>
+  <testcase name="[4] department=FINANCE" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContactPersonTest" time="0.001"/>
+  <testcase name="[5] department=HR" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContactPersonTest" time="0.001"/>
+  <testcase name="[6] department=OPERATIONS" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContactPersonTest" time="0.0"/>
+  <testcase name="[7] department=EXECUTIVE" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContactPersonTest" time="0.001"/>
+  <testcase name="[8] department=OTHER" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContactPersonTest" time="0.001"/>
+  <testcase name="isExecutive_ExecutivePositions_ShouldReturnTrue()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContactPersonTest" time="0.0"/>
+  <testcase name="create_NoPosition_ShouldUseDefault()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContactPersonTest" time="0.0"/>
+  <testcase name="create_NoContactMethods_ShouldThrowException()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.ContactPersonTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

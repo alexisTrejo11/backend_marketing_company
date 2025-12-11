@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Service Package Updates" tests="4" skipped="0" failures="0" errors="0" timestamp="2025-12-09T06:02:33.935Z" hostname="Administrator" time="0.01">
+  <properties/>
+  <testcase name="should update service packages in modifiable states" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.DealTest$ServicePackageEntityTests" time="0.001"/>
+  <testcase name="should throw exception when updating services in completed state" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.DealTest$ServicePackageEntityTests" time="0.002"/>
+  <testcase name="[1] invalidServices=null" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.DealTest$ServicePackageEntityTests" time="0.002"/>
+  <testcase name="[2] invalidServices=[]" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.DealTest$ServicePackageEntityTests" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

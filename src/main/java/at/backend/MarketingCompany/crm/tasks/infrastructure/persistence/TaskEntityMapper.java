@@ -6,9 +6,9 @@ import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.Opp
 import at.backend.MarketingCompany.crm.opportunity.infrastructure.persistence.OpportunityEntity;
 import at.backend.MarketingCompany.crm.tasks.domain.entity.Task;
 import at.backend.MarketingCompany.crm.tasks.domain.entity.valueobject.*;
-import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerEntity;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -36,8 +36,8 @@ public class TaskEntityMapper {
     entity.setDeletedAt(task.getDeletedAt());
     entity.setVersion(task.getVersion());
 
-    if (task.getCustomerId() != null) {
-      var customer = new CustomerEntity(task.getCustomerId().value());
+    if (task.getCustomerCompanyId() != null) {
+      var customer = new CustomerCompanyEntity(task.getCustomerCompanyId().value());
       entity.setCustomer(customer);
     }
 
@@ -60,7 +60,7 @@ public class TaskEntityMapper {
 
     var reconstructParams = TaskReconstructParams.builder()
         .id(TaskId.from(entity.getId()))
-        .customerId(entity.getCustomer() != null ? new CustomerId(entity.getCustomer().getId()) : null)
+        .customerCompanyId(entity.getCustomer() != null ? new CustomerCompanyId(entity.getCustomer().getId()) : null)
         .opportunityId(entity.getOpportunity() != null ? new OpportunityId(entity.getOpportunity().getId()) : null)
         .title(entity.getTitle())
         .description(entity.getDescription())

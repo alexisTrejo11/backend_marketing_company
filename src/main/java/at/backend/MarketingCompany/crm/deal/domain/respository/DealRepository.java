@@ -1,9 +1,9 @@
 package at.backend.MarketingCompany.crm.deal.domain.respository;
 
 import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 import at.backend.MarketingCompany.crm.deal.domain.entity.Deal;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.DealId;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +14,7 @@ public interface DealRepository {
 
   Optional<Deal> findById(DealId dealId);
 
-  List<Deal> findByCustomer(CustomerId customerId);
+  List<Deal> findByCustomer(CustomerCompanyId customerCompanyId);
 
   List<Deal> findByStatuses(List<DealStatus> statuses);
 

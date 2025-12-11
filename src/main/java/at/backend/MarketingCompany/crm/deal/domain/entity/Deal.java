@@ -1,9 +1,9 @@
 package at.backend.MarketingCompany.crm.deal.domain.entity;
 
-import at.backend.MarketingCompany.common.utils.BaseDomainEntity;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.shared.domain.BaseDomainEntity;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.EmployeeId;
 import at.backend.MarketingCompany.crm.deal.domain.exceptions.DealStatusTransitionException;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class Deal extends BaseDomainEntity<DealId> {
-  private CustomerId customerId;
+  private CustomerCompanyId customerCompanyId;
   private OpportunityId opportunityId;
   private DealStatus dealStatus;
   private FinalAmount finalAmount;
@@ -33,7 +33,7 @@ public class Deal extends BaseDomainEntity<DealId> {
 
   private Deal(DealReconstructParams params) {
     super(params.id(), params.version(), params.deletedAt(), params.createdAt(), params.updatedAt());
-    this.customerId = params.customerId();
+    this.customerCompanyId = params.customerCompanyId();
     this.opportunityId = params.opportunityId();
     this.dealStatus = params.dealStatus();
     this.finalAmount = params.finalAmount();
@@ -53,7 +53,7 @@ public class Deal extends BaseDomainEntity<DealId> {
     validateCreationParams(params);
 
     Deal newDeal = new Deal(DealId.create());
-    newDeal.customerId = params.customerId();
+    newDeal.customerCompanyId = params.customerCompanyId();
     newDeal.opportunityId = params.opportunityId();
     newDeal.servicePackageIds = Collections.unmodifiableList(params.servicePackageIds());
     newDeal.dealStatus = DealStatus.DRAFT;
@@ -146,7 +146,7 @@ public class Deal extends BaseDomainEntity<DealId> {
   }
 
   private void validateState() {
-    if (customerId == null) {
+    if (customerCompanyId == null) {
       throw new DealValidationException("Customer ID is required.");
     }
     if (opportunityId == null) {
@@ -164,7 +164,7 @@ public class Deal extends BaseDomainEntity<DealId> {
     if (params == null) {
       throw new DealValidationException("Creation parameters cannot be null.");
     }
-    if (params.customerId() == null) {
+    if (params.customerCompanyId() == null) {
       throw new DealValidationException("Customer ID is required.");
     }
     if (params.opportunityId() == null) {
@@ -186,8 +186,8 @@ public class Deal extends BaseDomainEntity<DealId> {
     return id;
   }
 
-  public CustomerId getCustomerId() {
-    return customerId;
+  public CustomerCompanyId getCustomerId() {
+    return customerCompanyId;
   }
 
   public OpportunityId getOpportunityId() {

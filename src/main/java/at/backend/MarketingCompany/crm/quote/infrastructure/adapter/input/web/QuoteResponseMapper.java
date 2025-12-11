@@ -3,7 +3,7 @@ package at.backend.MarketingCompany.crm.quote.infrastructure.adapter.input.web;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
-import at.backend.MarketingCompany.common.PageResponse;
+import at.backend.MarketingCompany.shared.PageResponse;
 import at.backend.MarketingCompany.crm.quote.domain.model.Quote;
 import at.backend.MarketingCompany.crm.quote.domain.model.QuoteItem;
 import at.backend.MarketingCompany.crm.quote.infrastructure.adapter.input.web.dto.QuoteItemOutput;
@@ -19,7 +19,7 @@ public class QuoteResponseMapper {
 
     return QuoteOutput.builder()
         .id(quote.getId().toString())
-        .customerId(quote.getCustomerId().toString())
+        .customerId(quote.getCustomerCompanyId().toString())
         .opportunityId(
             quote.getOpportunityId() != null ? quote.getOpportunityId().toString() : null)
         .validUntil(quote.getValidUntil())

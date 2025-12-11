@@ -1,0 +1,13 @@
+ext.pathMapper = [:]
+ext.pathMapper.put('D:/Program Files/JetBrains/IntelliJ IDEA Community Edition 2025.2.3/lib/util_rt.jar', '/tmp/9hAXDo/util_rt.jar')
+ext.pathMapper.put('D:/Program Files/JetBrains/IntelliJ IDEA Community Edition 2025.2.3/lib/external-system-rt.jar', '/tmp/9hAXDo/external-system-rt.jar')
+ext.pathMapper.put('D:/Program Files/JetBrains/IntelliJ IDEA Community Edition 2025.2.3/plugins/gradle/lib/gradle-tooling-extension-api.jar', '/tmp/f2VKxK/gradle-tooling-extension-api.jar')
+ext.pathMapper.put('D:/Program Files/JetBrains/IntelliJ IDEA Community Edition 2025.2.3/plugins/gradle/lib/gradle-tooling-extension-impl.jar', '/tmp/f2VKxK/gradle-tooling-extension-impl.jar')
+ext.pathMapper.put('D:/Program Files/JetBrains/IntelliJ IDEA Community Edition 2025.2.3/lib/util-8.jar', '/tmp/9hAXDo/util-8.jar')
+ext.pathMapper.put('D:/Program Files/JetBrains/IntelliJ IDEA Community Edition 2025.2.3/lib/util_rt.jar', '/tmp/9hAXDo/util_rt.jar')
+ext.pathMapper.put('D:/Program Files/JetBrains/IntelliJ IDEA Community Edition 2025.2.3/lib/external-system-rt.jar', '/tmp/9hAXDo/external-system-rt.jar')
+ext.pathMapper.put('D:/Program Files/JetBrains/IntelliJ IDEA Community Edition 2025.2.3/plugins/gradle/lib/gradle-tooling-extension-api.jar', '/tmp/f2VKxK/gradle-tooling-extension-api.jar')
+ext.pathMapper.put('D:/Program Files/JetBrains/IntelliJ IDEA Community Edition 2025.2.3/plugins/gradle/lib/gradle-tooling-extension-impl.jar', '/tmp/f2VKxK/gradle-tooling-extension-impl.jar')
+ext.pathMapper.put('D:/Program Files/JetBrains/IntelliJ IDEA Community Edition 2025.2.3/lib/util-8.jar', '/tmp/9hAXDo/util-8.jar')
+ext.pathMapper.put("<<target java executable path>>", '/root/.jdks/corretto-23.0.2/bin/java')
+ext.mapPath = { path -> pathMapper.get(path) ?: path }

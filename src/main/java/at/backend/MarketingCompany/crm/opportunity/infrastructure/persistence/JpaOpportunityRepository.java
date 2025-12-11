@@ -16,13 +16,13 @@ public interface JpaOpportunityRepository extends JpaRepository<OpportunityEntit
 
     Page<OpportunityEntity> findByStageIn(Set<OpportunityStage> stages, Pageable pageable);
 
-    Page<OpportunityEntity> findByCustomerId(String customerId, Pageable pageable);
+    Page<OpportunityEntity> findByCustomerCompanyId(String customerId, Pageable pageable);
 
-    List<OpportunityEntity> findByCustomerId(String customerId);
+    List<OpportunityEntity> findByCustomerCompanyId(String customerId);
 
     Page<OpportunityEntity> findByStage(OpportunityStage stage, Pageable pageable);
 
-    long countByCustomerIdAndStage(String customerId, OpportunityStage stage);
+    long countByCustomerCompanyIdAndStage(String customerId, OpportunityStage stage);
 
-    long countByCustomerIdAndStageIn(String customerId, Set<OpportunityStage> stages);
+    long countByCustomerCompanyIdAndStageIn(String customerId, Set<OpportunityStage> stages);
 }

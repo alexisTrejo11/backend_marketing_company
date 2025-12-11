@@ -1,3 +1,18 @@
+# COMMON TYPES
+type PaginationMetadata {
+    currentPage: Int!
+    pageSize: Int!
+    total: Int!
+    totalPages: Int!
+    hasNextPage: Boolean!
+    hasPreviousPage: Boolean!
+}
+
+interface PageResponse {
+    pagination: PaginationMetadata!
+}
+
+
 # USERS
 type User {
     id: ID
@@ -19,22 +34,216 @@ enum UserRole {
 }
 
 
+# CompanyResponse CompanyResponse
+enum CompanySize {
+    SMALL
+    MEDIUM
+    LARGE
+    ENTERPRISE
+}
 
-# CUSTOMER
-type Customer {
+enum CompanyStatus {
+    ACTIVE
+    INACTIVE
+    BLOCKED
+    PENDING
+}
+
+enum ContractType {
+    MONTHLY
+    ANNUAL
+    TRIAL
+}
+
+type CompanyPageResponse implements PageResponse {
+    items: [CompanyResponse!]!
+    pagination: PaginationMetadata!
+}
+
+
+type CompanyResponse {
     id: ID!
+    companyName: String!
+    legalName: String!
+    taxId: String!
+    website: String
+    foundingYear: Int
+
+    industry: IndustryResponse
+    size: CompanySize
+    employeeCount: Int
+    annualRevenue: RevenueResponse
+
+    status: CompanyStatus
+    isPublicCompany: Boolean!
+    isStartup: Boolean!
+
+    targetMarket: String
+    missionStatement: String
+    keyProducts: [String!]
+    competitorUrls: [String!]
+
+    contactPersons: [ContactPersonResponse!]
+    contractDetails: ContractDetailsResponse
+    billingInfo: BillingInfoResponse
+    socialMedia: SocialMediaResponse
+
+    opportunityCount: Int
+    interactionCount: Int
+
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type IndustryResponse {
+    code: String!
+    name: String!
+    sector: String!
+}
+
+type RevenueResponse {
+    amount: Float!
+    currency: String!
+    range: String
+}
+
+type ContactPersonResponse {
+    id: ID!
+    firstName: String!
+    lastName: String!
+    email: String!
+    phone: String
+    position: String
+    department: String
+    isDecisionMaker: Boolean!
+    isPrimaryContact: Boolean!
+}
+
+type ContractDetailsResponse {
+    contractId: String!
+    startDate: Date!
+    endDate: Date!
+    monthlyFee: Float!
+    type: String!
+    autoRenewal: Boolean!
+    isActive: Boolean!
+    isExpiringSoon: Boolean!
+}
+
+type BillingInfoResponse {
+    billingEmail: String!
+    preferredPaymentMethod: String!
+    billingAddress: String!
+    approvedCredit: Boolean!
+}
+
+type SocialMediaResponse {
+    linkedinUrl: String
+    twitterHandle: String
+    facebookUrl: String
+    instagramHandle: String
+}
+
+type CompanyMetrics {
+    companyId: ID!
+    opportunityCount: Int
+    interactionCount: Int
+    activeContracts: Int
+    revenueEstimate: RevenueResponse
+}
+
+input ContactPersonInput {
+    firstName: String
+    lastName: String
+    email: String
+    phone: String
+    position: String
+    department: String
+    isDecisionMaker: Boolean = false
+    isPrimaryContact: Boolean = false
+}
+
+input CreateCompanyInput {
+    companyName: String
+    industry: String
+    companySize: CompanySize
+    employeeCount: Int
+    foundingYear: Int
+    missionStatement: String
+    targetMarket: String
+    contactPersons: [ContactPersonInput!]
+    taxId: String
+    website: String
+    keyProducts: [String!]!
+}
+
+input UpdateCompanyProfileInput {
+    industryCode: String!
+    employeeCount: Int
+    missionStatement: String
+    targetMarket: String
+    keyProducts: [String!]
+    competitorUrls: [String!]
+    socialMediaHandles: SocialMediaInput
+    foundingYear: Int
+}
+
+input UpdateCompanyBillingInput {
+    taxId: String!
+    billingEmail: String
+    paymentMethod: String
+    billingAddress: String
+    approvedCredit: Boolean = false
+}
+
+input UpdateCompanyInput {
+    id: ID!
+    companyName: String
+    profileCommand: UpdateCompanyProfileInput
+    billingCommand: UpdateCompanyBillingInput
+}
+
+input BlockCompanyInput {
+    id: ID!
+    reason: String!
+}
+
+input DeactivateCompanyInput {
+    id: ID!
+    reason: String
+}
+
+input UpgradeToEnterpriseInput {
+    id: ID!
+    annualRevenue: BigDecimal!
+    currency: String
+}
+
+input SignContractInput {
+    id: ID!
+    contractId: String!
+    monthlyFee: BigDecimal!
+    contractType: ContractType!
+    durationMonths: Int
+    autoRenewal: Boolean = false
+}
+
+input AddContactPersonInput {
+    companyId: ID!
     firstName: String!
     lastName: String!
     email: String
     phone: String
-    company: String
+    position: String
+    department: String
+    isDecisionMaker: Boolean = false
 }
-input CustomerInput {
-    firstName: String!
-    lastName: String!
-    email: String!
-    phone: String!
-    company: String!
+
+input SocialMediaInput {
+    linkedinUrl: String
+    twitterHandle: String
+    facebookUrl: String
+    instagramHandle: String
 }
 
 
@@ -42,8 +251,8 @@ input CustomerInput {
 # Opportunity
 type Opportunity {
     id: ID!
-    customerId: ID!
-    customer: CustomerInfo!
+    customerCompanyId: ID!
+    CompanyResponse: CustomerInfo!
     title: String!
     amount: Float
     stage: OpportunityStage!
@@ -66,7 +275,7 @@ type OpportunityStatistics {
 
 # Input Types
 input CreateOpportunityInput {
-    customerId: ID!
+    customerCompanyId: ID!
     title: String!
     amount: Float
     expectedCloseDate: String
@@ -82,7 +291,7 @@ input UpdateOpportunityInput {
 input OpportunityFilterInput {
     searchTerm: String
     stages: [OpportunityStage!]
-    customerId: ID
+    customerCompanyId: ID
 }
 
 # Enums
@@ -108,9 +317,10 @@ enum TaskPriority {
     MEDIUM
     LOW
 }
+
 type Task {
     id: ID!
-    CustomerEntity: Customer!
+    customerCompany: CompanyResponse!
     opportunity: Opportunity!
     title: String!
     description: String
@@ -120,7 +330,7 @@ type Task {
     assignedTo: User
 }
 input TaskInput {
-    customerId: ID!
+    customerCompanyId: ID!
     opportunityId: ID!
     title: String!
     description: String
@@ -197,7 +407,7 @@ input ServicePackageInput {
 # QuoteEntity
 type Quote {
     id: ID!
-    CustomerEntity: Customer!
+    customerCompany: CompanyResponse!
     opportunity: Opportunity
     validUntil: String!
     subTotal: Float!
@@ -209,7 +419,7 @@ type Quote {
     updatedAt: String!
 }
 input QuoteInput {
-    customerId: ID!
+    customerCompanyId: ID!
     opportunityId: ID!
     validUntil: String!
     status: QuoteStatus!
@@ -240,7 +450,7 @@ enum QuoteStatus {
 # Interaction
 type Interaction {
     id: ID!
-    CustomerEntity: Customer!
+    customerCompany: CompanyResponse!
     type: InteractionType!
     dateTime: String!
     description: String
@@ -251,7 +461,7 @@ type Interaction {
     updatedAt: String!
 }
 input InteractionInput {
-    customerId: ID!
+    customerCompanyId: ID!
     type: InteractionType!
     dateTime: String!
     description: String
@@ -276,8 +486,8 @@ enum FeedbackType {
 # Deals
 type Deal {
     id: ID!
-    customerId: ID!
-    customer: CustomerInfo!
+    customerCompanyId: ID!
+    CompanyResponse: CustomerInfo!
     opportunityId: ID!
     opportunity: OpportunityInfo!
     dealStatus: String!
@@ -345,7 +555,7 @@ input UpdateDealServicesInput {
 
 input DealFilterInput {
     statuses: [String!]
-    customerId: ID
+    customerCompanyId: ID
     campaignManagerId: ID
     startDate: String
     endDate: String
@@ -460,7 +670,7 @@ enum AttributionModel {
 type CampaignInteraction {
     id: ID
     campaignId: ID
-    customerId: ID
+    customerCompanyId: ID
     interactionType: MarketingInteractionType
     sourceChannel: String
     sourceMedium: String
@@ -478,7 +688,7 @@ type CampaignInteraction {
 # Input for creating a new CampaignInteractionModel
 input CampaignInteractionInput {
     campaignId: ID
-    customerId: ID
+    customerCompanyId: ID
     interactionType: MarketingInteractionType
     interactionDate: String
     sourceChannel: String
@@ -685,38 +895,51 @@ enum CampaignType {
 
 
 input PageInput {
-    page: Int!
-    size: Int!
+    page: Int = 0
+    size: Int = 10
+    sortBy: String = "createdAt"
+    ascending: Boolean = false
 }
 
 # Queries
 type Query {
     #CRM
-    getAllUsers(input: PageInput!): [User!]!
+    getAllUsers(input: PageInput): [User!]!
     getUserById(id: ID!): User
 
-    getAllCustomers(input: PageInput!): [Customer!]!
-    getCustomerById(id: ID!): Customer
+    # Customer Company
+    getAllCompanies(pageInput: PageInput): CompanyPageResponse!
+    getCompanyById(id: ID!): CompanyResponse
+    searchCompanies(searchTerm: String, pageInput: PageInput): [CompanyResponse!]!
+    getCompaniesByIndustry(industryCode: String!): [CompanyResponse!]!
+    getCompaniesByStatus(status: CompanyStatus): [CompanyResponse!]!
+    getHighValueCompanies(minRevenue: BigDecimal!): [CompanyResponse!]!
+    getStartups(startYearSince: Int!): [CompanyResponse!]!
+    getCompaniesWithExpiringContracts(daysThreshold: Int): [CompanyResponse!]!
+    isCompanyActive(id: ID!): Boolean!
+    hasActiveContract(id: ID!): Boolean!
+    getCompanyMetrics(companyId: ID!): CompanyMetrics
 
-    getAllOpportunities(input: PageInput!): [Opportunity!]!
+    # Opportunities
+    getAllOpportunities(input: PageInput): [Opportunity!]!
     getOpportunityById(id: ID!): Opportunity
 
     getAllTasks(input: TaskInput!): [Task!]!
     getTaskById(id: ID!): Task
 
-    getAllServicePackages(input: PageInput!): [ServicePackage!]!
+    getAllServicePackages(input: PageInput): [ServicePackage!]!
     getServicePackageById(id: ID!): ServicePackage
 
-    getAllQuotes(input: PageInput!): [Quote!]!
+    getAllQuotes(input: PageInput): [Quote!]!
     getQuoteById(id: ID!): Quote
 
-    getAllInteractions(input: PageInput!): [Interaction]!
+    getAllInteractions(input: PageInput): [Interaction]!
     getInteractionById(id: ID!): Interaction
 
     # Deals
     deal(id: ID!): Deal
     deals(pageInput: PageInput, filter: DealFilterInput): [Deal!]!
-    dealsByCustomer(customerId: ID!): [Deal!]!
+    dealsByCustomer(customerCompanyId: ID!): [Deal!]!
     dealsByStatus(statuses: [String!]!): [Deal!]!
 
 
@@ -740,9 +963,16 @@ type Mutation {
     updateUser(id: ID!, input: UserInput!): User!
     deleteUser(id: ID!): Boolean!
 
-    createCustomer(input: CustomerInput!): Customer!
-    updateCustomer(id: ID!, input: CustomerInput!): Customer!
-    deleteCustomer(id: ID!): Boolean!
+    # Customer Company
+    createCompany(command: CreateCompanyInput!): CompanyResponse
+    updateCompany(command: UpdateCompanyInput!): CompanyResponse
+    activateCompany(id: ID!, activationNotes: String): CompanyResponse
+    blockCompany(command: BlockCompanyInput!): CompanyResponse
+    deactivateCompany(command: DeactivateCompanyInput!): CompanyResponse
+    upgradeToEnterprise(command: UpgradeToEnterpriseInput!): CompanyResponse
+    signContract(command: SignContractInput!): CompanyResponse
+    deleteCompany(id: ID!): Boolean!
+    addContactPerson(command: AddContactPersonInput!): CompanyResponse
 
     # Opportunities
     createOpportunity(input: CreateOpportunityInput!): Opportunity!

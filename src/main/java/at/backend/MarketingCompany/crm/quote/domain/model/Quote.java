@@ -1,6 +1,7 @@
 package at.backend.MarketingCompany.crm.quote.domain.model;
 
-import at.backend.MarketingCompany.common.utils.BaseDomainEntity;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.shared.domain.BaseDomainEntity;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.Amount;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.Discount;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
@@ -8,7 +9,6 @@ import at.backend.MarketingCompany.crm.quote.domain.valueobject.QuoteId;
 import at.backend.MarketingCompany.crm.quote.domain.valueobject.QuoteItemId;
 import at.backend.MarketingCompany.crm.quote.domain.valueobject.QuoteReconstructParams;
 import at.backend.MarketingCompany.crm.quote.domain.valueobject.QuoteStatus;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -18,7 +18,7 @@ import java.util.List;
 
 @Getter
 public class Quote extends BaseDomainEntity<QuoteId> {
-  private CustomerId customerId;
+  private CustomerCompanyId customerCompanyId;
   private OpportunityId opportunityId;
   private LocalDate validUntil;
   private Amount subTotal;
@@ -38,7 +38,7 @@ public class Quote extends BaseDomainEntity<QuoteId> {
   public static Quote reconstruct(QuoteReconstructParams params) {
     Quote quote = new Quote();
     quote.id = params.id();
-    quote.customerId = params.customerId();
+    quote.customerCompanyId = params.customerCompanyId();
     quote.opportunityId = params.opportunityId();
     quote.validUntil = params.validUntil();
     quote.subTotal = params.subTotal();
@@ -55,9 +55,9 @@ public class Quote extends BaseDomainEntity<QuoteId> {
     return quote;
   }
 
-  public static Quote create(CustomerId customerId, LocalDate validUntil) {
+  public static Quote create(CustomerCompanyId customerCompanyId, LocalDate validUntil) {
     Quote quote = new Quote();
-    quote.customerId = customerId;
+    quote.customerCompanyId = customerCompanyId;
     quote.validUntil = validUntil;
     return quote;
   }

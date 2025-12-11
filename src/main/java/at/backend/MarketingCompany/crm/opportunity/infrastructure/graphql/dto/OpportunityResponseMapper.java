@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.crm.opportunity.infrastructure.graphql.dto;
 
-import at.backend.MarketingCompany.common.PageResponse;
+import at.backend.MarketingCompany.shared.PageResponse;
 import at.backend.MarketingCompany.crm.interaction.infrastructure.graphql.dto.ExternalDataFetcher;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.Opportunity;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.ExpectedCloseDate;
@@ -22,11 +22,11 @@ public class OpportunityResponseMapper {
     public OpportunityResponse toResponse(Opportunity opportunity) {
         if (opportunity == null) return null;
 
-        var customer = externalDataFetcher.fetchCustomerInfo(opportunity.getCustomerId());
+        var customer = externalDataFetcher.fetchCustomerInfo(opportunity.getCustomerCompanyId());
 
         return new OpportunityResponse(
             opportunity.getId().value(),
-            opportunity.getCustomerId().value(),
+            opportunity.getCustomerCompanyId().value(),
             customer,
             opportunity.getTitle(),
             opportunity.getAmount().map(Amount::value).orElse(null),

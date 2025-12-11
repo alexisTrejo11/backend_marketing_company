@@ -9,7 +9,7 @@ import at.backend.MarketingCompany.crm.quote.domain.valueobject.QuoteItemId;
 import at.backend.MarketingCompany.crm.quote.infrastructure.adapter.input.web.dto.QuoteInput;
 import at.backend.MarketingCompany.crm.quote.infrastructure.adapter.input.web.dto.QuoteItemInput;
 import at.backend.MarketingCompany.crm.quote.infrastructure.adapter.input.web.dto.QuoteOutput;
-import at.backend.MarketingCompany.common.utils.PageInput;
+import at.backend.MarketingCompany.shared.dto.PageInput;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

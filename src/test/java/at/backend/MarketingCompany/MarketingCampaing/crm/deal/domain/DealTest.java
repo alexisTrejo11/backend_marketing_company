@@ -3,13 +3,13 @@ package at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
 import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 import at.backend.MarketingCompany.crm.deal.domain.entity.Deal;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.*;
 import at.backend.MarketingCompany.crm.deal.domain.exceptions.DealStatusTransitionException;
 import at.backend.MarketingCompany.crm.deal.domain.exceptions.DealValidationException;
 
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -29,14 +29,14 @@ import static org.assertj.core.api.Assertions.*;
 @DisplayName("Deal Domain Entity")
 class DealTest {
 
-  private CustomerId validCustomerId;
+  private CustomerCompanyId validCustomerCompanyId;
   private OpportunityId validOpportunityId;
   private List<ServicePackageId> validServiceIds;
   private LocalDate validStartDate;
 
   @BeforeEach
   void setUp() {
-    validCustomerId = CustomerId.generate();
+    validCustomerCompanyId = CustomerCompanyId.generate();
     validOpportunityId = OpportunityId.generate();
     validServiceIds = List.of(
         ServicePackageId.generate(),
@@ -46,7 +46,7 @@ class DealTest {
 
   private CreateDealParams.CreateDealParamsBuilder validCreateParams() {
     return CreateDealParams.builder()
-        .customerId(validCustomerId)
+        .customerCompanyId(validCustomerCompanyId)
         .opportunityId(validOpportunityId)
         .startDate(validStartDate)
         .servicePackageIds(validServiceIds);
@@ -65,7 +65,7 @@ class DealTest {
       // Then
       assertThat(deal).isNotNull();
       assertThat(deal.getId()).isNotNull();
-      assertThat(deal.getCustomerId()).isEqualTo(validCustomerId);
+      assertThat(deal.getCustomerId()).isEqualTo(validCustomerCompanyId);
       assertThat(deal.getOpportunityId()).isEqualTo(validOpportunityId);
       assertThat(deal.getDealStatus()).isEqualTo(DealStatus.DRAFT);
       assertThat(deal.getServicePackageIds()).isEqualTo(validServiceIds);
@@ -87,14 +87,14 @@ class DealTest {
     }
 
     @Test
-    @DisplayName("should throw exception when customerId is null")
+    @DisplayName("should throw exception when customerCompanyId is null")
     void createDeal_WithNullCustomerId_ShouldThrowException() {
       // Given
       var paramsBuilder = validCreateParams();
 
       // When & Then
       assertThatThrownBy(() -> {
-        validCreateParams().customerId(null).build();
+        validCreateParams().customerCompanyId(null).build();
       }).isInstanceOf(NullPointerException.class);
     }
 
@@ -356,7 +356,7 @@ class DealTest {
           .version(2)
           .createdAt(createdAt)
           .updatedAt(updatedAt)
-          .customerId(validCustomerId)
+          .customerCompanyId(validCustomerCompanyId)
           .opportunityId(validOpportunityId)
           .dealStatus(DealStatus.SIGNED)
           .finalAmount(new FinalAmount(new BigDecimal("7500.00")))

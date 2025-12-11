@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject;
 
-import at.backend.MarketingCompany.common.exceptions.MissingFieldException;
+import at.backend.MarketingCompany.shared.domain.exceptions.MissingFieldException;
 
 import java.util.UUID;
 

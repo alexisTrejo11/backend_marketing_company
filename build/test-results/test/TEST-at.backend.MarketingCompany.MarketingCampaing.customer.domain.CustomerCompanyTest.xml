@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" tests="32" skipped="0" failures="0" errors="0" timestamp="2025-12-09T06:03:38.696Z" hostname="Administrator" time="0.039">
+  <properties/>
+  <testcase name="upgradeToEnterprise_WhenBlocked_ShouldThrowException()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <testcase name="addContactPerson_DuplicateEmail_ShouldThrowException()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <testcase name="getDecisionMakersEmails_ShouldReturnOnlyDecisionMakers()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <testcase name="updateCompanyName_WhenBlocked_ShouldThrowException()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <testcase name="activate_WhenBlocked_ShouldThrowException()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <testcase name="addOpportunity_ValidOpportunity_ShouldAddAndRegisterEvent()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <testcase name="block_FromAnyStatus_ShouldChangeStatusAndRegisterEvent()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <testcase name="create_NoContactPersons_ShouldThrowException()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <testcase name="addOpportunity_WhenBlocked_ShouldThrowException()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <testcase name="updateCompanyName_ValidName_ShouldUpdate()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <testcase name="isHighValueClient_HighRevenue_ShouldReturnTrue()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <testcase name="removeContactPerson_ValidEmail_ShouldRemoveAndRegisterEvent()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.0"/>
+  <testcase name="signContract_WhenBlocked_ShouldThrowException()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <testcase name="activate_FromProspect_ShouldChangeStatusAndRegisterEvent()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.0"/>
+  <testcase name="upgradeToEnterprise_ValidRevenue_ShouldUpgradeAndRegisterEvent()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <testcase name="[1] initialStatus=PROSPECT" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <testcase name="[2] initialStatus=LEAD" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <testcase name="[3] initialStatus=ACTIVE" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <testcase name="[4] initialStatus=INACTIVE" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <testcase name="addContactPerson_ValidContact_ShouldAddAndRegisterEvent()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <testcase name="addContactPerson_WhenBlocked_ShouldThrowException()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <testcase name="isStartup_CompanyFoundedLessThan5YearsAgo_ShouldReturnTrue()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.0"/>
+  <testcase name="deactivate_WhenBlocked_ShouldThrowException()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <testcase name="validate_NoCompanyProfile_ShouldThrowException()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <testcase name="deactivate_FromActive_ShouldChangeStatusAndRegisterEvent()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <testcase name="validate_NoCompanyName_ShouldThrowException()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <testcase name="create_ValidParameters_ShouldCreateCustomerCompany()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <testcase name="signContract_ProspectCompany_ShouldSignAndActivate()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.002"/>
+  <testcase name="create_ShouldRegisterCompanyCreatedEvent()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <testcase name="reconstruct_ValidParams_ShouldReconstructCompany()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <testcase name="validate_ValidCompany_ShouldNotThrowException()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.002"/>
+  <testcase name="removeContactPerson_LastContact_ShouldThrowException()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.domain.CustomerCompanyTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

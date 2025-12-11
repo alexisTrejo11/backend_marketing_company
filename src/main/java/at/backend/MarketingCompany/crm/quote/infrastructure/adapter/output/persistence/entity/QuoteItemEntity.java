@@ -1,16 +1,13 @@
 package at.backend.MarketingCompany.crm.quote.infrastructure.adapter.output.persistence.entity;
 
-import at.backend.MarketingCompany.common.jpa.BaseJpaEntity;
-import at.backend.MarketingCompany.common.utils.BaseDomainEntity;
+import at.backend.MarketingCompany.shared.jpa.BaseJpaEntity;
 import at.backend.MarketingCompany.crm.servicePackage.infrastructure.persistence.model.ServicePackageEntity;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter

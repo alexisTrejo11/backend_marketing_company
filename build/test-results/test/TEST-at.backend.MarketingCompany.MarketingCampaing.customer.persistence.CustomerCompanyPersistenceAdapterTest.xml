@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyPersistenceAdapterTest" tests="16" skipped="0" failures="0" errors="0" timestamp="2025-12-09T06:03:38.761Z" hostname="Administrator" time="0.257">
+  <properties/>
+  <testcase name="findAll_WithPageable_ShouldReturnPageOfCustomerCompanies()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyPersistenceAdapterTest" time="0.211"/>
+  <testcase name="findByIndustry_ValidIndustryCode_ShouldReturnList()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyPersistenceAdapterTest" time="0.003"/>
+  <testcase name="findById_NonExistingId_ShouldReturnEmptyOptional()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyPersistenceAdapterTest" time="0.002"/>
+  <testcase name="findByStatus_ValidStatus_ShouldReturnList()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyPersistenceAdapterTest" time="0.003"/>
+  <testcase name="delete_ExistingId_ShouldCallRepositoryDelete()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyPersistenceAdapterTest" time="0.003"/>
+  <testcase name="existsById_ExistingId_ShouldReturnTrue()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyPersistenceAdapterTest" time="0.002"/>
+  <testcase name="findByCompanySize_ValidSize_ShouldReturnPage()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyPersistenceAdapterTest" time="0.003"/>
+  <testcase name="findByTaxId_ExistingTaxId_ShouldReturnCustomerCompany()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyPersistenceAdapterTest" time="0.003"/>
+  <testcase name="searchCompanies_WithSearchTerm_ShouldReturnPage()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyPersistenceAdapterTest" time="0.003"/>
+  <testcase name="findHighValueClients_ShouldReturnList()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyPersistenceAdapterTest" time="0.003"/>
+  <testcase name="existsByTaxId_ExistingTaxId_ShouldReturnTrue()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyPersistenceAdapterTest" time="0.002"/>
+  <testcase name="findCompaniesWithExpiringContracts_ShouldReturnList()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyPersistenceAdapterTest" time="0.002"/>
+  <testcase name="save_ValidCustomerCompany_ShouldSaveAndReturnDomainObject()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyPersistenceAdapterTest" time="0.005"/>
+  <testcase name="findRecentStartups_ValidYears_ShouldReturnList()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyPersistenceAdapterTest" time="0.003"/>
+  <testcase name="findById_ExistingId_ShouldReturnCustomerCompany()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyPersistenceAdapterTest" time="0.002"/>
+  <testcase name="findByCompanyNameContaining_ValidName_ShouldReturnList()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyPersistenceAdapterTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -3,8 +3,8 @@ package at.backend.MarketingCompany.crm.deal.application;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.EmployeeId;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 public class ExternalModuleValidatorImpl implements ExternalModuleValidator {
   @Override
-  public void validateCustomerExists(CustomerId customerId) {
+  public void validateCustomerExists(CustomerCompanyId customerCompanyId) {
 
   }
 

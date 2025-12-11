@@ -20,7 +20,7 @@ public class DealGraphQLMapper {
     public DealResponse toGraphQLResponse(Deal deal) {
         /*
         // Fetch datos externos para nested objects
-        var customer = externalDataFetcher.fetchCustomerInfo(deal.customerId());
+        var customer = externalDataFetcher.fetchCustomerInfo(deal.customerCompanyId());
         var opportunity = externalDataFetcher.fetchOpportunityInfo(deal.opportunityId());
         var campaignManager = deal.campaignManagerId() != null ? 
             externalDataFetcher.fetchUserInfo(deal.campaignManagerId()) : null;

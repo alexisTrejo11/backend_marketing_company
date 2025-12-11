@@ -1,11 +1,11 @@
 package at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject;
 
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
 import lombok.Builder;
 
 @Builder
 public record CreateOpportunityParams(
-    CustomerId customerId,
+    CustomerCompanyId customerCompanyId,
     String title,
     Amount amount,
     ExpectedCloseDate expectedCloseDate) {

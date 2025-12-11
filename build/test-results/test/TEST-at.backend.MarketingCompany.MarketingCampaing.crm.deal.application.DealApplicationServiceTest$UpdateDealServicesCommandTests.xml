@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Update Deal Services Command" tests="2" skipped="0" failures="0" errors="0" timestamp="2025-12-09T06:02:33.789Z" hostname="Administrator" time="0.013">
+  <properties/>
+  <testcase name="should update services successfully" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.application.DealApplicationServiceTest$UpdateDealServicesCommandTests" time="0.007"/>
+  <testcase name="should throw exception when services validation fails" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.application.DealApplicationServiceTest$UpdateDealServicesCommandTests" time="0.005"/>
+  <system-out><![CDATA[2025-12-09T00:02:33.794-06:00  INFO 993380 --- [CRM] [    Test worker] a.b.M.c.d.a.DealApplicationServiceImpl   : Updating services for deal: DealId[value=57306edb-17d6-4c1e-a050-0fa03fdc0b03]
+2025-12-09T00:02:33.795-06:00  INFO 993380 --- [CRM] [    Test worker] a.b.M.c.d.a.DealApplicationServiceImpl   : Services updated for deal DealId[value=57306edb-17d6-4c1e-a050-0fa03fdc0b03]
+2025-12-09T00:02:33.802-06:00  INFO 993380 --- [CRM] [    Test worker] a.b.M.c.d.a.DealApplicationServiceImpl   : Updating services for deal: DealId[value=f7042d93-938c-4f20-8663-f19ecc3d0cb5]
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

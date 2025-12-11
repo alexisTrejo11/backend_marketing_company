@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Business Logic Methods" tests="3" skipped="0" failures="0" errors="0" timestamp="2025-12-09T06:02:33.906Z" hostname="Administrator" time="0.005">
+  <properties/>
+  <testcase name="should return correct values for canBeModified method" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.DealTest$BusinessLogicTests" time="0.002"/>
+  <testcase name="should allow deletion only for completed or cancelled deals" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.DealTest$BusinessLogicTests" time="0.002"/>
+  <testcase name="should return correct values for isSigned method" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.DealTest$BusinessLogicTests" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

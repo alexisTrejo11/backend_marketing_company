@@ -3,7 +3,6 @@ package at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
 import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 import at.backend.MarketingCompany.crm.deal.domain.entity.Deal;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.*;
@@ -12,6 +11,7 @@ import at.backend.MarketingCompany.crm.deal.repository.persistence.model.DealEnt
 import at.backend.MarketingCompany.crm.deal.repository.persistence.repository.DealRepositoryImpl;
 import at.backend.MarketingCompany.crm.deal.repository.persistence.repository.JpaDealRepository;
 
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +60,7 @@ class DealRepositoryIntegrationTest {
   @Autowired
   private DealRepositoryImpl dealRepository;
 
-  private CustomerId customerId;
+  private CustomerCompanyId customerCompanyId;
   private OpportunityId opportunityId;
   private List<ServicePackageId> serviceIds;
   private LocalDate startDate;
@@ -69,7 +69,7 @@ class DealRepositoryIntegrationTest {
   void setUp() {
     jpaDealRepository.deleteAll();
 
-    customerId = CustomerId.generate();
+    customerCompanyId = CustomerCompanyId.generate();
     opportunityId = OpportunityId.generate();
     serviceIds = List.of(
         ServicePackageId.generate(),
@@ -79,7 +79,7 @@ class DealRepositoryIntegrationTest {
 
   private CreateDealParams createValidDealParams() {
     return CreateDealParams.builder()
-        .customerId(customerId)
+        .customerCompanyId(customerCompanyId)
         .opportunityId(opportunityId)
         .startDate(startDate)
         .servicePackageIds(serviceIds)
@@ -98,7 +98,7 @@ class DealRepositoryIntegrationTest {
     assertThat(savedDeal).isNotNull();
     assertThat(savedDeal.getId()).isNotNull();
     assertThat(savedDeal.getDealStatus()).isEqualTo(DealStatus.DRAFT);
-    assertThat(savedDeal.getCustomerId()).isEqualTo(customerId);
+    assertThat(savedDeal.getCustomerId()).isEqualTo(customerCompanyId);
     assertThat(savedDeal.getOpportunityId()).isEqualTo(opportunityId);
     assertThat(savedDeal.getServicePackageIds()).hasSize(2);
 
@@ -106,7 +106,7 @@ class DealRepositoryIntegrationTest {
     Optional<DealEntity> entity = jpaDealRepository.findById(savedDeal.getId().value());
     assertThat(entity).isPresent();
     assertThat(entity.get().getDealStatus()).isEqualTo(DealStatus.DRAFT);
-    assertThat(entity.get().getCustomerEntity().getId()).isEqualTo(customerId.value());
+    assertThat(entity.get().getCustomerCompany().getId()).isEqualTo(customerCompanyId.value());
   }
 
   @Test
@@ -146,11 +146,11 @@ class DealRepositoryIntegrationTest {
     dealRepository.save(deal2);
 
     // When
-    List<Deal> customerDeals = dealRepository.findByCustomer(customerId);
+    List<Deal> customerDeals = dealRepository.findByCustomer(customerCompanyId);
 
     // Then
     assertThat(customerDeals).hasSize(2);
-    assertThat(customerDeals).allMatch(deal -> deal.getCustomerId().equals(customerId));
+    assertThat(customerDeals).allMatch(deal -> deal.getCustomerId().equals(customerCompanyId));
   }
 
   @Test

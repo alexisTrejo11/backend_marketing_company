@@ -7,7 +7,7 @@ import at.backend.MarketingCompany.crm.deal.application.queries.GetDealByIdQuery
 import at.backend.MarketingCompany.crm.deal.application.queries.GetDealsByCustomerQuery;
 import at.backend.MarketingCompany.crm.deal.application.queries.GetDealsByStatusQuery;
 import at.backend.MarketingCompany.crm.deal.repository.dto.input.*;
-import at.backend.MarketingCompany.common.utils.PageInput;
+import at.backend.MarketingCompany.shared.dto.PageInput;
 import at.backend.MarketingCompany.crm.deal.repository.dto.output.DealResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -89,7 +89,7 @@ public class DealController {
         log.info("Creating new deal for opportunity: {}", input.opportunityId());
 
         var command = CreateDealCommand.from(
-                null, // customerId se obtendrá de la opportunity
+                null, // customerCompanyId se obtendrá de la opportunity
                 input.opportunityId(),
                 input.servicePackageIds(),
                 input.startDate()

@@ -1,13 +1,13 @@
 package at.backend.MarketingCompany.crm.tasks.domain.entity;
 
-import at.backend.MarketingCompany.common.utils.BaseDomainEntity;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.shared.domain.BaseDomainEntity;
 import at.backend.MarketingCompany.crm.shared.enums.TaskPriority;
 import at.backend.MarketingCompany.crm.shared.enums.TaskStatus;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.EmployeeId;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.tasks.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.crm.tasks.domain.exceptions.TaskValidationException;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Getter
 public class Task extends BaseDomainEntity<TaskId> {
-  private CustomerId customerId;
+  private CustomerCompanyId customerCompanyId;
   private OpportunityId opportunityId;
   private String title;
   private String description;
@@ -30,7 +30,7 @@ public class Task extends BaseDomainEntity<TaskId> {
 
   private Task(TaskReconstructParams params) {
     super(params.id(), params.version(), params.deletedAt(), params.createdAt(), params.updatedAt());
-    this.customerId = params.customerId();
+    this.customerCompanyId = params.customerCompanyId();
     this.opportunityId = params.opportunityId();
     this.title = params.title();
     this.description = params.description();
@@ -49,7 +49,7 @@ public class Task extends BaseDomainEntity<TaskId> {
     validateCreationParams(params);
 
     Task newTask = new Task(TaskId.create());
-    newTask.customerId = params.customerId();
+    newTask.customerCompanyId = params.customerCompanyId();
     newTask.opportunityId = params.opportunityId();
     newTask.title = params.title();
     newTask.description = params.description();
@@ -141,7 +141,7 @@ public class Task extends BaseDomainEntity<TaskId> {
   }
 
   private void validateState() {
-    if (customerId == null) {
+    if (customerCompanyId == null) {
       throw new TaskValidationException("Customer ID is required");
     }
     if (title == null || title.trim().isEmpty()) {
@@ -159,7 +159,7 @@ public class Task extends BaseDomainEntity<TaskId> {
     if (params == null) {
       throw new TaskValidationException("Creation parameters cannot be null");
     }
-    if (params.customerId() == null) {
+    if (params.customerCompanyId() == null) {
       throw new TaskValidationException("Customer ID is required");
     }
     if (params.title() == null || params.title().trim().isEmpty()) {

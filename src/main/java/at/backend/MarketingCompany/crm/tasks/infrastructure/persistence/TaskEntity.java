@@ -1,12 +1,12 @@
 package at.backend.MarketingCompany.crm.tasks.infrastructure.persistence;
 
 import at.backend.MarketingCompany.account.user.adapters.outbound.persistence.UserEntity;
-import at.backend.MarketingCompany.common.jpa.BaseJpaEntity;
+import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity;
+import at.backend.MarketingCompany.shared.jpa.BaseJpaEntity;
 import at.backend.MarketingCompany.crm.opportunity.infrastructure.persistence.OpportunityEntity;
 
 import at.backend.MarketingCompany.crm.shared.enums.TaskPriority;
 import at.backend.MarketingCompany.crm.shared.enums.TaskStatus;
-import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -41,7 +41,7 @@ public class TaskEntity extends BaseJpaEntity {
 
   @ManyToOne
   @JoinColumn(name = "customer_id")
-  private CustomerEntity customer;
+  private CustomerCompanyEntity customer;
 
   @ManyToOne
   @JoinColumn(name = "opportunity_id")

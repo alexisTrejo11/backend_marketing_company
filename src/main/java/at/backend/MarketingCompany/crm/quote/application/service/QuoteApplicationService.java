@@ -52,9 +52,9 @@ public class QuoteApplicationService implements QuoteServicePort, QuoteQueryPort
   @Override
   public Quote handle(QuoteCreateCommand command) {
     validateQuote(command);
-    externalModuleValidator.validateCustomerExists(command.customerId());
+    externalModuleValidator.validateCustomerExists(command.customerCompanyId());
 
-    Quote quote = Quote.create(command.customerId(), command.validUntil());
+    Quote quote = Quote.create(command.customerCompanyId(), command.validUntil());
     return quoteRepositoryPort.save(quote);
   }
 

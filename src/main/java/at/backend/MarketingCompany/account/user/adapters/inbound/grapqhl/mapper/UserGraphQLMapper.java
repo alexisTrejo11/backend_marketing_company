@@ -4,7 +4,7 @@ import at.backend.MarketingCompany.account.user.adapters.inbound.grapqhl.dto.Use
 import at.backend.MarketingCompany.account.user.adapters.inbound.grapqhl.dto.UserStatisticsResponse;
 import at.backend.MarketingCompany.account.user.application.UserStatistics;
 import at.backend.MarketingCompany.account.user.domain.entity.User;
-import at.backend.MarketingCompany.common.PageResponse;
+import at.backend.MarketingCompany.shared.PageResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 

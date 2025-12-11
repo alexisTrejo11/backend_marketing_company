@@ -1,0 +1,1068 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealRepositoryIntegrationTest" tests="11" skipped="0" failures="9" errors="0" timestamp="2025-12-09T06:03:35.208Z" hostname="Administrator" time="0.3">
+  <properties/>
+  <testcase name="existsById_WithNonExistentDeal_ShouldReturnFalse()" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealRepositoryIntegrationTest" time="0.117"/>
+  <testcase name="delete_WithExistingDeal_ShouldRemoveFromDatabase()" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealRepositoryIntegrationTest" time="0.037">
+    <failure message="org.springframework.orm.jpa.JpaObjectRetrievalFailureException: Unable to find at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity with id 8e016b80-e6b8-47e7-b419-04c27c8b14e5" type="org.springframework.orm.jpa.JpaObjectRetrievalFailureException">org.springframework.orm.jpa.JpaObjectRetrievalFailureException: Unable to find at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity with id 8e016b80-e6b8-47e7-b419-04c27c8b14e5
+	at app//org.springframework.orm.jpa.EntityManagerFactoryUtils.convertJpaAccessExceptionIfPossible(EntityManagerFactoryUtils.java:376)
+	at app//org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:246)
+	at app//org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:560)
+	at app//org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:61)
+	at app//org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:343)
+	at app//org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:160)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:165)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:223)
+	at app/jdk.proxy3/jdk.proxy3.$Proxy194.save(Unknown Source)
+	at app//at.backend.MarketingCompany.crm.deal.repository.persistence.repository.DealRepositoryImpl.save(DealRepositoryImpl.java:34)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at app//org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:380)
+	at app//org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:727)
+	at app//at.backend.MarketingCompany.crm.deal.repository.persistence.repository.DealRepositoryImpl$$SpringCGLIB$$0.save(&lt;generated&gt;)
+	at app//at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealRepositoryIntegrationTest.delete_WithExistingDeal_ShouldRemoveFromDatabase(DealRepositoryIntegrationTest.java:269)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+Caused by: jakarta.persistence.EntityNotFoundException: Unable to find at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity with id 8e016b80-e6b8-47e7-b419-04c27c8b14e5
+	at app//org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl$JpaEntityNotFoundDelegate.handleEntityNotFound(EntityManagerFactoryBuilderImpl.java:190)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.load(DefaultLoadEventListener.java:211)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.loadWithRegularProxy(DefaultLoadEventListener.java:289)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.proxyOrLoad(DefaultLoadEventListener.java:241)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.doOnLoad(DefaultLoadEventListener.java:110)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.onLoad(DefaultLoadEventListener.java:69)
+	at app//org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:138)
+	at app//org.hibernate.internal.SessionImpl.fireLoadNoChecks(SessionImpl.java:1229)
+	at app//org.hibernate.internal.SessionImpl.internalLoad(SessionImpl.java:1075)
+	at app//org.hibernate.type.EntityType.resolveIdentifier(EntityType.java:740)
+	at app//org.hibernate.type.EntityType.resolve(EntityType.java:453)
+	at app//org.hibernate.type.EntityType.replace(EntityType.java:339)
+	at app//org.hibernate.type.AbstractType.replace(AbstractType.java:125)
+	at app//org.hibernate.type.TypeHelper.replace(TypeHelper.java:154)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.copyValues(DefaultMergeEventListener.java:637)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.entityIsTransient(DefaultMergeEventListener.java:303)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.entityIsDetached(DefaultMergeEventListener.java:432)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.merge(DefaultMergeEventListener.java:214)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.doMerge(DefaultMergeEventListener.java:152)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:136)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:89)
+	at app//org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:127)
+	at app//org.hibernate.internal.SessionImpl.fireMerge(SessionImpl.java:854)
+	at app//org.hibernate.internal.SessionImpl.merge(SessionImpl.java:840)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.orm.jpa.SharedEntityManagerCreator$SharedEntityManagerInvocationHandler.invoke(SharedEntityManagerCreator.java:320)
+	at app/jdk.proxy3/jdk.proxy3.$Proxy180.merge(Unknown Source)
+	at app//org.springframework.data.jpa.repository.support.SimpleJpaRepository.save(SimpleJpaRepository.java:630)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker$RepositoryFragmentMethodInvoker.lambda$new$0(RepositoryMethodInvoker.java:277)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker.doInvoke(RepositoryMethodInvoker.java:170)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker.invoke(RepositoryMethodInvoker.java:158)
+	at app//org.springframework.data.repository.core.support.RepositoryComposition$RepositoryFragments.invoke(RepositoryComposition.java:515)
+	at app//org.springframework.data.repository.core.support.RepositoryComposition.invoke(RepositoryComposition.java:284)
+	at app//org.springframework.data.repository.core.support.RepositoryFactorySupport$ImplementationMethodExecutionInterceptor.invoke(RepositoryFactorySupport.java:752)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.doInvoke(QueryExecutorMethodInterceptor.java:174)
+	at app//org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.invoke(QueryExecutorMethodInterceptor.java:149)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:69)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:380)
+	at app//org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:138)
+	... 20 more
+</failure>
+  </testcase>
+  <testcase name="save_WithCompletedDeal_ShouldPersistEndDateAndDeliverables()" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealRepositoryIntegrationTest" time="0.016">
+    <failure message="org.springframework.orm.jpa.JpaObjectRetrievalFailureException: Unable to find at.backend.MarketingCompany.account.user.adapters.outbound.persistence.UserEntity with id 95792360-2f0f-44b6-a083-f47bb7d00d15" type="org.springframework.orm.jpa.JpaObjectRetrievalFailureException">org.springframework.orm.jpa.JpaObjectRetrievalFailureException: Unable to find at.backend.MarketingCompany.account.user.adapters.outbound.persistence.UserEntity with id 95792360-2f0f-44b6-a083-f47bb7d00d15
+	at app//org.springframework.orm.jpa.EntityManagerFactoryUtils.convertJpaAccessExceptionIfPossible(EntityManagerFactoryUtils.java:376)
+	at app//org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:246)
+	at app//org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:560)
+	at app//org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:61)
+	at app//org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:343)
+	at app//org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:160)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:165)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:223)
+	at app/jdk.proxy3/jdk.proxy3.$Proxy194.save(Unknown Source)
+	at app//at.backend.MarketingCompany.crm.deal.repository.persistence.repository.DealRepositoryImpl.save(DealRepositoryImpl.java:34)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at app//org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:380)
+	at app//org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:727)
+	at app//at.backend.MarketingCompany.crm.deal.repository.persistence.repository.DealRepositoryImpl$$SpringCGLIB$$0.save(&lt;generated&gt;)
+	at app//at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealRepositoryIntegrationTest.save_WithCompletedDeal_ShouldPersistEndDateAndDeliverables(DealRepositoryIntegrationTest.java:227)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+Caused by: jakarta.persistence.EntityNotFoundException: Unable to find at.backend.MarketingCompany.account.user.adapters.outbound.persistence.UserEntity with id 95792360-2f0f-44b6-a083-f47bb7d00d15
+	at app//org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl$JpaEntityNotFoundDelegate.handleEntityNotFound(EntityManagerFactoryBuilderImpl.java:190)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.load(DefaultLoadEventListener.java:211)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.loadWithRegularProxy(DefaultLoadEventListener.java:289)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.proxyOrLoad(DefaultLoadEventListener.java:241)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.doOnLoad(DefaultLoadEventListener.java:110)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.onLoad(DefaultLoadEventListener.java:69)
+	at app//org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:138)
+	at app//org.hibernate.internal.SessionImpl.fireLoadNoChecks(SessionImpl.java:1229)
+	at app//org.hibernate.internal.SessionImpl.internalLoad(SessionImpl.java:1075)
+	at app//org.hibernate.type.EntityType.resolveIdentifier(EntityType.java:740)
+	at app//org.hibernate.type.EntityType.resolve(EntityType.java:453)
+	at app//org.hibernate.type.EntityType.replace(EntityType.java:339)
+	at app//org.hibernate.type.AbstractType.replace(AbstractType.java:125)
+	at app//org.hibernate.type.TypeHelper.replace(TypeHelper.java:154)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.copyValues(DefaultMergeEventListener.java:637)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.entityIsTransient(DefaultMergeEventListener.java:303)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.entityIsDetached(DefaultMergeEventListener.java:432)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.merge(DefaultMergeEventListener.java:214)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.doMerge(DefaultMergeEventListener.java:152)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:136)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:89)
+	at app//org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:127)
+	at app//org.hibernate.internal.SessionImpl.fireMerge(SessionImpl.java:854)
+	at app//org.hibernate.internal.SessionImpl.merge(SessionImpl.java:840)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.orm.jpa.SharedEntityManagerCreator$SharedEntityManagerInvocationHandler.invoke(SharedEntityManagerCreator.java:320)
+	at app/jdk.proxy3/jdk.proxy3.$Proxy180.merge(Unknown Source)
+	at app//org.springframework.data.jpa.repository.support.SimpleJpaRepository.save(SimpleJpaRepository.java:630)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker$RepositoryFragmentMethodInvoker.lambda$new$0(RepositoryMethodInvoker.java:277)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker.doInvoke(RepositoryMethodInvoker.java:170)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker.invoke(RepositoryMethodInvoker.java:158)
+	at app//org.springframework.data.repository.core.support.RepositoryComposition$RepositoryFragments.invoke(RepositoryComposition.java:515)
+	at app//org.springframework.data.repository.core.support.RepositoryComposition.invoke(RepositoryComposition.java:284)
+	at app//org.springframework.data.repository.core.support.RepositoryFactorySupport$ImplementationMethodExecutionInterceptor.invoke(RepositoryFactorySupport.java:752)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.doInvoke(QueryExecutorMethodInterceptor.java:174)
+	at app//org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.invoke(QueryExecutorMethodInterceptor.java:149)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:69)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:380)
+	at app//org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:138)
+	... 20 more
+</failure>
+  </testcase>
+  <testcase name="findByCustomer_WithExistingDeals_ShouldReturnDeals()" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealRepositoryIntegrationTest" time="0.013">
+    <failure message="org.springframework.orm.jpa.JpaObjectRetrievalFailureException: Unable to find at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity with id df586eb4-8b83-4ad4-95d7-061d7707e904" type="org.springframework.orm.jpa.JpaObjectRetrievalFailureException">org.springframework.orm.jpa.JpaObjectRetrievalFailureException: Unable to find at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity with id df586eb4-8b83-4ad4-95d7-061d7707e904
+	at app//org.springframework.orm.jpa.EntityManagerFactoryUtils.convertJpaAccessExceptionIfPossible(EntityManagerFactoryUtils.java:376)
+	at app//org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:246)
+	at app//org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:560)
+	at app//org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:61)
+	at app//org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:343)
+	at app//org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:160)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:165)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:223)
+	at app/jdk.proxy3/jdk.proxy3.$Proxy194.save(Unknown Source)
+	at app//at.backend.MarketingCompany.crm.deal.repository.persistence.repository.DealRepositoryImpl.save(DealRepositoryImpl.java:34)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at app//org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:380)
+	at app//org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:727)
+	at app//at.backend.MarketingCompany.crm.deal.repository.persistence.repository.DealRepositoryImpl$$SpringCGLIB$$0.save(&lt;generated&gt;)
+	at app//at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealRepositoryIntegrationTest.findByCustomer_WithExistingDeals_ShouldReturnDeals(DealRepositoryIntegrationTest.java:145)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+Caused by: jakarta.persistence.EntityNotFoundException: Unable to find at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity with id df586eb4-8b83-4ad4-95d7-061d7707e904
+	at app//org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl$JpaEntityNotFoundDelegate.handleEntityNotFound(EntityManagerFactoryBuilderImpl.java:190)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.load(DefaultLoadEventListener.java:211)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.loadWithRegularProxy(DefaultLoadEventListener.java:289)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.proxyOrLoad(DefaultLoadEventListener.java:241)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.doOnLoad(DefaultLoadEventListener.java:110)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.onLoad(DefaultLoadEventListener.java:69)
+	at app//org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:138)
+	at app//org.hibernate.internal.SessionImpl.fireLoadNoChecks(SessionImpl.java:1229)
+	at app//org.hibernate.internal.SessionImpl.internalLoad(SessionImpl.java:1075)
+	at app//org.hibernate.type.EntityType.resolveIdentifier(EntityType.java:740)
+	at app//org.hibernate.type.EntityType.resolve(EntityType.java:453)
+	at app//org.hibernate.type.EntityType.replace(EntityType.java:339)
+	at app//org.hibernate.type.AbstractType.replace(AbstractType.java:125)
+	at app//org.hibernate.type.TypeHelper.replace(TypeHelper.java:154)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.copyValues(DefaultMergeEventListener.java:637)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.entityIsTransient(DefaultMergeEventListener.java:303)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.entityIsDetached(DefaultMergeEventListener.java:432)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.merge(DefaultMergeEventListener.java:214)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.doMerge(DefaultMergeEventListener.java:152)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:136)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:89)
+	at app//org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:127)
+	at app//org.hibernate.internal.SessionImpl.fireMerge(SessionImpl.java:854)
+	at app//org.hibernate.internal.SessionImpl.merge(SessionImpl.java:840)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.orm.jpa.SharedEntityManagerCreator$SharedEntityManagerInvocationHandler.invoke(SharedEntityManagerCreator.java:320)
+	at app/jdk.proxy3/jdk.proxy3.$Proxy180.merge(Unknown Source)
+	at app//org.springframework.data.jpa.repository.support.SimpleJpaRepository.save(SimpleJpaRepository.java:630)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker$RepositoryFragmentMethodInvoker.lambda$new$0(RepositoryMethodInvoker.java:277)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker.doInvoke(RepositoryMethodInvoker.java:170)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker.invoke(RepositoryMethodInvoker.java:158)
+	at app//org.springframework.data.repository.core.support.RepositoryComposition$RepositoryFragments.invoke(RepositoryComposition.java:515)
+	at app//org.springframework.data.repository.core.support.RepositoryComposition.invoke(RepositoryComposition.java:284)
+	at app//org.springframework.data.repository.core.support.RepositoryFactorySupport$ImplementationMethodExecutionInterceptor.invoke(RepositoryFactorySupport.java:752)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.doInvoke(QueryExecutorMethodInterceptor.java:174)
+	at app//org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.invoke(QueryExecutorMethodInterceptor.java:149)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:69)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:380)
+	at app//org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:138)
+	... 20 more
+</failure>
+  </testcase>
+  <testcase name="save_WithSignedDeal_ShouldPersistAllFields()" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealRepositoryIntegrationTest" time="0.015">
+    <failure message="org.springframework.orm.jpa.JpaObjectRetrievalFailureException: Unable to find at.backend.MarketingCompany.account.user.adapters.outbound.persistence.UserEntity with id fde72a0f-c878-46d8-bd9b-5bcacdf9b8b0" type="org.springframework.orm.jpa.JpaObjectRetrievalFailureException">org.springframework.orm.jpa.JpaObjectRetrievalFailureException: Unable to find at.backend.MarketingCompany.account.user.adapters.outbound.persistence.UserEntity with id fde72a0f-c878-46d8-bd9b-5bcacdf9b8b0
+	at app//org.springframework.orm.jpa.EntityManagerFactoryUtils.convertJpaAccessExceptionIfPossible(EntityManagerFactoryUtils.java:376)
+	at app//org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:246)
+	at app//org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:560)
+	at app//org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:61)
+	at app//org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:343)
+	at app//org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:160)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:165)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:223)
+	at app/jdk.proxy3/jdk.proxy3.$Proxy194.save(Unknown Source)
+	at app//at.backend.MarketingCompany.crm.deal.repository.persistence.repository.DealRepositoryImpl.save(DealRepositoryImpl.java:34)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at app//org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:380)
+	at app//org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:727)
+	at app//at.backend.MarketingCompany.crm.deal.repository.persistence.repository.DealRepositoryImpl$$SpringCGLIB$$0.save(&lt;generated&gt;)
+	at app//at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealRepositoryIntegrationTest.save_WithSignedDeal_ShouldPersistAllFields(DealRepositoryIntegrationTest.java:194)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+Caused by: jakarta.persistence.EntityNotFoundException: Unable to find at.backend.MarketingCompany.account.user.adapters.outbound.persistence.UserEntity with id fde72a0f-c878-46d8-bd9b-5bcacdf9b8b0
+	at app//org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl$JpaEntityNotFoundDelegate.handleEntityNotFound(EntityManagerFactoryBuilderImpl.java:190)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.load(DefaultLoadEventListener.java:211)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.loadWithRegularProxy(DefaultLoadEventListener.java:289)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.proxyOrLoad(DefaultLoadEventListener.java:241)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.doOnLoad(DefaultLoadEventListener.java:110)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.onLoad(DefaultLoadEventListener.java:69)
+	at app//org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:138)
+	at app//org.hibernate.internal.SessionImpl.fireLoadNoChecks(SessionImpl.java:1229)
+	at app//org.hibernate.internal.SessionImpl.internalLoad(SessionImpl.java:1075)
+	at app//org.hibernate.type.EntityType.resolveIdentifier(EntityType.java:740)
+	at app//org.hibernate.type.EntityType.resolve(EntityType.java:453)
+	at app//org.hibernate.type.EntityType.replace(EntityType.java:339)
+	at app//org.hibernate.type.AbstractType.replace(AbstractType.java:125)
+	at app//org.hibernate.type.TypeHelper.replace(TypeHelper.java:154)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.copyValues(DefaultMergeEventListener.java:637)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.entityIsTransient(DefaultMergeEventListener.java:303)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.entityIsDetached(DefaultMergeEventListener.java:432)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.merge(DefaultMergeEventListener.java:214)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.doMerge(DefaultMergeEventListener.java:152)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:136)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:89)
+	at app//org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:127)
+	at app//org.hibernate.internal.SessionImpl.fireMerge(SessionImpl.java:854)
+	at app//org.hibernate.internal.SessionImpl.merge(SessionImpl.java:840)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.orm.jpa.SharedEntityManagerCreator$SharedEntityManagerInvocationHandler.invoke(SharedEntityManagerCreator.java:320)
+	at app/jdk.proxy3/jdk.proxy3.$Proxy180.merge(Unknown Source)
+	at app//org.springframework.data.jpa.repository.support.SimpleJpaRepository.save(SimpleJpaRepository.java:630)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker$RepositoryFragmentMethodInvoker.lambda$new$0(RepositoryMethodInvoker.java:277)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker.doInvoke(RepositoryMethodInvoker.java:170)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker.invoke(RepositoryMethodInvoker.java:158)
+	at app//org.springframework.data.repository.core.support.RepositoryComposition$RepositoryFragments.invoke(RepositoryComposition.java:515)
+	at app//org.springframework.data.repository.core.support.RepositoryComposition.invoke(RepositoryComposition.java:284)
+	at app//org.springframework.data.repository.core.support.RepositoryFactorySupport$ImplementationMethodExecutionInterceptor.invoke(RepositoryFactorySupport.java:752)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.doInvoke(QueryExecutorMethodInterceptor.java:174)
+	at app//org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.invoke(QueryExecutorMethodInterceptor.java:149)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:69)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:380)
+	at app//org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:138)
+	... 20 more
+</failure>
+  </testcase>
+  <testcase name="existsById_WithExistingDeal_ShouldReturnTrue()" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealRepositoryIntegrationTest" time="0.014">
+    <failure message="org.springframework.orm.jpa.JpaObjectRetrievalFailureException: Unable to find at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity with id 080befd8-fbe9-40be-b498-31b92e384fd4" type="org.springframework.orm.jpa.JpaObjectRetrievalFailureException">org.springframework.orm.jpa.JpaObjectRetrievalFailureException: Unable to find at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity with id 080befd8-fbe9-40be-b498-31b92e384fd4
+	at app//org.springframework.orm.jpa.EntityManagerFactoryUtils.convertJpaAccessExceptionIfPossible(EntityManagerFactoryUtils.java:376)
+	at app//org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:246)
+	at app//org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:560)
+	at app//org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:61)
+	at app//org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:343)
+	at app//org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:160)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:165)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:223)
+	at app/jdk.proxy3/jdk.proxy3.$Proxy194.save(Unknown Source)
+	at app//at.backend.MarketingCompany.crm.deal.repository.persistence.repository.DealRepositoryImpl.save(DealRepositoryImpl.java:34)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at app//org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:380)
+	at app//org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:727)
+	at app//at.backend.MarketingCompany.crm.deal.repository.persistence.repository.DealRepositoryImpl$$SpringCGLIB$$0.save(&lt;generated&gt;)
+	at app//at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealRepositoryIntegrationTest.existsById_WithExistingDeal_ShouldReturnTrue(DealRepositoryIntegrationTest.java:244)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+Caused by: jakarta.persistence.EntityNotFoundException: Unable to find at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity with id 080befd8-fbe9-40be-b498-31b92e384fd4
+	at app//org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl$JpaEntityNotFoundDelegate.handleEntityNotFound(EntityManagerFactoryBuilderImpl.java:190)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.load(DefaultLoadEventListener.java:211)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.loadWithRegularProxy(DefaultLoadEventListener.java:289)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.proxyOrLoad(DefaultLoadEventListener.java:241)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.doOnLoad(DefaultLoadEventListener.java:110)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.onLoad(DefaultLoadEventListener.java:69)
+	at app//org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:138)
+	at app//org.hibernate.internal.SessionImpl.fireLoadNoChecks(SessionImpl.java:1229)
+	at app//org.hibernate.internal.SessionImpl.internalLoad(SessionImpl.java:1075)
+	at app//org.hibernate.type.EntityType.resolveIdentifier(EntityType.java:740)
+	at app//org.hibernate.type.EntityType.resolve(EntityType.java:453)
+	at app//org.hibernate.type.EntityType.replace(EntityType.java:339)
+	at app//org.hibernate.type.AbstractType.replace(AbstractType.java:125)
+	at app//org.hibernate.type.TypeHelper.replace(TypeHelper.java:154)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.copyValues(DefaultMergeEventListener.java:637)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.entityIsTransient(DefaultMergeEventListener.java:303)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.entityIsDetached(DefaultMergeEventListener.java:432)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.merge(DefaultMergeEventListener.java:214)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.doMerge(DefaultMergeEventListener.java:152)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:136)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:89)
+	at app//org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:127)
+	at app//org.hibernate.internal.SessionImpl.fireMerge(SessionImpl.java:854)
+	at app//org.hibernate.internal.SessionImpl.merge(SessionImpl.java:840)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.orm.jpa.SharedEntityManagerCreator$SharedEntityManagerInvocationHandler.invoke(SharedEntityManagerCreator.java:320)
+	at app/jdk.proxy3/jdk.proxy3.$Proxy180.merge(Unknown Source)
+	at app//org.springframework.data.jpa.repository.support.SimpleJpaRepository.save(SimpleJpaRepository.java:630)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker$RepositoryFragmentMethodInvoker.lambda$new$0(RepositoryMethodInvoker.java:277)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker.doInvoke(RepositoryMethodInvoker.java:170)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker.invoke(RepositoryMethodInvoker.java:158)
+	at app//org.springframework.data.repository.core.support.RepositoryComposition$RepositoryFragments.invoke(RepositoryComposition.java:515)
+	at app//org.springframework.data.repository.core.support.RepositoryComposition.invoke(RepositoryComposition.java:284)
+	at app//org.springframework.data.repository.core.support.RepositoryFactorySupport$ImplementationMethodExecutionInterceptor.invoke(RepositoryFactorySupport.java:752)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.doInvoke(QueryExecutorMethodInterceptor.java:174)
+	at app//org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.invoke(QueryExecutorMethodInterceptor.java:149)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:69)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:380)
+	at app//org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:138)
+	... 20 more
+</failure>
+  </testcase>
+  <testcase name="updateServicePackages_ShouldPersistChanges()" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealRepositoryIntegrationTest" time="0.015">
+    <failure message="org.springframework.orm.jpa.JpaObjectRetrievalFailureException: Unable to find at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity with id 0f11077c-1a5e-439e-a69b-c51d7df9cbe2" type="org.springframework.orm.jpa.JpaObjectRetrievalFailureException">org.springframework.orm.jpa.JpaObjectRetrievalFailureException: Unable to find at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity with id 0f11077c-1a5e-439e-a69b-c51d7df9cbe2
+	at app//org.springframework.orm.jpa.EntityManagerFactoryUtils.convertJpaAccessExceptionIfPossible(EntityManagerFactoryUtils.java:376)
+	at app//org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:246)
+	at app//org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:560)
+	at app//org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:61)
+	at app//org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:343)
+	at app//org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:160)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:165)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:223)
+	at app/jdk.proxy3/jdk.proxy3.$Proxy194.save(Unknown Source)
+	at app//at.backend.MarketingCompany.crm.deal.repository.persistence.repository.DealRepositoryImpl.save(DealRepositoryImpl.java:34)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at app//org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:380)
+	at app//org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:727)
+	at app//at.backend.MarketingCompany.crm.deal.repository.persistence.repository.DealRepositoryImpl$$SpringCGLIB$$0.save(&lt;generated&gt;)
+	at app//at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealRepositoryIntegrationTest.updateServicePackages_ShouldPersistChanges(DealRepositoryIntegrationTest.java:283)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+Caused by: jakarta.persistence.EntityNotFoundException: Unable to find at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity with id 0f11077c-1a5e-439e-a69b-c51d7df9cbe2
+	at app//org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl$JpaEntityNotFoundDelegate.handleEntityNotFound(EntityManagerFactoryBuilderImpl.java:190)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.load(DefaultLoadEventListener.java:211)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.loadWithRegularProxy(DefaultLoadEventListener.java:289)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.proxyOrLoad(DefaultLoadEventListener.java:241)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.doOnLoad(DefaultLoadEventListener.java:110)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.onLoad(DefaultLoadEventListener.java:69)
+	at app//org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:138)
+	at app//org.hibernate.internal.SessionImpl.fireLoadNoChecks(SessionImpl.java:1229)
+	at app//org.hibernate.internal.SessionImpl.internalLoad(SessionImpl.java:1075)
+	at app//org.hibernate.type.EntityType.resolveIdentifier(EntityType.java:740)
+	at app//org.hibernate.type.EntityType.resolve(EntityType.java:453)
+	at app//org.hibernate.type.EntityType.replace(EntityType.java:339)
+	at app//org.hibernate.type.AbstractType.replace(AbstractType.java:125)
+	at app//org.hibernate.type.TypeHelper.replace(TypeHelper.java:154)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.copyValues(DefaultMergeEventListener.java:637)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.entityIsTransient(DefaultMergeEventListener.java:303)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.entityIsDetached(DefaultMergeEventListener.java:432)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.merge(DefaultMergeEventListener.java:214)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.doMerge(DefaultMergeEventListener.java:152)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:136)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:89)
+	at app//org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:127)
+	at app//org.hibernate.internal.SessionImpl.fireMerge(SessionImpl.java:854)
+	at app//org.hibernate.internal.SessionImpl.merge(SessionImpl.java:840)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.orm.jpa.SharedEntityManagerCreator$SharedEntityManagerInvocationHandler.invoke(SharedEntityManagerCreator.java:320)
+	at app/jdk.proxy3/jdk.proxy3.$Proxy180.merge(Unknown Source)
+	at app//org.springframework.data.jpa.repository.support.SimpleJpaRepository.save(SimpleJpaRepository.java:630)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker$RepositoryFragmentMethodInvoker.lambda$new$0(RepositoryMethodInvoker.java:277)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker.doInvoke(RepositoryMethodInvoker.java:170)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker.invoke(RepositoryMethodInvoker.java:158)
+	at app//org.springframework.data.repository.core.support.RepositoryComposition$RepositoryFragments.invoke(RepositoryComposition.java:515)
+	at app//org.springframework.data.repository.core.support.RepositoryComposition.invoke(RepositoryComposition.java:284)
+	at app//org.springframework.data.repository.core.support.RepositoryFactorySupport$ImplementationMethodExecutionInterceptor.invoke(RepositoryFactorySupport.java:752)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.doInvoke(QueryExecutorMethodInterceptor.java:174)
+	at app//org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.invoke(QueryExecutorMethodInterceptor.java:149)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:69)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:380)
+	at app//org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:138)
+	... 20 more
+</failure>
+  </testcase>
+  <testcase name="findByStatuses_WithMultipleStatuses_ShouldReturnFilteredDeals()" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealRepositoryIntegrationTest" time="0.015">
+    <failure message="org.springframework.orm.jpa.JpaObjectRetrievalFailureException: Unable to find at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity with id 05774779-23b1-4bb2-ad11-00cadbd0e787" type="org.springframework.orm.jpa.JpaObjectRetrievalFailureException">org.springframework.orm.jpa.JpaObjectRetrievalFailureException: Unable to find at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity with id 05774779-23b1-4bb2-ad11-00cadbd0e787
+	at app//org.springframework.orm.jpa.EntityManagerFactoryUtils.convertJpaAccessExceptionIfPossible(EntityManagerFactoryUtils.java:376)
+	at app//org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:246)
+	at app//org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:560)
+	at app//org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:61)
+	at app//org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:343)
+	at app//org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:160)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:165)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:223)
+	at app/jdk.proxy3/jdk.proxy3.$Proxy194.save(Unknown Source)
+	at app//at.backend.MarketingCompany.crm.deal.repository.persistence.repository.DealRepositoryImpl.save(DealRepositoryImpl.java:34)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at app//org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:380)
+	at app//org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:727)
+	at app//at.backend.MarketingCompany.crm.deal.repository.persistence.repository.DealRepositoryImpl$$SpringCGLIB$$0.save(&lt;generated&gt;)
+	at app//at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealRepositoryIntegrationTest.findByStatuses_WithMultipleStatuses_ShouldReturnFilteredDeals(DealRepositoryIntegrationTest.java:167)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+Caused by: jakarta.persistence.EntityNotFoundException: Unable to find at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity with id 05774779-23b1-4bb2-ad11-00cadbd0e787
+	at app//org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl$JpaEntityNotFoundDelegate.handleEntityNotFound(EntityManagerFactoryBuilderImpl.java:190)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.load(DefaultLoadEventListener.java:211)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.loadWithRegularProxy(DefaultLoadEventListener.java:289)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.proxyOrLoad(DefaultLoadEventListener.java:241)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.doOnLoad(DefaultLoadEventListener.java:110)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.onLoad(DefaultLoadEventListener.java:69)
+	at app//org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:138)
+	at app//org.hibernate.internal.SessionImpl.fireLoadNoChecks(SessionImpl.java:1229)
+	at app//org.hibernate.internal.SessionImpl.internalLoad(SessionImpl.java:1075)
+	at app//org.hibernate.type.EntityType.resolveIdentifier(EntityType.java:740)
+	at app//org.hibernate.type.EntityType.resolve(EntityType.java:453)
+	at app//org.hibernate.type.EntityType.replace(EntityType.java:339)
+	at app//org.hibernate.type.AbstractType.replace(AbstractType.java:125)
+	at app//org.hibernate.type.TypeHelper.replace(TypeHelper.java:154)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.copyValues(DefaultMergeEventListener.java:637)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.entityIsTransient(DefaultMergeEventListener.java:303)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.entityIsDetached(DefaultMergeEventListener.java:432)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.merge(DefaultMergeEventListener.java:214)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.doMerge(DefaultMergeEventListener.java:152)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:136)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:89)
+	at app//org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:127)
+	at app//org.hibernate.internal.SessionImpl.fireMerge(SessionImpl.java:854)
+	at app//org.hibernate.internal.SessionImpl.merge(SessionImpl.java:840)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.orm.jpa.SharedEntityManagerCreator$SharedEntityManagerInvocationHandler.invoke(SharedEntityManagerCreator.java:320)
+	at app/jdk.proxy3/jdk.proxy3.$Proxy180.merge(Unknown Source)
+	at app//org.springframework.data.jpa.repository.support.SimpleJpaRepository.save(SimpleJpaRepository.java:630)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker$RepositoryFragmentMethodInvoker.lambda$new$0(RepositoryMethodInvoker.java:277)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker.doInvoke(RepositoryMethodInvoker.java:170)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker.invoke(RepositoryMethodInvoker.java:158)
+	at app//org.springframework.data.repository.core.support.RepositoryComposition$RepositoryFragments.invoke(RepositoryComposition.java:515)
+	at app//org.springframework.data.repository.core.support.RepositoryComposition.invoke(RepositoryComposition.java:284)
+	at app//org.springframework.data.repository.core.support.RepositoryFactorySupport$ImplementationMethodExecutionInterceptor.invoke(RepositoryFactorySupport.java:752)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.doInvoke(QueryExecutorMethodInterceptor.java:174)
+	at app//org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.invoke(QueryExecutorMethodInterceptor.java:149)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:69)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:380)
+	at app//org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:138)
+	... 20 more
+</failure>
+  </testcase>
+  <testcase name="findById_WithExistingDeal_ShouldReturnDeal()" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealRepositoryIntegrationTest" time="0.015">
+    <failure message="org.springframework.orm.jpa.JpaObjectRetrievalFailureException: Unable to find at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity with id 66c12fa4-1d52-4c34-ac14-14b7f5da6b87" type="org.springframework.orm.jpa.JpaObjectRetrievalFailureException">org.springframework.orm.jpa.JpaObjectRetrievalFailureException: Unable to find at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity with id 66c12fa4-1d52-4c34-ac14-14b7f5da6b87
+	at app//org.springframework.orm.jpa.EntityManagerFactoryUtils.convertJpaAccessExceptionIfPossible(EntityManagerFactoryUtils.java:376)
+	at app//org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:246)
+	at app//org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:560)
+	at app//org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:61)
+	at app//org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:343)
+	at app//org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:160)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:165)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:223)
+	at app/jdk.proxy3/jdk.proxy3.$Proxy194.save(Unknown Source)
+	at app//at.backend.MarketingCompany.crm.deal.repository.persistence.repository.DealRepositoryImpl.save(DealRepositoryImpl.java:34)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at app//org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:380)
+	at app//org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:727)
+	at app//at.backend.MarketingCompany.crm.deal.repository.persistence.repository.DealRepositoryImpl$$SpringCGLIB$$0.save(&lt;generated&gt;)
+	at app//at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealRepositoryIntegrationTest.findById_WithExistingDeal_ShouldReturnDeal(DealRepositoryIntegrationTest.java:116)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+Caused by: jakarta.persistence.EntityNotFoundException: Unable to find at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity with id 66c12fa4-1d52-4c34-ac14-14b7f5da6b87
+	at app//org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl$JpaEntityNotFoundDelegate.handleEntityNotFound(EntityManagerFactoryBuilderImpl.java:190)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.load(DefaultLoadEventListener.java:211)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.loadWithRegularProxy(DefaultLoadEventListener.java:289)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.proxyOrLoad(DefaultLoadEventListener.java:241)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.doOnLoad(DefaultLoadEventListener.java:110)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.onLoad(DefaultLoadEventListener.java:69)
+	at app//org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:138)
+	at app//org.hibernate.internal.SessionImpl.fireLoadNoChecks(SessionImpl.java:1229)
+	at app//org.hibernate.internal.SessionImpl.internalLoad(SessionImpl.java:1075)
+	at app//org.hibernate.type.EntityType.resolveIdentifier(EntityType.java:740)
+	at app//org.hibernate.type.EntityType.resolve(EntityType.java:453)
+	at app//org.hibernate.type.EntityType.replace(EntityType.java:339)
+	at app//org.hibernate.type.AbstractType.replace(AbstractType.java:125)
+	at app//org.hibernate.type.TypeHelper.replace(TypeHelper.java:154)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.copyValues(DefaultMergeEventListener.java:637)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.entityIsTransient(DefaultMergeEventListener.java:303)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.entityIsDetached(DefaultMergeEventListener.java:432)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.merge(DefaultMergeEventListener.java:214)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.doMerge(DefaultMergeEventListener.java:152)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:136)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:89)
+	at app//org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:127)
+	at app//org.hibernate.internal.SessionImpl.fireMerge(SessionImpl.java:854)
+	at app//org.hibernate.internal.SessionImpl.merge(SessionImpl.java:840)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.orm.jpa.SharedEntityManagerCreator$SharedEntityManagerInvocationHandler.invoke(SharedEntityManagerCreator.java:320)
+	at app/jdk.proxy3/jdk.proxy3.$Proxy180.merge(Unknown Source)
+	at app//org.springframework.data.jpa.repository.support.SimpleJpaRepository.save(SimpleJpaRepository.java:630)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker$RepositoryFragmentMethodInvoker.lambda$new$0(RepositoryMethodInvoker.java:277)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker.doInvoke(RepositoryMethodInvoker.java:170)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker.invoke(RepositoryMethodInvoker.java:158)
+	at app//org.springframework.data.repository.core.support.RepositoryComposition$RepositoryFragments.invoke(RepositoryComposition.java:515)
+	at app//org.springframework.data.repository.core.support.RepositoryComposition.invoke(RepositoryComposition.java:284)
+	at app//org.springframework.data.repository.core.support.RepositoryFactorySupport$ImplementationMethodExecutionInterceptor.invoke(RepositoryFactorySupport.java:752)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.doInvoke(QueryExecutorMethodInterceptor.java:174)
+	at app//org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.invoke(QueryExecutorMethodInterceptor.java:149)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:69)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:380)
+	at app//org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:138)
+	... 20 more
+</failure>
+  </testcase>
+  <testcase name="findById_WithNonExistentDeal_ShouldReturnEmpty()" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealRepositoryIntegrationTest" time="0.019"/>
+  <testcase name="save_WithValidDeal_ShouldPersistSuccessfully()" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealRepositoryIntegrationTest" time="0.014">
+    <failure message="org.springframework.orm.jpa.JpaObjectRetrievalFailureException: Unable to find at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity with id ea6d7e0e-97b5-4e09-9c5d-17490dc54f87" type="org.springframework.orm.jpa.JpaObjectRetrievalFailureException">org.springframework.orm.jpa.JpaObjectRetrievalFailureException: Unable to find at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity with id ea6d7e0e-97b5-4e09-9c5d-17490dc54f87
+	at app//org.springframework.orm.jpa.EntityManagerFactoryUtils.convertJpaAccessExceptionIfPossible(EntityManagerFactoryUtils.java:376)
+	at app//org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:246)
+	at app//org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:560)
+	at app//org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:61)
+	at app//org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:343)
+	at app//org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:160)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:165)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:223)
+	at app/jdk.proxy3/jdk.proxy3.$Proxy194.save(Unknown Source)
+	at app//at.backend.MarketingCompany.crm.deal.repository.persistence.repository.DealRepositoryImpl.save(DealRepositoryImpl.java:34)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at app//org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:380)
+	at app//org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:727)
+	at app//at.backend.MarketingCompany.crm.deal.repository.persistence.repository.DealRepositoryImpl$$SpringCGLIB$$0.save(&lt;generated&gt;)
+	at app//at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealRepositoryIntegrationTest.save_WithValidDeal_ShouldPersistSuccessfully(DealRepositoryIntegrationTest.java:95)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+Caused by: jakarta.persistence.EntityNotFoundException: Unable to find at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity with id ea6d7e0e-97b5-4e09-9c5d-17490dc54f87
+	at app//org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl$JpaEntityNotFoundDelegate.handleEntityNotFound(EntityManagerFactoryBuilderImpl.java:190)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.load(DefaultLoadEventListener.java:211)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.loadWithRegularProxy(DefaultLoadEventListener.java:289)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.proxyOrLoad(DefaultLoadEventListener.java:241)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.doOnLoad(DefaultLoadEventListener.java:110)
+	at app//org.hibernate.event.internal.DefaultLoadEventListener.onLoad(DefaultLoadEventListener.java:69)
+	at app//org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:138)
+	at app//org.hibernate.internal.SessionImpl.fireLoadNoChecks(SessionImpl.java:1229)
+	at app//org.hibernate.internal.SessionImpl.internalLoad(SessionImpl.java:1075)
+	at app//org.hibernate.type.EntityType.resolveIdentifier(EntityType.java:740)
+	at app//org.hibernate.type.EntityType.resolve(EntityType.java:453)
+	at app//org.hibernate.type.EntityType.replace(EntityType.java:339)
+	at app//org.hibernate.type.AbstractType.replace(AbstractType.java:125)
+	at app//org.hibernate.type.TypeHelper.replace(TypeHelper.java:154)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.copyValues(DefaultMergeEventListener.java:637)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.entityIsTransient(DefaultMergeEventListener.java:303)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.entityIsDetached(DefaultMergeEventListener.java:432)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.merge(DefaultMergeEventListener.java:214)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.doMerge(DefaultMergeEventListener.java:152)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:136)
+	at app//org.hibernate.event.internal.DefaultMergeEventListener.onMerge(DefaultMergeEventListener.java:89)
+	at app//org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:127)
+	at app//org.hibernate.internal.SessionImpl.fireMerge(SessionImpl.java:854)
+	at app//org.hibernate.internal.SessionImpl.merge(SessionImpl.java:840)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.orm.jpa.SharedEntityManagerCreator$SharedEntityManagerInvocationHandler.invoke(SharedEntityManagerCreator.java:320)
+	at app/jdk.proxy3/jdk.proxy3.$Proxy180.merge(Unknown Source)
+	at app//org.springframework.data.jpa.repository.support.SimpleJpaRepository.save(SimpleJpaRepository.java:630)
+	at java.base@23.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker$RepositoryFragmentMethodInvoker.lambda$new$0(RepositoryMethodInvoker.java:277)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker.doInvoke(RepositoryMethodInvoker.java:170)
+	at app//org.springframework.data.repository.core.support.RepositoryMethodInvoker.invoke(RepositoryMethodInvoker.java:158)
+	at app//org.springframework.data.repository.core.support.RepositoryComposition$RepositoryFragments.invoke(RepositoryComposition.java:515)
+	at app//org.springframework.data.repository.core.support.RepositoryComposition.invoke(RepositoryComposition.java:284)
+	at app//org.springframework.data.repository.core.support.RepositoryFactorySupport$ImplementationMethodExecutionInterceptor.invoke(RepositoryFactorySupport.java:752)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.doInvoke(QueryExecutorMethodInterceptor.java:174)
+	at app//org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.invoke(QueryExecutorMethodInterceptor.java:149)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:69)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:380)
+	at app//org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at app//org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at app//org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:138)
+	... 20 more
+</failure>
+  </testcase>
+  <system-out><![CDATA[2025-12-09T00:02:34.106-06:00  INFO 993380 --- [CRM] [    Test worker] org.testcontainers.images.PullPolicy     : Image pull policy will be performed by: DefaultPullPolicy()
+2025-12-09T00:02:34.108-06:00  INFO 993380 --- [CRM] [    Test worker] o.t.utility.ImageNameSubstitutor         : Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+2025-12-09T00:02:34.119-06:00  INFO 993380 --- [CRM] [    Test worker] org.testcontainers.DockerClientFactory   : Testcontainers version: 1.20.4
+2025-12-09T00:02:35.961-06:00  INFO 993380 --- [CRM] [    Test worker] o.t.d.DockerClientProviderStrategy       : Found Docker environment with local Unix socket (unix:///var/run/docker.sock)
+2025-12-09T00:02:35.990-06:00  INFO 993380 --- [CRM] [    Test worker] org.testcontainers.DockerClientFactory   : Docker host IP address is localhost
+2025-12-09T00:02:36.046-06:00  INFO 993380 --- [CRM] [    Test worker] org.testcontainers.DockerClientFactory   : Connected to docker: 
+  Server Version: 28.4.0
+  API Version: 1.51
+  Operating System: Ubuntu 24.04.3 LTS
+  Total Memory: 7920 MB
+2025-12-09T00:02:36.483-06:00  INFO 993380 --- [CRM] [    Test worker] tc.testcontainers/ryuk:0.11.0            : Pulling docker image: testcontainers/ryuk:0.11.0. Please be patient; this may take some time but only needs to be done once.
+2025-12-09T00:02:41.860-06:00  INFO 993380 --- [CRM] [eam--1327023394] tc.testcontainers/ryuk:0.11.0            : Starting to pull image
+2025-12-09T00:02:41.874-06:00  INFO 993380 --- [CRM] [eam--1327023394] tc.testcontainers/ryuk:0.11.0            : Pulling image layers:  0 pending,  0 downloaded,  0 extracted, (0 bytes/0 bytes)
+2025-12-09T00:02:44.259-06:00  INFO 993380 --- [CRM] [eam--1327023394] tc.testcontainers/ryuk:0.11.0            : Pulling image layers:  2 pending,  1 downloaded,  0 extracted, (2 MB/? MB)
+2025-12-09T00:02:44.362-06:00  INFO 993380 --- [CRM] [eam--1327023394] tc.testcontainers/ryuk:0.11.0            : Pulling image layers:  1 pending,  2 downloaded,  0 extracted, (4 MB/? MB)
+2025-12-09T00:02:44.881-06:00  INFO 993380 --- [CRM] [eam--1327023394] tc.testcontainers/ryuk:0.11.0            : Pulling image layers:  0 pending,  3 downloaded,  0 extracted, (10 MB/10 MB)
+2025-12-09T00:02:44.932-06:00  INFO 993380 --- [CRM] [eam--1327023394] tc.testcontainers/ryuk:0.11.0            : Pulling image layers:  0 pending,  3 downloaded,  1 extracted, (10 MB/10 MB)
+2025-12-09T00:02:45.723-06:00  INFO 993380 --- [CRM] [eam--1327023394] tc.testcontainers/ryuk:0.11.0            : Pulling image layers:  0 pending,  3 downloaded,  2 extracted, (10 MB/10 MB)
+2025-12-09T00:02:46.798-06:00  INFO 993380 --- [CRM] [eam--1327023394] tc.testcontainers/ryuk:0.11.0            : Pulling image layers:  0 pending,  3 downloaded,  3 extracted, (10 MB/10 MB)
+2025-12-09T00:02:47.454-06:00  INFO 993380 --- [CRM] [eam--1327023394] tc.testcontainers/ryuk:0.11.0            : Pull complete. 3 layers, pulled in 5s (downloaded 10 MB at 2 MB/s)
+2025-12-09T00:02:47.454-06:00  INFO 993380 --- [CRM] [    Test worker] tc.testcontainers/ryuk:0.11.0            : Image testcontainers/ryuk:0.11.0 pull took PT10.970608917S
+2025-12-09T00:02:47.484-06:00  INFO 993380 --- [CRM] [    Test worker] tc.testcontainers/ryuk:0.11.0            : Creating container for image: testcontainers/ryuk:0.11.0
+2025-12-09T00:02:49.694-06:00  INFO 993380 --- [CRM] [    Test worker] tc.testcontainers/ryuk:0.11.0            : Container testcontainers/ryuk:0.11.0 is starting: b11c8474d03e115a8542d9323bb43269567cff1803b98ef63920e045d830e157
+2025-12-09T00:02:52.007-06:00  INFO 993380 --- [CRM] [    Test worker] tc.testcontainers/ryuk:0.11.0            : Container testcontainers/ryuk:0.11.0 started in PT4.523351821S
+2025-12-09T00:02:52.033-06:00  INFO 993380 --- [CRM] [    Test worker] o.t.utility.RyukResourceReaper           : Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+2025-12-09T00:02:52.033-06:00  INFO 993380 --- [CRM] [    Test worker] org.testcontainers.DockerClientFactory   : Checking the system...
+2025-12-09T00:02:52.033-06:00  INFO 993380 --- [CRM] [    Test worker] org.testcontainers.DockerClientFactory   : ✔︎ Docker server version should be at least 1.6.0
+2025-12-09T00:02:52.036-06:00  INFO 993380 --- [CRM] [    Test worker] tc.postgres:15                           : Pulling docker image: postgres:15. Please be patient; this may take some time but only needs to be done once.
+2025-12-09T00:02:53.538-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Starting to pull image
+2025-12-09T00:02:53.539-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers:  0 pending,  0 downloaded,  0 extracted, (0 bytes/0 bytes)
+2025-12-09T00:02:54.569-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers: 13 pending,  1 downloaded,  0 extracted, (1 KB/? MB)
+2025-12-09T00:02:55.549-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers: 12 pending,  2 downloaded,  0 extracted, (10 MB/? MB)
+2025-12-09T00:02:55.587-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers: 11 pending,  3 downloaded,  0 extracted, (10 MB/? MB)
+2025-12-09T00:02:56.352-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers: 10 pending,  4 downloaded,  0 extracted, (16 MB/? MB)
+2025-12-09T00:02:57.223-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers:  9 pending,  5 downloaded,  0 extracted, (26 MB/? MB)
+2025-12-09T00:02:57.363-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers:  8 pending,  6 downloaded,  0 extracted, (28 MB/? MB)
+2025-12-09T00:02:57.744-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers:  7 pending,  7 downloaded,  0 extracted, (30 MB/? MB)
+2025-12-09T00:02:58.432-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers:  6 pending,  8 downloaded,  0 extracted, (37 MB/? MB)
+2025-12-09T00:02:59.160-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers:  5 pending,  9 downloaded,  0 extracted, (47 MB/? MB)
+2025-12-09T00:02:59.840-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers:  4 pending, 10 downloaded,  0 extracted, (55 MB/? MB)
+2025-12-09T00:02:59.974-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers:  3 pending, 11 downloaded,  0 extracted, (55 MB/? MB)
+2025-12-09T00:03:00.352-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers:  2 pending, 12 downloaded,  0 extracted, (58 MB/? MB)
+2025-12-09T00:03:00.451-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers:  1 pending, 13 downloaded,  0 extracted, (59 MB/? MB)
+2025-12-09T00:03:02.268-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers:  1 pending, 13 downloaded,  1 extracted, (80 MB/? MB)
+2025-12-09T00:03:02.834-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers:  1 pending, 13 downloaded,  2 extracted, (86 MB/? MB)
+2025-12-09T00:03:03.706-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers:  1 pending, 13 downloaded,  3 extracted, (97 MB/? MB)
+2025-12-09T00:03:04.329-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers:  1 pending, 13 downloaded,  4 extracted, (104 MB/? MB)
+2025-12-09T00:03:05.508-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers:  1 pending, 13 downloaded,  5 extracted, (117 MB/? MB)
+2025-12-09T00:03:06.212-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers:  1 pending, 13 downloaded,  6 extracted, (125 MB/? MB)
+2025-12-09T00:03:06.777-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers:  1 pending, 13 downloaded,  7 extracted, (131 MB/? MB)
+2025-12-09T00:03:07.327-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers:  1 pending, 13 downloaded,  8 extracted, (139 MB/? MB)
+2025-12-09T00:03:08.283-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers:  0 pending, 14 downloaded,  8 extracted, (150 MB/150 MB)
+2025-12-09T00:03:14.336-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers:  0 pending, 14 downloaded,  9 extracted, (150 MB/150 MB)
+2025-12-09T00:03:14.877-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers:  0 pending, 14 downloaded, 10 extracted, (150 MB/150 MB)
+2025-12-09T00:03:15.484-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers:  0 pending, 14 downloaded, 11 extracted, (150 MB/150 MB)
+2025-12-09T00:03:17.023-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers:  0 pending, 14 downloaded, 12 extracted, (150 MB/150 MB)
+2025-12-09T00:03:17.592-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers:  0 pending, 14 downloaded, 13 extracted, (150 MB/150 MB)
+2025-12-09T00:03:18.122-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pulling image layers:  0 pending, 14 downloaded, 14 extracted, (150 MB/150 MB)
+2025-12-09T00:03:24.352-06:00  INFO 993380 --- [CRM] [ream-1792076467] tc.postgres:15                           : Pull complete. 14 layers, pulled in 30s (downloaded 150 MB at 5 MB/s)
+2025-12-09T00:03:24.352-06:00  INFO 993380 --- [CRM] [    Test worker] tc.postgres:15                           : Image postgres:15 pull took PT32.31599925S
+2025-12-09T00:03:24.355-06:00  INFO 993380 --- [CRM] [    Test worker] tc.postgres:15                           : Creating container for image: postgres:15
+2025-12-09T00:03:30.477-06:00  INFO 993380 --- [CRM] [    Test worker] tc.postgres:15                           : Container postgres:15 is starting: 73bcd5f080a903ca5dfd8dcc1c7af270a77c2f464349dfcfca832b1bbb4f4f5c
+2025-12-09T00:03:34.292-06:00  INFO 993380 --- [CRM] [    Test worker] tc.postgres:15                           : Container postgres:15 started in PT9.936723073S
+2025-12-09T00:03:34.293-06:00  INFO 993380 --- [CRM] [    Test worker] tc.postgres:15                           : Container is started (JDBC URL: jdbc:postgresql://localhost:32769/testdb?loggerLevel=OFF)
+2025-12-09T00:03:34.297-06:00  INFO 993380 --- [CRM] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealRepositoryIntegrationTest]: DealRepositoryIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-12-09T00:03:34.330-06:00  INFO 993380 --- [CRM] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration at.backend.MarketingCompany.MarketingCompanyApplication for test class at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealRepositoryIntegrationTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.4.2)
+
+2025-12-09T00:03:34.354-06:00  WARN 993380 --- [CRM] [    Test worker] ory$DuplicateJsonObjectContextCustomizer : 
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/root/.gradle/caches/modules-2/files-2.1/org.json/json/20240303/ebb88e8fb5122b7506d5cf1d69f1ccdb790d22a/json-20240303.jar!/org/json/JSONObject.class
+	jar:file:/root/.gradle/caches/modules-2/files-2.1/com.vaadin.external.google/android-json/0.0.20131108.vaadin1/fa26d351fe62a6a17f5cda1287c1c6110dec413f/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+2025-12-09T00:03:34.357-06:00  INFO 993380 --- [CRM] [    Test worker] .M.M.c.d.p.DealRepositoryIntegrationTest : Starting DealRepositoryIntegrationTest using Java 23.0.2 with PID 993380 (started by root in /root/Documents/java/backend_marketing_company)
+2025-12-09T00:03:34.358-06:00  INFO 993380 --- [CRM] [    Test worker] .M.M.c.d.p.DealRepositoryIntegrationTest : No active profile set, falling back to 1 default profile: "default"
+2025-12-09T00:03:34.463-06:00  INFO 993380 --- [CRM] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-09T00:03:34.463-06:00  INFO 993380 --- [CRM] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-09T00:03:34.482-06:00  INFO 993380 --- [CRM] [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data JPA - Could not safely identify store assignment for repository candidate interface at.backend.MarketingCompany.account.auth.adapaters.outbound.persistence.RedisAuthSessionRepository; If you want this repository to be a JPA repository, consider annotating your entities with one of these annotations: jakarta.persistence.Entity, jakarta.persistence.MappedSuperclass (preferred), or consider extending one of the following types with your repository: org.springframework.data.jpa.repository.JpaRepository
+2025-12-09T00:03:34.505-06:00  INFO 993380 --- [CRM] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 40 ms. Found 9 JPA repository interfaces.
+2025-12-09T00:03:34.590-06:00  INFO 993380 --- [CRM] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-09T00:03:34.592-06:00  INFO 993380 --- [CRM] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-09T00:03:34.600-06:00  INFO 993380 --- [CRM] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-09T00:03:34.601-06:00  INFO 993380 --- [CRM] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2025-12-09T00:03:34.620-06:00  INFO 993380 --- [CRM] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@726d7e7a
+2025-12-09T00:03:34.621-06:00  INFO 993380 --- [CRM] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2025-12-09T00:03:34.624-06:00  WARN 993380 --- [CRM] [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-09T00:03:34.626-06:00  INFO 993380 --- [CRM] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-09T00:03:34.884-06:00  INFO 993380 --- [CRM] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: create table company_competitors (company_id varchar(36) not null, competitor_url varchar(255))
+Hibernate: create table company_key_products (company_id varchar(36) not null, product varchar(255))
+Hibernate: create table contact_persons (id varchar(36) not null, created_at timestamp(6) not null, deleted_at timestamp(6), updated_at timestamp(6) not null, version integer not null, department varchar(255), email varchar(255), first_name varchar(255) not null, is_decision_maker boolean, is_primary_contact boolean, last_name varchar(255) not null, notes varchar(1000), phone varchar(255), position varchar(255), company_id varchar(36) not null, primary key (id))
+Hibernate: create table customer_companies (id varchar(36) not null, created_at timestamp(6) not null, deleted_at timestamp(6), updated_at timestamp(6) not null, version integer not null, annual_revenue_amount numeric(15,2), annual_revenue_currency varchar(3), approved_credit boolean, billing_address varchar(500), billing_email varchar(255), preferred_payment_method varchar(255), company_name varchar(255) not null, company_size varchar(255) check (company_size in ('MICRO','SMALL','MEDIUM','LARGE','ENTERPRISE','UNKNOWN')), auto_renewal boolean, contract_end_date date, contract_id varchar(255), contract_start_date date, contract_type varchar(255), is_active boolean, monthly_fee numeric(10,2), employee_count integer, founding_year integer, industry_code varchar(255) not null, industry_name varchar(255), is_public_company boolean, is_startup boolean, legal_name varchar(255), mission_statement varchar(2000), primary_contact_department varchar(255), primary_contact_email varchar(255), primary_contact_first_name varchar(255), primary_contact_decision_maker boolean, primary_contact_is_primary boolean, primary_contact_last_name varchar(255), primary_contact_phone varchar(255), primary_contact_position varchar(255), revenue_range smallint check (revenue_range between 0 and 4), sector varchar(255), facebook_url varchar(255), instagram_handle varchar(50), linkedin_url varchar(255), other_social_media TEXT, tiktok_handle varchar(50), twitter_handle varchar(50), youtube_handle varchar(50), status varchar(255) not null check (status in ('PROSPECT','LEAD','ACTIVE','INACTIVE','CHURNED','BLOCKED','PARTNER','UNKNOWN')), target_market varchar(1000), tax_id varchar(255), website varchar(255), primary key (id))
+Hibernate: create table deal_service_packages (deal_id varchar(36) not null, service_package_id varchar(36) not null)
+Hibernate: create table deals (id varchar(36) not null, created_at timestamp(6) not null, deleted_at timestamp(6), updated_at timestamp(6) not null, version integer not null, deal_status varchar(255) not null check (deal_status in ('DRAFT','IN_NEGOTIATION','SIGNED','PAID','IN_PROGRESS','COMPLETED','CANCELLED')), deliverables TEXT, end_date date, final_amount numeric(15,2) not null, start_date date not null, terms TEXT, campaign_manager_id varchar(36), customer_id varchar(36) not null, opportunity_id varchar(36) not null, primary key (id))
+Hibernate: create table interactions (id varchar(36) not null, created_at timestamp(6) not null, deleted_at timestamp(6), updated_at timestamp(6) not null, version integer not null, channel_preference varchar(50), customer_id varchar(255), date_time timestamp(6) not null, description TEXT, feedback_type varchar(20) check (feedback_type in ('POSITIVE','NEGATIVE','NEUTRAL','SUGGESTION','COMPLAINT','COMPLIMENT')), outcome varchar(500) not null, type varchar(50) not null check (type in ('CALL','MEETING','EMAIL','DEMONSTRATION','PROPOSAL','FOLLOW_UP','SUPPORT','FEEDBACK','NEGOTIATION','CONSULTATION')), primary key (id))
+Hibernate: create table marketing_service_kpis (service_id varchar(36) not null, kpi varchar(255) not null)
+Hibernate: create table marketing_service_platforms (service_id varchar(36) not null, platform varchar(255) not null check (platform in ('FACEBOOK','INSTAGRAM','TWITTER','LINKEDIN','GOOGLE','YOUTUBE','TIKTOK')))
+Hibernate: create table opportunities (id varchar(36) not null, created_at timestamp(6) not null, deleted_at timestamp(6), updated_at timestamp(6) not null, version integer not null, amount numeric(15,2), expected_close_date date, stage varchar(255) not null check (stage in ('LEAD','QUALIFIED','PROPOSAL','NEGOTIATION','CLOSED_WON','CLOSED_LOST')), title varchar(255) not null, customer_company_id varchar(36) not null, primary key (id))
+Hibernate: create table quote_items (id varchar(36) not null, created_at timestamp(6) not null, deleted_at timestamp(6), updated_at timestamp(6) not null, version integer not null, discount numeric(5,2), discount_percentage numeric(5,2), total numeric(10,2) not null, unit_price numeric(10,2) not null, quote_id varchar(36) not null, service_package_id varchar(36) not null, primary key (id))
+Hibernate: create table quotes (id varchar(36) not null, created_at timestamp(6) not null, deleted_at timestamp(6), updated_at timestamp(6) not null, version integer not null, discount numeric(5,2), status varchar(20) not null check (status in ('DRAFT','SENT','ACCEPTED','REJECTED')), sub_total numeric(10,2) not null, total_amount numeric(10,2) not null, valid_until date not null, customer_company_id varchar(36) not null, opportunity_id varchar(36), primary key (id))
+Hibernate: create table services_packages (id varchar(36) not null, created_at timestamp(6) not null, deleted_at timestamp(6), updated_at timestamp(6) not null, version integer not null, active boolean not null, complexity varchar(20) not null check (complexity in ('BASIC','STANDARD','PREMIUM')), deliverables TEXT, description TEXT, estimated_hours integer not null, frequency varchar(50) check (frequency in ('DAILY','WEEKLY','MONTHLY','QUARTERLY','YEARLY')), is_recurring boolean not null, name varchar(100) not null, price numeric(10,2) not null, project_duration integer, service_type varchar(50) not null check (service_type in ('SOCIAL_MEDIA','SEO','PPC','CONTENT','EMAIL','BRANDING')), primary key (id))
+Hibernate: create table tasks (id varchar(36) not null, created_at timestamp(6) not null, deleted_at timestamp(6), updated_at timestamp(6) not null, version integer not null, description varchar(255), due_date timestamp(6), priority varchar(255) not null check (priority in ('HIGH','MEDIUM','LOW')), status varchar(255) not null check (status in ('PENDING','CANCELLED','IN_PROGRESS','COMPLETED')), title varchar(255) not null, assigned_to_user_id varchar(36), customer_id varchar(36), opportunity_id varchar(36), primary key (id))
+Hibernate: create table user_roles (user_id varchar(36) not null, role varchar(20) check (role in ('USER','ADMIN','MANAGER','SUPPORT')))
+Hibernate: create table users (id varchar(36) not null, created_at timestamp(6) not null, deleted_at timestamp(6), updated_at timestamp(6) not null, version integer not null, email varchar(255) not null, first_name varchar(50) not null, hashed_password varchar(100) not null, last_login_at timestamp(6), last_name varchar(50) not null, password_changed_at timestamp(6), phone_number varchar(20), status varchar(20) not null check (status in ('PENDING_ACTIVATION','ACTIVE','INACTIVE','SUSPENDED','DELETED')), primary key (id))
+Hibernate: create index idx_contact_company on contact_persons (company_id)
+Hibernate: create index idx_contact_email on contact_persons (email)
+Hibernate: create index idx_company_name on customer_companies (company_name)
+Hibernate: create index idx_industry on customer_companies (industry_code)
+Hibernate: create index idx_status on customer_companies (status)
+Hibernate: create index idx_company_size on customer_companies (company_size)
+Hibernate: alter table if exists customer_companies drop constraint if exists idx_tax_id
+2025-12-09T00:03:34.942-06:00  WARN 993380 --- [CRM] [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2025-12-09T00:03:34.942-06:00  WARN 993380 --- [CRM] [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "idx_tax_id" of relation "customer_companies" does not exist, skipping
+Hibernate: alter table if exists customer_companies add constraint idx_tax_id unique (tax_id)
+Hibernate: create index idx_user_active on users (active)
+2025-12-09T00:03:34.945-06:00  WARN 993380 --- [CRM] [    Test worker] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "create index idx_user_active on users (active)" via JDBC [ERROR: column "active" does not exist]
+
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "create index idx_user_active on users (active)" via JDBC [ERROR: column "active" does not exist]
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:94) ~[hibernate-core-6.6.5.Final.jar:6.6.5.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:576) ~[hibernate-core-6.6.5.Final.jar:6.6.5.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:516) ~[hibernate-core-6.6.5.Final.jar:6.6.5.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applyIndexes(AbstractSchemaMigrator.java:361) ~[hibernate-core-6.6.5.Final.jar:6.6.5.Final]
+	at org.hibernate.tool.schema.internal.GroupedSchemaMigratorImpl.performTablesMigration(GroupedSchemaMigratorImpl.java:96) ~[hibernate-core-6.6.5.Final.jar:6.6.5.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.performMigration(AbstractSchemaMigrator.java:233) ~[hibernate-core-6.6.5.Final.jar:6.6.5.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:112) ~[hibernate-core-6.6.5.Final.jar:6.6.5.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:280) ~[hibernate-core-6.6.5.Final.jar:6.6.5.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.lambda$process$5(SchemaManagementToolCoordinator.java:144) ~[hibernate-core-6.6.5.Final.jar:6.6.5.Final]
+	at java.base/java.util.HashMap.forEach(HashMap.java:1430) ~[na:na]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:141) ~[hibernate-core-6.6.5.Final.jar:6.6.5.Final]
+	at org.hibernate.boot.internal.SessionFactoryObserverForSchemaExport.sessionFactoryCreated(SessionFactoryObserverForSchemaExport.java:37) ~[hibernate-core-6.6.5.Final.jar:6.6.5.Final]
+	at org.hibernate.internal.SessionFactoryObserverChain.sessionFactoryCreated(SessionFactoryObserverChain.java:35) ~[hibernate-core-6.6.5.Final.jar:6.6.5.Final]
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:324) ~[hibernate-core-6.6.5.Final.jar:6.6.5.Final]
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:463) ~[hibernate-core-6.6.5.Final.jar:6.6.5.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1506) ~[hibernate-core-6.6.5.Final.jar:6.6.5.Final]
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:66) ~[spring-orm-6.2.2.jar:6.2.2]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390) ~[spring-orm-6.2.2.jar:6.2.2]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:419) ~[spring-orm-6.2.2.jar:6.2.2]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:400) ~[spring-orm-6.2.2.jar:6.2.2]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366) ~[spring-orm-6.2.2.jar:6.2.2]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1859) ~[spring-beans-6.2.2.jar:6.2.2]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1808) ~[spring-beans-6.2.2.jar:6.2.2]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:601) ~[spring-beans-6.2.2.jar:6.2.2]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.2.jar:6.2.2]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-6.2.2.jar:6.2.2]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:307) ~[spring-beans-6.2.2.jar:6.2.2]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-6.2.2.jar:6.2.2]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:204) ~[spring-beans-6.2.2.jar:6.2.2]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970) ~[spring-context-6.2.2.jar:6.2.2]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.2.jar:6.2.2]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) ~[spring-boot-3.4.2.jar:3.4.2]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.4.2.jar:3.4.2]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.4.2.jar:3.4.2]
+	at org.springframework.boot.test.context.SpringBootContextLoader.lambda$loadContext$3(SpringBootContextLoader.java:137) ~[spring-boot-test-3.4.2.jar:3.4.2]
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:58) ~[spring-core-6.2.2.jar:6.2.2]
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:46) ~[spring-core-6.2.2.jar:6.2.2]
+	at org.springframework.boot.SpringApplication.withHook(SpringApplication.java:1461) ~[spring-boot-3.4.2.jar:3.4.2]
+	at org.springframework.boot.test.context.SpringBootContextLoader$ContextLoaderHook.run(SpringBootContextLoader.java:553) ~[spring-boot-test-3.4.2.jar:3.4.2]
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:137) ~[spring-boot-test-3.4.2.jar:3.4.2]
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:108) ~[spring-boot-test-3.4.2.jar:3.4.2]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:225) ~[spring-test-6.2.2.jar:6.2.2]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:152) ~[spring-test-6.2.2.jar:6.2.2]
+	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:130) ~[spring-test-6.2.2.jar:6.2.2]
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:142) ~[spring-test-6.2.2.jar:6.2.2]
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:98) ~[spring-test-6.2.2.jar:6.2.2]
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:260) ~[spring-test-6.2.2.jar:6.2.2]
+	at org.springframework.test.context.junit.jupiter.SpringExtension.postProcessTestInstance(SpringExtension.java:160) ~[spring-test-6.2.2.jar:6.2.2]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$11(ClassBasedTestDescriptor.java:378) ~[junit-jupiter-engine-5.11.4.jar:5.11.4]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.executeAndMaskThrowable(ClassBasedTestDescriptor.java:383) ~[junit-jupiter-engine-5.11.4.jar:5.11.4]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$12(ClassBasedTestDescriptor.java:378) ~[junit-jupiter-engine-5.11.4.jar:5.11.4]
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184) ~[na:na]
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:215) ~[na:na]
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:197) ~[na:na]
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:215) ~[na:na]
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1709) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:570) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:560) ~[na:na]
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151) ~[na:na]
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174) ~[na:na]
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:265) ~[na:na]
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:636) ~[na:na]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.invokeTestInstancePostProcessors(ClassBasedTestDescriptor.java:377) ~[junit-jupiter-engine-5.11.4.jar:5.11.4]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$instantiateAndPostProcessTestInstance$7(ClassBasedTestDescriptor.java:290) ~[junit-jupiter-engine-5.11.4.jar:5.11.4]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.instantiateAndPostProcessTestInstance(ClassBasedTestDescriptor.java:289) ~[junit-jupiter-engine-5.11.4.jar:5.11.4]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$5(ClassBasedTestDescriptor.java:279) ~[junit-jupiter-engine-5.11.4.jar:5.11.4]
+	at java.base/java.util.Optional.orElseGet(Optional.java:364) ~[na:na]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$6(ClassBasedTestDescriptor.java:278) ~[junit-jupiter-engine-5.11.4.jar:5.11.4]
+	at org.junit.jupiter.engine.execution.TestInstancesProvider.getTestInstances(TestInstancesProvider.java:31) ~[junit-jupiter-engine-5.11.4.jar:5.11.4]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$prepare$1(TestMethodTestDescriptor.java:105) ~[junit-jupiter-engine-5.11.4.jar:5.11.4]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:104) ~[junit-jupiter-engine-5.11.4.jar:5.11.4]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:68) ~[junit-jupiter-engine-5.11.4.jar:5.11.4]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$prepare$2(NodeTestTask.java:128) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.prepare(NodeTestTask.java:128) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597) ~[na:na]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597) ~[na:na]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54) ~[junit-platform-engine-1.11.4.jar:1.11.4]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:198) ~[junit-platform-launcher-1.11.4.jar:1.11.4]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:169) ~[junit-platform-launcher-1.11.4.jar:1.11.4]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:93) ~[junit-platform-launcher-1.11.4.jar:1.11.4]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:58) ~[junit-platform-launcher-1.11.4.jar:1.11.4]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:141) ~[junit-platform-launcher-1.11.4.jar:1.11.4]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:57) ~[junit-platform-launcher-1.11.4.jar:1.11.4]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103) ~[junit-platform-launcher-1.11.4.jar:1.11.4]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:85) ~[junit-platform-launcher-1.11.4.jar:1.11.4]
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47) ~[junit-platform-launcher-1.11.4.jar:1.11.4]
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.processAllTestClasses(JUnitPlatformTestClassProcessor.java:135) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.access$000(JUnitPlatformTestClassProcessor.java:110) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor.stop(JUnitPlatformTestClassProcessor.java:104) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.stop(SuiteTestClassProcessor.java:64) ~[na:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36) ~[na:na]
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24) ~[na:na]
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33) ~[na:na]
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:92) ~[na:na]
+	at jdk.proxy1/jdk.proxy1.$Proxy4.stop(Unknown Source) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker$3.run(TestWorker.java:194) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.executeAndMaintainThreadName(TestWorker.java:126) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:103) ~[na:na]
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:63) ~[na:na]
+	at org.gradle.process.internal.worker.child.ActionExecutionWorker.execute(ActionExecutionWorker.java:56) ~[na:na]
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:122) ~[na:na]
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:72) ~[na:na]
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69) ~[gradle-worker.jar:na]
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74) ~[gradle-worker.jar:na]
+Caused by: org.postgresql.util.PSQLException: ERROR: column "active" does not exist
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2733) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2420) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:372) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:517) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:434) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:356) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:341) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:317) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:312) ~[postgresql-42.7.5.jar:42.7.5]
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:94) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java) ~[HikariCP-5.1.0.jar:na]
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:80) ~[hibernate-core-6.6.5.Final.jar:6.6.5.Final]
+	... 129 common frames omitted
+
+Hibernate: create index idx_user_created on users (created_at)
+Hibernate: alter table if exists users drop constraint if exists idx_user_email
+2025-12-09T00:03:34.954-06:00  WARN 993380 --- [CRM] [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2025-12-09T00:03:34.954-06:00  WARN 993380 --- [CRM] [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "idx_user_email" of relation "users" does not exist, skipping
+Hibernate: alter table if exists users add constraint idx_user_email unique (email)
+Hibernate: alter table if exists company_competitors add constraint FK5mjnbao88jg8kpycywg8cg253 foreign key (company_id) references customer_companies
+Hibernate: alter table if exists company_key_products add constraint FKcaa8akmccq9om04h97pwrcs6o foreign key (company_id) references customer_companies
+Hibernate: alter table if exists contact_persons add constraint FKk07kj31xo9i4ju7ok41yqsnff foreign key (company_id) references customer_companies
+Hibernate: alter table if exists deal_service_packages add constraint FK2n0dv6h2w0ikuaxno7y356fg3 foreign key (service_package_id) references services_packages
+Hibernate: alter table if exists deal_service_packages add constraint FKbhe3pfs70c87n0wa37umxrxaf foreign key (deal_id) references deals
+Hibernate: alter table if exists deals add constraint FKtiahoqg61goitapirwxyilq7w foreign key (campaign_manager_id) references users
+Hibernate: alter table if exists deals add constraint FKm8ugpykladwdcq4h1n4xoph43 foreign key (customer_id) references customer_companies
+Hibernate: alter table if exists deals add constraint FKr6ejpuh0a5n6e4sng0fqbxbhf foreign key (opportunity_id) references opportunities
+Hibernate: alter table if exists interactions add constraint FKnhlv5hrv7mfj1qq8d7rae8b61 foreign key (customer_id) references customer_companies
+Hibernate: alter table if exists marketing_service_kpis add constraint FKoqs66do9h9xrlgxv2y8bisnwj foreign key (service_id) references services_packages
+Hibernate: alter table if exists marketing_service_platforms add constraint FKnpu1oemyvudssu2un8xf4bc5e foreign key (service_id) references services_packages
+Hibernate: alter table if exists opportunities add constraint FKmiapvpdx7mhstq2vd4596rajy foreign key (customer_company_id) references customer_companies
+Hibernate: alter table if exists quote_items add constraint FKrvsmoef7yontnlu1lwxrb0g3g foreign key (quote_id) references quotes
+Hibernate: alter table if exists quote_items add constraint FKiit4incr93xahf2v99k2bvk4e foreign key (service_package_id) references services_packages
+Hibernate: alter table if exists quotes add constraint FKsk9ayi1ux6jjn8o4fyuebkl42 foreign key (customer_company_id) references customer_companies
+Hibernate: alter table if exists quotes add constraint FKcfwt0ddmo38nayh1biqmsa3fy foreign key (opportunity_id) references opportunities
+Hibernate: alter table if exists tasks add constraint FKst3bmvcc67p9efx9w1ehe2s74 foreign key (assigned_to_user_id) references users
+Hibernate: alter table if exists tasks add constraint FKsv30ate3cvuumx6pgpe59fm2a foreign key (customer_id) references customer_companies
+Hibernate: alter table if exists tasks add constraint FK6igy5n39kvmtylx1tlvlev3cr foreign key (opportunity_id) references opportunities
+Hibernate: alter table if exists user_roles add constraint FKhfh9dx7w3ubf1co1vdev94g3f foreign key (user_id) references users
+2025-12-09T00:03:34.985-06:00  INFO 993380 --- [CRM] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-09T00:03:35.206-06:00  INFO 993380 --- [CRM] [    Test worker] .M.M.c.d.p.DealRepositoryIntegrationTest : Started DealRepositoryIntegrationTest in 0.873 seconds (process running for 73.281)
+Hibernate: select de1_0.id,de1_0.campaign_manager_id,de1_0.created_at,de1_0.customer_id,de1_0.deal_status,de1_0.deleted_at,de1_0.deliverables,de1_0.end_date,de1_0.final_amount,de1_0.opportunity_id,de1_0.start_date,de1_0.terms,de1_0.updated_at,de1_0.version from deals de1_0
+Hibernate: select count(*) from deals de1_0 where de1_0.id=?
+Hibernate: select de1_0.id,de1_0.campaign_manager_id,de1_0.created_at,de1_0.customer_id,de1_0.deal_status,de1_0.deleted_at,de1_0.deliverables,de1_0.end_date,de1_0.final_amount,de1_0.opportunity_id,de1_0.start_date,de1_0.terms,de1_0.updated_at,de1_0.version from deals de1_0
+Hibernate: select de1_0.id,cm1_0.id,cm1_0.created_at,cm1_0.deleted_at,cm1_0.email,cm1_0.first_name,cm1_0.hashed_password,cm1_0.last_login_at,cm1_0.last_name,cm1_0.password_changed_at,cm1_0.phone_number,r1_0.user_id,r1_0.role,cm1_0.status,cm1_0.updated_at,cm1_0.version,de1_0.created_at,de1_0.customer_id,cc1_0.id,cc1_0.annual_revenue_amount,cc1_0.annual_revenue_currency,cc1_0.approved_credit,cc1_0.billing_address,cc1_0.billing_email,cc1_0.preferred_payment_method,cc1_0.company_name,cc1_0.company_size,cc1_0.auto_renewal,cc1_0.contract_end_date,cc1_0.contract_id,cc1_0.contract_start_date,cc1_0.contract_type,cc1_0.is_active,cc1_0.monthly_fee,cc1_0.created_at,cc1_0.deleted_at,cc1_0.employee_count,cc1_0.founding_year,cc1_0.industry_code,cc1_0.industry_name,cc1_0.is_public_company,cc1_0.is_startup,cc1_0.legal_name,cc1_0.mission_statement,cc1_0.primary_contact_department,cc1_0.primary_contact_email,cc1_0.primary_contact_first_name,cc1_0.primary_contact_decision_maker,cc1_0.primary_contact_is_primary,cc1_0.primary_contact_last_name,cc1_0.primary_contact_phone,cc1_0.primary_contact_position,cc1_0.revenue_range,cc1_0.sector,cc1_0.facebook_url,cc1_0.instagram_handle,cc1_0.linkedin_url,cc1_0.other_social_media,cc1_0.tiktok_handle,cc1_0.twitter_handle,cc1_0.youtube_handle,cc1_0.status,cc1_0.target_market,cc1_0.tax_id,cc1_0.updated_at,cc1_0.version,cc1_0.website,de1_0.deal_status,de1_0.deleted_at,de1_0.deliverables,de1_0.end_date,de1_0.final_amount,de1_0.opportunity_id,o1_0.id,o1_0.amount,o1_0.created_at,o1_0.customer_company_id,o1_0.deleted_at,o1_0.expected_close_date,o1_0.stage,o1_0.title,o1_0.updated_at,o1_0.version,de1_0.start_date,de1_0.terms,de1_0.updated_at,de1_0.version from deals de1_0 left join users cm1_0 on cm1_0.id=de1_0.campaign_manager_id left join user_roles r1_0 on cm1_0.id=r1_0.user_id join customer_companies cc1_0 on cc1_0.id=de1_0.customer_id join opportunities o1_0 on o1_0.id=de1_0.opportunity_id where de1_0.id=?
+Hibernate: select cce1_0.id,cce1_0.annual_revenue_amount,cce1_0.annual_revenue_currency,cce1_0.approved_credit,cce1_0.billing_address,cce1_0.billing_email,cce1_0.preferred_payment_method,cce1_0.company_name,cce1_0.company_size,cce1_0.auto_renewal,cce1_0.contract_end_date,cce1_0.contract_id,cce1_0.contract_start_date,cce1_0.contract_type,cce1_0.is_active,cce1_0.monthly_fee,cce1_0.created_at,cce1_0.deleted_at,cce1_0.employee_count,cce1_0.founding_year,cce1_0.industry_code,cce1_0.industry_name,cce1_0.is_public_company,cce1_0.is_startup,cce1_0.legal_name,cce1_0.mission_statement,cce1_0.primary_contact_department,cce1_0.primary_contact_email,cce1_0.primary_contact_first_name,cce1_0.primary_contact_decision_maker,cce1_0.primary_contact_is_primary,cce1_0.primary_contact_last_name,cce1_0.primary_contact_phone,cce1_0.primary_contact_position,cce1_0.revenue_range,cce1_0.sector,cce1_0.facebook_url,cce1_0.instagram_handle,cce1_0.linkedin_url,cce1_0.other_social_media,cce1_0.tiktok_handle,cce1_0.twitter_handle,cce1_0.youtube_handle,cce1_0.status,cce1_0.target_market,cce1_0.tax_id,cce1_0.updated_at,cce1_0.version,cce1_0.website from customer_companies cce1_0 where cce1_0.id=?
+Hibernate: select de1_0.id,de1_0.campaign_manager_id,de1_0.created_at,de1_0.customer_id,de1_0.deal_status,de1_0.deleted_at,de1_0.deliverables,de1_0.end_date,de1_0.final_amount,de1_0.opportunity_id,de1_0.start_date,de1_0.terms,de1_0.updated_at,de1_0.version from deals de1_0
+Hibernate: select de1_0.id,cm1_0.id,cm1_0.created_at,cm1_0.deleted_at,cm1_0.email,cm1_0.first_name,cm1_0.hashed_password,cm1_0.last_login_at,cm1_0.last_name,cm1_0.password_changed_at,cm1_0.phone_number,r1_0.user_id,r1_0.role,cm1_0.status,cm1_0.updated_at,cm1_0.version,de1_0.created_at,de1_0.customer_id,cc1_0.id,cc1_0.annual_revenue_amount,cc1_0.annual_revenue_currency,cc1_0.approved_credit,cc1_0.billing_address,cc1_0.billing_email,cc1_0.preferred_payment_method,cc1_0.company_name,cc1_0.company_size,cc1_0.auto_renewal,cc1_0.contract_end_date,cc1_0.contract_id,cc1_0.contract_start_date,cc1_0.contract_type,cc1_0.is_active,cc1_0.monthly_fee,cc1_0.created_at,cc1_0.deleted_at,cc1_0.employee_count,cc1_0.founding_year,cc1_0.industry_code,cc1_0.industry_name,cc1_0.is_public_company,cc1_0.is_startup,cc1_0.legal_name,cc1_0.mission_statement,cc1_0.primary_contact_department,cc1_0.primary_contact_email,cc1_0.primary_contact_first_name,cc1_0.primary_contact_decision_maker,cc1_0.primary_contact_is_primary,cc1_0.primary_contact_last_name,cc1_0.primary_contact_phone,cc1_0.primary_contact_position,cc1_0.revenue_range,cc1_0.sector,cc1_0.facebook_url,cc1_0.instagram_handle,cc1_0.linkedin_url,cc1_0.other_social_media,cc1_0.tiktok_handle,cc1_0.twitter_handle,cc1_0.youtube_handle,cc1_0.status,cc1_0.target_market,cc1_0.tax_id,cc1_0.updated_at,cc1_0.version,cc1_0.website,de1_0.deal_status,de1_0.deleted_at,de1_0.deliverables,de1_0.end_date,de1_0.final_amount,de1_0.opportunity_id,o1_0.id,o1_0.amount,o1_0.created_at,o1_0.customer_company_id,o1_0.deleted_at,o1_0.expected_close_date,o1_0.stage,o1_0.title,o1_0.updated_at,o1_0.version,de1_0.start_date,de1_0.terms,de1_0.updated_at,de1_0.version from deals de1_0 left join users cm1_0 on cm1_0.id=de1_0.campaign_manager_id left join user_roles r1_0 on cm1_0.id=r1_0.user_id join customer_companies cc1_0 on cc1_0.id=de1_0.customer_id join opportunities o1_0 on o1_0.id=de1_0.opportunity_id where de1_0.id=?
+Hibernate: select ue1_0.id,ue1_0.created_at,ue1_0.deleted_at,ue1_0.email,ue1_0.first_name,ue1_0.hashed_password,ue1_0.last_login_at,ue1_0.last_name,ue1_0.password_changed_at,ue1_0.phone_number,r1_0.user_id,r1_0.role,ue1_0.status,ue1_0.updated_at,ue1_0.version from users ue1_0 left join user_roles r1_0 on ue1_0.id=r1_0.user_id where ue1_0.id=?
+Hibernate: select de1_0.id,de1_0.campaign_manager_id,de1_0.created_at,de1_0.customer_id,de1_0.deal_status,de1_0.deleted_at,de1_0.deliverables,de1_0.end_date,de1_0.final_amount,de1_0.opportunity_id,de1_0.start_date,de1_0.terms,de1_0.updated_at,de1_0.version from deals de1_0
+Hibernate: select de1_0.id,cm1_0.id,cm1_0.created_at,cm1_0.deleted_at,cm1_0.email,cm1_0.first_name,cm1_0.hashed_password,cm1_0.last_login_at,cm1_0.last_name,cm1_0.password_changed_at,cm1_0.phone_number,r1_0.user_id,r1_0.role,cm1_0.status,cm1_0.updated_at,cm1_0.version,de1_0.created_at,de1_0.customer_id,cc1_0.id,cc1_0.annual_revenue_amount,cc1_0.annual_revenue_currency,cc1_0.approved_credit,cc1_0.billing_address,cc1_0.billing_email,cc1_0.preferred_payment_method,cc1_0.company_name,cc1_0.company_size,cc1_0.auto_renewal,cc1_0.contract_end_date,cc1_0.contract_id,cc1_0.contract_start_date,cc1_0.contract_type,cc1_0.is_active,cc1_0.monthly_fee,cc1_0.created_at,cc1_0.deleted_at,cc1_0.employee_count,cc1_0.founding_year,cc1_0.industry_code,cc1_0.industry_name,cc1_0.is_public_company,cc1_0.is_startup,cc1_0.legal_name,cc1_0.mission_statement,cc1_0.primary_contact_department,cc1_0.primary_contact_email,cc1_0.primary_contact_first_name,cc1_0.primary_contact_decision_maker,cc1_0.primary_contact_is_primary,cc1_0.primary_contact_last_name,cc1_0.primary_contact_phone,cc1_0.primary_contact_position,cc1_0.revenue_range,cc1_0.sector,cc1_0.facebook_url,cc1_0.instagram_handle,cc1_0.linkedin_url,cc1_0.other_social_media,cc1_0.tiktok_handle,cc1_0.twitter_handle,cc1_0.youtube_handle,cc1_0.status,cc1_0.target_market,cc1_0.tax_id,cc1_0.updated_at,cc1_0.version,cc1_0.website,de1_0.deal_status,de1_0.deleted_at,de1_0.deliverables,de1_0.end_date,de1_0.final_amount,de1_0.opportunity_id,o1_0.id,o1_0.amount,o1_0.created_at,o1_0.customer_company_id,o1_0.deleted_at,o1_0.expected_close_date,o1_0.stage,o1_0.title,o1_0.updated_at,o1_0.version,de1_0.start_date,de1_0.terms,de1_0.updated_at,de1_0.version from deals de1_0 left join users cm1_0 on cm1_0.id=de1_0.campaign_manager_id left join user_roles r1_0 on cm1_0.id=r1_0.user_id join customer_companies cc1_0 on cc1_0.id=de1_0.customer_id join opportunities o1_0 on o1_0.id=de1_0.opportunity_id where de1_0.id=?
+Hibernate: select cce1_0.id,cce1_0.annual_revenue_amount,cce1_0.annual_revenue_currency,cce1_0.approved_credit,cce1_0.billing_address,cce1_0.billing_email,cce1_0.preferred_payment_method,cce1_0.company_name,cce1_0.company_size,cce1_0.auto_renewal,cce1_0.contract_end_date,cce1_0.contract_id,cce1_0.contract_start_date,cce1_0.contract_type,cce1_0.is_active,cce1_0.monthly_fee,cce1_0.created_at,cce1_0.deleted_at,cce1_0.employee_count,cce1_0.founding_year,cce1_0.industry_code,cce1_0.industry_name,cce1_0.is_public_company,cce1_0.is_startup,cce1_0.legal_name,cce1_0.mission_statement,cce1_0.primary_contact_department,cce1_0.primary_contact_email,cce1_0.primary_contact_first_name,cce1_0.primary_contact_decision_maker,cce1_0.primary_contact_is_primary,cce1_0.primary_contact_last_name,cce1_0.primary_contact_phone,cce1_0.primary_contact_position,cce1_0.revenue_range,cce1_0.sector,cce1_0.facebook_url,cce1_0.instagram_handle,cce1_0.linkedin_url,cce1_0.other_social_media,cce1_0.tiktok_handle,cce1_0.twitter_handle,cce1_0.youtube_handle,cce1_0.status,cce1_0.target_market,cce1_0.tax_id,cce1_0.updated_at,cce1_0.version,cce1_0.website from customer_companies cce1_0 where cce1_0.id=?
+Hibernate: select de1_0.id,de1_0.campaign_manager_id,de1_0.created_at,de1_0.customer_id,de1_0.deal_status,de1_0.deleted_at,de1_0.deliverables,de1_0.end_date,de1_0.final_amount,de1_0.opportunity_id,de1_0.start_date,de1_0.terms,de1_0.updated_at,de1_0.version from deals de1_0
+Hibernate: select de1_0.id,cm1_0.id,cm1_0.created_at,cm1_0.deleted_at,cm1_0.email,cm1_0.first_name,cm1_0.hashed_password,cm1_0.last_login_at,cm1_0.last_name,cm1_0.password_changed_at,cm1_0.phone_number,r1_0.user_id,r1_0.role,cm1_0.status,cm1_0.updated_at,cm1_0.version,de1_0.created_at,de1_0.customer_id,cc1_0.id,cc1_0.annual_revenue_amount,cc1_0.annual_revenue_currency,cc1_0.approved_credit,cc1_0.billing_address,cc1_0.billing_email,cc1_0.preferred_payment_method,cc1_0.company_name,cc1_0.company_size,cc1_0.auto_renewal,cc1_0.contract_end_date,cc1_0.contract_id,cc1_0.contract_start_date,cc1_0.contract_type,cc1_0.is_active,cc1_0.monthly_fee,cc1_0.created_at,cc1_0.deleted_at,cc1_0.employee_count,cc1_0.founding_year,cc1_0.industry_code,cc1_0.industry_name,cc1_0.is_public_company,cc1_0.is_startup,cc1_0.legal_name,cc1_0.mission_statement,cc1_0.primary_contact_department,cc1_0.primary_contact_email,cc1_0.primary_contact_first_name,cc1_0.primary_contact_decision_maker,cc1_0.primary_contact_is_primary,cc1_0.primary_contact_last_name,cc1_0.primary_contact_phone,cc1_0.primary_contact_position,cc1_0.revenue_range,cc1_0.sector,cc1_0.facebook_url,cc1_0.instagram_handle,cc1_0.linkedin_url,cc1_0.other_social_media,cc1_0.tiktok_handle,cc1_0.twitter_handle,cc1_0.youtube_handle,cc1_0.status,cc1_0.target_market,cc1_0.tax_id,cc1_0.updated_at,cc1_0.version,cc1_0.website,de1_0.deal_status,de1_0.deleted_at,de1_0.deliverables,de1_0.end_date,de1_0.final_amount,de1_0.opportunity_id,o1_0.id,o1_0.amount,o1_0.created_at,o1_0.customer_company_id,o1_0.deleted_at,o1_0.expected_close_date,o1_0.stage,o1_0.title,o1_0.updated_at,o1_0.version,de1_0.start_date,de1_0.terms,de1_0.updated_at,de1_0.version from deals de1_0 left join users cm1_0 on cm1_0.id=de1_0.campaign_manager_id left join user_roles r1_0 on cm1_0.id=r1_0.user_id join customer_companies cc1_0 on cc1_0.id=de1_0.customer_id join opportunities o1_0 on o1_0.id=de1_0.opportunity_id where de1_0.id=?
+Hibernate: select ue1_0.id,ue1_0.created_at,ue1_0.deleted_at,ue1_0.email,ue1_0.first_name,ue1_0.hashed_password,ue1_0.last_login_at,ue1_0.last_name,ue1_0.password_changed_at,ue1_0.phone_number,r1_0.user_id,r1_0.role,ue1_0.status,ue1_0.updated_at,ue1_0.version from users ue1_0 left join user_roles r1_0 on ue1_0.id=r1_0.user_id where ue1_0.id=?
+Hibernate: select de1_0.id,de1_0.campaign_manager_id,de1_0.created_at,de1_0.customer_id,de1_0.deal_status,de1_0.deleted_at,de1_0.deliverables,de1_0.end_date,de1_0.final_amount,de1_0.opportunity_id,de1_0.start_date,de1_0.terms,de1_0.updated_at,de1_0.version from deals de1_0
+Hibernate: select de1_0.id,cm1_0.id,cm1_0.created_at,cm1_0.deleted_at,cm1_0.email,cm1_0.first_name,cm1_0.hashed_password,cm1_0.last_login_at,cm1_0.last_name,cm1_0.password_changed_at,cm1_0.phone_number,r1_0.user_id,r1_0.role,cm1_0.status,cm1_0.updated_at,cm1_0.version,de1_0.created_at,de1_0.customer_id,cc1_0.id,cc1_0.annual_revenue_amount,cc1_0.annual_revenue_currency,cc1_0.approved_credit,cc1_0.billing_address,cc1_0.billing_email,cc1_0.preferred_payment_method,cc1_0.company_name,cc1_0.company_size,cc1_0.auto_renewal,cc1_0.contract_end_date,cc1_0.contract_id,cc1_0.contract_start_date,cc1_0.contract_type,cc1_0.is_active,cc1_0.monthly_fee,cc1_0.created_at,cc1_0.deleted_at,cc1_0.employee_count,cc1_0.founding_year,cc1_0.industry_code,cc1_0.industry_name,cc1_0.is_public_company,cc1_0.is_startup,cc1_0.legal_name,cc1_0.mission_statement,cc1_0.primary_contact_department,cc1_0.primary_contact_email,cc1_0.primary_contact_first_name,cc1_0.primary_contact_decision_maker,cc1_0.primary_contact_is_primary,cc1_0.primary_contact_last_name,cc1_0.primary_contact_phone,cc1_0.primary_contact_position,cc1_0.revenue_range,cc1_0.sector,cc1_0.facebook_url,cc1_0.instagram_handle,cc1_0.linkedin_url,cc1_0.other_social_media,cc1_0.tiktok_handle,cc1_0.twitter_handle,cc1_0.youtube_handle,cc1_0.status,cc1_0.target_market,cc1_0.tax_id,cc1_0.updated_at,cc1_0.version,cc1_0.website,de1_0.deal_status,de1_0.deleted_at,de1_0.deliverables,de1_0.end_date,de1_0.final_amount,de1_0.opportunity_id,o1_0.id,o1_0.amount,o1_0.created_at,o1_0.customer_company_id,o1_0.deleted_at,o1_0.expected_close_date,o1_0.stage,o1_0.title,o1_0.updated_at,o1_0.version,de1_0.start_date,de1_0.terms,de1_0.updated_at,de1_0.version from deals de1_0 left join users cm1_0 on cm1_0.id=de1_0.campaign_manager_id left join user_roles r1_0 on cm1_0.id=r1_0.user_id join customer_companies cc1_0 on cc1_0.id=de1_0.customer_id join opportunities o1_0 on o1_0.id=de1_0.opportunity_id where de1_0.id=?
+Hibernate: select cce1_0.id,cce1_0.annual_revenue_amount,cce1_0.annual_revenue_currency,cce1_0.approved_credit,cce1_0.billing_address,cce1_0.billing_email,cce1_0.preferred_payment_method,cce1_0.company_name,cce1_0.company_size,cce1_0.auto_renewal,cce1_0.contract_end_date,cce1_0.contract_id,cce1_0.contract_start_date,cce1_0.contract_type,cce1_0.is_active,cce1_0.monthly_fee,cce1_0.created_at,cce1_0.deleted_at,cce1_0.employee_count,cce1_0.founding_year,cce1_0.industry_code,cce1_0.industry_name,cce1_0.is_public_company,cce1_0.is_startup,cce1_0.legal_name,cce1_0.mission_statement,cce1_0.primary_contact_department,cce1_0.primary_contact_email,cce1_0.primary_contact_first_name,cce1_0.primary_contact_decision_maker,cce1_0.primary_contact_is_primary,cce1_0.primary_contact_last_name,cce1_0.primary_contact_phone,cce1_0.primary_contact_position,cce1_0.revenue_range,cce1_0.sector,cce1_0.facebook_url,cce1_0.instagram_handle,cce1_0.linkedin_url,cce1_0.other_social_media,cce1_0.tiktok_handle,cce1_0.twitter_handle,cce1_0.youtube_handle,cce1_0.status,cce1_0.target_market,cce1_0.tax_id,cce1_0.updated_at,cce1_0.version,cce1_0.website from customer_companies cce1_0 where cce1_0.id=?
+Hibernate: select de1_0.id,de1_0.campaign_manager_id,de1_0.created_at,de1_0.customer_id,de1_0.deal_status,de1_0.deleted_at,de1_0.deliverables,de1_0.end_date,de1_0.final_amount,de1_0.opportunity_id,de1_0.start_date,de1_0.terms,de1_0.updated_at,de1_0.version from deals de1_0
+Hibernate: select de1_0.id,cm1_0.id,cm1_0.created_at,cm1_0.deleted_at,cm1_0.email,cm1_0.first_name,cm1_0.hashed_password,cm1_0.last_login_at,cm1_0.last_name,cm1_0.password_changed_at,cm1_0.phone_number,r1_0.user_id,r1_0.role,cm1_0.status,cm1_0.updated_at,cm1_0.version,de1_0.created_at,de1_0.customer_id,cc1_0.id,cc1_0.annual_revenue_amount,cc1_0.annual_revenue_currency,cc1_0.approved_credit,cc1_0.billing_address,cc1_0.billing_email,cc1_0.preferred_payment_method,cc1_0.company_name,cc1_0.company_size,cc1_0.auto_renewal,cc1_0.contract_end_date,cc1_0.contract_id,cc1_0.contract_start_date,cc1_0.contract_type,cc1_0.is_active,cc1_0.monthly_fee,cc1_0.created_at,cc1_0.deleted_at,cc1_0.employee_count,cc1_0.founding_year,cc1_0.industry_code,cc1_0.industry_name,cc1_0.is_public_company,cc1_0.is_startup,cc1_0.legal_name,cc1_0.mission_statement,cc1_0.primary_contact_department,cc1_0.primary_contact_email,cc1_0.primary_contact_first_name,cc1_0.primary_contact_decision_maker,cc1_0.primary_contact_is_primary,cc1_0.primary_contact_last_name,cc1_0.primary_contact_phone,cc1_0.primary_contact_position,cc1_0.revenue_range,cc1_0.sector,cc1_0.facebook_url,cc1_0.instagram_handle,cc1_0.linkedin_url,cc1_0.other_social_media,cc1_0.tiktok_handle,cc1_0.twitter_handle,cc1_0.youtube_handle,cc1_0.status,cc1_0.target_market,cc1_0.tax_id,cc1_0.updated_at,cc1_0.version,cc1_0.website,de1_0.deal_status,de1_0.deleted_at,de1_0.deliverables,de1_0.end_date,de1_0.final_amount,de1_0.opportunity_id,o1_0.id,o1_0.amount,o1_0.created_at,o1_0.customer_company_id,o1_0.deleted_at,o1_0.expected_close_date,o1_0.stage,o1_0.title,o1_0.updated_at,o1_0.version,de1_0.start_date,de1_0.terms,de1_0.updated_at,de1_0.version from deals de1_0 left join users cm1_0 on cm1_0.id=de1_0.campaign_manager_id left join user_roles r1_0 on cm1_0.id=r1_0.user_id join customer_companies cc1_0 on cc1_0.id=de1_0.customer_id join opportunities o1_0 on o1_0.id=de1_0.opportunity_id where de1_0.id=?
+Hibernate: select cce1_0.id,cce1_0.annual_revenue_amount,cce1_0.annual_revenue_currency,cce1_0.approved_credit,cce1_0.billing_address,cce1_0.billing_email,cce1_0.preferred_payment_method,cce1_0.company_name,cce1_0.company_size,cce1_0.auto_renewal,cce1_0.contract_end_date,cce1_0.contract_id,cce1_0.contract_start_date,cce1_0.contract_type,cce1_0.is_active,cce1_0.monthly_fee,cce1_0.created_at,cce1_0.deleted_at,cce1_0.employee_count,cce1_0.founding_year,cce1_0.industry_code,cce1_0.industry_name,cce1_0.is_public_company,cce1_0.is_startup,cce1_0.legal_name,cce1_0.mission_statement,cce1_0.primary_contact_department,cce1_0.primary_contact_email,cce1_0.primary_contact_first_name,cce1_0.primary_contact_decision_maker,cce1_0.primary_contact_is_primary,cce1_0.primary_contact_last_name,cce1_0.primary_contact_phone,cce1_0.primary_contact_position,cce1_0.revenue_range,cce1_0.sector,cce1_0.facebook_url,cce1_0.instagram_handle,cce1_0.linkedin_url,cce1_0.other_social_media,cce1_0.tiktok_handle,cce1_0.twitter_handle,cce1_0.youtube_handle,cce1_0.status,cce1_0.target_market,cce1_0.tax_id,cce1_0.updated_at,cce1_0.version,cce1_0.website from customer_companies cce1_0 where cce1_0.id=?
+Hibernate: select de1_0.id,de1_0.campaign_manager_id,de1_0.created_at,de1_0.customer_id,de1_0.deal_status,de1_0.deleted_at,de1_0.deliverables,de1_0.end_date,de1_0.final_amount,de1_0.opportunity_id,de1_0.start_date,de1_0.terms,de1_0.updated_at,de1_0.version from deals de1_0
+Hibernate: select de1_0.id,cm1_0.id,cm1_0.created_at,cm1_0.deleted_at,cm1_0.email,cm1_0.first_name,cm1_0.hashed_password,cm1_0.last_login_at,cm1_0.last_name,cm1_0.password_changed_at,cm1_0.phone_number,r1_0.user_id,r1_0.role,cm1_0.status,cm1_0.updated_at,cm1_0.version,de1_0.created_at,de1_0.customer_id,cc1_0.id,cc1_0.annual_revenue_amount,cc1_0.annual_revenue_currency,cc1_0.approved_credit,cc1_0.billing_address,cc1_0.billing_email,cc1_0.preferred_payment_method,cc1_0.company_name,cc1_0.company_size,cc1_0.auto_renewal,cc1_0.contract_end_date,cc1_0.contract_id,cc1_0.contract_start_date,cc1_0.contract_type,cc1_0.is_active,cc1_0.monthly_fee,cc1_0.created_at,cc1_0.deleted_at,cc1_0.employee_count,cc1_0.founding_year,cc1_0.industry_code,cc1_0.industry_name,cc1_0.is_public_company,cc1_0.is_startup,cc1_0.legal_name,cc1_0.mission_statement,cc1_0.primary_contact_department,cc1_0.primary_contact_email,cc1_0.primary_contact_first_name,cc1_0.primary_contact_decision_maker,cc1_0.primary_contact_is_primary,cc1_0.primary_contact_last_name,cc1_0.primary_contact_phone,cc1_0.primary_contact_position,cc1_0.revenue_range,cc1_0.sector,cc1_0.facebook_url,cc1_0.instagram_handle,cc1_0.linkedin_url,cc1_0.other_social_media,cc1_0.tiktok_handle,cc1_0.twitter_handle,cc1_0.youtube_handle,cc1_0.status,cc1_0.target_market,cc1_0.tax_id,cc1_0.updated_at,cc1_0.version,cc1_0.website,de1_0.deal_status,de1_0.deleted_at,de1_0.deliverables,de1_0.end_date,de1_0.final_amount,de1_0.opportunity_id,o1_0.id,o1_0.amount,o1_0.created_at,o1_0.customer_company_id,o1_0.deleted_at,o1_0.expected_close_date,o1_0.stage,o1_0.title,o1_0.updated_at,o1_0.version,de1_0.start_date,de1_0.terms,de1_0.updated_at,de1_0.version from deals de1_0 left join users cm1_0 on cm1_0.id=de1_0.campaign_manager_id left join user_roles r1_0 on cm1_0.id=r1_0.user_id join customer_companies cc1_0 on cc1_0.id=de1_0.customer_id join opportunities o1_0 on o1_0.id=de1_0.opportunity_id where de1_0.id=?
+Hibernate: select cce1_0.id,cce1_0.annual_revenue_amount,cce1_0.annual_revenue_currency,cce1_0.approved_credit,cce1_0.billing_address,cce1_0.billing_email,cce1_0.preferred_payment_method,cce1_0.company_name,cce1_0.company_size,cce1_0.auto_renewal,cce1_0.contract_end_date,cce1_0.contract_id,cce1_0.contract_start_date,cce1_0.contract_type,cce1_0.is_active,cce1_0.monthly_fee,cce1_0.created_at,cce1_0.deleted_at,cce1_0.employee_count,cce1_0.founding_year,cce1_0.industry_code,cce1_0.industry_name,cce1_0.is_public_company,cce1_0.is_startup,cce1_0.legal_name,cce1_0.mission_statement,cce1_0.primary_contact_department,cce1_0.primary_contact_email,cce1_0.primary_contact_first_name,cce1_0.primary_contact_decision_maker,cce1_0.primary_contact_is_primary,cce1_0.primary_contact_last_name,cce1_0.primary_contact_phone,cce1_0.primary_contact_position,cce1_0.revenue_range,cce1_0.sector,cce1_0.facebook_url,cce1_0.instagram_handle,cce1_0.linkedin_url,cce1_0.other_social_media,cce1_0.tiktok_handle,cce1_0.twitter_handle,cce1_0.youtube_handle,cce1_0.status,cce1_0.target_market,cce1_0.tax_id,cce1_0.updated_at,cce1_0.version,cce1_0.website from customer_companies cce1_0 where cce1_0.id=?
+Hibernate: select de1_0.id,de1_0.campaign_manager_id,de1_0.created_at,de1_0.customer_id,de1_0.deal_status,de1_0.deleted_at,de1_0.deliverables,de1_0.end_date,de1_0.final_amount,de1_0.opportunity_id,de1_0.start_date,de1_0.terms,de1_0.updated_at,de1_0.version from deals de1_0
+Hibernate: select de1_0.id,cm1_0.id,cm1_0.created_at,cm1_0.deleted_at,cm1_0.email,cm1_0.first_name,cm1_0.hashed_password,cm1_0.last_login_at,cm1_0.last_name,cm1_0.password_changed_at,cm1_0.phone_number,r1_0.user_id,r1_0.role,cm1_0.status,cm1_0.updated_at,cm1_0.version,de1_0.created_at,de1_0.customer_id,cc1_0.id,cc1_0.annual_revenue_amount,cc1_0.annual_revenue_currency,cc1_0.approved_credit,cc1_0.billing_address,cc1_0.billing_email,cc1_0.preferred_payment_method,cc1_0.company_name,cc1_0.company_size,cc1_0.auto_renewal,cc1_0.contract_end_date,cc1_0.contract_id,cc1_0.contract_start_date,cc1_0.contract_type,cc1_0.is_active,cc1_0.monthly_fee,cc1_0.created_at,cc1_0.deleted_at,cc1_0.employee_count,cc1_0.founding_year,cc1_0.industry_code,cc1_0.industry_name,cc1_0.is_public_company,cc1_0.is_startup,cc1_0.legal_name,cc1_0.mission_statement,cc1_0.primary_contact_department,cc1_0.primary_contact_email,cc1_0.primary_contact_first_name,cc1_0.primary_contact_decision_maker,cc1_0.primary_contact_is_primary,cc1_0.primary_contact_last_name,cc1_0.primary_contact_phone,cc1_0.primary_contact_position,cc1_0.revenue_range,cc1_0.sector,cc1_0.facebook_url,cc1_0.instagram_handle,cc1_0.linkedin_url,cc1_0.other_social_media,cc1_0.tiktok_handle,cc1_0.twitter_handle,cc1_0.youtube_handle,cc1_0.status,cc1_0.target_market,cc1_0.tax_id,cc1_0.updated_at,cc1_0.version,cc1_0.website,de1_0.deal_status,de1_0.deleted_at,de1_0.deliverables,de1_0.end_date,de1_0.final_amount,de1_0.opportunity_id,o1_0.id,o1_0.amount,o1_0.created_at,o1_0.customer_company_id,o1_0.deleted_at,o1_0.expected_close_date,o1_0.stage,o1_0.title,o1_0.updated_at,o1_0.version,de1_0.start_date,de1_0.terms,de1_0.updated_at,de1_0.version from deals de1_0 left join users cm1_0 on cm1_0.id=de1_0.campaign_manager_id left join user_roles r1_0 on cm1_0.id=r1_0.user_id join customer_companies cc1_0 on cc1_0.id=de1_0.customer_id join opportunities o1_0 on o1_0.id=de1_0.opportunity_id where de1_0.id=?
+Hibernate: select cce1_0.id,cce1_0.annual_revenue_amount,cce1_0.annual_revenue_currency,cce1_0.approved_credit,cce1_0.billing_address,cce1_0.billing_email,cce1_0.preferred_payment_method,cce1_0.company_name,cce1_0.company_size,cce1_0.auto_renewal,cce1_0.contract_end_date,cce1_0.contract_id,cce1_0.contract_start_date,cce1_0.contract_type,cce1_0.is_active,cce1_0.monthly_fee,cce1_0.created_at,cce1_0.deleted_at,cce1_0.employee_count,cce1_0.founding_year,cce1_0.industry_code,cce1_0.industry_name,cce1_0.is_public_company,cce1_0.is_startup,cce1_0.legal_name,cce1_0.mission_statement,cce1_0.primary_contact_department,cce1_0.primary_contact_email,cce1_0.primary_contact_first_name,cce1_0.primary_contact_decision_maker,cce1_0.primary_contact_is_primary,cce1_0.primary_contact_last_name,cce1_0.primary_contact_phone,cce1_0.primary_contact_position,cce1_0.revenue_range,cce1_0.sector,cce1_0.facebook_url,cce1_0.instagram_handle,cce1_0.linkedin_url,cce1_0.other_social_media,cce1_0.tiktok_handle,cce1_0.twitter_handle,cce1_0.youtube_handle,cce1_0.status,cce1_0.target_market,cce1_0.tax_id,cce1_0.updated_at,cce1_0.version,cce1_0.website from customer_companies cce1_0 where cce1_0.id=?
+Hibernate: select de1_0.id,de1_0.campaign_manager_id,de1_0.created_at,de1_0.customer_id,de1_0.deal_status,de1_0.deleted_at,de1_0.deliverables,de1_0.end_date,de1_0.final_amount,de1_0.opportunity_id,de1_0.start_date,de1_0.terms,de1_0.updated_at,de1_0.version from deals de1_0
+Hibernate: select de1_0.id,cm1_0.id,cm1_0.created_at,cm1_0.deleted_at,cm1_0.email,cm1_0.first_name,cm1_0.hashed_password,cm1_0.last_login_at,cm1_0.last_name,cm1_0.password_changed_at,cm1_0.phone_number,r1_0.user_id,r1_0.role,cm1_0.status,cm1_0.updated_at,cm1_0.version,de1_0.created_at,de1_0.customer_id,cc1_0.id,cc1_0.annual_revenue_amount,cc1_0.annual_revenue_currency,cc1_0.approved_credit,cc1_0.billing_address,cc1_0.billing_email,cc1_0.preferred_payment_method,cc1_0.company_name,cc1_0.company_size,cc1_0.auto_renewal,cc1_0.contract_end_date,cc1_0.contract_id,cc1_0.contract_start_date,cc1_0.contract_type,cc1_0.is_active,cc1_0.monthly_fee,cc1_0.created_at,cc1_0.deleted_at,cc1_0.employee_count,cc1_0.founding_year,cc1_0.industry_code,cc1_0.industry_name,cc1_0.is_public_company,cc1_0.is_startup,cc1_0.legal_name,cc1_0.mission_statement,cc1_0.primary_contact_department,cc1_0.primary_contact_email,cc1_0.primary_contact_first_name,cc1_0.primary_contact_decision_maker,cc1_0.primary_contact_is_primary,cc1_0.primary_contact_last_name,cc1_0.primary_contact_phone,cc1_0.primary_contact_position,cc1_0.revenue_range,cc1_0.sector,cc1_0.facebook_url,cc1_0.instagram_handle,cc1_0.linkedin_url,cc1_0.other_social_media,cc1_0.tiktok_handle,cc1_0.twitter_handle,cc1_0.youtube_handle,cc1_0.status,cc1_0.target_market,cc1_0.tax_id,cc1_0.updated_at,cc1_0.version,cc1_0.website,de1_0.deal_status,de1_0.deleted_at,de1_0.deliverables,de1_0.end_date,de1_0.final_amount,de1_0.opportunity_id,o1_0.id,o1_0.amount,o1_0.created_at,o1_0.customer_company_id,o1_0.deleted_at,o1_0.expected_close_date,o1_0.stage,o1_0.title,o1_0.updated_at,o1_0.version,de1_0.start_date,de1_0.terms,de1_0.updated_at,de1_0.version from deals de1_0 left join users cm1_0 on cm1_0.id=de1_0.campaign_manager_id left join user_roles r1_0 on cm1_0.id=r1_0.user_id join customer_companies cc1_0 on cc1_0.id=de1_0.customer_id join opportunities o1_0 on o1_0.id=de1_0.opportunity_id where de1_0.id=?
+Hibernate: select de1_0.id,de1_0.campaign_manager_id,de1_0.created_at,de1_0.customer_id,de1_0.deal_status,de1_0.deleted_at,de1_0.deliverables,de1_0.end_date,de1_0.final_amount,de1_0.opportunity_id,de1_0.start_date,de1_0.terms,de1_0.updated_at,de1_0.version from deals de1_0
+Hibernate: select de1_0.id,cm1_0.id,cm1_0.created_at,cm1_0.deleted_at,cm1_0.email,cm1_0.first_name,cm1_0.hashed_password,cm1_0.last_login_at,cm1_0.last_name,cm1_0.password_changed_at,cm1_0.phone_number,r1_0.user_id,r1_0.role,cm1_0.status,cm1_0.updated_at,cm1_0.version,de1_0.created_at,de1_0.customer_id,cc1_0.id,cc1_0.annual_revenue_amount,cc1_0.annual_revenue_currency,cc1_0.approved_credit,cc1_0.billing_address,cc1_0.billing_email,cc1_0.preferred_payment_method,cc1_0.company_name,cc1_0.company_size,cc1_0.auto_renewal,cc1_0.contract_end_date,cc1_0.contract_id,cc1_0.contract_start_date,cc1_0.contract_type,cc1_0.is_active,cc1_0.monthly_fee,cc1_0.created_at,cc1_0.deleted_at,cc1_0.employee_count,cc1_0.founding_year,cc1_0.industry_code,cc1_0.industry_name,cc1_0.is_public_company,cc1_0.is_startup,cc1_0.legal_name,cc1_0.mission_statement,cc1_0.primary_contact_department,cc1_0.primary_contact_email,cc1_0.primary_contact_first_name,cc1_0.primary_contact_decision_maker,cc1_0.primary_contact_is_primary,cc1_0.primary_contact_last_name,cc1_0.primary_contact_phone,cc1_0.primary_contact_position,cc1_0.revenue_range,cc1_0.sector,cc1_0.facebook_url,cc1_0.instagram_handle,cc1_0.linkedin_url,cc1_0.other_social_media,cc1_0.tiktok_handle,cc1_0.twitter_handle,cc1_0.youtube_handle,cc1_0.status,cc1_0.target_market,cc1_0.tax_id,cc1_0.updated_at,cc1_0.version,cc1_0.website,de1_0.deal_status,de1_0.deleted_at,de1_0.deliverables,de1_0.end_date,de1_0.final_amount,de1_0.opportunity_id,o1_0.id,o1_0.amount,o1_0.created_at,o1_0.customer_company_id,o1_0.deleted_at,o1_0.expected_close_date,o1_0.stage,o1_0.title,o1_0.updated_at,o1_0.version,de1_0.start_date,de1_0.terms,de1_0.updated_at,de1_0.version from deals de1_0 left join users cm1_0 on cm1_0.id=de1_0.campaign_manager_id left join user_roles r1_0 on cm1_0.id=r1_0.user_id join customer_companies cc1_0 on cc1_0.id=de1_0.customer_id join opportunities o1_0 on o1_0.id=de1_0.opportunity_id where de1_0.id=?
+Hibernate: select cce1_0.id,cce1_0.annual_revenue_amount,cce1_0.annual_revenue_currency,cce1_0.approved_credit,cce1_0.billing_address,cce1_0.billing_email,cce1_0.preferred_payment_method,cce1_0.company_name,cce1_0.company_size,cce1_0.auto_renewal,cce1_0.contract_end_date,cce1_0.contract_id,cce1_0.contract_start_date,cce1_0.contract_type,cce1_0.is_active,cce1_0.monthly_fee,cce1_0.created_at,cce1_0.deleted_at,cce1_0.employee_count,cce1_0.founding_year,cce1_0.industry_code,cce1_0.industry_name,cce1_0.is_public_company,cce1_0.is_startup,cce1_0.legal_name,cce1_0.mission_statement,cce1_0.primary_contact_department,cce1_0.primary_contact_email,cce1_0.primary_contact_first_name,cce1_0.primary_contact_decision_maker,cce1_0.primary_contact_is_primary,cce1_0.primary_contact_last_name,cce1_0.primary_contact_phone,cce1_0.primary_contact_position,cce1_0.revenue_range,cce1_0.sector,cce1_0.facebook_url,cce1_0.instagram_handle,cce1_0.linkedin_url,cce1_0.other_social_media,cce1_0.tiktok_handle,cce1_0.twitter_handle,cce1_0.youtube_handle,cce1_0.status,cce1_0.target_market,cce1_0.tax_id,cce1_0.updated_at,cce1_0.version,cce1_0.website from customer_companies cce1_0 where cce1_0.id=?
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

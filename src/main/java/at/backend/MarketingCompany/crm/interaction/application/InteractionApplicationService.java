@@ -9,9 +9,9 @@ import at.backend.MarketingCompany.crm.interaction.domain.entity.valueobject.Fee
 import at.backend.MarketingCompany.crm.interaction.domain.entity.valueobject.InteractionId;
 import at.backend.MarketingCompany.crm.interaction.domain.entity.valueobject.InteractionType;
 import at.backend.MarketingCompany.crm.interaction.domain.exceptions.InteractionNotFoundException;
-import at.backend.MarketingCompany.common.exceptions.ExternalServiceException;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.shared.domain.exceptions.ExternalServiceException;
 import at.backend.MarketingCompany.crm.interaction.domain.repository.InteractionRepository;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -31,12 +31,12 @@ public class InteractionApplicationService {
 
   @Transactional
   public Interaction handle(CreateInteractionCommand command) {
-    log.info("Creating interaction for customer: {}", command.customerId().value());
+    log.info("Creating interaction for customer: {}", command.customerCompanyId().value());
 
     validateExternalDependencies(command);
 
     var createParams = CreateInteractionParams.builder()
-        .customerId(command.customerId())
+        .customerCompanyId(command.customerCompanyId())
         .type(command.type())
         .dateTime(command.dateTime())
         .description(command.description())
@@ -134,9 +134,9 @@ public class InteractionApplicationService {
 
   @Transactional(readOnly = true)
   public Page<Interaction> handle(GetInteractionsByCustomerQuery query) {
-    log.debug("Fetching interactions for customer: {}", query.customerId());
+    log.debug("Fetching interactions for customer: {}", query.customerCompanyId());
 
-    return interactionRepository.findByCustomer(query.customerId(), query.pageable());
+    return interactionRepository.findByCustomer(query.customerCompanyId(), query.pageable());
   }
 
   @Transactional(readOnly = true)
@@ -155,9 +155,9 @@ public class InteractionApplicationService {
 
   @Transactional(readOnly = true)
   public Page<Interaction> handle(GetInteractionsByCustomerAndTypeQuery query) {
-    log.debug("Fetching interactions for customer {} and type: {}", query.customerId(), query.type());
+    log.debug("Fetching interactions for customer {} and type: {}", query.customerCompanyId(), query.type());
 
-    return interactionRepository.findByCustomerAndType(query.customerId(), query.type(), query.pageable());
+    return interactionRepository.findByCustomerAndType(query.customerCompanyId(), query.type(), query.pageable());
   }
 
   @Transactional(readOnly = true)
@@ -212,16 +212,16 @@ public class InteractionApplicationService {
 
   @Transactional(readOnly = true)
   public InteractionStatistics handle(GetInteractionStatisticsQuery query) {
-    log.debug("Fetching interaction statistics for customer: {}", query.customerId());
+    log.debug("Fetching interaction statistics for customer: {}", query.customerCompanyId());
 
-    long totalInteractions = interactionRepository.findByCustomer(query.customerId()).size();
-    long recentInteractions = interactionRepository.countRecentInteractionsByCustomer(query.customerId(), 30);
-    long positiveInteractions = interactionRepository.countByCustomerAndFeedbackType(query.customerId(),
+    long totalInteractions = interactionRepository.findByCustomer(query.customerCompanyId()).size();
+    long recentInteractions = interactionRepository.countRecentInteractionsByCustomer(query.customerCompanyId(), 30);
+    long positiveInteractions = interactionRepository.countByCustomerAndFeedbackType(query.customerCompanyId(),
         FeedbackType.POSITIVE);
-    long negativeInteractions = interactionRepository.countByCustomerAndFeedbackType(query.customerId(),
+    long negativeInteractions = interactionRepository.countByCustomerAndFeedbackType(query.customerCompanyId(),
         FeedbackType.NEGATIVE);
     long followUpRequired = interactionRepository.findInteractionsRequiringFollowUp().stream()
-        .filter(interaction -> interaction.getCustomerId().equals(query.customerId()))
+        .filter(interaction -> interaction.getCustomerCompanyId().equals(query.customerCompanyId()))
         .count();
 
     return new InteractionStatistics(
@@ -236,17 +236,17 @@ public class InteractionApplicationService {
   public CustomerInteractionAnalytics handle(GetCustomerInteractionAnalyticsQuery query) {
     log.debug("Fetching customer interaction analytics for: {}", query.customerId());
 
-    CustomerId customerId = new CustomerId(query.customerId());
+    CustomerCompanyId customerCompanyId = new CustomerCompanyId(query.customerId());
 
-    List<InteractionType> frequentTypes = interactionRepository.findMostFrequentInteractionTypesByCustomer(customerId);
-    FeedbackType predominantFeedback = interactionRepository.findPredominantFeedbackByCustomer(customerId);
-    long totalInteractions = interactionRepository.findByCustomer(customerId).size();
+    List<InteractionType> frequentTypes = interactionRepository.findMostFrequentInteractionTypesByCustomer(customerCompanyId);
+    FeedbackType predominantFeedback = interactionRepository.findPredominantFeedbackByCustomer(customerCompanyId);
+    long totalInteractions = interactionRepository.findByCustomer(customerCompanyId).size();
 
     // Calculate interaction frequency (interactions per month)
-    double monthlyFrequency = calculateMonthlyFrequency(customerId);
+    double monthlyFrequency = calculateMonthlyFrequency(customerCompanyId);
 
     return new CustomerInteractionAnalytics(
-        customerId.value(),
+        customerCompanyId.value(),
         frequentTypes,
         predominantFeedback,
         totalInteractions,
@@ -273,15 +273,15 @@ public class InteractionApplicationService {
 
   private void validateExternalDependencies(CreateInteractionCommand command) {
     try {
-      externalValidator.validateCustomerExists(command.customerId());
+      externalValidator.validateCustomerExists(command.customerCompanyId());
     } catch (ExternalServiceException e) {
       log.error("External validation failed for interaction creation: {}", e.getMessage());
       throw e;
     }
   }
 
-  private double calculateMonthlyFrequency(CustomerId customerId) {
-    List<Interaction> customerInteractions = interactionRepository.findByCustomer(customerId);
+  private double calculateMonthlyFrequency(CustomerCompanyId customerCompanyId) {
+    List<Interaction> customerInteractions = interactionRepository.findByCustomer(customerCompanyId);
     if (customerInteractions.isEmpty()) {
       return 0.0;
     }

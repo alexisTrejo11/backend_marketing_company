@@ -6,7 +6,7 @@ import java.util.List;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.quote.application.dto.QuoteCreateCommand;
 import at.backend.MarketingCompany.crm.quote.application.dto.QuoteItemCreateCommand;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 
@@ -19,7 +19,7 @@ public record QuoteInput(
   public QuoteCreateCommand toCommand() {
 
     return new QuoteCreateCommand(
-        new CustomerId(customerId),
+        new CustomerCompanyId(customerId),
         opportunityId != null ? new OpportunityId(opportunityId) : null,
         validUntil,
         toItemCommands());

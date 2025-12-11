@@ -7,7 +7,7 @@ import at.backend.MarketingCompany.crm.opportunity.domain.entity.Opportunity;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.crm.opportunity.domain.exceptions.OpportunityNotFoundException;
 import at.backend.MarketingCompany.crm.opportunity.domain.repository.OpportunityRepository;
-import at.backend.MarketingCompany.common.exceptions.ExternalServiceException;
+import at.backend.MarketingCompany.shared.domain.exceptions.ExternalServiceException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -24,12 +24,12 @@ public class OpportunityApplicationService {
 
     @Transactional
     public Opportunity handle(CreateOpportunityCommand command) {
-        log.info("Creating opportunity for customer: {}", command.customerId().value());
+        log.info("Creating opportunity for customer: {}", command.customerCompanyId().value());
         
         validateExternalDependencies(command);
         
         var createParams = CreateOpportunityParams.builder()
-            .customerId(command.customerId())
+            .customerCompanyId(command.customerCompanyId())
             .title(command.title())
             .amount(command.amount())
             .expectedCloseDate(command.expectedCloseDate())
@@ -124,9 +124,9 @@ public class OpportunityApplicationService {
 
     @Transactional(readOnly = true)
     public Page<Opportunity> handle(GetOpportunitiesByCustomerQuery query) {
-        log.debug("Fetching opportunities for customer: {}", query.customerId());
+        log.debug("Fetching opportunities for customer: {}", query.customerCompanyId());
         
-        return opportunityRepository.findByCustomer(query.customerId(), query.pageable());
+        return opportunityRepository.findByCustomer(query.customerCompanyId(), query.pageable());
     }
 
     @Transactional(readOnly = true)
@@ -179,8 +179,8 @@ public class OpportunityApplicationService {
             return opportunityRepository.findByStages(query.stages(), query.pageable());
         }
         
-        if (query.customerId() != null) {
-            return opportunityRepository.findByCustomer(query.customerId(), query.pageable());
+        if (query.customerCompanyId() != null) {
+            return opportunityRepository.findByCustomer(query.customerCompanyId(), query.pageable());
         }
         
         return opportunityRepository.findActiveOpportunities(query.pageable());
@@ -188,13 +188,13 @@ public class OpportunityApplicationService {
 
     @Transactional(readOnly = true)
     public OpportunityStatistics handle(GetOpportunityStatisticsQuery query) {
-        log.debug("Fetching opportunity statistics for customer: {}", query.customerId());
+        log.debug("Fetching opportunity statistics for customer: {}", query.customerCompanyId());
 
-        long totalOpportunities = opportunityRepository.findByCustomer(query.customerId()).size();
-        long activeOpportunities = opportunityRepository.countActiveByCustomer(query.customerId());
-        long wonOpportunities = opportunityRepository.countByCustomerAndStage(query.customerId(), OpportunityStage.CLOSED_WON);
-        long lostOpportunities = opportunityRepository.countByCustomerAndStage(query.customerId(), OpportunityStage.CLOSED_LOST);
-        double winRate = opportunityRepository.calculateWinRateByCustomer(query.customerId());
+        long totalOpportunities = opportunityRepository.findByCustomer(query.customerCompanyId()).size();
+        long activeOpportunities = opportunityRepository.countActiveByCustomer(query.customerCompanyId());
+        long wonOpportunities = opportunityRepository.countByCustomerAndStage(query.customerCompanyId(), OpportunityStage.CLOSED_WON);
+        long lostOpportunities = opportunityRepository.countByCustomerAndStage(query.customerCompanyId(), OpportunityStage.CLOSED_LOST);
+        double winRate = opportunityRepository.calculateWinRateByCustomer(query.customerCompanyId());
         
         return new OpportunityStatistics(
             totalOpportunities,
@@ -224,7 +224,7 @@ public class OpportunityApplicationService {
 
     private void validateExternalDependencies(CreateOpportunityCommand command) {
         try {
-            externalValidator.validateCustomerExists(command.customerId());
+            externalValidator.validateCustomerExists(command.customerCompanyId());
         } catch (ExternalServiceException e) {
             log.error("External validation failed for opportunity creation: {}", e.getMessage());
             throw e;

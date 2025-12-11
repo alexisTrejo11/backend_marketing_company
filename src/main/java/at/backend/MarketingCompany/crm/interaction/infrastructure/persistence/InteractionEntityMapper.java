@@ -2,9 +2,9 @@ package at.backend.MarketingCompany.crm.interaction.infrastructure.persistence;
 
 import at.backend.MarketingCompany.crm.interaction.domain.entity.Interaction;
 import at.backend.MarketingCompany.crm.interaction.domain.entity.valueobject.*;
-import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerEntity;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -40,9 +40,9 @@ public class InteractionEntityMapper {
     entity.setVersion(interaction.getVersion());
 
     // Relations - solo IDs
-    if (interaction.getCustomerId() != null) {
-      var customer = new CustomerEntity(interaction.getCustomerId().value());
-      entity.setCustomer(customer);
+    if (interaction.getCustomerCompanyId() != null) {
+      var customer = new CustomerCompanyEntity(interaction.getCustomerCompanyId().value());
+      entity.setCustomerCompany(customer);
     }
 
     return entity;
@@ -54,7 +54,7 @@ public class InteractionEntityMapper {
 
     var reconstructParams = InteractionReconstructParams.builder()
         .id(InteractionId.from(entity.getId()))
-        .customerId(entity.getCustomer() != null ? new CustomerId(entity.getCustomerId()) : null)
+        .customerCompanyId(entity.getCustomerCompany() != null ? new CustomerCompanyId(entity.getCustomerId()) : null)
         .type(entity.getType())
         .dateTime(InteractionDateTime.from(entity.getDateTime()))
         .description(InteractionDescription.from(entity.getDescription()))

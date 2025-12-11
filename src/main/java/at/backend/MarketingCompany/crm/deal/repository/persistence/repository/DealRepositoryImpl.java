@@ -1,7 +1,6 @@
 package at.backend.MarketingCompany.crm.deal.repository.persistence.repository;
 
 import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 import at.backend.MarketingCompany.crm.deal.domain.entity.Deal;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.DealId;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.*;
@@ -9,6 +8,7 @@ import at.backend.MarketingCompany.crm.deal.domain.respository.DealRepository;
 import at.backend.MarketingCompany.crm.deal.repository.persistence.model.DealEntity;
 import at.backend.MarketingCompany.crm.deal.repository.persistence.model.DealEntityMapper;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -48,10 +48,10 @@ public class DealRepositoryImpl implements DealRepository {
 
   @Override
   @Transactional(readOnly = true)
-  public List<Deal> findByCustomer(CustomerId customerId) {
-    log.debug("Finding deals by customer ID: {}", customerId.value());
+  public List<Deal> findByCustomer(CustomerCompanyId customerCompanyId) {
+    log.debug("Finding deals by customer ID: {}", customerCompanyId.value());
 
-    return jpaDealRepository.findByCustomerId(customerId.value()).stream()
+    return jpaDealRepository.findByCustomerId(customerCompanyId.value()).stream()
         .map(dealEntityMapper::toDomain)
         .toList();
   }

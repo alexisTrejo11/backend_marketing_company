@@ -70,11 +70,11 @@ public interface JpaTaskRepository extends JpaRepository<TaskEntity, String> {
 
     // Find tasks by multiple criteria (fix property names to use t.customer.id)
     @Query("SELECT t FROM TaskEntity t WHERE " +
-            "(:customerId IS NULL OR t.customer.id = :customerId) AND " +
+            "(:customerCompanyId IS NULL OR t.customer.id = :customerCompanyId) AND " +
             "(:assigneeId IS NULL OR t.assignedTo.id = :assigneeId) AND " +
             "(:statuses IS NULL OR t.status IN :statuses) AND " +
             "(:priorities IS NULL OR t.priority IN :priorities)")
-    List<TaskEntity> findByCriteria(@Param("customerId") String customerId,
+    List<TaskEntity> findByCriteria(@Param("customerCompanyId") String customerId,
                                     @Param("assigneeId") String assigneeId,
                                     @Param("statuses") List<TaskStatus> statuses,
                                     @Param("priorities") List<TaskPriority> priorities);

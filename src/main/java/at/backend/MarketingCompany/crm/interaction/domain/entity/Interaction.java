@@ -1,9 +1,9 @@
 package at.backend.MarketingCompany.crm.interaction.domain.entity;
 
-import at.backend.MarketingCompany.common.utils.BaseDomainEntity;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.shared.domain.BaseDomainEntity;
 import at.backend.MarketingCompany.crm.interaction.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.crm.interaction.domain.exceptions.InteractionValidationException;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Getter
 public class Interaction extends BaseDomainEntity<InteractionId> {
-  private CustomerId customerId;
+  private CustomerCompanyId customerCompanyId;
   private InteractionType type;
   private InteractionDateTime dateTime;
   private InteractionDescription description;
@@ -25,7 +25,7 @@ public class Interaction extends BaseDomainEntity<InteractionId> {
 
   private Interaction(InteractionReconstructParams params) {
     super(params.id(), params.version(), params.deletedAt(), params.createdAt(), params.updatedAt());
-    this.customerId = params.customerId();
+    this.customerCompanyId = params.customerCompanyId();
     this.type = params.type();
     this.dateTime = params.dateTime();
     this.description = params.description();
@@ -44,7 +44,7 @@ public class Interaction extends BaseDomainEntity<InteractionId> {
     validateCreationParams(params);
 
     Interaction newInteraction = new Interaction(InteractionId.create());
-    newInteraction.customerId = params.customerId();
+    newInteraction.customerCompanyId = params.customerCompanyId();
     newInteraction.type = params.type();
     newInteraction.dateTime = params.dateTime();
     newInteraction.description = params.description();
@@ -143,7 +143,7 @@ public class Interaction extends BaseDomainEntity<InteractionId> {
 
   // ===== VALIDATIONS =====
   private void validateState() {
-    if (customerId == null) {
+    if (customerCompanyId == null) {
       throw new InteractionValidationException("Customer ID is required");
     }
     if (type == null) {
@@ -161,7 +161,7 @@ public class Interaction extends BaseDomainEntity<InteractionId> {
     if (params == null) {
       throw new InteractionValidationException("Creation parameters cannot be null");
     }
-    if (params.customerId() == null) {
+    if (params.customerCompanyId() == null) {
       throw new InteractionValidationException("Customer ID is required");
     }
     if (params.type() == null) {

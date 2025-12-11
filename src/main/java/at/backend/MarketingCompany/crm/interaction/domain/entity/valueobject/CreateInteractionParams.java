@@ -1,11 +1,11 @@
 package at.backend.MarketingCompany.crm.interaction.domain.entity.valueobject;
 
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
 import lombok.Builder;
 
 @Builder
 public record CreateInteractionParams(
-    CustomerId customerId,
+    CustomerCompanyId customerCompanyId,
     InteractionType type,
     InteractionDateTime dateTime,
     InteractionDescription description,

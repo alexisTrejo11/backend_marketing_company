@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyEntityMapperTest" tests="11" skipped="0" failures="2" errors="0" timestamp="2025-12-09T06:03:38.736Z" hostname="Administrator" time="0.023">
+  <properties/>
+  <testcase name="toDomain_EntityWithInvalidPaymentMethod_ShouldThrowException()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyEntityMapperTest" time="0.002"/>
+  <testcase name="toEntity_ValidCustomerCompany_ShouldMapCorrectly()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyEntityMapperTest" time="0.004">
+    <failure message="org.opentest4j.AssertionFailedError: expected: &lt;Email[value=billing@techinnovations.com]&gt; but was: &lt;billing@techinnovations.com&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: expected: &lt;Email[value=billing@techinnovations.com]&gt; but was: &lt;billing@techinnovations.com&gt;
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at app//org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at app//org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at app//at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyEntityMapperTest.toEntity_ValidCustomerCompany_ShouldMapCorrectly(CustomerCompanyEntityMapperTest.java:234)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+</failure>
+  </testcase>
+  <testcase name="toEntityAndBackToDomain_ShouldPreserveAllData()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyEntityMapperTest" time="0.001"/>
+  <testcase name="toDomain_EntityWithInvalidDepartment_ShouldThrowException()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyEntityMapperTest" time="0.002"/>
+  <testcase name="toEntity_ShouldMapSocialMediaHandles()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyEntityMapperTest" time="0.001"/>
+  <testcase name="toEntity_CustomerCompanyWithNullFields_ShouldHandleGracefully()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyEntityMapperTest" time="0.002"/>
+  <testcase name="toEntity_CustomerCompanyWithoutRevenue_ShouldMapNullValues()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyEntityMapperTest" time="0.001"/>
+  <testcase name="toDomain_EntityWithInvalidContractType_ShouldThrowException()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyEntityMapperTest" time="0.002"/>
+  <testcase name="toEntity_ShouldMapEmployeeCountBasedOnCompanySize()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyEntityMapperTest" time="0.001"/>
+  <testcase name="toDomain_ValidEntity_ShouldMapCorrectly()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyEntityMapperTest" time="0.002">
+    <failure message="org.opentest4j.AssertionFailedError: expected: &lt;billing@techinnovations.com&gt; but was: &lt;Email[value=billing@techinnovations.com]&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: expected: &lt;billing@techinnovations.com&gt; but was: &lt;Email[value=billing@techinnovations.com]&gt;
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at app//org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at app//org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at app//at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyEntityMapperTest.toDomain_ValidEntity_ShouldMapCorrectly(CustomerCompanyEntityMapperTest.java:364)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+</failure>
+  </testcase>
+  <testcase name="toDomain_EntityWithNullFields_ShouldHandleGracefully()" classname="at.backend.MarketingCompany.MarketingCampaing.customer.persistence.CustomerCompanyEntityMapperTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

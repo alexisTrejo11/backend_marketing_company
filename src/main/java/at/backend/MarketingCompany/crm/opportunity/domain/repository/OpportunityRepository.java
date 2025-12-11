@@ -3,8 +3,8 @@ package at.backend.MarketingCompany.crm.opportunity.domain.repository;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.Opportunity;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityStage;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -21,9 +21,9 @@ public interface OpportunityRepository {
 
   boolean existsById(OpportunityId opportunityId);
 
-  Page<Opportunity> findByCustomer(CustomerId customerId, Pageable pageable);
+  Page<Opportunity> findByCustomer(CustomerCompanyId customerCompanyId, Pageable pageable);
 
-  List<Opportunity> findByCustomer(CustomerId customerId);
+  List<Opportunity> findByCustomer(CustomerCompanyId customerCompanyId);
 
   Page<Opportunity> findByStage(OpportunityStage stage, Pageable pageable);
 
@@ -37,9 +37,9 @@ public interface OpportunityRepository {
 
   Page<Opportunity> findLostOpportunities(Pageable pageable);
 
-  long countByCustomerAndStage(CustomerId customerId, OpportunityStage stage);
+  long countByCustomerAndStage(CustomerCompanyId customerCompanyId, OpportunityStage stage);
 
-  long countActiveByCustomer(CustomerId customerId);
+  long countActiveByCustomer(CustomerCompanyId customerCompanyId);
 
-  double calculateWinRateByCustomer(CustomerId customerId);
+  double calculateWinRateByCustomer(CustomerCompanyId customerCompanyId);
 }

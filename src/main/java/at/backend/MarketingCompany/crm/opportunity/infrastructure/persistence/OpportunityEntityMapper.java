@@ -2,9 +2,9 @@ package at.backend.MarketingCompany.crm.opportunity.infrastructure.persistence;
 
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.Opportunity;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.*;
-import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerEntity;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -36,8 +36,8 @@ public class OpportunityEntityMapper {
     entity.setVersion(opportunity.getVersion());
 
     // Relations - solo IDs
-    if (opportunity.getCustomerId() != null) {
-      entity.setCustomer(new CustomerEntity(opportunity.getCustomerId().value()));
+    if (opportunity.getCustomerCompanyId() != null) {
+      entity.setCustomerCompany(new CustomerCompanyEntity(opportunity.getCustomerCompanyId().value()));
     }
 
     return entity;
@@ -49,7 +49,7 @@ public class OpportunityEntityMapper {
 
     var reconstructParams = OpportunityReconstructParams.builder()
         .id(OpportunityId.from(entity.getId()))
-        .customerId(entity.getCustomer() != null ? new CustomerId(entity.getCustomer().getId()) : null)
+        .customerCompanyId(entity.getCustomerCompany() != null ? new CustomerCompanyId(entity.getCustomerCompany().getId()) : null)
         .title(entity.getTitle())
         .amount(entity.getAmount() != null ? new Amount(entity.getAmount()) : null)
         .stage(entity.getStage())

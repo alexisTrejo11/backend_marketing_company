@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.crm.opportunity.infrastructure.persistence;
 
-import at.backend.MarketingCompany.common.jpa.BaseJpaEntity;
-import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerEntity;
+import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity;
+import at.backend.MarketingCompany.shared.jpa.BaseJpaEntity;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityStage;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,8 +21,8 @@ import java.time.LocalDate;
 public class OpportunityEntity extends BaseJpaEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "customer_id", nullable = false)
-  private CustomerEntity customer;
+  @JoinColumn(name = "customer_company_id", nullable = false)
+  private CustomerCompanyEntity customerCompany;
 
   @Column(name = "title", nullable = false)
   private String title;

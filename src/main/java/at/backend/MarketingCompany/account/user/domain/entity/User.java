@@ -3,7 +3,7 @@ package at.backend.MarketingCompany.account.user.domain.entity;
 import at.backend.MarketingCompany.account.auth.domain.entitiy.valueobject.*;
 import at.backend.MarketingCompany.account.user.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.account.user.domain.exceptions.UserValidationException;
-import at.backend.MarketingCompany.common.utils.BaseDomainEntity;
+import at.backend.MarketingCompany.shared.domain.BaseDomainEntity;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

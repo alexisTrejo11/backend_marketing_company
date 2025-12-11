@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Value Objects Validation" tests="4" skipped="0" failures="3" errors="0" timestamp="2025-12-09T06:03:38.109Z" hostname="Administrator" time="0.006">
+  <properties/>
+  <testcase name="should generate value objects from nullable values" classname="at.backend.MarketingCompany.MarketingCampaing.crm.opportunity.domain.OpportunityTest$ValueObjectsValidationTests" time="0.001">
+    <failure message="java.lang.IllegalArgumentException: Amount cannot be null" type="java.lang.IllegalArgumentException">java.lang.IllegalArgumentException: Amount cannot be null
+	at at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.Amount.&lt;init&gt;(Amount.java:12)
+	at at.backend.MarketingCompany.MarketingCampaing.crm.opportunity.domain.OpportunityTest$ValueObjectsValidationTests.valueObjects_FromNullableValues_ShouldHandleCorrectly(OpportunityTest.java:523)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+</failure>
+  </testcase>
+  <testcase name="should check if amount is positive" classname="at.backend.MarketingCompany.MarketingCampaing.crm.opportunity.domain.OpportunityTest$ValueObjectsValidationTests" time="0.001"/>
+  <testcase name="should validate expected close date" classname="at.backend.MarketingCompany.MarketingCampaing.crm.opportunity.domain.OpportunityTest$ValueObjectsValidationTests" time="0.001">
+    <failure message="java.lang.AssertionError: &#10;Expecting code to raise a throwable." type="java.lang.AssertionError">java.lang.AssertionError: 
+Expecting code to raise a throwable.
+	at at.backend.MarketingCompany.MarketingCampaing.crm.opportunity.domain.OpportunityTest$ValueObjectsValidationTests.expectedCloseDate_WithPastDate_ShouldThrowException(OpportunityTest.java:514)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+</failure>
+  </testcase>
+  <testcase name="should validate opportunity amount" classname="at.backend.MarketingCompany.MarketingCampaing.crm.opportunity.domain.OpportunityTest$ValueObjectsValidationTests" time="0.002">
+    <failure message="java.lang.AssertionError: &#10;Expecting actual throwable to be an instance of:&#10;  at.backend.MarketingCompany.crm.opportunity.domain.exceptions.OpportunityValidationException&#10;but was:&#10;  java.lang.IllegalArgumentException: Amount cannot be negative&#10;&#9;at at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.Amount.&lt;init&gt;(Amount.java:15)&#10;&#9;at at.backend.MarketingCompany.MarketingCampaing.crm.opportunity.domain.OpportunityTest$ValueObjectsValidationTests.lambda$opportunityAmount_WithInvalidValue_ShouldThrowException$0(OpportunityTest.java:502)&#10;&#9;at org.assertj.core.api.ThrowableAssert.catchThrowable(ThrowableAssert.java:63)&#10;&#9;...(95 remaining lines not displayed - this can be changed with Assertions.setMaxStackTraceElementsDisplayed)" type="java.lang.AssertionError">java.lang.AssertionError: 
+Expecting actual throwable to be an instance of:
+  at.backend.MarketingCompany.crm.opportunity.domain.exceptions.OpportunityValidationException
+but was:
+  java.lang.IllegalArgumentException: Amount cannot be negative
+	at at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.Amount.&lt;init&gt;(Amount.java:15)
+	at at.backend.MarketingCompany.MarketingCampaing.crm.opportunity.domain.OpportunityTest$ValueObjectsValidationTests.lambda$opportunityAmount_WithInvalidValue_ShouldThrowException$0(OpportunityTest.java:502)
+	at org.assertj.core.api.ThrowableAssert.catchThrowable(ThrowableAssert.java:63)
+	...(95 remaining lines not displayed - this can be changed with Assertions.setMaxStackTraceElementsDisplayed)
+	at at.backend.MarketingCompany.MarketingCampaing.crm.opportunity.domain.OpportunityTest$ValueObjectsValidationTests.opportunityAmount_WithInvalidValue_ShouldThrowException(OpportunityTest.java:503)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+</failure>
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

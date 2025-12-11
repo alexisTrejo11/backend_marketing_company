@@ -4,8 +4,8 @@ import at.backend.MarketingCompany.crm.interaction.domain.entity.Interaction;
 import at.backend.MarketingCompany.crm.interaction.domain.entity.valueobject.FeedbackType;
 import at.backend.MarketingCompany.crm.interaction.domain.entity.valueobject.InteractionId;
 import at.backend.MarketingCompany.crm.interaction.domain.entity.valueobject.InteractionType;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -24,15 +24,15 @@ public interface InteractionRepository {
   boolean existsById(InteractionId interactionId);
 
   // Finders
-  Page<Interaction> findByCustomer(CustomerId customerId, Pageable pageable);
+  Page<Interaction> findByCustomer(CustomerCompanyId customerCompanyId, Pageable pageable);
 
-  List<Interaction> findByCustomer(CustomerId customerId);
+  List<Interaction> findByCustomer(CustomerCompanyId customerCompanyId);
 
   Page<Interaction> findByType(InteractionType type, Pageable pageable);
 
   Page<Interaction> findByFeedbackType(FeedbackType feedbackType, Pageable pageable);
 
-  Page<Interaction> findByCustomerAndType(CustomerId customerId, InteractionType type, Pageable pageable);
+  Page<Interaction> findByCustomerAndType(CustomerCompanyId customerCompanyId, InteractionType type, Pageable pageable);
 
   // Time-based queries
   Page<Interaction> findByDateRange(LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
@@ -53,14 +53,14 @@ public interface InteractionRepository {
   Page<Interaction> findNegativeInteractions(Pageable pageable);
 
   // Statistics
-  long countByCustomerAndType(CustomerId customerId, InteractionType type);
+  long countByCustomerAndType(CustomerCompanyId customerCompanyId, InteractionType type);
 
-  long countByCustomerAndFeedbackType(CustomerId customerId, FeedbackType feedbackType);
+  long countByCustomerAndFeedbackType(CustomerCompanyId customerCompanyId, FeedbackType feedbackType);
 
-  long countRecentInteractionsByCustomer(CustomerId customerId, int days);
+  long countRecentInteractionsByCustomer(CustomerCompanyId customerCompanyId, int days);
 
   // Analytics
-  List<InteractionType> findMostFrequentInteractionTypesByCustomer(CustomerId customerId);
+  List<InteractionType> findMostFrequentInteractionTypesByCustomer(CustomerCompanyId customerCompanyId);
 
-  FeedbackType findPredominantFeedbackByCustomer(CustomerId customerId);
+  FeedbackType findPredominantFeedbackByCustomer(CustomerCompanyId customerCompanyId);
 }

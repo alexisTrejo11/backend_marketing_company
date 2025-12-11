@@ -8,13 +8,13 @@ import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.Amo
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.Discount;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.quote.domain.model.QuoteItem;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
 import lombok.Builder;
 
 @Builder
 public record QuoteReconstructParams(
     QuoteId id,
-    CustomerId customerId,
+    CustomerCompanyId customerCompanyId,
     OpportunityId opportunityId,
     LocalDate validUntil,
     Amount subTotal,

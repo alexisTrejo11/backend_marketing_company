@@ -7,7 +7,7 @@ import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.Opp
 import at.backend.MarketingCompany.crm.tasks.domain.entity.Task;
 import at.backend.MarketingCompany.crm.tasks.domain.entity.valueobject.TaskId;
 import at.backend.MarketingCompany.crm.tasks.domain.repository.TaskRepository;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -67,15 +67,15 @@ public class TaskRepositoryImpl implements TaskRepository {
 
   @Override
   @Transactional(readOnly = true)
-  public Page<Task> findByCustomer(CustomerId customerId, Pageable pageable) {
-    log.debug("Finding tasks by customer ID: {}", customerId.value());
+  public Page<Task> findByCustomer(CustomerCompanyId customerCompanyId, Pageable pageable) {
+    log.debug("Finding tasks by customer ID: {}", customerCompanyId.value());
 
-    return jpaTaskRepository.findByCustomer_Id(customerId.value(), pageable)
+    return jpaTaskRepository.findByCustomer_Id(customerCompanyId.value(), pageable)
         .map(taskEntityMapper::toDomain);
   }
 
   @Override
-  public List<Task> findByCustomer(CustomerId customerId) {
+  public List<Task> findByCustomer(CustomerCompanyId customerCompanyId) {
     return List.of();
   }
 
@@ -145,10 +145,10 @@ public class TaskRepositoryImpl implements TaskRepository {
 
   @Override
   @Transactional(readOnly = true)
-  public long countByCustomerAndStatus(CustomerId customerId, TaskStatus status) {
-    log.debug("Counting tasks for customer {} with status: {}", customerId.value(), status);
+  public long countByCustomerAndStatus(CustomerCompanyId customerCompanyId, TaskStatus status) {
+    log.debug("Counting tasks for customer {} with status: {}", customerCompanyId.value(), status);
 
-    return jpaTaskRepository.countByCustomer_IdAndStatus(customerId.value(), status);
+    return jpaTaskRepository.countByCustomer_IdAndStatus(customerCompanyId.value(), status);
   }
 
   @Override

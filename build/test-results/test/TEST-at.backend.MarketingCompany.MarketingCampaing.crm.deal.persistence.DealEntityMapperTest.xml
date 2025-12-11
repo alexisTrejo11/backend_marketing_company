@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealEntityMapperTest" tests="5" skipped="0" failures="1" errors="0" timestamp="2025-12-09T06:02:34.034Z" hostname="Administrator" time="0.015">
+  <properties/>
+  <testcase name="toEntity_WithSignedDeal_ShouldMapAllFields()" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealEntityMapperTest" time="0.002"/>
+  <testcase name="updateEntity_ShouldUpdateOnlyAllowedFields()" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealEntityMapperTest" time="0.003"/>
+  <testcase name="toDomain_WithValidEntity_ShouldMapCorrectly()" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealEntityMapperTest" time="0.005">
+    <failure message="org.opentest4j.AssertionFailedError: &#10;expected: &quot;5ec528e6-fda5-4f41-b501-e421d4e951fb&quot;&#10; but was: &quot;c9e26cfa-d1f2-40a8-a5e9-ae29d3ae88bd&quot;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: 
+expected: &quot;5ec528e6-fda5-4f41-b501-e421d4e951fb&quot;
+ but was: &quot;c9e26cfa-d1f2-40a8-a5e9-ae29d3ae88bd&quot;
+	at app//at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealEntityMapperTest.toDomain_WithValidEntity_ShouldMapCorrectly(DealEntityMapperTest.java:142)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+</failure>
+  </testcase>
+  <testcase name="toEntity_and_toDomain_ShouldBeReversible()" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealEntityMapperTest" time="0.002"/>
+  <testcase name="toEntity_WithValidDeal_ShouldMapCorrectly()" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence.DealEntityMapperTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

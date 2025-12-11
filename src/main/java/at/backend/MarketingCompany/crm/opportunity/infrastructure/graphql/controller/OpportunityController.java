@@ -1,16 +1,16 @@
 package at.backend.MarketingCompany.crm.opportunity.infrastructure.graphql.controller;
 
-import at.backend.MarketingCompany.common.PageResponse;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.shared.PageResponse;
 import at.backend.MarketingCompany.crm.opportunity.application.OpportunityApplicationService;
 import at.backend.MarketingCompany.crm.opportunity.application.commands.*;
 import at.backend.MarketingCompany.crm.opportunity.application.queries.*;
-import at.backend.MarketingCompany.common.utils.PageInput;
+import at.backend.MarketingCompany.shared.dto.PageInput;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityStage;
 import at.backend.MarketingCompany.crm.opportunity.infrastructure.graphql.dto.*;
 import at.backend.MarketingCompany.crm.opportunity.infrastructure.graphql.dto.input.*;
 import at.backend.MarketingCompany.crm.opportunity.infrastructure.graphql.dto.output.OpportunityResponse;
 import at.backend.MarketingCompany.crm.opportunity.infrastructure.graphql.dto.output.OpportunityStatisticsResponse;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -221,7 +221,7 @@ public class OpportunityController {
     return new SearchOpportunitiesQuery(
         filter.searchTerm(),
         stages,
-        CustomerId.of(filter.customerId()),
+        new CustomerCompanyId(filter.customerId()),
         filter.pageInput().toPageable());
   }
 }

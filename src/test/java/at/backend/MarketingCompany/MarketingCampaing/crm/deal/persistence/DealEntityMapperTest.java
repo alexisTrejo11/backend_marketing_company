@@ -11,9 +11,10 @@ import at.backend.MarketingCompany.crm.deal.repository.persistence.model.DealEnt
 import at.backend.MarketingCompany.crm.deal.repository.persistence.model.DealEntityMapper;
 import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
 import at.backend.MarketingCompany.crm.servicePackage.infrastructure.persistence.model.ServicePackageEntity;
-import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerEntity;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 
+import at.backend.MarketingCompany.customer.domain.entity.CustomerCompany;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +29,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class DealEntityMapperTest {
 
   private DealEntityMapper mapper;
-  private CustomerId customerId;
+  private CustomerCompanyId customerCompanyId;
   private OpportunityId opportunityId;
   private List<ServicePackageId> serviceIds;
   private LocalDate startDate;
@@ -37,7 +38,7 @@ class DealEntityMapperTest {
   void setUp() {
     mapper = new DealEntityMapper();
 
-    customerId = CustomerId.generate();
+    customerCompanyId = CustomerCompanyId.generate();
     opportunityId = OpportunityId.generate();
     serviceIds = List.of(
         new ServicePackageId(UUID.randomUUID().toString()),
@@ -49,7 +50,7 @@ class DealEntityMapperTest {
   void toEntity_WithValidDeal_ShouldMapCorrectly() {
     // Given
     var createParams = CreateDealParams.builder()
-        .customerId(customerId)
+        .customerCompanyId(customerCompanyId)
         .opportunityId(opportunityId)
         .startDate(startDate)
         .servicePackageIds(serviceIds)
@@ -67,7 +68,7 @@ class DealEntityMapperTest {
     assertThat(entity.getStartDate()).isEqualTo(startDate);
     assertThat(entity.getEndDate()).isNull();
     assertThat(entity.getFinalAmount()).isEqualByComparingTo(BigDecimal.ZERO);
-    assertThat(entity.getCustomerEntity().getId()).isEqualTo(customerId.value());
+    assertThat(entity.getCustomerCompany().getId()).isEqualTo(customerCompanyId.value());
     assertThat(entity.getOpportunity().getId()).isEqualTo(opportunityId.value());
     assertThat(entity.getServices()).hasSize(2);
   }
@@ -76,7 +77,8 @@ class DealEntityMapperTest {
   void toEntity_WithSignedDeal_ShouldMapAllFields() {
     // Given
     var createParams = CreateDealParams.builder()
-        .customerId(customerId)
+        .customerCompanyId(
+                customerCompanyId)
         .opportunityId(opportunityId)
         .startDate(startDate)
         .servicePackageIds(serviceIds)
@@ -117,14 +119,14 @@ class DealEntityMapperTest {
     entity.setVersion(1);
 
     // Set up relationships with mock entity
-    var customer = new CustomerEntity(customerId.value());
+    var customer = new CustomerCompanyEntity(customerCompanyId.value());
     var opportunity = new OpportunityEntity(UUID.randomUUID().toString());
     var manager = new UserEntity(UUID.randomUUID().toString());
     var services = serviceIds.stream()
         .map(id -> new ServicePackageEntity(id.value()))
         .toList();
 
-    entity.setCustomerEntity(customer);
+    entity.setCustomerCompany(customer);
     entity.setOpportunity(opportunity);
     entity.setCampaignManager(manager);
     entity.setServices(services);
@@ -136,7 +138,7 @@ class DealEntityMapperTest {
     assertThat(deal).isNotNull();
     assertThat(deal.getId().value()).isEqualTo(entity.getId());
     assertThat(deal.getDealStatus()).isEqualTo(DealStatus.SIGNED);
-    assertThat(deal.getCustomerId().value()).isEqualTo(customerId.value());
+    assertThat(deal.getCustomerId().value()).isEqualTo(customerCompanyId.value());
     assertThat(deal.getOpportunityId().value()).isEqualTo(opportunityId.value());
     assertThat(deal.getServicePackageIds()).hasSize(2);
     assertThat(deal.getFinalAmount()).isPresent();
@@ -148,7 +150,7 @@ class DealEntityMapperTest {
   void toEntity_and_toDomain_ShouldBeReversible() {
     // Given
     var createParams = CreateDealParams.builder()
-        .customerId(customerId)
+        .customerCompanyId(customerCompanyId)
         .opportunityId(opportunityId)
         .startDate(startDate)
         .servicePackageIds(serviceIds)
@@ -179,7 +181,7 @@ class DealEntityMapperTest {
   void updateEntity_ShouldUpdateOnlyAllowedFields() {
     // Given
     var createParams = CreateDealParams.builder()
-        .customerId(customerId)
+        .customerCompanyId(customerCompanyId)
         .opportunityId(opportunityId)
         .startDate(startDate)
         .servicePackageIds(serviceIds)
@@ -204,6 +206,6 @@ class DealEntityMapperTest {
     assertThat(entity.getTerms()).isEqualTo("Updated terms");
     // ID and relationships should remain unchanged
     assertThat(entity.getId()).isEqualTo(originalDeal.getId().value());
-    assertThat(entity.getCustomerEntity().getId()).isEqualTo(customerId.value());
+    assertThat(entity.getCustomerCompany().getId()).isEqualTo(customerCompanyId.value());
   }
 }

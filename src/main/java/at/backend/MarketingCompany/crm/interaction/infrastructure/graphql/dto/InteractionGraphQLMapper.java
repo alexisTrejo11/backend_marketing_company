@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.crm.interaction.infrastructure.graphql.dto;
 
-import at.backend.MarketingCompany.common.PageResponse;
+import at.backend.MarketingCompany.shared.PageResponse;
 import at.backend.MarketingCompany.crm.interaction.domain.entity.Interaction;
 import at.backend.MarketingCompany.crm.interaction.domain.entity.valueobject.ChannelPreference;
 import at.backend.MarketingCompany.crm.interaction.domain.entity.valueobject.FeedbackType;
@@ -23,11 +23,11 @@ public class InteractionGraphQLMapper {
     public InteractionResponse toGraphQLResponse(Interaction interaction) {
         if (interaction == null) return null;
 
-        var customer = externalDataFetcher.fetchCustomerInfo(interaction.getCustomerId());
+        var customer = externalDataFetcher.fetchCustomerInfo(interaction.getCustomerCompanyId());
 
         return new InteractionResponse(
             interaction.getId().value(),
-            interaction.getCustomerId().value(),
+            interaction.getCustomerCompanyId().value(),
             customer,
             interaction.getType(),
             interaction.getDateTime().value(),

@@ -6,11 +6,11 @@ import at.backend.MarketingCompany.crm.quote.domain.model.*;
 import at.backend.MarketingCompany.crm.quote.domain.valueobject.QuoteId;
 import at.backend.MarketingCompany.crm.quote.domain.valueobject.QuoteReconstructParams;
 import at.backend.MarketingCompany.crm.quote.infrastructure.adapter.output.persistence.entity.QuoteEntity;
-import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerEntity;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 
 import java.util.List;
 
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +30,7 @@ public class QuoteJpaEntityMapper {
     return Quote.reconstruct(
         QuoteReconstructParams.builder()
             .id(entity.getId() != null ? new QuoteId(entity.getId()) : null)
-            .customerId(entity.getCustomer() != null ? new CustomerId(entity.getCustomer().getId()) : null)
+            .customerCompanyId(entity.getCustomerCompany() != null ? new CustomerCompanyId(entity.getCustomerCompany().getId()) : null)
             .validUntil(entity.getValidUntil())
             .subTotal(entity.getSubTotal() != null ? new Amount(entity.getSubTotal()) : null)
             .discount(entity.getDiscount() != null ? new Discount(entity.getDiscount()) : null)
@@ -53,7 +53,7 @@ public class QuoteJpaEntityMapper {
 
     QuoteEntity entity = new QuoteEntity();
     entity.setId(domain.getId() != null ? domain.getId().value() : null);
-    entity.setCustomer(domain.getCustomerId() != null ? new CustomerEntity(domain.getCustomerId().value()) : null);
+    entity.setCustomerCompany(domain.getCustomerCompanyId() != null ? new CustomerCompanyEntity(domain.getCustomerCompanyId().value()) : null);
     entity.setValidUntil(domain.getValidUntil());
     entity.setSubTotal(domain.getSubTotal() != null ? domain.getSubTotal().value() : null);
     entity.setDiscount(domain.getDiscount() != null ? domain.getDiscount().percentage() : null);

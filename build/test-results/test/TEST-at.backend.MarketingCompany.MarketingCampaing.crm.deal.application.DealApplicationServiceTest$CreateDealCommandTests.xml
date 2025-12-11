@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Create Deal Command" tests="3" skipped="0" failures="0" errors="0" timestamp="2025-12-09T06:02:33.843Z" hostname="Administrator" time="0.019">
+  <properties/>
+  <testcase name="should throw exception when services validation fails" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.application.DealApplicationServiceTest$CreateDealCommandTests" time="0.007"/>
+  <testcase name="should throw exception when customer validation fails" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.application.DealApplicationServiceTest$CreateDealCommandTests" time="0.005"/>
+  <testcase name="should generate deal successfully with valid commands" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.application.DealApplicationServiceTest$CreateDealCommandTests" time="0.007"/>
+  <system-out><![CDATA[2025-12-09T00:02:33.847-06:00  INFO 993380 --- [CRM] [    Test worker] a.b.M.c.d.a.DealApplicationServiceImpl   : Creating deal for opportunity: OpportunityId[value=e3ba299d-530e-475c-a932-35cab5463441]
+2025-12-09T00:02:33.854-06:00  INFO 993380 --- [CRM] [    Test worker] a.b.M.c.d.a.DealApplicationServiceImpl   : Creating deal for opportunity: OpportunityId[value=a04a3c17-2ecb-4f4e-a3c0-4b6c981e73ac]
+2025-12-09T00:02:33.858-06:00  INFO 993380 --- [CRM] [    Test worker] a.b.M.c.d.a.DealApplicationServiceImpl   : Creating deal for opportunity: OpportunityId[value=79389fdc-826a-4daf-9f5e-d47f58ca412f]
+2025-12-09T00:02:33.859-06:00  INFO 993380 --- [CRM] [    Test worker] a.b.M.c.d.a.DealApplicationServiceImpl   : Deal created successfully with ID: 6ee6e069-bed0-4942-a2a1-52f2ab96db0d
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

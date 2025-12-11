@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Mark Deal As Paid Command" tests="2" skipped="0" failures="0" errors="0" timestamp="2025-12-09T06:02:33.816Z" hostname="Administrator" time="0.009">
+  <properties/>
+  <testcase name="should mark deal as paid successfully" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.application.DealApplicationServiceTest$MarkDealAsPaidCommandTests" time="0.005"/>
+  <testcase name="should throw exception when deal is not in signed state" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.application.DealApplicationServiceTest$MarkDealAsPaidCommandTests" time="0.003"/>
+  <system-out><![CDATA[2025-12-09T00:02:33.820-06:00  INFO 993380 --- [CRM] [    Test worker] a.b.M.c.d.a.DealApplicationServiceImpl   : Marking deal as paid: DealId[value=e160f190-9e48-4ead-ac39-3780fe8ba781]
+2025-12-09T00:02:33.821-06:00  INFO 993380 --- [CRM] [    Test worker] a.b.M.c.d.a.DealApplicationServiceImpl   : Deal DealId[value=e160f190-9e48-4ead-ac39-3780fe8ba781] marked as paid
+2025-12-09T00:02:33.824-06:00  INFO 993380 --- [CRM] [    Test worker] a.b.M.c.d.a.DealApplicationServiceImpl   : Marking deal as paid: DealId[value=1d30ed27-ff74-41cc-9cdb-1d3545f365bc]
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

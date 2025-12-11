@@ -2,8 +2,8 @@ package at.backend.MarketingCompany.crm.opportunity.infrastructure.graphql.dto.i
 
 import at.backend.MarketingCompany.crm.opportunity.application.commands.CreateOpportunityCommand;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.ExpectedCloseDate;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.Amount;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
 import jakarta.validation.constraints.NotBlank;
 
 import java.math.BigDecimal;
@@ -16,7 +16,7 @@ public record CreateOpportunityInput(
     LocalDate expectedCloseDate) {
   public CreateOpportunityCommand toCommand() {
     return new CreateOpportunityCommand(
-        CustomerId.of(customerId),
+        new CustomerCompanyId(customerId),
         title,
         new Amount(amount),
         ExpectedCloseDate.from(expectedCloseDate));

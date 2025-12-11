@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.crm.servicePackage.infrastructure.persistence.model;
 
-import at.backend.MarketingCompany.common.jpa.BaseJpaEntity;
+import at.backend.MarketingCompany.shared.jpa.BaseJpaEntity;
 import at.backend.MarketingCompany.crm.shared.enums.Complexity;
 import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.Frequency;
 import at.backend.MarketingCompany.crm.shared.enums.SocialNetworkPlatform;

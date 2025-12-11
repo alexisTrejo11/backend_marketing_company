@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ContractPeriod" tests="4" skipped="0" failures="2" errors="0" timestamp="2025-12-09T06:02:34.014Z" hostname="Administrator" time="0.007">
+  <properties/>
+  <testcase name="should throw exception when end date is before start date" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.ValueObjectTest$ContractPeriodTest" time="0.001"/>
+  <testcase name="should generate with valid dates" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.ValueObjectTest$ContractPeriodTest" time="0.001">
+    <failure message="org.opentest4j.AssertionFailedError: &#10;expected: 2026-01-08 (java.time.LocalDate)&#10; but was: Optional[2026-01-08]" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: 
+expected: 2026-01-08 (java.time.LocalDate)
+ but was: Optional[2026-01-08]
+	at app//at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.ValueObjectTest$ContractPeriodTest.create_WithValidDates_ShouldCreate(ValueObjectTest.java:97)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+</failure>
+  </testcase>
+  <testcase name="should generate with null end date" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.ValueObjectTest$ContractPeriodTest" time="0.001">
+    <failure message="java.lang.NullPointerException: Cannot invoke &quot;java.util.Optional.isPresent()&quot; because &quot;endDate&quot; is null" type="java.lang.NullPointerException">java.lang.NullPointerException: Cannot invoke &quot;java.util.Optional.isPresent()&quot; because &quot;endDate&quot; is null
+	at at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.ContractPeriod.&lt;init&gt;(ContractPeriod.java:14)
+	at at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.ValueObjectTest$ContractPeriodTest.create_WithNullEndDate_ShouldCreate(ValueObjectTest.java:107)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+</failure>
+  </testcase>
+  <testcase name="should throw exception for null start date" classname="at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.ValueObjectTest$ContractPeriodTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

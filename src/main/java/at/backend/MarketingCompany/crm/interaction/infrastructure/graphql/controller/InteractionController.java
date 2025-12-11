@@ -1,10 +1,11 @@
 package at.backend.MarketingCompany.crm.interaction.infrastructure.graphql.controller;
 
-import at.backend.MarketingCompany.common.PageResponse;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.shared.PageResponse;
 import at.backend.MarketingCompany.crm.interaction.application.InteractionApplicationService;
 import at.backend.MarketingCompany.crm.interaction.application.commands.*;
 import at.backend.MarketingCompany.crm.interaction.application.queries.*;
-import at.backend.MarketingCompany.common.utils.PageInput;
+import at.backend.MarketingCompany.shared.dto.PageInput;
 import at.backend.MarketingCompany.crm.interaction.domain.entity.valueobject.FeedbackType;
 import at.backend.MarketingCompany.crm.interaction.domain.entity.valueobject.InteractionType;
 import at.backend.MarketingCompany.crm.interaction.infrastructure.graphql.dto.InteractionGraphQLMapper;
@@ -15,7 +16,6 @@ import at.backend.MarketingCompany.crm.interaction.infrastructure.graphql.dto.in
 import at.backend.MarketingCompany.crm.interaction.infrastructure.graphql.dto.output.CustomerInteractionAnalyticsResponse;
 import at.backend.MarketingCompany.crm.interaction.infrastructure.graphql.dto.output.InteractionResponse;
 import at.backend.MarketingCompany.crm.interaction.infrastructure.graphql.dto.output.InteractionStatisticsResponse;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -163,7 +163,7 @@ public class InteractionController {
     log.info("Creating new interaction for customer: {}", input.customerId());
 
     var command = new CreateInteractionCommand(
-        new CustomerId(input.customerId()),
+        new CustomerCompanyId(input.customerId()),
         input.type(),
         at.backend.MarketingCompany.crm.interaction.domain.entity.valueobject.InteractionDateTime
             .from(input.dateTime()),

@@ -3,8 +3,8 @@ package at.backend.MarketingCompany.MarketingCampaing.crm.opportunity.domain;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.Opportunity;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.crm.opportunity.domain.exceptions.OpportunityValidationException;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -21,14 +21,14 @@ import static org.assertj.core.api.Assertions.*;
 @DisplayName("Opportunity Domain Entity")
 class OpportunityTest {
 
-  private CustomerId validCustomerId;
+  private CustomerCompanyId validCustomerCompanyId;
   private String validTitle;
   private Amount validAmount;
   private ExpectedCloseDate validCloseDate;
 
   @BeforeEach
   void setUp() {
-    validCustomerId = CustomerId.generate();
+    validCustomerCompanyId = CustomerCompanyId.generate();
     validTitle = "New Marketing Campaign";
     validAmount = new Amount(new BigDecimal("50000.00"));
     validCloseDate = new ExpectedCloseDate(LocalDate.now().plusDays(30));
@@ -36,7 +36,7 @@ class OpportunityTest {
 
   private CreateOpportunityParams.CreateOpportunityParamsBuilder validCreateParams() {
     return CreateOpportunityParams.builder()
-        .customerId(validCustomerId)
+        .customerCompanyId(validCustomerCompanyId)
         .title(validTitle)
         .amount(validAmount)
         .expectedCloseDate(validCloseDate);
@@ -55,7 +55,7 @@ class OpportunityTest {
       // Then
       assertThat(opportunity).isNotNull();
       assertThat(opportunity.getId()).isNotNull();
-      assertThat(opportunity.getCustomerId()).isEqualTo(validCustomerId);
+      assertThat(opportunity.getCustomerCompanyId()).isEqualTo(validCustomerCompanyId);
       assertThat(opportunity.getTitle()).isEqualTo(validTitle);
       assertThat(opportunity.getAmount()).contains(validAmount);
       assertThat(opportunity.getExpectedCloseDate()).contains(validCloseDate);
@@ -70,7 +70,7 @@ class OpportunityTest {
     void createOpportunity_WithMinimalParams_ShouldCreateOpportunity() {
       // Given
       var minimalParams = CreateOpportunityParams.builder()
-          .customerId(validCustomerId)
+          .customerCompanyId(validCustomerCompanyId)
           .title(validTitle)
           .build();
 
@@ -94,10 +94,10 @@ class OpportunityTest {
     }
 
     @Test
-    @DisplayName("should throw exception when customerId is null")
+    @DisplayName("should throw exception when customerCompanyId is null")
     void createOpportunity_WithNullCustomerId_ShouldThrowException() {
       // Given
-      var params = validCreateParams().customerId(null).build();
+      var params = validCreateParams().customerCompanyId(null).build();
 
       // When & Then
       assertThatThrownBy(() -> Opportunity.create(params))
@@ -358,7 +358,7 @@ class OpportunityTest {
           .version(2)
           .createdAt(createdAt)
           .updatedAt(updatedAt)
-          .customerId(validCustomerId)
+          .customerCompanyId(validCustomerCompanyId)
           .title(validTitle)
           .amount(validAmount)
           .stage(OpportunityStage.QUALIFIED)
@@ -437,7 +437,7 @@ class OpportunityTest {
       var opportunityId = OpportunityId.generate();
       var params = OpportunityReconstructParams.builder()
           .id(opportunityId)
-          .customerId(validCustomerId)
+          .customerCompanyId(validCustomerCompanyId)
           .title(validTitle)
           .stage(OpportunityStage.QUALIFIED)
           .expectedCloseDate(new ExpectedCloseDate(pastDate)) // This will throw in constructor
@@ -476,7 +476,7 @@ class OpportunityTest {
     void getOptionalFields_WhenNull_ShouldReturnEmptyOptional() {
       // Given
       var params = CreateOpportunityParams.builder()
-          .customerId(validCustomerId)
+          .customerCompanyId(validCustomerCompanyId)
           .title(validTitle)
           .build(); // No amount or close date
 

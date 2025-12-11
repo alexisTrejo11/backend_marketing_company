@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - State Transitions</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>State Transitions</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.html">at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain</a> &gt; DealTest$StateTransitionTests</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">14</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">1</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.028s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox failures" id="successRate">
+<div class="percent">92%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a href="#">Failed tests</a>
+</li>
+<li>
+<a href="#">Tests</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Failed tests</h2>
+<div class="test">
+<a name="completeDeal_FromInProgress_ShouldTransitionToCompleted()"></a>
+<h3 class="failures">should complete deal from IN_PROGRESS state</h3>
+<span class="code">
+<pre id="test-message-completeDeal_FromInProgress_ShouldTransitionToCompleted()">org.opentest4j.AssertionFailedError: 
+expected: 2026-01-09 (java.time.LocalDate)
+ but was: Optional[2026-01-09]
+	at app//at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain.DealTest$StateTransitionTests.completeDeal_FromInProgress_ShouldTransitionToCompleted(DealTest.java:251)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+</pre>
+<button class="clipboard-copy-btn" aria-label="Copy to clipboard" data-copy-element-id="test-message-completeDeal_FromInProgress_ShouldTransitionToCompleted()">Copy</button>
+</span>
+</div>
+</div>
+<div class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Method name</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">should cancel deal from any active state</td>
+<td class="success">cancelDeal_FromActiveState_ShouldTransitionToCancelled()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="failures">should complete deal from IN_PROGRESS state</td>
+<td class="failures">completeDeal_FromInProgress_ShouldTransitionToCompleted()</td>
+<td class="failures">0.011s</td>
+<td class="failures">failed</td>
+</tr>
+<tr>
+<td class="success">should throw exception when completing with end date before start date</td>
+<td class="success">completeDeal_WithEndDateBeforeStart_ShouldThrowException()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">should mark as paid from SIGNED state</td>
+<td class="success">markAsPaid_FromSigned_ShouldTransitionToPaid()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[1] terminalStatus=COMPLETED</td>
+<td class="success">performAction_FromTerminalState_ShouldThrowException(DealStatus)[1]</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[2] terminalStatus=CANCELLED</td>
+<td class="success">performAction_FromTerminalState_ShouldThrowException(DealStatus)[2]</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">should sign deal from IN_NEGOTIATION with valid parameters</td>
+<td class="success">signDeal_FromInNegotiation_ShouldTransitionToSigned()</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[1] invalidTerms=null</td>
+<td class="success">signDeal_WithInvalidTerms_ShouldThrowException(String)[1]</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[2] invalidTerms=</td>
+<td class="success">signDeal_WithInvalidTerms_ShouldThrowException(String)[2]</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">should throw exception when signing with null amount</td>
+<td class="success">signDeal_WithNullAmount_ShouldThrowException()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">should throw exception when signing with null manager</td>
+<td class="success">signDeal_WithNullManager_ShouldThrowException()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">should throw exception when signing with zero amount</td>
+<td class="success">signDeal_WithZeroAmount_ShouldThrowException()</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">should start execution from PAID state</td>
+<td class="success">startExecution_FromPaid_ShouldTransitionToInProgress()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">should transition from DRAFT to IN_NEGOTIATION</td>
+<td class="success">startNegotiation_FromDraft_ShouldTransitionToInNegotiation()</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="https://www.gradle.org">Gradle 9.1.0</a> at Dec 9, 2025, 12:03:39 AM</p>
+</div>
+</div>
+</body>
+</html>

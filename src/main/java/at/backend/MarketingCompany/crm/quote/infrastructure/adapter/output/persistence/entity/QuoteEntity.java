@@ -1,9 +1,9 @@
 package at.backend.MarketingCompany.crm.quote.infrastructure.adapter.output.persistence.entity;
 
-import at.backend.MarketingCompany.common.jpa.BaseJpaEntity;
+import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity;
+import at.backend.MarketingCompany.shared.jpa.BaseJpaEntity;
 import at.backend.MarketingCompany.crm.quote.domain.valueobject.QuoteStatus;
 import at.backend.MarketingCompany.crm.opportunity.infrastructure.persistence.OpportunityEntity;
-import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerEntity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,8 +20,8 @@ import java.util.List;
 public class QuoteEntity extends BaseJpaEntity {
 
   @ManyToOne
-  @JoinColumn(name = "customer_id", nullable = false)
-  private CustomerEntity customer;
+  @JoinColumn(name = "customer_company_id", nullable = false)
+  private CustomerCompanyEntity customerCompany;
 
   @ManyToOne
   @JoinColumn(name = "opportunity_id", nullable = true)

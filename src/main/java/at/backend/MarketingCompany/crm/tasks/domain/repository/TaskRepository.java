@@ -6,8 +6,8 @@ import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.E
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.tasks.domain.entity.Task;
 import at.backend.MarketingCompany.crm.tasks.domain.entity.valueobject.TaskId;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -24,9 +24,9 @@ public interface TaskRepository {
 
   boolean existsById(TaskId taskId);
 
-  Page<Task> findByCustomer(CustomerId customerId, Pageable pageable);
+  Page<Task> findByCustomer(CustomerCompanyId customerCompanyId, Pageable pageable);
 
-  List<Task> findByCustomer(CustomerId customerId);
+  List<Task> findByCustomer(CustomerCompanyId customerCompanyId);
 
   Page<Task> findByOpportunity(OpportunityId opportunityId, Pageable pageable);
 
@@ -44,7 +44,7 @@ public interface TaskRepository {
       Set<TaskPriority> priorities, String customerId,
       String assigneeId, Boolean overdueOnly, Pageable pageable);
 
-  long countByCustomerAndStatus(CustomerId customerId, TaskStatus status);
+  long countByCustomerAndStatus(CustomerCompanyId customerCompanyId, TaskStatus status);
 
   long countByAssigneeAndStatus(EmployeeId assigneeId, TaskStatus status);
 

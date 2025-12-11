@@ -1,15 +1,14 @@
 package at.backend.MarketingCompany.crm.interaction.domain.entity.valueobject;
 
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
 
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
-
 @Builder
 public record InteractionReconstructParams(
     InteractionId id,
-    CustomerId customerId,
+    CustomerCompanyId customerCompanyId,
     InteractionType type,
     InteractionDateTime dateTime,
     InteractionDescription description,

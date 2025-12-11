@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects;
 
-import at.backend.MarketingCompany.common.exceptions.MissingFieldException;
+import at.backend.MarketingCompany.shared.domain.exceptions.MissingFieldException;
 import at.backend.MarketingCompany.crm.servicePackage.domain.exceptions.RecurrenceInfoException;
 
 public record RecurrenceInfo(Boolean isRecurring, Frequency frequency) {

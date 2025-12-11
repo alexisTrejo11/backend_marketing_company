@@ -2,7 +2,7 @@ package at.backend.MarketingCompany.crm.deal.domain.entity.valueobject;
 
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
 import lombok.Builder;
 
 import java.time.LocalDate;
@@ -11,13 +11,13 @@ import java.util.Objects;
 
 @Builder
 public record CreateDealParams(
-    CustomerId customerId,
+    CustomerCompanyId customerCompanyId,
     OpportunityId opportunityId,
     LocalDate startDate,
     List<ServicePackageId> servicePackageIds) {
 
   public CreateDealParams {
-    Objects.requireNonNull(customerId, "CustomerId must not be null");
+    Objects.requireNonNull(customerCompanyId, "CustomerCompanyId must not be null");
     Objects.requireNonNull(opportunityId, "OpportunityId must not be null");
     Objects.requireNonNull(startDate, "StartDate must not be null");
 

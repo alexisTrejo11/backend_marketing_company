@@ -1,10 +1,10 @@
 package at.backend.MarketingCompany.crm.deal.domain.entity.valueobject;
 
 import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerId;
 import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.EmployeeId;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
+import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -17,7 +17,7 @@ public record DealReconstructParams(
     LocalDateTime deletedAt,
     LocalDateTime createdAt,
     LocalDateTime updatedAt,
-    CustomerId customerId,
+    CustomerCompanyId customerCompanyId,
     OpportunityId opportunityId,
     DealStatus dealStatus,
     FinalAmount finalAmount,
