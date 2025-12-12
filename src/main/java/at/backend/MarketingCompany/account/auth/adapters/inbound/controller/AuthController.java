@@ -3,11 +3,11 @@ package at.backend.MarketingCompany.account.auth.adapters.inbound.controller;
 import at.backend.MarketingCompany.account.auth.adapters.inbound.dto.input.LoginInput;
 import at.backend.MarketingCompany.account.auth.adapters.inbound.dto.input.SignUpInput;
 import at.backend.MarketingCompany.account.auth.adapters.inbound.dto.output.RefreshTokenInput;
-import at.backend.MarketingCompany.account.auth.core.application.AuthCommandHandlerHandler;
 import at.backend.MarketingCompany.account.auth.adapters.inbound.dto.output.AuthResponse;
 import at.backend.MarketingCompany.account.auth.adapters.inbound.mapper.AuthResponseMapper;
 import at.backend.MarketingCompany.account.auth.core.application.commands.*;
 import at.backend.MarketingCompany.account.auth.core.domain.entitiy.AuthResult;
+import at.backend.MarketingCompany.account.auth.core.port.input.AuthCommandService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Controller;
 @RequiredArgsConstructor
 @Slf4j
 public class AuthController {
-    private final AuthCommandHandlerHandler authService;
+    private final AuthCommandService authService;
     private final AuthResponseMapper authResponseMapper;
 
     @MutationMapping

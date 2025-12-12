@@ -1,6 +1,7 @@
 package at.backend.MarketingCompany.account.user.adapters.outbound.persistence;
 
 import at.backend.MarketingCompany.account.auth.core.domain.entitiy.valueobject.Role;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.PersonGender;
 import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.UserStatus;
 import at.backend.MarketingCompany.shared.jpa.BaseJpaEntity;
 import jakarta.persistence.*;
@@ -9,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -28,6 +30,12 @@ public class UserEntity extends BaseJpaEntity {
 
   @Column(name = "phone_number", length = 20)
   private String phoneNumber;
+
+  @Column(name = "gender", length = 10, nullable = false)
+  private PersonGender gender;
+
+  @Column(name = "date_of_birth")
+  private LocalDate dateOfBirth;
 
   @Column(name = "hashed_password", nullable = false, length = 100)
   private String hashedPassword;

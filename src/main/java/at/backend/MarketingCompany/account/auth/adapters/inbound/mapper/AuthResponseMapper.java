@@ -1,6 +1,7 @@
 package at.backend.MarketingCompany.account.auth.adapters.inbound.mapper;
 
 import at.backend.MarketingCompany.account.auth.adapters.inbound.dto.output.TokenValidationResponse;
+import at.backend.MarketingCompany.account.auth.core.application.AuthCommandHandler;
 import at.backend.MarketingCompany.account.auth.core.application.AuthCommandHandlerHandler;
 import at.backend.MarketingCompany.account.auth.core.domain.entitiy.AuthResult;
 import at.backend.MarketingCompany.account.auth.core.domain.entitiy.AuthSession;
@@ -29,12 +30,14 @@ public class AuthResponseMapper {
     
     public UserResponse toUserResponse(User user) {
         if (user == null) return null;
-        
+
+        var firstName = user.getPersonalData().name() != null ? user.getPersonalData().name().firstName() : null;
+        var lastName = user.getPersonalData().name() != null ? user.getPersonalData().name().lastName() : null;
         return new UserResponse(
             user.getId().value(),
             user.getEmail().value(),
-            user.getPersonalData().firstName(),
-            user.getPersonalData().lastName(),
+            firstName,
+            lastName,
             user.getPhoneNumber() != null ? user.getPhoneNumber().value() : null,
             user.getRoles(),
             user.getStatus(),
@@ -59,7 +62,7 @@ public class AuthResponseMapper {
     }
 
     public TokenValidationResponse toTokenValidationResponse(
-            AuthCommandHandlerHandler.TokenValidationResult result) {
+            AuthCommandHandler.TokenValidationResult result) {
         return new TokenValidationResponse(result.valid(), result.message(), result.claims());
     }
 

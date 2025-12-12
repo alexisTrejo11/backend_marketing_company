@@ -1,10 +1,10 @@
-package at.backend.MarketingCompany.account.auth.core.application.commands;
+package at.backend.MarketingCompany.account.user.core.application.command;
 
 import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.*;
 
 import java.time.LocalDate;
 
-public record UpdateProfileCommand(
+public record UpdateUserPersonalDataCommand(
     UserId userId,
     PersonName name,
     LocalDate dateOfBirth,

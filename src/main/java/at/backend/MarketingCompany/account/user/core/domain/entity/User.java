@@ -50,7 +50,6 @@ public class User extends BaseDomainEntity<UserId> {
         newUser.phoneNumber = params.phoneNumber();
         newUser.hashedPassword = params.hashedPassword();
         newUser.personalData = params.personalData();
-        newUser.roles = Set.of(Role.USER); // Default role
         newUser.status = UserStatus.PENDING_ACTIVATION;
         newUser.createdAt = LocalDateTime.now();
         newUser.updatedAt = LocalDateTime.now();
@@ -59,10 +58,16 @@ public class User extends BaseDomainEntity<UserId> {
         return newUser;
     }
 
-    public static User createAdmin(CreateUserParams params) {
-        User admin = createUser(params);
-        admin.roles = Set.of(Role.USER, Role.ADMIN);
-        return admin;
+    public void assignRoles(Set<Role> roles) {
+        if (this.roles != null) {
+            throw new UserValidationException("Roles have already been assigned");
+        }
+
+        if (roles == null || roles.isEmpty()) {
+            throw new UserValidationException("At least one role is required");
+        }
+
+        this.roles = Set.copyOf(roles);
     }
 
     public void updatePersonalData(PersonalData personalData) {

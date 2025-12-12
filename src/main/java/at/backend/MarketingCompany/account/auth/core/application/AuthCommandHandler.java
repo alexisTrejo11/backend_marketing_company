@@ -7,6 +7,7 @@ import at.backend.MarketingCompany.account.auth.core.domain.entitiy.AuthResult;
 import at.backend.MarketingCompany.account.auth.core.domain.entitiy.AuthSession;
 import at.backend.MarketingCompany.account.auth.core.domain.entitiy.valueobject.HashedPassword;
 import at.backend.MarketingCompany.account.auth.core.domain.entitiy.valueobject.PlainPassword;
+import at.backend.MarketingCompany.account.auth.core.domain.entitiy.valueobject.Role;
 import at.backend.MarketingCompany.account.auth.core.domain.exceptions.AuthValidationException;
 import at.backend.MarketingCompany.account.auth.core.domain.exceptions.InvalidCredentialsException;
 import at.backend.MarketingCompany.account.auth.core.domain.exceptions.InvalidTokenException;
@@ -32,11 +33,12 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AuthCommandHandlerHandler implements AuthCommandService {
+public class AuthCommandHandler implements AuthCommandService {
     private final UserRepository userRepository;
     private final AuthSessionRepository authSessionRepository;
     private final PasswordEncoder passwordEncoder;
@@ -65,10 +67,12 @@ public class AuthCommandHandlerHandler implements AuthCommandService {
                 .email(command.email())
                 .phoneNumber(command.phoneNumber())
                 .hashedPassword(hashedPassword)
-                .name(command.name())
+                .personalData(command.personalData())
                 .build();
 
         User newUser = User.createUser(createParams);
+        newUser.assignRoles(Set.of(Role.USER));
+
         User savedUser = userRepository.save(newUser);
 
         log.info("User signed up successfully with ID: {}", savedUser.getId().value());
@@ -178,28 +182,6 @@ public class AuthCommandHandlerHandler implements AuthCommandService {
         authSessionRepository.deleteAllByUserId(user.getId());
 
         log.info("Password changed successfully for user: {}", command.userId());
-    }
-
-    @Override
-    @Transactional
-    public User handleCreateAdmin(CreateAdminCommand command) {
-        log.info("Creating admin user with email: {}", command.email().value());
-
-        validateEmailNotExists(command.email());
-
-        var hashedPassword = new HashedPassword(passwordEncoder.encode(command.password().value()));
-        var createParams = CreateUserParams.builder()
-                .email(command.email())
-                .phoneNumber(command.phoneNumber())
-                .hashedPassword(hashedPassword)
-                .name(command.name())
-                .build();
-
-        User adminUser = User.createAdmin(createParams);
-        User savedAdmin = userRepository.save(adminUser);
-        log.info("Admin user created successfully with ID: {}", savedAdmin.getId().value());
-
-        return savedAdmin;
     }
 
     private User findUserById(UserId userId) {

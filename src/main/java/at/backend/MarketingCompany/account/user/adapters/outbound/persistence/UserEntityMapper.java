@@ -2,10 +2,7 @@ package at.backend.MarketingCompany.account.user.adapters.outbound.persistence;
 
 import at.backend.MarketingCompany.account.auth.core.domain.entitiy.valueobject.HashedPassword;
 import at.backend.MarketingCompany.account.user.core.domain.entity.User;
-import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.Email;
-import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.PersonName;
-import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.UserId;
-import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.UserReconstructParams;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.*;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,8 +20,16 @@ public class UserEntityMapper {
         entity.setLastLoginAt(userDomain.getLastLoginAt());
         entity.setPasswordChangedAt(userDomain.getPasswordChangedAt());
         entity.setPhoneNumber(userDomain.getPhoneNumber() != null ? userDomain.getPhoneNumber().value() : null);
-        entity.setFirstName(userDomain.getPersonalData() != null ? userDomain.getPersonalData().firstName() : null);
-        entity.setLastName(userDomain.getPersonalData() != null ? userDomain.getPersonalData().lastName() : null);
+
+        if (userDomain.getPersonalData() != null) {
+            entity.setDateOfBirth(userDomain.getPersonalData().dateOfBirth());
+            entity.setGender(userDomain.getPersonalData().gender());
+
+            if (userDomain.getPersonalData().name() != null) {
+                entity.setFirstName(userDomain.getPersonalData().name().firstName());
+                entity.setLastName(userDomain.getPersonalData().name().lastName());
+            }
+        }
         entity.setRoles(userDomain.getRoles());
 
         // Audit fields
@@ -36,20 +41,22 @@ public class UserEntityMapper {
         return entity;
     }
 
+
     public User toDomain(UserEntity userEntity) {
         if (userEntity == null)
             return null;
 
+        var personalData = new PersonalData(
+                PersonName.from(userEntity.getFirstName(), userEntity.getLastName()),
+                userEntity.getDateOfBirth(),
+                userEntity.getGender()
+        );
+
         return User.reconstruct(UserReconstructParams.builder()
                 .id(userEntity.getId() != null ? UserId.from(userEntity.getId()) : null)
-                .email(
-                        userEntity.getEmail() != null ? Email.from(userEntity.getEmail()) : null)
-                .name(
-                        userEntity.getFirstName() != null && userEntity.getLastName() != null
-                                ? PersonName.from(userEntity.getFirstName(), userEntity.getLastName())
-                                : null)
-                .hashedPassword(
-                        userEntity.getHashedPassword() != null ? HashedPassword.from(userEntity.getHashedPassword()) : null)
+                .email(userEntity.getEmail() != null ? Email.from(userEntity.getEmail()) : null)
+                .personalData(personalData)
+                .hashedPassword(userEntity.getHashedPassword() != null ? HashedPassword.from(userEntity.getHashedPassword()) : null)
                 .lastLoginAt(userEntity.getLastLoginAt())
                 .passwordChangedAt(userEntity.getPasswordChangedAt())
                 .roles(userEntity.getRoles())
