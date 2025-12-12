@@ -19,7 +19,6 @@ import java.util.*;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class CustomerCompanyCommandHandlerImpl implements CustomerCompanyCommandHandler {
     private final CustomerCompanyRepositoryPort companyRepository;
     private final CompanyMapper companyMapper;
@@ -33,6 +32,7 @@ public class CustomerCompanyCommandHandlerImpl implements CustomerCompanyCommand
         Set<ContactPerson> contactPersons = companyMapper.toContactPersons(
                 command.contactPersons()
         );
+        log.info("Mapped {} contact persons for company: {}", contactPersons.size(), command.companyName());
 
         CompanyProfile companyProfile = companyMapper.toCompanyProfile(
                 command.industry(),
@@ -43,12 +43,15 @@ public class CustomerCompanyCommandHandlerImpl implements CustomerCompanyCommand
                 command.targetMarket(),
                 command.keyProducts()
         );
+        log.info("Created company profile for company: {}", command.companyName());
 
         CustomerCompany company = CustomerCompany.create(
                 new CompanyName(command.companyName()),
                 companyProfile,
                 contactPersons
         );
+        log.info("Initialized CustomerCompany entity for: {}", command.companyName());
+
 
         Optional.ofNullable(command.taxId())
                 .filter(taxId -> !taxId.isBlank())
@@ -57,6 +60,7 @@ public class CustomerCompanyCommandHandlerImpl implements CustomerCompanyCommand
                         BillingInformation.PaymentMethod.INVOICE
                 ))
                 .ifPresent(company::setBillingInfo);
+        log.info("Set billing information for company: {}", command.companyName());
 
         CustomerCompany savedCompany = companyRepository.save(company);
         log.info("Company created successfully with ID: {}", savedCompany.getId());

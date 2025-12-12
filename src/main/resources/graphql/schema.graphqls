@@ -12,6 +12,33 @@ interface PageResponse {
     pagination: PaginationMetadata!
 }
 
+# Account Management
+# Auth
+input SignUpInput {
+    email: String!
+    password: String!
+    firstName: String!
+    lastName: String!
+    phoneNumber: String
+}
+
+input LoginInput {
+    email: String!
+    password: String!
+}
+
+
+input RefreshTokenInput {
+    refreshToken: String!
+}
+
+type AuthResponse {
+    accessToken: String,
+    refreshToken: String,
+    accessTokenExpiresAt: DateTime,
+    refreshTokenExpiresAt: DateTime,
+    user: User
+}
 
 # USERS
 type User {
@@ -43,10 +70,14 @@ enum CompanySize {
 }
 
 enum CompanyStatus {
-    ACTIVE
-    INACTIVE
-    BLOCKED
-    PENDING
+    PROSPECT,
+    LEAD,
+    ACTIVE,
+    INACTIVE,
+    CHURNED,
+    BLOCKED,
+    PARTNER,
+    UNKNOWN
 }
 
 enum ContractType {
@@ -64,8 +95,8 @@ type CompanyPageResponse implements PageResponse {
 type CompanyResponse {
     id: ID!
     companyName: String!
-    legalName: String!
-    taxId: String!
+    legalName: String
+    taxId: String
     website: String
     foundingYear: Int
 
@@ -74,16 +105,16 @@ type CompanyResponse {
     employeeCount: Int
     annualRevenue: RevenueResponse
 
-    status: CompanyStatus
-    isPublicCompany: Boolean!
-    isStartup: Boolean!
+    status: CompanyStatus!
+    isPublicCompany: Boolean
+    isStartup: Boolean
 
     targetMarket: String
     missionStatement: String
-    keyProducts: [String!]
-    competitorUrls: [String!]
+    keyProducts: [String]
+    competitorUrls: [String]
 
-    contactPersons: [ContactPersonResponse!]
+    contactPersons: [ContactPersonResponse]
     contractDetails: ContractDetailsResponse
     billingInfo: BillingInfoResponse
     socialMedia: SocialMediaResponse
@@ -91,50 +122,50 @@ type CompanyResponse {
     opportunityCount: Int
     interactionCount: Int
 
-    createdAt: DateTime!
-    updatedAt: DateTime!
+    createdAt: DateTime
+    updatedAt: DateTime
 }
 
 type IndustryResponse {
-    code: String!
-    name: String!
-    sector: String!
+    code: String
+    name: String
+    sector: String
 }
 
 type RevenueResponse {
-    amount: Float!
-    currency: String!
+    amount: Float
+    currency: String
     range: String
 }
 
 type ContactPersonResponse {
     id: ID!
-    firstName: String!
-    lastName: String!
-    email: String!
+    firstName: String
+    lastName: String
+    email: String
     phone: String
     position: String
     department: String
-    isDecisionMaker: Boolean!
+    isDecisionMaker: Boolean
     isPrimaryContact: Boolean!
 }
 
 type ContractDetailsResponse {
-    contractId: String!
-    startDate: Date!
-    endDate: Date!
-    monthlyFee: Float!
-    type: String!
-    autoRenewal: Boolean!
-    isActive: Boolean!
-    isExpiringSoon: Boolean!
+    contractId: String
+    startDate: Date
+    endDate: Date
+    monthlyFee: Float
+    type: String
+    autoRenewal: Boolean
+    isActive: Boolean
+    isExpiringSoon: Boolean
 }
 
 type BillingInfoResponse {
-    billingEmail: String!
-    preferredPaymentMethod: String!
-    billingAddress: String!
-    approvedCredit: Boolean!
+    billingEmail: String
+    preferredPaymentMethod: String
+    billingAddress: String
+    approvedCredit: Boolean
 }
 
 type SocialMediaResponse {
@@ -153,8 +184,8 @@ type CompanyMetrics {
 }
 
 input ContactPersonInput {
-    firstName: String
-    lastName: String
+    firstName: String!
+    lastName: String!
     email: String
     phone: String
     position: String
@@ -958,6 +989,11 @@ type Query {
 
 #Mutations
 type Mutation {
+    # Account Management
+    signUp(input: SignUpInput!): AuthResponse!
+    login(input: LoginInput!): AuthResponse!
+    refreshToken(input: RefreshTokenInput!): AuthResponse!
+
     # CRM
     createUser(input: UserInput!): User!
     updateUser(id: ID!, input: UserInput!): User!
@@ -986,19 +1022,23 @@ type Mutation {
     deleteOpportunity(opportunityId: ID!): Boolean!
 
 
+    # Tasks
     createTask(input: TaskInput!): Task!
     updateTask(id: ID!, input: TaskInput!): Task!
     deleteTask(id: ID!): Boolean!
 
+    # Service Package
     createServicePackage(input: ServicePackageInput!): ServicePackage!
     updateServicePackage(id: ID!, input: ServicePackageInput!): ServicePackage!
     deleteServicePackage(id: ID!): Boolean!
 
+    # Quote
     createQuote(input: QuoteInput!): Quote!
     addQuoteItem(id: ID!, input: QuoteItemInput!): Quote!
     deleteQuoteItem(itemId: ID!): Quote!
     deleteQuote(id: ID!): Boolean!
 
+    # Interaction
     createInteraction(input: InteractionInput!): Interaction!
     updateInteraction(id: ID!, input: InteractionInput!): Interaction!
     deleteInteraction(id: ID!): Boolean!
@@ -1019,6 +1059,7 @@ type Mutation {
     startActivity(id: ID!): CampaignActivity
     completeActivity(id: ID!): CampaignActivity
 
+    # Marketing Mutations
     createCampaignInteraction(input: CampaignInteractionInput!): CampaignInteraction!
     updateCampaignInteraction(id: ID!, input: CampaignInteractionInput!): CampaignInteraction!
     deleteCampaignInteraction(id: ID!): Boolean!

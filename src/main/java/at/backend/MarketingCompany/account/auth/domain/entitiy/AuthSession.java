@@ -9,93 +9,88 @@ import java.time.LocalDateTime;
 
 @Getter
 public class AuthSession {
-  private SessionId sessionId;
-  private UserId userId;
-  private String refreshToken;
-  private LocalDateTime createdAt;
-  private LocalDateTime expiresAt;
-  private LocalDateTime lastAccessedAt;
-  private String userAgent;
-  private String ipAddress;
-  private boolean revoked;
+    private SessionId sessionId;
+    private UserId userId;
+    private LocalDateTime createdAt;
+    private LocalDateTime expiresAt;
+    private LocalDateTime lastAccessedAt;
+    private String userAgent;
+    private String ipAddress;
+    private boolean revoked;
 
-  private AuthSession(SessionId sessionId, UserId userId, String refreshToken,
-      LocalDateTime expiresAt, String userAgent, String ipAddress) {
-    this.sessionId = sessionId;
-    this.userId = userId;
-    this.refreshToken = refreshToken;
-    this.createdAt = LocalDateTime.now();
-    this.expiresAt = expiresAt;
-    this.lastAccessedAt = LocalDateTime.now();
-    this.userAgent = userAgent;
-    this.ipAddress = ipAddress;
-    this.revoked = false;
-    validateState();
-  }
 
-  public static AuthSession create(UserId userId, String refreshToken,
-      int refreshTokenExpiryDays, String userAgent, String ipAddress) {
-    if (userId == null) {
-      throw new AuthValidationException("User ID is required");
-    }
-    if (refreshToken == null || refreshToken.isBlank()) {
-      throw new AuthValidationException("Refresh token is required");
+    public AuthSession(SessionId sessionId, UserId userId,
+                       LocalDateTime expiresAt, String userAgent, String ipAddress) {
+        this.sessionId = sessionId;
+        this.userId = userId;
+        this.createdAt = LocalDateTime.now();
+        this.expiresAt = expiresAt;
+        this.lastAccessedAt = LocalDateTime.now();
+        this.userAgent = userAgent;
+        this.ipAddress = ipAddress;
+        this.revoked = false;
+        validateState();
     }
 
-    SessionId sessionId = SessionId.create();
-    LocalDateTime expiresAt = LocalDateTime.now().plusDays(refreshTokenExpiryDays);
-
-    return new AuthSession(sessionId, userId, refreshToken, expiresAt, userAgent, ipAddress);
-  }
-
-  public void refresh(String newRefreshToken, int refreshTokenExpiryDays) {
-    if (isExpired()) {
-      throw new AuthValidationException("Cannot refresh expired session");
-    }
-    if (isRevoked()) {
-      throw new AuthValidationException("Cannot refresh revoked session");
+    public static AuthSession reconstruct(SessionId sessionId, UserId userId,
+                                      LocalDateTime createdAt, LocalDateTime expiresAt,
+                                      LocalDateTime lastAccessedAt, String userAgent,
+                                      String ipAddress, boolean revoked) {
+        AuthSession session = new AuthSession(sessionId, userId, expiresAt, userAgent, ipAddress);
+        session.createdAt = createdAt;
+        session.lastAccessedAt = lastAccessedAt;
+        session.revoked = revoked;
+        session.validateState();
+        return session;
     }
 
-    this.refreshToken = newRefreshToken;
-    this.expiresAt = LocalDateTime.now().plusDays(refreshTokenExpiryDays);
-    this.lastAccessedAt = LocalDateTime.now();
-  }
+    public static AuthSession create(UserId userId, String refreshToken,
+                                     int refreshTokenExpiryDays, String userAgent, String ipAddress) {
+        if (userId == null) {
+            throw new AuthValidationException("User ID is required");
+        }
+        if (refreshToken == null || refreshToken.isBlank()) {
+            throw new AuthValidationException("Refresh token is required");
+        }
 
-  public void revoke() {
-    this.revoked = true;
-  }
+        var sessionId = SessionId.from(refreshToken);
+        LocalDateTime expiresAt = LocalDateTime.now().plusDays(refreshTokenExpiryDays);
 
-  public void updateAccess() {
-    this.lastAccessedAt = LocalDateTime.now();
-  }
-
-  public boolean isValid() {
-    return !isExpired() && !isRevoked();
-  }
-
-  public boolean isExpired() {
-    return LocalDateTime.now().isAfter(expiresAt);
-  }
-
-  public long getRemainingTTLMinutes() {
-    return java.time.Duration.between(LocalDateTime.now(), expiresAt).toMinutes();
-  }
-
-  private void validateState() {
-    if (sessionId == null) {
-      throw new AuthValidationException("Session ID is required");
+        return new AuthSession(sessionId, userId, expiresAt, userAgent, ipAddress);
     }
-    if (userId == null) {
-      throw new AuthValidationException("User ID is required");
+
+    public void revoke() {
+        this.revoked = true;
     }
-    if (refreshToken == null || refreshToken.isBlank()) {
-      throw new AuthValidationException("Refresh token is required");
+
+    public void updateAccess() {
+        this.lastAccessedAt = LocalDateTime.now();
     }
-    if (expiresAt == null) {
-      throw new AuthValidationException("Expiration date is required");
+
+    public boolean isValid() {
+        return !isExpired() && !isRevoked();
     }
-    if (expiresAt.isBefore(LocalDateTime.now())) {
-      throw new AuthValidationException("Session cannot be created with past expiration date");
+
+    public boolean isExpired() {
+        return LocalDateTime.now().isAfter(expiresAt);
     }
-  }
+
+    public long getRemainingTTLMinutes() {
+        return java.time.Duration.between(LocalDateTime.now(), expiresAt).toMinutes();
+    }
+
+    private void validateState() {
+        if (sessionId == null) {
+            throw new AuthValidationException("Session ID is required");
+        }
+        if (userId == null) {
+            throw new AuthValidationException("User ID is required");
+        }
+        if (expiresAt == null) {
+            throw new AuthValidationException("Expiration date is required");
+        }
+        if (expiresAt.isBefore(LocalDateTime.now())) {
+            throw new AuthValidationException("Session cannot be created with past expiration date");
+        }
+    }
 }

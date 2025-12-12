@@ -9,16 +9,7 @@ import java.util.Optional;
 @Repository
 public interface RedisAuthSessionRepository extends CrudRepository<AuthSessionEntity, String> {
 
-  // Basic finders
-  Optional<AuthSessionEntity> findByRefreshToken(String refreshToken);
+    Optional<AuthSessionEntity> findByRefreshToken(String refreshToken);
 
-  List<AuthSessionEntity> findByUserId(String userId);
-
-  // Analytics
-  long countByUserId(String userId);
-
-  // Custom queries using RedisTemplate would be implemented separately
-  void deleteByUserId(String userId);
-
-  void deleteByRefreshToken(String refreshToken);
+    List<AuthSessionEntity> findByUserId(String userId);
 }

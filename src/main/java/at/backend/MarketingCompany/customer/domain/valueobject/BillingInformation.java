@@ -14,12 +14,10 @@ public record BillingInformation(
 ) {
 
     public static BillingInformation create(String taxId, PaymentMethod paymentMethod) {
+        validate(taxId, paymentMethod);
         return new BillingInformation(taxId, null, paymentMethod, null, false);
     }
 
-    public BillingInformation {
-        validate(taxId, billingEmail, preferredPaymentMethod);
-    }
     
     public enum PaymentMethod {
         CREDIT_CARD,
@@ -30,7 +28,6 @@ public record BillingInformation(
 
     private static void validate(
             String taxId,
-            Email billingEmail,
             PaymentMethod paymentMethod
     ) {
         if (taxId == null || taxId.isBlank()) {
@@ -41,10 +38,6 @@ public record BillingInformation(
             throw new CustomerDomainException(
                     "Tax ID must be between 5 and 50 characters"
             );
-        }
-
-        if (billingEmail == null) {
-           throw new CustomerDomainException("Billing email cannot be null at creation");
         }
 
         if (paymentMethod == null) {

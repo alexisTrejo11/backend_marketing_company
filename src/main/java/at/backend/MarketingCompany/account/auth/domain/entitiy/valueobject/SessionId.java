@@ -9,7 +9,7 @@ public record SessionId(String value) {
     }
   }
 
-  public static SessionId create() {
+  public static SessionId generate() {
     return new SessionId(UUID.randomUUID().toString());
   }
 

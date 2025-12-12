@@ -2,6 +2,7 @@ package at.backend.MarketingCompany.customer.application.dto.command;
 
 import at.backend.MarketingCompany.customer.domain.valueobject.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
@@ -12,22 +13,22 @@ import java.util.Set;
 public class CompanyCommands {
     @Builder
     public record CreateCompanyCommand(
-            String companyName,
+            @NotNull String companyName,
             String industry,
             CompanySize companySize,
             Integer employeeCount,
             Integer foundingYear,
             String missionStatement,
             String targetMarket,
-            Set<ContactPersonCommand> contactPersons,
+            @NotNull Set<ContactPersonCommand> contactPersons,
             String taxId,
             String website,
             @NotNull Set<String> keyProducts
     ) {
 
         public record ContactPersonCommand(
-                String firstName,
-                String lastName,
+                @NotBlank String firstName,
+                @NotBlank String lastName,
                 String email,
                 String phone,
                 String position,

@@ -55,7 +55,6 @@ public interface CustomerCompanyJpaRepository extends JpaRepository<CustomerComp
 
     @Query("SELECT c FROM CustomerCompanyEntity c WHERE " +
             "(c.companyName LIKE %:searchTerm% OR " +
-            "c.legalName LIKE %:searchTerm% OR " +
-            "c.primaryContact.email LIKE %:searchTerm%)")
+            "c.legalName LIKE %:searchTerm%)")
     Page<CustomerCompanyEntity> searchCompanies(@Param("searchTerm") String searchTerm, Pageable pageable);
 }

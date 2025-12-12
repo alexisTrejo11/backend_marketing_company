@@ -1,6 +1,8 @@
 package at.backend.MarketingCompany.account.auth.adapaters.outbound.persistence;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,43 +18,65 @@ import java.util.concurrent.TimeUnit;
 @Data
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
-@RedisHash(value = "auth_sessions", timeToLive = 30 * 24 * 60 * 60) // 30 days TTL
+@RedisHash(value = "auth_session", timeToLive = 2592000)
 public class AuthSessionEntity implements Serializable {
-  @Id
-  private String sessionId;
 
-  @Indexed
-  private String userId;
+    private static final long serialVersionUID = 1L;
 
-  @Indexed
-  private String refreshToken;
+    @Id
+    private String sessionId;
 
-  private LocalDateTime createdAt;
-  private LocalDateTime expiresAt;
-  private LocalDateTime lastAccessedAt;
-  private String userAgent;
-  private String ipAddress;
-  private boolean revoked;
+    @Indexed
+    private String userId;
 
-  @TimeToLive(unit = TimeUnit.SECONDS)
-  private Long ttl;
+    private LocalDateTime createdAt;
+    private LocalDateTime expiresAt;
+    private LocalDateTime lastAccessedAt;
+    private String userAgent;
+    private String ipAddress;
+    private boolean revoked;
 
-  public void calculateTTL() {
-    if (expiresAt != null) {
-      this.ttl = java.time.Duration.between(LocalDateTime.now(), expiresAt).getSeconds();
-      // Ensure minimum TTL of 1 minute
-      if (this.ttl < 60) {
-        this.ttl = 60L;
-      }
+    @TimeToLive(unit = TimeUnit.SECONDS)
+    private Long ttl;
+
+    @JsonCreator
+    public AuthSessionEntity(
+            @JsonProperty("sessionId") String sessionId,
+            @JsonProperty("userId") String userId,
+            @JsonProperty("createdAt") LocalDateTime createdAt,
+            @JsonProperty("expiresAt") LocalDateTime expiresAt,
+            @JsonProperty("lastAccessedAt") LocalDateTime lastAccessedAt,
+            @JsonProperty("userAgent") String userAgent,
+            @JsonProperty("ipAddress") String ipAddress,
+            @JsonProperty("revoked") boolean revoked,
+            @JsonProperty("ttl") Long ttl
+    ) {
+        this.sessionId = sessionId;
+        this.userId = userId;
+        this.createdAt = createdAt;
+        this.expiresAt = expiresAt;
+        this.lastAccessedAt = lastAccessedAt;
+        this.userAgent = userAgent;
+        this.ipAddress = ipAddress;
+        this.revoked = revoked;
+        this.ttl = ttl;
     }
-  }
 
-  public boolean isExpired() {
-    return expiresAt != null && LocalDateTime.now().isAfter(expiresAt);
-  }
+    @JsonIgnore
+    public boolean isExpired() {
+        return expiresAt != null && LocalDateTime.now().isAfter(expiresAt);
+    }
 
-  public boolean isValid() {
-    return !isExpired() && !revoked;
-  }
+    @JsonIgnore
+    public boolean isValid() {
+        return !isExpired() && !revoked;
+    }
+
+    @JsonIgnore
+    public void updateTTL() {
+        if (expiresAt != null) {
+            long seconds = java.time.Duration.between(LocalDateTime.now(), expiresAt).getSeconds();
+            this.ttl = Math.max(seconds, 60L);
+        }
+    }
 }

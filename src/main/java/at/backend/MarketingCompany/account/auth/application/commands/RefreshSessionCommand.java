@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.account.auth.application.commands;
 
-public record RefreshTokenCommand(
+public record RefreshSessionCommand(
     String refreshToken,
     String userAgent,
     String ipAddress) {

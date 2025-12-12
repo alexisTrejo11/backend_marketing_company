@@ -10,6 +10,8 @@ import at.backend.MarketingCompany.account.auth.adapaters.inbound.dto.output.Aut
 import at.backend.MarketingCompany.account.auth.adapaters.inbound.dto.output.SessionResponse;
 import org.springframework.stereotype.Component;
 
+import java.time.OffsetDateTime;
+
 @Component
 public class AuthGraphQLMapper {
     
@@ -19,8 +21,8 @@ public class AuthGraphQLMapper {
         return new AuthResponse(
             authResult.getAccessToken(),
             authResult.getRefreshToken(),
-            authResult.getAccessTokenExpiresAt(),
-            authResult.getRefreshTokenExpiresAt(),
+            authResult.getAccessTokenExpiresAt().atOffset(OffsetDateTime.now().getOffset()),
+            authResult.getRefreshTokenExpiresAt().atOffset(OffsetDateTime.now().getOffset()),
             toUserResponse(authResult.getUser())
         );
     }
@@ -47,9 +49,9 @@ public class AuthGraphQLMapper {
         
         return new SessionResponse(
             session.getSessionId().value(),
-            session.getCreatedAt(),
-            session.getExpiresAt(),
-            session.getLastAccessedAt(),
+            session.getCreatedAt().atOffset(OffsetDateTime.now().getOffset()),
+            session.getExpiresAt().atOffset(OffsetDateTime.now().getOffset()),
+            session.getLastAccessedAt().atOffset(OffsetDateTime.now().getOffset()),
             session.getUserAgent(),
             session.getIpAddress(),
             session.isValid()

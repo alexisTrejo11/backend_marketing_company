@@ -29,6 +29,7 @@ public class User extends BaseDomainEntity<UserId> {
     this.email = params.email();
     this.phoneNumber = params.phoneNumber();
     this.hashedPassword = params.hashedPassword();
+    this.status = params.status();
     this.name = params.name();
     this.roles = Set.copyOf(params.roles());
     this.lastLoginAt = params.lastLoginAt();

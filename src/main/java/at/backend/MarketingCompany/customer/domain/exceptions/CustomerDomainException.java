@@ -1,7 +1,9 @@
 package at.backend.MarketingCompany.customer.domain.exceptions;
 
-public class CustomerDomainException extends RuntimeException {
+import at.backend.MarketingCompany.shared.exception.DomainException;
+
+public class CustomerDomainException extends DomainException {
     public CustomerDomainException(String message) {
-        super(message);
+        super(message, "CUSTOMER_ERROR");
     }
 }

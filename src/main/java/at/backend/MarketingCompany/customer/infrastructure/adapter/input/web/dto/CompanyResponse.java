@@ -8,6 +8,7 @@ import lombok.Builder;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Set;
 
 @Builder
@@ -40,9 +41,9 @@ public record CompanyResponse(
     
     Integer opportunityCount,
     Integer interactionCount,
-    
-    LocalDateTime createdAt,
-    LocalDateTime updatedAt
+
+    OffsetDateTime createdAt,
+    OffsetDateTime updatedAt
 ) {
     
     @Builder

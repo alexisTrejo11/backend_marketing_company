@@ -8,11 +8,11 @@ import at.backend.MarketingCompany.account.auth.adapaters.inbound.dto.output.Aut
 import at.backend.MarketingCompany.account.auth.adapaters.inbound.mapper.AuthGraphQLMapper;
 import at.backend.MarketingCompany.account.auth.application.commands.*;
 import at.backend.MarketingCompany.account.user.domain.entity.valueobject.UserId;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.ContextValue;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.stereotype.Controller;
 
@@ -23,26 +23,30 @@ public class AuthController {
     private final AuthApplicationService authService;
     private final AuthGraphQLMapper authGraphQLMapper;
 
-
     @MutationMapping
-    public AuthResponse signUp(@Valid @Argument SignUpInput input, HttpServletRequest request) {
-        String userAgent = request.getHeader("User-Agent");
-        String clientIp = resolveClientIp(request);
+    public AuthResponse signUp(
+            @Valid @Argument SignUpInput input,
+            @ContextValue(name = "userAgent") String userAgent,
+            @ContextValue(name = "clientIp") String clientIp
+    ) {
+        log.info("Sign up request for email: {} from ip: {} ua: {}",
+                input.email(), clientIp, userAgent);
 
-        log.info("Sign up request for email: {} from ip: {} ua: {}", input.email(), clientIp, userAgent);
-
-        var signUpCommand = input.toCommand(userAgent != null ? userAgent : "GraphQL-Client", clientIp);
+        var signUpCommand = input.toCommand(
+                userAgent != null ? userAgent : "GraphQL-Client",
+                clientIp != null ? clientIp : "unknown"
+        );
         var authResult = authService.handle(signUpCommand);
 
         return authGraphQLMapper.toAuthResponse(authResult);
     }
 
-
     @MutationMapping
-    public AuthResponse login(@Valid @Argument LoginInput input, HttpServletRequest request) {
-        String userAgent = request.getHeader("User-Agent");
-        String clientIp = resolveClientIp(request);
-
+    public AuthResponse login(
+            @Valid @Argument LoginInput input,
+            @ContextValue(name = "userAgent") String userAgent,
+            @ContextValue(name = "clientIp") String clientIp
+    ) {
         log.info("Login request for email: {}", input.email());
 
         var loginCommand = input.toCommand(userAgent, clientIp);
@@ -52,10 +56,11 @@ public class AuthController {
     }
 
     @MutationMapping
-    public AuthResponse refreshToken(@Valid @Argument RefreshTokenInput input, HttpServletRequest request) {
-        String userAgent = request.getHeader("User-Agent");
-        String clientIp = resolveClientIp(request);
-
+    public AuthResponse refreshToken(
+            @Valid @Argument RefreshTokenInput input,
+            @ContextValue(name = "userAgent") String userAgent,
+            @ContextValue(name = "clientIp") String clientIp
+    ) {
         log.info("Refresh token request");
         var refreshTokenCommand = input.toCommand(userAgent, clientIp);
 
@@ -64,40 +69,25 @@ public class AuthController {
     }
 
     @MutationMapping
-    public Boolean logout(@Argument String sessionId) {
-        log.info("Logout request for session: {}", sessionId);
+    public Boolean logout(@Argument String refreshToken) {
+        log.info("Logout request for session: {}", refreshToken.substring(0, 6) + "...");
 
-        var logoutCommand = LogoutCommand.from(sessionId);
+        var logoutCommand = LogoutCommand.from(refreshToken);
         authService.handle(logoutCommand);
 
         return true;
     }
 
     @MutationMapping
-    public Boolean logoutAll() {
-        // TODO: User ID should come from security context
-        UserId userId = getCurrentUserId();
-        log.info("Logout all request for user: {}", userId);
+    public Boolean logoutAll(
+            @ContextValue(name = "userId") String userIdStr
+    ) {
+        log.info("Logout all request for user: {}", userIdStr);
 
+        UserId userId = UserId.from(userIdStr);
         var logoutAllCommand = new LogoutAllCommand(userId);
         authService.handle(logoutAllCommand);
 
         return true;
-    }
-
-    private String resolveClientIp(HttpServletRequest request) {
-        String xfHeader = request.getHeader("X-Forwarded-For");
-        if (xfHeader != null && !xfHeader.isBlank()) {
-            return xfHeader.split(",")[0].trim();
-        }
-        String realIp = request.getHeader("X-Real-IP");
-        if (realIp != null && !realIp.isBlank()) {
-            return realIp;
-        }
-        return request.getRemoteAddr();
-    }
-
-    private UserId getCurrentUserId() {
-        return UserId.generate(); // Placeholder implementation
     }
 }

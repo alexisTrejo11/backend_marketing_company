@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.account.auth.domain.exceptions;
 
 public class SessionNotFoundException extends RuntimeException {
-    public SessionNotFoundException(String sessionId) {
-        super("Session not found with ID: " + sessionId);
+    public SessionNotFoundException(String refreshToken) {
+        super("Session not found with ID: " + refreshToken.substring(0, 8) + "...");
     }
 }

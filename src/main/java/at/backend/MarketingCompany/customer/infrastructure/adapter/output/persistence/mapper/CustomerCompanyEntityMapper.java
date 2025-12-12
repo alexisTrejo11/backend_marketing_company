@@ -38,8 +38,7 @@ public class CustomerCompanyEntityMapper {
         entity.setCompanyName(company.getCompanyName().value());
         entity.setTaxId(company.getBillingInfo() != null ? company.getBillingInfo().taxId() : null);
         entity.setWebsite(company.getCompanyProfile() != null ? extractWebsite(company) : null);
-        entity.setFoundingYear(company.getCompanyProfile() != null ?
-                company.getCompanyProfile().foundingYear() : null);
+        entity.setFoundingYear(company.getCompanyProfile() != null ? company.getCompanyProfile().foundingYear() : null);
 
         if (company.getCompanyProfile() != null && company.getCompanyProfile().industry() != null) {
             entity.setIndustryCode(company.getCompanyProfile().industry().code());
@@ -70,25 +69,14 @@ public class CustomerCompanyEntityMapper {
         }
 
         if (!company.getContactPersons().isEmpty()) {
-            ContactPerson primary = company.getContactPersons().stream()
-                    .filter(ContactPerson::isPrimaryContact)
-                    .findFirst()
-                    .orElse(company.getContactPersons().iterator().next());
-
-            ContactPersonEmbeddable primaryContact = getContactPersonEmbeddable(primary);
-
-            entity.setPrimaryContact(primaryContact);
-
-
-            Set<ContactPersonEntity> secondaryContacts = company.getContactPersons().stream()
-                    .filter(cp -> !cp.isPrimaryContact())
+            Set<ContactPersonEntity> contactPersonEntities = company.getContactPersons().stream()
                     .map(this::mapToContactPersonEntity)
                     .collect(Collectors.toSet());
 
-            for (ContactPersonEntity secondary : secondaryContacts) {
+            for (ContactPersonEntity secondary : contactPersonEntities) {
                 secondary.setCompany(entity);
             }
-            entity.setContactPersons(secondaryContacts);
+            entity.setContactPersons(contactPersonEntities);
         }
 
         if (company.getContractDetails() != null) {
@@ -100,8 +88,8 @@ public class CustomerCompanyEntityMapper {
         if (company.getBillingInfo() != null) {
             BillingInformationEmbeddable billing = new BillingInformationEmbeddable();
 
-            billing.setBillingEmail(company.getBillingInfo().billingEmail().value());
-            billing.setPreferredPaymentMethod(company.getBillingInfo().preferredPaymentMethod().name());
+            billing.setBillingEmail(company.getBillingInfo().billingEmail() != null ? company.getBillingInfo().billingEmail().value() : null);
+            billing.setPreferredPaymentMethod(company.getBillingInfo().preferredPaymentMethod());
             billing.setBillingAddress(company.getBillingInfo().billingAddress());
             billing.setApprovedCredit(company.getBillingInfo().approvedCredit());
 
@@ -109,14 +97,13 @@ public class CustomerCompanyEntityMapper {
         }
 
         if (company.getCompanyProfile() != null && company.getCompanyProfile().socialMediaHandles() != null) {
-            SocialMediaEmbeddable socialMedia =  SocialMediaEmbeddable.fromDomain(company.getCompanyProfile().socialMediaHandles());
+            SocialMediaEmbeddable socialMedia = SocialMediaEmbeddable.fromDomain(company.getCompanyProfile().socialMediaHandles());
             entity.setSocialMedia(socialMedia);
 
         }
 
         return entity;
     }
-
 
 
     private static @NotNull ContractDetailsEmbeddable getContractDetailsEmbeddable(CustomerCompany company) {
@@ -129,19 +116,6 @@ public class CustomerCompanyEntityMapper {
         contract.setAutoRenewal(company.getContractDetails().autoRenewal());
         contract.setIsActive(company.getContractDetails().isActive());
         return contract;
-    }
-
-    private static @NotNull ContactPersonEmbeddable getContactPersonEmbeddable(ContactPerson primary) {
-        ContactPersonEmbeddable primaryContact = new ContactPersonEmbeddable();
-        primaryContact.setFirstName(primary.name().firstName());
-        primaryContact.setLastName(primary.name().lastName());
-        primaryContact.setEmail(primary.email() != null ? primary.email().value() : null);
-        primaryContact.setPhone(primary.phone() != null ? primary.phone().value() : null);
-        primaryContact.setPosition(primary.position());
-        primaryContact.setDepartment(primary.department().name());
-        primaryContact.setIsDecisionMaker(primary.isDecisionMaker());
-        primaryContact.setIsPrimaryContact(primary.isPrimaryContact());
-        return primaryContact;
     }
 
     public CustomerCompany toDomain(CustomerCompanyEntity entity) {
@@ -182,11 +156,6 @@ public class CustomerCompanyEntityMapper {
                 .collect(Collectors.toSet())
                 : new HashSet<>();
 
-        if (entity.getPrimaryContact() != null) {
-            ContactPerson primary = mapEmbeddableToContactPerson(entity.getPrimaryContact());
-            contactPersons.add(primary);
-        }
-
         ContractDetails contractDetails = null;
         if (entity.getContractDetails() != null) {
             contractDetails = new ContractDetails(
@@ -204,11 +173,8 @@ public class CustomerCompanyEntityMapper {
         if (entity.getBillingInformation() != null) {
             billingInfo = new BillingInformation(
                     entity.getTaxId(),
-                    entity.getBillingInformation().getBillingEmail() != null
-                            ? new Email(entity.getBillingInformation().getBillingEmail())
-                            : null,
-                    BillingInformation.PaymentMethod.valueOf(
-                            entity.getBillingInformation().getPreferredPaymentMethod()),
+                    entity.getBillingInformation().getBillingEmail() != null ? new Email(entity.getBillingInformation().getBillingEmail()) : null,
+                    entity.getBillingInformation().getPreferredPaymentMethod(),
                     entity.getBillingInformation().getBillingAddress(),
                     entity.getBillingInformation().getApprovedCredit()
             );
@@ -241,18 +207,6 @@ public class CustomerCompanyEntityMapper {
         );
     }
 
-    private ContactPerson mapEmbeddableToContactPerson(ContactPersonEmbeddable embeddable) {
-        return new ContactPerson(
-                PersonName.from(embeddable.getFirstName(), embeddable.getLastName()),
-                embeddable.getEmail() != null ? new Email(embeddable.getEmail()) : null,
-                embeddable.getPhone() != null ? new PhoneNumber(embeddable.getPhone()) : null,
-                embeddable.getPosition(),
-                ContactPerson.Department.valueOf(embeddable.getDepartment()),
-                embeddable.getIsDecisionMaker(),
-                embeddable.getIsPrimaryContact()
-        );
-    }
-
     private String extractWebsite(CustomerCompany company) {
         return ""; // Placeholder
     }
@@ -278,6 +232,7 @@ public class CustomerCompanyEntityMapper {
         entity.setDepartment(domain.department().name());
         entity.setIsDecisionMaker(domain.isDecisionMaker());
         entity.setIsPrimaryContact(domain.isPrimaryContact());
+
         return entity;
     }
 }

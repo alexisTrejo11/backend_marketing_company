@@ -1,12 +1,12 @@
 package at.backend.MarketingCompany.account.auth.adapaters.inbound.dto.output;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 public record SessionResponse(
     String sessionId,
-    LocalDateTime createdAt,
-    LocalDateTime expiresAt,
-    LocalDateTime lastAccessedAt,
+    OffsetDateTime createdAt,
+    OffsetDateTime expiresAt,
+    OffsetDateTime lastAccessedAt,
     String userAgent,
     String ipAddress,
     boolean valid

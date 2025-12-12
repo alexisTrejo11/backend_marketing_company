@@ -5,15 +5,15 @@ import at.backend.MarketingCompany.account.user.domain.entity.valueobject.Person
 import at.backend.MarketingCompany.account.user.domain.entity.valueobject.PhoneNumber;
 
 public record ContactPerson(
-    PersonName name,
-    Email email,
-    PhoneNumber phone,
-    String position,
-    Department department,
-    boolean isDecisionMaker,
-    boolean isPrimaryContact
+        PersonName name,
+        Email email,
+        PhoneNumber phone,
+        String position,
+        Department department,
+        boolean isDecisionMaker,
+        boolean isPrimaryContact
 ) {
-    
+
     public enum Department {
         SALES,
         MARKETING,
@@ -24,7 +24,7 @@ public record ContactPerson(
         EXECUTIVE,
         OTHER
     }
-    
+
     public ContactPerson {
         if (name == null) {
             throw new IllegalArgumentException("Name is required for contact person");
@@ -39,15 +39,15 @@ public record ContactPerson(
             department = Department.OTHER;
         }
     }
-    
+
     public String getFullName() {
         return name.getFullName();
     }
-    
+
     public boolean isExecutive() {
-        return position.toLowerCase().contains("ceo") 
-            || position.toLowerCase().contains("cto")
-            || position.toLowerCase().contains("cfo")
-            || department == Department.EXECUTIVE;
+        return position.toLowerCase().contains("ceo")
+                || position.toLowerCase().contains("cto")
+                || position.toLowerCase().contains("cfo")
+                || department == Department.EXECUTIVE;
     }
 }

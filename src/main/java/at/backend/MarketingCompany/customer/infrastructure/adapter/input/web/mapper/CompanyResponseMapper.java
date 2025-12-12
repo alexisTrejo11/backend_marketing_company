@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -276,15 +277,17 @@ public class CompanyResponseMapper {
                 .orElse(0);
     }
 
-    private LocalDateTime safeGetCreatedAt(CustomerCompany company) {
+    private OffsetDateTime safeGetCreatedAt(CustomerCompany company) {
         return Optional.ofNullable(company)
                 .map(CustomerCompany::getCreatedAt)
+                .map(dt -> dt.atOffset(OffsetDateTime.now().getOffset()))
                 .orElse(null);
     }
 
-    private LocalDateTime safeGetUpdatedAt(CustomerCompany company) {
+    private OffsetDateTime safeGetUpdatedAt(CustomerCompany company) {
         return Optional.ofNullable(company)
                 .map(CustomerCompany::getUpdatedAt)
+                .map(dt -> dt.atOffset(OffsetDateTime.now().getOffset()))
                 .orElse(null);
     }
 

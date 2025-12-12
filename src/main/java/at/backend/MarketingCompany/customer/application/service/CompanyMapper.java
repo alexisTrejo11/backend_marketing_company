@@ -16,9 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class CompanyMapper {
-    public Set<ContactPerson> toContactPersons(
-        Set<CreateCompanyCommand.ContactPersonCommand> commands
-    ) {
+    public Set<ContactPerson> toContactPersons(Set<CreateCompanyCommand.ContactPersonCommand> commands) {
         return commands.stream()
             .map(this::toContactPerson)
             .collect(Collectors.toSet());
@@ -41,7 +39,16 @@ public class CompanyMapper {
         String pos = Optional.ofNullable(position)
             .filter(p -> !p.isBlank())
             .orElse("Not specified");
-        
+
+        if (firstName == null || firstName.isBlank()) {
+            firstName = "Unnamed";
+        }
+
+        if (lastName == null || lastName.isBlank()) {
+            lastName = "Contact";
+        }
+
+
         return new ContactPerson(
             PersonName.from(firstName, lastName),
             Optional.ofNullable(email).map(Email::new).orElse(null),
@@ -62,7 +69,7 @@ public class CompanyMapper {
             cmd.email(),
             cmd.phone(),
             cmd.position(),
-            cmd.department().name(),
+            cmd.department() != null ? cmd.department().name() : null,
             cmd.isDecisionMaker()
         );
     }

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,8 +17,12 @@ import lombok.Setter;
            @Index(name = "idx_contact_company", columnList = "company_id"),
            @Index(name = "idx_contact_email", columnList = "email")
        })
-public class ContactPersonEntity extends BaseJpaEntity {
-    
+public class ContactPersonEntity{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", nullable = false)
     private CustomerCompanyEntity company;
@@ -47,12 +53,5 @@ public class ContactPersonEntity extends BaseJpaEntity {
     
     @Column(name = "notes", length = 1000)
     private String notes;
-    
-    @PrePersist
-    @PreUpdate
-    public void validateContact() {
-        if (email == null && phone == null) {
-            throw new IllegalArgumentException("Contact person must have at least email or phone");
-        }
-    }
+
 }

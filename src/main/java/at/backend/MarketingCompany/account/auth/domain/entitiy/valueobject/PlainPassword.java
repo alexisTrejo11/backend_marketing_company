@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public record PlainPassword(String value) {
     private static final Pattern PASSWORD_PATTERN = 
-        Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");
+        Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=.!,';])(?=\\S+$).{8,}$");
 
     public PlainPassword {
         if (value == null || value.isBlank()) {

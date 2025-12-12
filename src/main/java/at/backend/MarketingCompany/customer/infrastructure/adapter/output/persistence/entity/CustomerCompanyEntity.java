@@ -98,19 +98,6 @@ public class CustomerCompanyEntity extends BaseJpaEntity {
     @Column(name = "competitor_url")
     private Set<String> competitorUrls = new HashSet<>();
 
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "firstName", column = @Column(name = "primary_contact_first_name")),
-            @AttributeOverride(name = "lastName", column = @Column(name = "primary_contact_last_name")),
-            @AttributeOverride(name = "email", column = @Column(name = "primary_contact_email")),
-            @AttributeOverride(name = "phone", column = @Column(name = "primary_contact_phone")),
-            @AttributeOverride(name = "position", column = @Column(name = "primary_contact_position")),
-            @AttributeOverride(name = "department", column = @Column(name = "primary_contact_department")),
-            @AttributeOverride(name = "isDecisionMaker", column = @Column(name = "primary_contact_decision_maker")),
-            @AttributeOverride(name = "isPrimaryContact", column = @Column(name = "primary_contact_is_primary"))
-    })
-    private ContactPersonEmbeddable primaryContact;
-
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ContactPersonEntity> contactPersons = new HashSet<>();
 
