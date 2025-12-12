@@ -1,5 +1,8 @@
 package at.backend.MarketingCompany.MarketingCampaing.customer.application;
 
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.Email;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.PersonName;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.PhoneNumber;
 import at.backend.MarketingCompany.customer.application.dto.query.CompanyQueries.*;
 import at.backend.MarketingCompany.customer.application.port.ouput.CustomerCompanyRepositoryPort;
 import at.backend.MarketingCompany.customer.application.service.CustomerCompanyQueryHandlerImpl;
@@ -79,9 +82,9 @@ class CustomerCompanyQueryHandlerImplTest {
                 .build();
 
         Set<ContactPerson> contactPersons = Set.of(new ContactPerson(
-                new at.backend.MarketingCompany.account.user.domain.entity.valueobject.PersonName("John", "Doe"),
-                new at.backend.MarketingCompany.account.user.domain.entity.valueobject.Email("john@test.com"),
-                new at.backend.MarketingCompany.account.user.domain.entity.valueobject.PhoneNumber("+1234567890"),
+                new PersonName("John", "Doe"),
+                new Email("john@test.com"),
+                new PhoneNumber("+1234567890"),
                 "CEO",
                 ContactPerson.Department.EXECUTIVE,
                 true,
@@ -566,8 +569,8 @@ class CustomerCompanyQueryHandlerImplTest {
         // Create a company without a profile
         CompanyName companyName = new CompanyName("No Profile Company");
         Set<ContactPerson> contactPersons = Set.of(new ContactPerson(
-                new at.backend.MarketingCompany.account.user.domain.entity.valueobject.PersonName("Test", "User"),
-                new at.backend.MarketingCompany.account.user.domain.entity.valueobject.Email("test@test.com"),
+                new PersonName("Test", "User"),
+                new Email("test@test.com"),
                 null,
                 "Manager",
                 ContactPerson.Department.OTHER,

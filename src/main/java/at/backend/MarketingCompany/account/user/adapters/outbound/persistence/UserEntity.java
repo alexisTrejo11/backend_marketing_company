@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.account.user.adapters.outbound.persistence;
 
-import at.backend.MarketingCompany.account.auth.domain.entitiy.valueobject.Role;
-import at.backend.MarketingCompany.account.user.domain.entity.valueobject.UserStatus;
+import at.backend.MarketingCompany.account.auth.core.domain.entitiy.valueobject.Role;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.UserStatus;
 import at.backend.MarketingCompany.shared.jpa.BaseJpaEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -6,12 +6,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import at.backend.MarketingCompany.account.auth.domain.entitiy.valueobject.Role;
-import at.backend.MarketingCompany.account.user.domain.entity.User;
-import at.backend.MarketingCompany.account.user.domain.entity.valueobject.Email;
-import at.backend.MarketingCompany.account.user.domain.entity.valueobject.PhoneNumber;
-import at.backend.MarketingCompany.account.user.domain.entity.valueobject.UserId;
-import at.backend.MarketingCompany.account.user.domain.repository.UserRepository;
+import at.backend.MarketingCompany.account.auth.core.domain.entitiy.valueobject.Role;
+import at.backend.MarketingCompany.account.user.core.domain.entity.User;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.Email;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.PhoneNumber;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.UserId;
+import at.backend.MarketingCompany.account.user.core.ports.output.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 @Repository

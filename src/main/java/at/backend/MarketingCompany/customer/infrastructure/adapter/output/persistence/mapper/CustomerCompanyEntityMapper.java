@@ -1,18 +1,16 @@
 package at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.mapper;
 
 
-import at.backend.MarketingCompany.account.user.domain.entity.valueobject.Email;
-import at.backend.MarketingCompany.account.user.domain.entity.valueobject.PersonName;
-import at.backend.MarketingCompany.account.user.domain.entity.valueobject.PhoneNumber;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.Email;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.PersonName;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.PhoneNumber;
 import at.backend.MarketingCompany.customer.domain.entity.CustomerCompany;
 import at.backend.MarketingCompany.customer.domain.valueobject.*;
 import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.HashSet;
 import java.util.Set;

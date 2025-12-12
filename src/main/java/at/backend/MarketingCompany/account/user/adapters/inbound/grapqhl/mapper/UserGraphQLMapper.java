@@ -2,8 +2,8 @@ package at.backend.MarketingCompany.account.user.adapters.inbound.grapqhl.mapper
 
 import at.backend.MarketingCompany.account.user.adapters.inbound.grapqhl.dto.UserResponse;
 import at.backend.MarketingCompany.account.user.adapters.inbound.grapqhl.dto.UserStatisticsResponse;
-import at.backend.MarketingCompany.account.user.application.UserStatistics;
-import at.backend.MarketingCompany.account.user.domain.entity.User;
+import at.backend.MarketingCompany.account.user.core.application.UserStatistics;
+import at.backend.MarketingCompany.account.user.core.domain.entity.User;
 import at.backend.MarketingCompany.shared.PageResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -19,8 +19,8 @@ public class UserGraphQLMapper {
         return new UserResponse(
                 user.getId().value(),
                 user.getEmail().value(),
-                user.getName().firstName(),
-                user.getName().lastName(),
+                user.getPersonalData().firstName(),
+                user.getPersonalData().lastName(),
                 user.getPhoneNumber() != null ? user.getPhoneNumber().value() : null,
                 user.getRoles(),
                 user.getStatus(),

@@ -1,8 +1,8 @@
 package at.backend.MarketingCompany.MarketingCampaing.customer.domain;
 
-import at.backend.MarketingCompany.account.user.domain.entity.valueobject.Email;
-import at.backend.MarketingCompany.account.user.domain.entity.valueobject.PersonName;
-import at.backend.MarketingCompany.account.user.domain.entity.valueobject.PhoneNumber;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.Email;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.PersonName;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.PhoneNumber;
 import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.customer.domain.entity.CustomerCompany;
 import at.backend.MarketingCompany.customer.domain.events.*;
@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 import java.util.Currency;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 

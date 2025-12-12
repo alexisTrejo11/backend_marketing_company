@@ -3,13 +3,13 @@ package at.backend.MarketingCompany.account.user.adapters.inbound.grapqhl.contro
 import at.backend.MarketingCompany.account.user.adapters.inbound.grapqhl.dto.UserResponse;
 import at.backend.MarketingCompany.account.user.adapters.inbound.grapqhl.dto.UserStatisticsResponse;
 import at.backend.MarketingCompany.account.user.adapters.inbound.grapqhl.mapper.UserGraphQLMapper;
-import at.backend.MarketingCompany.account.user.application.UserApplicationServiceImpl;
-import at.backend.MarketingCompany.account.user.application.command.ActivateUserCommand;
-import at.backend.MarketingCompany.account.user.application.command.DeactivateUserCommand;
-import at.backend.MarketingCompany.account.user.application.queries.GetUserByEmailQuery;
-import at.backend.MarketingCompany.account.user.application.queries.GetUserByIdQuery;
-import at.backend.MarketingCompany.account.user.application.queries.GetUserStatisticsQuery;
-import at.backend.MarketingCompany.account.user.application.queries.SearchUsersQuery;
+import at.backend.MarketingCompany.account.user.core.application.UserQueryServiceImpl;
+import at.backend.MarketingCompany.account.user.core.application.command.ActivateUserCommand;
+import at.backend.MarketingCompany.account.user.core.application.command.DeactivateUserCommand;
+import at.backend.MarketingCompany.account.user.core.application.queries.GetUserByEmailQuery;
+import at.backend.MarketingCompany.account.user.core.application.queries.GetUserByIdQuery;
+import at.backend.MarketingCompany.account.user.core.application.queries.GetUserStatisticsQuery;
+import at.backend.MarketingCompany.account.user.core.application.queries.SearchUsersQuery;
 import at.backend.MarketingCompany.shared.PageResponse;
 import at.backend.MarketingCompany.shared.dto.PageInput;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ import org.springframework.stereotype.Controller;
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {
-    private final UserApplicationServiceImpl userService;
+    private final UserQueryServiceImpl userService;
     private final UserGraphQLMapper mapper;
 
     @MutationMapping

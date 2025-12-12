@@ -1,15 +1,12 @@
 package at.backend.MarketingCompany.customer.application.service;
 
-import at.backend.MarketingCompany.account.user.domain.entity.valueobject.Email;
-import at.backend.MarketingCompany.account.user.domain.entity.valueobject.PersonName;
-import at.backend.MarketingCompany.account.user.domain.entity.valueobject.PhoneNumber;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.Email;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.PersonName;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.PhoneNumber;
 import at.backend.MarketingCompany.customer.application.dto.command.CompanyCommands.*;
 import at.backend.MarketingCompany.customer.domain.valueobject.*;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;

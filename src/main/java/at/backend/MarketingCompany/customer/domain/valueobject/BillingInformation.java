@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.customer.domain.valueobject;
 
-import at.backend.MarketingCompany.account.user.domain.entity.valueobject.Email;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.Email;
 import at.backend.MarketingCompany.customer.domain.exceptions.CustomerDomainException;
 import lombok.Builder;
 

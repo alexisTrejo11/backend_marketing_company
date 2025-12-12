@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.config;
 
-import at.backend.MarketingCompany.account.auth.adapaters.outbound.persistence.AuthSessionEntity;
+import at.backend.MarketingCompany.account.auth.adapters.outbound.persistence.AuthSessionEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;

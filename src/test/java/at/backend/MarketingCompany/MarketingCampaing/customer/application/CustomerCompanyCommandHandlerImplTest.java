@@ -1,6 +1,8 @@
 package at.backend.MarketingCompany.MarketingCampaing.customer.application;
 
-import at.backend.MarketingCompany.account.user.domain.entity.valueobject.Email;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.Email;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.PersonName;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.PhoneNumber;
 import at.backend.MarketingCompany.customer.application.dto.command.CompanyCommands.*;
 import at.backend.MarketingCompany.customer.application.port.ouput.CustomerCompanyRepositoryPort;
 import at.backend.MarketingCompany.customer.application.service.CompanyMapper;
@@ -71,9 +73,9 @@ class CustomerCompanyCommandHandlerImplTest {
     private Set<ContactPerson> createMockContactPersons() {
         Set<ContactPerson> contacts = new HashSet<>();
         contacts.add(new ContactPerson(
-                new at.backend.MarketingCompany.account.user.domain.entity.valueobject.PersonName("John", "Doe"),
+                new PersonName("John", "Doe"),
                 new Email("john@test.com"),
-                new at.backend.MarketingCompany.account.user.domain.entity.valueobject.PhoneNumber("+1234567890"),
+                new PhoneNumber("+1234567890"),
                 "CEO",
                 ContactPerson.Department.EXECUTIVE,
                 true,
@@ -405,9 +407,9 @@ class CustomerCompanyCommandHandlerImplTest {
         );
 
         ContactPerson mockContact = new ContactPerson(
-                new at.backend.MarketingCompany.account.user.domain.entity.valueobject.PersonName("Bob", "Wilson"),
+                new PersonName("Bob", "Wilson"),
                 new Email("bob.wilson@test.com"),
-                new at.backend.MarketingCompany.account.user.domain.entity.valueobject.PhoneNumber("+1122334455"),
+                new PhoneNumber("+1122334455"),
                 "Marketing Director",
                 ContactPerson.Department.MARKETING,
                 false,

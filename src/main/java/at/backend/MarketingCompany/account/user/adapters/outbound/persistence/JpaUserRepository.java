@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import at.backend.MarketingCompany.account.auth.domain.entitiy.valueobject.Role;
-import at.backend.MarketingCompany.account.user.domain.entity.valueobject.UserStatus;
+import at.backend.MarketingCompany.account.auth.core.domain.entitiy.valueobject.Role;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.UserStatus;
 
 // TODO: Check
 public interface JpaUserRepository extends JpaRepository<UserEntity, String> {

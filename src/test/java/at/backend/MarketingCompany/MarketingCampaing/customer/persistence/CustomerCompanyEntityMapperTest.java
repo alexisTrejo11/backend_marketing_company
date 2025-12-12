@@ -1,8 +1,8 @@
 package at.backend.MarketingCompany.MarketingCampaing.customer.persistence;
 
-import at.backend.MarketingCompany.account.user.domain.entity.valueobject.Email;
-import at.backend.MarketingCompany.account.user.domain.entity.valueobject.PersonName;
-import at.backend.MarketingCompany.account.user.domain.entity.valueobject.PhoneNumber;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.Email;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.PersonName;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.PhoneNumber;
 import at.backend.MarketingCompany.customer.domain.entity.CustomerCompany;
 import at.backend.MarketingCompany.customer.domain.valueobject.*;
 import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.*;

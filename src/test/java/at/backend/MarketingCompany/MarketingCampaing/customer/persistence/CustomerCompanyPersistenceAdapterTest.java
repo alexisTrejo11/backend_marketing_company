@@ -1,5 +1,8 @@
 package at.backend.MarketingCompany.MarketingCampaing.customer.persistence;
 
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.Email;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.PersonName;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.PhoneNumber;
 import at.backend.MarketingCompany.customer.domain.entity.CustomerCompany;
 import at.backend.MarketingCompany.customer.domain.valueobject.*;
 import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity;
@@ -65,9 +68,9 @@ class CustomerCompanyPersistenceAdapterTest {
         
         Set<ContactPerson> contactPersons = new HashSet<>();
         contactPersons.add(new ContactPerson(
-                new at.backend.MarketingCompany.account.user.domain.entity.valueobject.PersonName("John", "Doe"),
-                new at.backend.MarketingCompany.account.user.domain.entity.valueobject.Email("john@test.com"),
-                new at.backend.MarketingCompany.account.user.domain.entity.valueobject.PhoneNumber("+1234567890"),
+                new PersonName("John", "Doe"),
+                new Email("john@test.com"),
+                new PhoneNumber("+1234567890"),
                 "CEO",
                 ContactPerson.Department.EXECUTIVE,
                 true,

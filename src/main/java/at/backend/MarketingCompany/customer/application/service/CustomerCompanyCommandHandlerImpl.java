@@ -1,8 +1,7 @@
 package at.backend.MarketingCompany.customer.application.service;
 
-import at.backend.MarketingCompany.account.user.domain.entity.valueobject.Email;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.Email;
 import at.backend.MarketingCompany.customer.application.dto.command.CompanyCommands.*;
-import at.backend.MarketingCompany.customer.application.dto.query.CompanyQueries.*;
 import at.backend.MarketingCompany.customer.application.port.input.CustomerCompanyCommandHandler;
 import at.backend.MarketingCompany.customer.application.port.ouput.CustomerCompanyRepositoryPort;
 import at.backend.MarketingCompany.customer.domain.entity.CustomerCompany;
@@ -12,7 +11,6 @@ import at.backend.MarketingCompany.customer.domain.valueobject.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 

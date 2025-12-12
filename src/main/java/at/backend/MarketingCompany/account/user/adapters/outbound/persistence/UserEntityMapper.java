@@ -1,11 +1,11 @@
 package at.backend.MarketingCompany.account.user.adapters.outbound.persistence;
 
-import at.backend.MarketingCompany.account.auth.domain.entitiy.valueobject.HashedPassword;
-import at.backend.MarketingCompany.account.user.domain.entity.User;
-import at.backend.MarketingCompany.account.user.domain.entity.valueobject.Email;
-import at.backend.MarketingCompany.account.user.domain.entity.valueobject.PersonName;
-import at.backend.MarketingCompany.account.user.domain.entity.valueobject.UserId;
-import at.backend.MarketingCompany.account.user.domain.entity.valueobject.UserReconstructParams;
+import at.backend.MarketingCompany.account.auth.core.domain.entitiy.valueobject.HashedPassword;
+import at.backend.MarketingCompany.account.user.core.domain.entity.User;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.Email;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.PersonName;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.UserId;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.UserReconstructParams;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,8 +23,8 @@ public class UserEntityMapper {
         entity.setLastLoginAt(userDomain.getLastLoginAt());
         entity.setPasswordChangedAt(userDomain.getPasswordChangedAt());
         entity.setPhoneNumber(userDomain.getPhoneNumber() != null ? userDomain.getPhoneNumber().value() : null);
-        entity.setFirstName(userDomain.getName() != null ? userDomain.getName().firstName() : null);
-        entity.setLastName(userDomain.getName() != null ? userDomain.getName().lastName() : null);
+        entity.setFirstName(userDomain.getPersonalData() != null ? userDomain.getPersonalData().firstName() : null);
+        entity.setLastName(userDomain.getPersonalData() != null ? userDomain.getPersonalData().lastName() : null);
         entity.setRoles(userDomain.getRoles());
 
         // Audit fields
