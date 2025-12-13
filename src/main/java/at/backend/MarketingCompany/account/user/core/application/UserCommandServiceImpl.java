@@ -117,9 +117,10 @@ public class UserCommandServiceImpl implements UserCommandService {
   @Override
   public User handleRestoreUser(RestoreUserCommand command) {
     log.info("Restoring user: {}", command.userId());
-    User user = findUserOrThrow(command.userId());
+    User user = userRepository.findDeletedById(command.userId())
+        .orElseThrow(() -> new UserNotFoundException(command.userId().value()));
 
-    user.activate();
+    user.restore();
     log.info("User marked as active");
 
     var savedUser = userRepository.save(user);

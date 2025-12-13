@@ -13,7 +13,6 @@ interface PageResponse {
 }
 
 # Account Management
-
 enum UserRole {
     USER
     ADMIN
@@ -1038,13 +1037,15 @@ type Mutation {
     login(input: LoginInput!): AuthResponse!
     refreshToken(input: RefreshTokenInput!): AuthResponse!
 
+    # Users
     createUser(input: CreateUserInput!): UserResponse!
     updateUserPersonalData(input: UpdateUserPersonalDataInput!): UserResponse!
+    banUser(id: ID!): UserResponse!
+    activateUser(id: ID!): UserResponse!
     deleteUser(id: ID!): Boolean!
+    restoreUser(id: ID!): UserResponse!
 
     # CRM
-
-
     # Customer Company
     createCompany(command: CreateCompanyInput!): CompanyResponse
     updateCompany(command: UpdateCompanyInput!): CompanyResponse
@@ -1066,7 +1067,6 @@ type Mutation {
     closeOpportunityLost(opportunityId: ID!): Opportunity!
     reopenOpportunity(opportunityId: ID!): Opportunity!
     deleteOpportunity(opportunityId: ID!): Boolean!
-
 
     # Tasks
     createTask(input: TaskInput!): Task!

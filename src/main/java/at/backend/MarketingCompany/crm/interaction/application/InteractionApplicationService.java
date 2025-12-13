@@ -116,13 +116,11 @@ public class InteractionApplicationService {
     log.info("Deleting interaction: {}", command.interactionId());
 
     Interaction interaction = findInteractionOrThrow(command.interactionId());
-    interaction.markAsDeleted();
+    interaction.softDelete();
 
     interactionRepository.delete(interaction);
     log.info("Interaction {} deleted successfully", command.interactionId());
   }
-
-  // ===== QUERY HANDLERS =====
 
   @Transactional(readOnly = true)
   public Interaction handle(GetInteractionByIdQuery query) {
@@ -238,7 +236,8 @@ public class InteractionApplicationService {
 
     CustomerCompanyId customerCompanyId = new CustomerCompanyId(query.customerId());
 
-    List<InteractionType> frequentTypes = interactionRepository.findMostFrequentInteractionTypesByCustomer(customerCompanyId);
+    List<InteractionType> frequentTypes = interactionRepository
+        .findMostFrequentInteractionTypesByCustomer(customerCompanyId);
     FeedbackType predominantFeedback = interactionRepository.findPredominantFeedbackByCustomer(customerCompanyId);
     long totalInteractions = interactionRepository.findByCustomer(customerCompanyId).size();
 

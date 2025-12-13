@@ -51,29 +51,29 @@ public class UserManagerController {
   }
 
   @MutationMapping
-  public UserResponse banUser(@Argument @Valid @NotBlank String userId) {
-    var command = UpdateUserStatusCommand.from(userId);
+  public UserResponse banUser(@Argument @Valid @NotBlank String id) {
+    var command = UpdateUserStatusCommand.from(id);
     User user = userCommandService.handleBanUser(command);
     return mapper.toUserResponse(user);
   }
 
   @MutationMapping
-  public UserResponse activateUser(@Argument @Valid @NotBlank String userId) {
-    var command = UpdateUserStatusCommand.from(userId);
+  public UserResponse activateUser(@Argument @Valid @NotBlank String id) {
+    var command = UpdateUserStatusCommand.from(id);
     User user = userCommandService.handleActivateUser(command);
     return mapper.toUserResponse(user);
   }
 
   @MutationMapping
-  public UserResponse restoreUser(@Argument @Valid @NotBlank String userId) {
-    var command = RestoreUserCommand.from(userId);
+  public UserResponse restoreUser(@Argument @Valid @NotBlank String id) {
+    var command = RestoreUserCommand.from(id);
     User user = userCommandService.handleRestoreUser(command);
     return mapper.toUserResponse(user);
   }
 
   @MutationMapping
-  public Boolean softDeleteUser(@Argument @Valid @NotBlank String userId) {
-    var command = SoftDeleteUserCommand.from(userId);
+  public Boolean deleteUser(@Argument @Valid @NotBlank String id) {
+    var command = SoftDeleteUserCommand.from(id);
     userCommandService.handleSoftDeleteUser(command);
     return true;
   }

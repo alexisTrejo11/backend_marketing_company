@@ -20,66 +20,65 @@ import at.backend.MarketingCompany.crm.servicePackage.application.dto.ServicePac
 @Service
 @RequiredArgsConstructor
 public class ServicePackageServiceImpl implements ServicePackageServices {
-    private final ServicePackageRepository repository;
-    private final ServicePackageMapper mapper;
+  private final ServicePackageRepository repository;
+  private final ServicePackageMapper mapper;
 
-    @Transactional
-    public ServicePackageResponse handle(CreateServicePackageCommand command) {
-        ServicePackage servicePackage = ServicePackage.create(command.toCreateParams());
+  @Transactional
+  public ServicePackageResponse handle(CreateServicePackageCommand command) {
+    ServicePackage servicePackage = ServicePackage.create(command.toCreateParams());
 
-        ServicePackage savedPackage = repository.save(servicePackage);
-        return mapper.toResponse(savedPackage);
-    }
+    ServicePackage savedPackage = repository.save(servicePackage);
+    return mapper.toResponse(savedPackage);
+  }
 
-    @Override
-    public ServicePackageResponse handle(DeleteServicePackageCommand command) {
-        ServicePackage servicePackage = repository.findById(command.id())
-                .orElseThrow(() -> {
-                    log.warn("[DeleteServicePackageCommand] Service package not found with id: {}",  command.id());
-                    return new ServicePackageNotFoundException(command.id());
-                });
+  @Override
+  public ServicePackageResponse handle(DeleteServicePackageCommand command) {
+    ServicePackage servicePackage = repository.findById(command.id())
+        .orElseThrow(() -> {
+          log.warn("[DeleteServicePackageCommand] Service package not found with id: {}", command.id());
+          return new ServicePackageNotFoundException(command.id());
+        });
 
-        servicePackage.markAsDeleted();
-        ServicePackage deletedService = repository.save(servicePackage);
+    servicePackage.softDelete();
+    ServicePackage deletedService = repository.save(servicePackage);
 
-        return mapper.toResponse(deletedService);
-    }
+    return mapper.toResponse(deletedService);
+  }
 
-    @Override
-    public Page<ServicePackageResponse> handle(GetAllServicePackageQuery query) {
-        return repository.findAll(query.pageable())
-                .map(mapper::toResponse);
-    }
+  @Override
+  public Page<ServicePackageResponse> handle(GetAllServicePackageQuery query) {
+    return repository.findAll(query.pageable())
+        .map(mapper::toResponse);
+  }
 
-    @Override
-    public ServicePackageResponse handle(GetServicePackageQuery query) {
-        ServicePackage servicePackage = repository.findById(query.id())
-                .orElseThrow(() -> {
-                    log.warn("[GetServicePackageQuery] Service package not found with id: {}",  query.id());
-                    return new ServicePackageNotFoundException(query.id());
-                });
-        return mapper.toResponse(servicePackage);
-    }
+  @Override
+  public ServicePackageResponse handle(GetServicePackageQuery query) {
+    ServicePackage servicePackage = repository.findById(query.id())
+        .orElseThrow(() -> {
+          log.warn("[GetServicePackageQuery] Service package not found with id: {}", query.id());
+          return new ServicePackageNotFoundException(query.id());
+        });
+    return mapper.toResponse(servicePackage);
+  }
 
+  @Override
+  @Transactional
+  public ServicePackageResponse handle(UpdateServicePackageCommand command) {
+    log.debug("[UpdateServicePackageCommand] Updating service package with id: {}", command.id());
 
-    @Override
-    @Transactional
-    public ServicePackageResponse handle(UpdateServicePackageCommand command) {
-        log.debug("[UpdateServicePackageCommand] Updating service package with id: {}", command.id());
+    ServicePackage servicePackage = repository.findById(command.id())
+        .orElseThrow(() -> {
+          log.warn("[UpdateServicePackageCommand] Service package not found with id: {}", command.id());
+          return new ServicePackageNotFoundException(command.id());
+        });
 
-        ServicePackage servicePackage = repository.findById(command.id())
-                .orElseThrow(() -> {
-                    log.warn("[UpdateServicePackageCommand] Service package not found with id: {}",  command.id());
-                    return new ServicePackageNotFoundException(command.id());
-                });
+    log.debug("Found service package: {}, updating fields", servicePackage.getName());
 
-        log.debug("Found service package: {}, updating fields", servicePackage.getName());
+    servicePackage.update(command.toUpdateParams());
+    log.debug("Persisting updated service package with id: {}", command.id());
+    ServicePackage updatedPackage = repository.save(servicePackage);
 
-        servicePackage.update(command.toUpdateParams());
-        log.debug("Persisting updated service package with id: {}", command.id());
-        ServicePackage updatedPackage = repository.save(servicePackage);
-
-        log.debug("Service package updated successfully with id: {}", command.id());
-        return mapper.toResponse(updatedPackage);
-    }
+    log.debug("Service package updated successfully with id: {}", command.id());
+    return mapper.toResponse(updatedPackage);
+  }
 }

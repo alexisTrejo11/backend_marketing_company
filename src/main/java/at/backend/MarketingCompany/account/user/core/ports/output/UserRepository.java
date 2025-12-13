@@ -12,34 +12,36 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface UserRepository {
-    // Persistence
-    User save(User user);
+  // Persistence
+  User save(User user);
 
-    void delete(User user);
+  void delete(User user);
 
-    // Finders
-    Page<User> search(Pageable pageable);
+  // Finders
+  Page<User> search(Pageable pageable);
 
-    Optional<User> findById(UserId userId);
+  Optional<User> findById(UserId userId);
 
-    Optional<User> findByEmail(Email email);
+  Optional<User> findDeletedById(UserId userId);
 
-    long countAll(boolean includeDeleted);
+  Optional<User> findByEmail(Email email);
 
-    Page<User> findByActive(boolean active, Pageable pageable);
+  long countAll(boolean includeDeleted);
 
-    Page<User> findByRole(Role role, Pageable pageable);
+  Page<User> findByActive(boolean active, Pageable pageable);
 
-    boolean existsById(UserId userId);
+  Page<User> findByRole(Role role, Pageable pageable);
 
-    boolean existsByEmail(Email email);
+  boolean existsById(UserId userId);
 
-    boolean existsByPhoneNumber(PhoneNumber phoneNumber);
+  boolean existsByEmail(Email email);
 
-    // Analytics
-    long countActiveUsers(boolean active);
+  boolean existsByPhoneNumber(PhoneNumber phoneNumber);
 
-    long countAllActiveSessions();
+  // Analytics
+  long countActiveUsers(boolean active);
 
-    long countByRole(Role role);
+  long countAllActiveSessions();
+
+  long countByRole(Role role);
 }

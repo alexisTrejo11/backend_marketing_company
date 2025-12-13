@@ -182,6 +182,20 @@ public class User extends BaseDomainEntity<UserId> {
     }
   }
 
+  @Override
+  public void restore() {
+    this.status = UserStatus.ACTIVE;
+    super.restore();
+    updateTimestamp();
+  }
+
+  @Override
+  public void softDelete() {
+    this.status = UserStatus.DELETED;
+    super.softDelete();
+    updateTimestamp();
+  }
+
   private void updateTimestamp() {
     this.updatedAt = LocalDateTime.now();
   }

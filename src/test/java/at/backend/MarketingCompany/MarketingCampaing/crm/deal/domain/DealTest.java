@@ -427,18 +427,18 @@ class DealTest {
 
     @Test
     @DisplayName("should allow deletion only for completed or cancelled deals")
-    void markAsDeleted_ForDifferentStates_ShouldBehaveCorrectly() {
+    void softDelete_ForDifferentStates_ShouldBehaveCorrectly() {
       // Given
       var completedDeal = createCompletedDeal();
       var cancelledDeal = createDealInState(DealStatus.CANCELLED);
       var activeDeal = createSignedDeal();
 
       // When & Then - Completed and cancelled can be deleted
-      assertThatCode(completedDeal::markAsDeleted).doesNotThrowAnyException();
-      assertThatCode(cancelledDeal::markAsDeleted).doesNotThrowAnyException();
+      assertThatCode(completedDeal::softDelete).doesNotThrowAnyException();
+      assertThatCode(cancelledDeal::softDelete).doesNotThrowAnyException();
 
       // Active deals cannot be deleted
-      assertThatThrownBy(activeDeal::markAsDeleted)
+      assertThatThrownBy(activeDeal::softDelete)
           .isInstanceOf(DealValidationException.class)
           .hasMessageContaining("Only cancelled or completed deals can be deleted");
     }

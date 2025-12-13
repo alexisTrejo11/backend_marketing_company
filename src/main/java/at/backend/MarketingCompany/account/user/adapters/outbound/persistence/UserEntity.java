@@ -66,7 +66,7 @@ public class UserEntity extends BaseJpaEntity {
     this.setId(id);
   }
 
-  public void markAsDeleted() {
+  public void softDelete() {
     this.setDeletedAt(LocalDateTime.now());
     this.status = UserStatus.INACTIVE;
   }

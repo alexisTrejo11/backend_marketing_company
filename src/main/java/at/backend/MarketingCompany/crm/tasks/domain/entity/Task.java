@@ -187,10 +187,10 @@ public class Task extends BaseDomainEntity<TaskId> {
   }
 
   @Override
-  public void markAsDeleted() {
+  public void softDelete() {
     if (status != TaskStatus.COMPLETED && status != TaskStatus.CANCELLED) {
       throw new TaskValidationException("Only completed or cancelled tasks can be deleted");
     }
-    super.markAsDeleted();
+    super.softDelete();
   }
 }

@@ -143,7 +143,7 @@ public class TaskApplicationService {
     log.info("Deleting task: {}", command.taskId());
 
     Task task = findTaskOrThrow(TaskId.from(command.taskId()));
-    task.markAsDeleted();
+    task.softDelete();
 
     taskRepository.delete(task);
     log.info("Task {} deleted successfully", command.taskId());

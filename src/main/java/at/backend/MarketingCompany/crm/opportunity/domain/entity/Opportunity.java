@@ -176,10 +176,10 @@ public class Opportunity extends BaseDomainEntity<OpportunityId> {
   }
 
   @Override
-  public void markAsDeleted() {
+  public void softDelete() {
     if (!isClosed()) {
       throw new OpportunityValidationException("Only closed opportunities can be deleted");
     }
-    super.markAsDeleted();
+    super.softDelete();
   }
 }

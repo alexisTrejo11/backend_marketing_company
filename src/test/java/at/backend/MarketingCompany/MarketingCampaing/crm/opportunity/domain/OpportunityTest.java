@@ -457,16 +457,16 @@ class OpportunityTest {
 
     @Test
     @DisplayName("should allow deletion only for closed opportunities")
-    void markAsDeleted_ForDifferentStates_ShouldBehaveCorrectly() {
+    void softDelete_ForDifferentStates_ShouldBehaveCorrectly() {
       // Given
       var closedOpportunity = createOpportunityInState(OpportunityStage.CLOSED_WON);
       var activeOpportunity = Opportunity.create(validCreateParams().build());
 
       // When & Then - Closed can be deleted
-      assertThatCode(closedOpportunity::markAsDeleted).doesNotThrowAnyException();
+      assertThatCode(closedOpportunity::softDelete).doesNotThrowAnyException();
 
       // Active opportunities cannot be deleted
-      assertThatThrownBy(activeOpportunity::markAsDeleted)
+      assertThatThrownBy(activeOpportunity::softDelete)
           .isInstanceOf(OpportunityValidationException.class)
           .hasMessageContaining("Only closed opportunities can be deleted");
     }

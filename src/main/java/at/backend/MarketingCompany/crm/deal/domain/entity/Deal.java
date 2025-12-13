@@ -239,10 +239,10 @@ public class Deal extends BaseDomainEntity<DealId> {
   }
 
   @Override
-  public void markAsDeleted() {
+  public void softDelete() {
     if (!isCancelled() && !isCompleted()) {
       throw new DealValidationException("Only cancelled or completed deals can be deleted.");
     }
-    super.markAsDeleted();
+    super.softDelete();
   }
 }

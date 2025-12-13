@@ -34,6 +34,12 @@ public class UserRepositoryImpl implements UserRepository {
   }
 
   @Override
+  public Optional<User> findDeletedById(UserId userId) {
+    return jpaUserRepository.findByIdAndDeletedAtIsNotNull(userId.value())
+        .map(entityMapper::toDomain);
+  }
+
+  @Override
   public Optional<User> findByEmail(Email email) {
     return jpaUserRepository.findByEmail(email.value())
         .map(entityMapper::toDomain);
@@ -42,7 +48,7 @@ public class UserRepositoryImpl implements UserRepository {
   @Override
   public void delete(User user) {
     UserEntity entity = entityMapper.toEntity(user);
-    entity.markAsDeleted();
+    entity.softDelete();
     jpaUserRepository.save(entity);
   }
 
