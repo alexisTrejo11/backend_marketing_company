@@ -13,6 +13,22 @@ interface PageResponse {
 }
 
 # Account Management
+
+enum UserRole {
+    USER
+    ADMIN
+    MANAGER,
+    SUPPORT
+}
+
+enum UserStatus {
+    PENDING_ACTIVATION
+    ACTIVE
+    INACTIVE
+    SUSPENDED,
+    DELETED
+}
+
 # Auth
 input SignUpInput {
     email: String!
@@ -37,27 +53,59 @@ type AuthResponse {
     refreshToken: String,
     accessTokenExpiresAt: DateTime,
     refreshTokenExpiresAt: DateTime,
-    user: User
+    user: UserResponse
 }
 
 # USERS
-type User {
-    id: ID
-    username: String
-    email: String
-    role: UserRole
+type PersonalData {
+    firstName: String
+    lastName: String
+    gender: PersonGender
+    dateOfBirth: String
 }
 
-input UserInput {
-    username: String!
+type UserResponse {
+    id: ID
     email: String
-    password: String!
-    role: UserRole!
+    phoneNumber: String
+    roles: [UserRole]
+    personalData: PersonalData
+    status: UserStatus
+    createdAt: DateTime
+    updatedAt: DateTime
+    lastLoginAt: DateTime
 }
-enum UserRole {
-    ADMIN
-    SALES_MANAGER,
-    SALES_REP
+
+type UserPageResponse implements PageResponse {
+    items: [UserResponse!]!
+    pagination: PaginationMetadata!
+}
+
+enum PersonGender {
+    MALE,
+    FEMALE,
+    OTHER,
+    UNKNOWN
+}
+
+
+input CreateUserInput {
+  firstName: String!
+  lastName: String!
+  gender: PersonGender!
+  dateOfBirth: Date!
+  role: UserRole!
+  email: String!
+  password: String!
+  phoneNumber: String
+}
+
+input UpdateUserPersonalDataInput {
+    userId: ID!
+    firstName: String!
+    lastName: String!
+    gender: PersonGender!
+    dateOfBirth: Date!
 }
 
 
@@ -70,21 +118,16 @@ enum CompanySize {
 }
 
 enum CompanyStatus {
-    PROSPECT,
-    LEAD,
-    ACTIVE,
-    INACTIVE,
-    CHURNED,
-    BLOCKED,
-    PARTNER,
+    PROSPECT
+    LEAD
+    ACTIVE
+    INACTIVE
+    CHURNED
+    BLOCKED
+    PARTNER
     UNKNOWN
 }
 
-enum ContractType {
-    MONTHLY
-    ANNUAL
-    TRIAL
-}
 
 type CompanyPageResponse implements PageResponse {
     items: [CompanyResponse!]!
@@ -254,7 +297,7 @@ input SignContractInput {
     id: ID!
     contractId: String!
     monthlyFee: BigDecimal!
-    contractType: ContractType!
+    contractType: String!
     durationMonths: Int
     autoRenewal: Boolean = false
 }
@@ -358,7 +401,7 @@ type Task {
     dueDate: String!
     status: TaskStatus!
     priority: TaskPriority!
-    assignedTo: User
+    assignedTo: UserResponse
 }
 input TaskInput {
     customerCompanyId: ID!
@@ -935,13 +978,14 @@ input PageInput {
 # Queries
 type Query {
     #CRM
-    getAllUsers(input: PageInput): [User!]!
-    getUserById(id: ID!): User
+    getAllUsers(pageInput: PageInput!): UserPageResponse
+    getUserById(id: ID!): UserResponse
+    getUserByEmail(email: String!): UserResponse
 
     # Customer Company
-    getAllCompanies(pageInput: PageInput): CompanyPageResponse!
+    getAllCompanies(pageInput: PageInput!): CompanyPageResponse!
     getCompanyById(id: ID!): CompanyResponse
-    searchCompanies(searchTerm: String, pageInput: PageInput): [CompanyResponse!]!
+    searchCompanies(searchTerm: String, pageInput: PageInput!): [CompanyResponse!]!
     getCompaniesByIndustry(industryCode: String!): [CompanyResponse!]!
     getCompaniesByStatus(status: CompanyStatus): [CompanyResponse!]!
     getHighValueCompanies(minRevenue: BigDecimal!): [CompanyResponse!]!
@@ -952,7 +996,7 @@ type Query {
     getCompanyMetrics(companyId: ID!): CompanyMetrics
 
     # Opportunities
-    getAllOpportunities(input: PageInput): [Opportunity!]!
+    getAllOpportunities(input: PageInput!): [Opportunity!]!
     getOpportunityById(id: ID!): Opportunity
 
     getAllTasks(input: TaskInput!): [Task!]!
@@ -994,10 +1038,12 @@ type Mutation {
     login(input: LoginInput!): AuthResponse!
     refreshToken(input: RefreshTokenInput!): AuthResponse!
 
-    # CRM
-    createUser(input: UserInput!): User!
-    updateUser(id: ID!, input: UserInput!): User!
+    createUser(input: CreateUserInput!): UserResponse!
+    updateUserPersonalData(input: UpdateUserPersonalDataInput!): UserResponse!
     deleteUser(id: ID!): Boolean!
+
+    # CRM
+
 
     # Customer Company
     createCompany(command: CreateCompanyInput!): CompanyResponse

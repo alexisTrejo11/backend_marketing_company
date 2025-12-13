@@ -9,23 +9,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-
 @Embeddable
 @Getter
 @Setter
 @NoArgsConstructor
 public class BillingInformationEmbeddable {
-    @Column(name = "billing_email")
-    private String billingEmail;
+  @Column(name = "billing_email")
+  private String billingEmail;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "preferred_payment_method")
-    private BillingInformation.PaymentMethod preferredPaymentMethod;
-    
-    @Column(name = "billing_address", length = 500)
-    private String billingAddress;
-    
-    @Column(name = "approved_credit")
-    private Boolean approvedCredit;
+  @Enumerated(EnumType.STRING)
+  @Column(name = "preferred_payment_method")
+  private BillingInformation.PaymentMethod preferredPaymentMethod;
+
+  @Column(name = "billing_address", length = 500)
+  private String billingAddress;
+
+  @Column(name = "approved_credit")
+  private Boolean approvedCredit;
 }

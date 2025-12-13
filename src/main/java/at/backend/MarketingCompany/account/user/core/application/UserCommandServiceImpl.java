@@ -1,16 +1,16 @@
 package at.backend.MarketingCompany.account.user.core.application;
 
-import at.backend.MarketingCompany.account.auth.core.domain.entitiy.valueobject.HashedPassword;
 import at.backend.MarketingCompany.account.user.core.application.command.CreateUserCommand;
 import at.backend.MarketingCompany.account.user.core.application.command.UpdateUserPersonalDataCommand;
-import at.backend.MarketingCompany.account.auth.core.port.output.AuthSessionRepository;
-import at.backend.MarketingCompany.account.user.core.application.command.ActivateUserCommand;
-import at.backend.MarketingCompany.account.user.core.application.command.DeactivateUserCommand;
+import at.backend.MarketingCompany.account.user.core.application.command.UpdateUserStatusCommand;
+import at.backend.MarketingCompany.account.user.core.application.command.RestoreUserCommand;
+import at.backend.MarketingCompany.account.user.core.application.command.SoftDeleteUserCommand;
 import at.backend.MarketingCompany.account.user.core.domain.entity.User;
-import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.CreateUserParams;
 import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.UserId;
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.UserStatus;
 import at.backend.MarketingCompany.account.user.core.domain.exceptions.UserNotFoundException;
 import at.backend.MarketingCompany.account.user.core.domain.exceptions.UserValidationException;
+import at.backend.MarketingCompany.account.user.core.ports.input.UserCommandService;
 import at.backend.MarketingCompany.account.user.core.ports.output.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,84 +23,112 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserCommandServiceImpl {
-    private final UserRepository userRepository;
-    private final AuthSessionRepository authSessionRepository;
-    private final PasswordEncoder passwordEncoder;
+public class UserCommandServiceImpl implements UserCommandService {
+  private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
 
-    @Transactional
-    public User handleCreateUser(CreateUserCommand command) {
-        log.info("Creating new user with email: {}", command.email());
-        if (userRepository.existsByEmail(command.email())) {
-            throw new UserValidationException("User with this email already exists");
-        }
+  @Override
+  @Transactional
+  public User handleCreateUser(CreateUserCommand command) {
+    log.info("Creating new user with email: {}", command.email());
 
-        if (userRepository.existsByPhoneNumber(command.phoneNumber())) {
-            throw new UserValidationException("User with this phoneNumber already exists");
-        }
-
-        log.info("Encoding password for new user");
-        var passwordHashed = passwordEncoder.encode(command.password().value());
-
-        log.info("Preparing user creation parameters");
-        var createParams = command.toCreateParams(passwordHashed);
-
-        log.info("Creating user entity");
-        User user = User.createUser(createParams);
-        user.assignRoles(Set.of(command.role()));
-
-        log.info("Saving new user to repository");
-        User createdUser = userRepository.save(user);
-
-        log.info("User created successfully with ID: {}", createdUser.getId().value());
-        return createdUser;
+    if (userRepository.existsByEmail(command.email())) {
+      throw new UserValidationException("User with this email already exists");
     }
 
-
-    @Transactional
-    public User handleUpdatePersonalData(UpdateUserPersonalDataCommand command) {
-        log.info("Updating profile for user: {}", command.userId());
-        User user = findUserById(command.userId());
-
-        user.updatePersonalData(command.toPersonalData());
-
-        User updatedUser = userRepository.save(user);
-        log.info("Profile updated successfully for user: {}", command.userId());
-
-        return updatedUser;
+    if (command.phoneNumber() != null && userRepository.existsByPhoneNumber(command.phoneNumber())) {
+      throw new UserValidationException("User with this phoneNumber already exists");
     }
 
-    @Transactional
-    public User handle(DeactivateUserCommand command) {
-        log.info("Deactivating user: {}", command.userId());
+    var passwordHashed = passwordEncoder.encode(command.password().value());
+    log.info("Password hashed successfully for new user");
 
-        User user = findUserById(command.userId());
-        user.markAsInactive();
+    var createParams = command.toCreateParams(passwordHashed, UserStatus.ACTIVE);
+    User user = User.createUser(createParams);
 
-        User updatedUser = userRepository.save(user);
+    user.assignRoles(Set.of(command.role()));
+    log.info("User entity created");
 
-        // Logout all sessions
-        authSessionRepository.deleteAllByUserId(user.getId());
+    User createdUser = userRepository.save(user);
+    log.info("User created successfully with ID: {}", createdUser.getId().value());
 
-        log.info("User deactivated successfully: {}", command.userId());
-        return updatedUser;
-    }
+    return createdUser;
+  }
 
-    @Transactional
-    public User handle(ActivateUserCommand command) {
-        log.info("Activating user: {}", command.userId());
+  @Override
+  @Transactional
+  public User handleUpdatePersonalData(UpdateUserPersonalDataCommand command) {
+    log.info("Updating profile for user: {}", command.userId());
 
-        User user = findUserById(command.userId());
-        user.markAsActive();
+    User user = findUserOrThrow(command.userId());
+    log.info("Updating personal data for user entity");
 
-        User updatedUser = userRepository.save(user);
-        log.info("User activated successfully: {}", command.userId());
+    user.updatePersonalData(command.toPersonalData());
+    User updatedUser = userRepository.save(user);
+    log.info("Profile updated successfully for user: {}", command.userId());
 
-        return updatedUser;
-    }
+    return updatedUser;
+  }
 
-    private User findUserById(UserId userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException(userId.value()));
-    }
+  @Override
+  @Transactional
+  public User handleActivateUser(UpdateUserStatusCommand command) {
+    log.info("Activating user: {}", command.userId());
+
+    User user = findUserOrThrow(command.userId());
+    user.activate();
+
+    User updatedUser = userRepository.save(user);
+    log.info("User activated successfully: {}", command.userId());
+
+    return updatedUser;
+  }
+
+  @Override
+  public User handleBanUser(UpdateUserStatusCommand command) {
+    log.info("Banning user: {}", command.userId());
+
+    User user = findUserOrThrow(command.userId());
+    user.ban();
+    log.info("User mark as banned");
+
+    User updatedUser = userRepository.save(user);
+    log.info("User banned successfully: {}", command.userId());
+
+    return updatedUser;
+  }
+
+  @Override
+  public User handleSoftDeleteUser(SoftDeleteUserCommand command) {
+    log.info("Soft deleting user: {}", command.userId());
+
+    User user = findUserOrThrow(command.userId());
+    log.info("Soft deleting user entity");
+
+    user.softDelete();
+    log.info("Saving soft deleted user to repository");
+
+    var savedUser = userRepository.save(user);
+
+    log.info("User soft deleted successfully: {}", command.userId());
+    return savedUser;
+  }
+
+  @Override
+  public User handleRestoreUser(RestoreUserCommand command) {
+    log.info("Restoring user: {}", command.userId());
+    User user = findUserOrThrow(command.userId());
+
+    user.activate();
+    log.info("User marked as active");
+
+    var savedUser = userRepository.save(user);
+    log.info("User restored successfully: {}", command.userId());
+    return savedUser;
+  }
+
+  private User findUserOrThrow(UserId userId) {
+    return userRepository.findById(userId)
+        .orElseThrow(() -> new UserNotFoundException(userId.value()));
+  }
 }

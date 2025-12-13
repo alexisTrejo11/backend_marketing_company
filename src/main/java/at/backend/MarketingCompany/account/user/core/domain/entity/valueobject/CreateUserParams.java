@@ -8,5 +8,6 @@ public record CreateUserParams(
     Email email,
     PhoneNumber phoneNumber,
     HashedPassword hashedPassword,
-    PersonalData personalData
-) {}
+    PersonalData personalData,
+    UserStatus status) {
+}
