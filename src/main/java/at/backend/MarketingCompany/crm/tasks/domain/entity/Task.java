@@ -4,8 +4,8 @@ import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId
 import at.backend.MarketingCompany.shared.domain.BaseDomainEntity;
 import at.backend.MarketingCompany.crm.shared.enums.TaskPriority;
 import at.backend.MarketingCompany.crm.shared.enums.TaskStatus;
-import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.EmployeeId;
-import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
+import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.external.EmployeeId;
+import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.tasks.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.crm.tasks.domain.exceptions.TaskValidationException;
 import lombok.Getter;

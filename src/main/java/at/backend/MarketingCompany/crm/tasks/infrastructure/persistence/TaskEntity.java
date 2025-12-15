@@ -3,8 +3,7 @@ package at.backend.MarketingCompany.crm.tasks.infrastructure.persistence;
 import at.backend.MarketingCompany.account.user.adapters.outbound.persistence.UserEntity;
 import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity;
 import at.backend.MarketingCompany.shared.jpa.BaseJpaEntity;
-import at.backend.MarketingCompany.crm.opportunity.infrastructure.persistence.OpportunityEntity;
-
+import at.backend.MarketingCompany.crm.opportunity.adapter.output.persistence.OpportunityEntity;
 import at.backend.MarketingCompany.crm.shared.enums.TaskPriority;
 import at.backend.MarketingCompany.crm.shared.enums.TaskStatus;
 import jakarta.persistence.*;

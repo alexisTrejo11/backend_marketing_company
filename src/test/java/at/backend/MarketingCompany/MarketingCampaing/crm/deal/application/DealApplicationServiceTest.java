@@ -1,18 +1,17 @@
 package at.backend.MarketingCompany.MarketingCampaing.crm.deal.application;
 
-import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
-import at.backend.MarketingCompany.crm.deal.application.DealApplicationServiceImpl;
-import at.backend.MarketingCompany.crm.deal.application.ExternalModuleValidator;
-import at.backend.MarketingCompany.crm.deal.application.commands.*;
-import at.backend.MarketingCompany.crm.deal.application.queries.*;
-import at.backend.MarketingCompany.crm.deal.domain.entity.Deal;
-import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.*;
-import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.*;
-import at.backend.MarketingCompany.crm.deal.domain.exceptions.DealNotFoundException;
-import at.backend.MarketingCompany.crm.deal.domain.exceptions.DealStatusTransitionException;
-import at.backend.MarketingCompany.crm.deal.domain.exceptions.DealValidationException;
-import at.backend.MarketingCompany.crm.deal.domain.respository.DealRepository;
+import at.backend.MarketingCompany.crm.deal.core.application.ExternalModuleValidator;
+import at.backend.MarketingCompany.crm.deal.core.application.commands.*;
+import at.backend.MarketingCompany.crm.deal.core.application.queries.*;
+import at.backend.MarketingCompany.crm.deal.core.domain.entity.Deal;
+import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.*;
+import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.external.*;
+import at.backend.MarketingCompany.crm.deal.core.domain.exceptions.DealNotFoundException;
+import at.backend.MarketingCompany.crm.deal.core.domain.exceptions.DealStatusTransitionException;
+import at.backend.MarketingCompany.crm.deal.core.domain.exceptions.DealValidationException;
+import at.backend.MarketingCompany.crm.deal.core.domain.respository.DealRepository;
+import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
 import at.backend.MarketingCompany.shared.domain.exceptions.ExternalServiceException;
 import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
@@ -89,7 +88,7 @@ class DealApplicationServiceTest {
     void handleCreateDeal_WithValidCommand_ShouldCreateDeal() {
       // Given
       var command = new CreateDealCommand(
-              validCustomerCompanyId,
+          validCustomerCompanyId,
           validOpportunityId,
           validServiceIds, validStartDate);
 
@@ -119,7 +118,7 @@ class DealApplicationServiceTest {
     void handleCreateDeal_WithInvalidCustomer_ShouldThrowException() {
       // Given
       var command = new CreateDealCommand(
-              validCustomerCompanyId,
+          validCustomerCompanyId,
           validOpportunityId,
           validServiceIds, validStartDate);
 
@@ -139,7 +138,7 @@ class DealApplicationServiceTest {
     void handleCreateDeal_WithInvalidServices_ShouldThrowException() {
       // Given
       var command = new CreateDealCommand(
-              validCustomerCompanyId,
+          validCustomerCompanyId,
           validOpportunityId,
           validServiceIds, validStartDate);
 

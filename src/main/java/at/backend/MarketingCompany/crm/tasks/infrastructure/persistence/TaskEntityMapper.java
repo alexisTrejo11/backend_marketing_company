@@ -1,9 +1,9 @@
 package at.backend.MarketingCompany.crm.tasks.infrastructure.persistence;
 
 import at.backend.MarketingCompany.account.user.adapters.outbound.persistence.UserEntity;
-import at.backend.MarketingCompany.crm.deal.domain.entity.valueobject.external.EmployeeId;
-import at.backend.MarketingCompany.crm.opportunity.domain.entity.valueobject.OpportunityId;
-import at.backend.MarketingCompany.crm.opportunity.infrastructure.persistence.OpportunityEntity;
+import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.external.EmployeeId;
+import at.backend.MarketingCompany.crm.opportunity.adapter.output.persistence.OpportunityEntity;
+import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.tasks.domain.entity.Task;
 import at.backend.MarketingCompany.crm.tasks.domain.entity.valueobject.*;
 

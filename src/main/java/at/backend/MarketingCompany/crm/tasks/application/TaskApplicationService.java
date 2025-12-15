@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.crm.tasks.application;
 
-import at.backend.MarketingCompany.crm.deal.application.ExternalModuleValidator;
+import at.backend.MarketingCompany.crm.deal.core.application.ExternalModuleValidator;
 import at.backend.MarketingCompany.crm.shared.enums.TaskStatus;
 import at.backend.MarketingCompany.crm.tasks.application.commands.*;
 import at.backend.MarketingCompany.crm.tasks.application.queries.*;
