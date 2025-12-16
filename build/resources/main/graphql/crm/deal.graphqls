@@ -1,0 +1,254 @@
+# ============================================================================
+# DEALS - Management of closed sales and active contracts
+# ============================================================================
+
+"""
+Represents a closed deal.
+A deal is created when an opportunity converts into an actual sale.
+"""
+type Deal {
+    """Unique deal ID"""
+    id: ID!
+
+    """Customer company ID"""
+    customerCompanyId: ID!
+
+    """Basic customer company information"""
+    customerCompany: CompanyInfo!
+
+    """ID of the opportunity that originated this deal"""
+    opportunityId: ID!
+
+    """Opportunity information"""
+    opportunity: OpportunityInfo!
+
+    """Deal status (DRAFT, ACTIVE, COMPLETED, CANCELLED)"""
+    status: DealStatus!
+
+    """Final agreed amount"""
+    finalAmount: Float
+
+    """Contract start date (ISO-8601 format)"""
+    startDate: String!
+
+    """Contract end date (ISO-8601 format)"""
+    endDate: String
+
+    """Assigned campaign manager ID"""
+    campaignManagerId: ID
+
+    """Campaign manager information"""
+    campaignManager: UserInfo
+
+    """Service packages included in the deal"""
+    servicePackages: [ServicePackageInfo!]!
+
+    """Agreed deliverables"""
+    deliverables: String
+
+    """Contract terms and conditions"""
+    terms: String
+
+    """Reason for cancellation (if applicable)"""
+    cancellationReason: String
+
+    """Creation date (ISO-8601 format)"""
+    createdAt: String!
+
+    """Last update date (ISO-8601 format)"""
+    updatedAt: String!
+}
+
+"""
+Deal status enumeration.
+"""
+enum DealStatus {
+    """Draft deal, not yet signed"""
+    DRAFT
+
+    """Active contract"""
+    ACTIVE
+
+    """Successfully completed"""
+    COMPLETED
+
+    """Cancelled contract"""
+    CANCELLED
+}
+
+"""
+Input for creating a new deal from a won opportunity.
+"""
+input CreateDealInput {
+    """Won opportunity ID"""
+    opportunityId: ID!
+
+    """Service package IDs to include"""
+    servicePackageIds: [ID!]!
+
+    """Contract start date (ISO-8601 format)"""
+    startDate: String!
+}
+
+"""
+Input for signing and activating a deal.
+"""
+input SignDealInput {
+    """Deal ID"""
+    dealId: ID!
+
+    """Final agreed amount"""
+    finalAmount: Float!
+
+    """Terms and conditions"""
+    terms: String!
+
+    """Assigned campaign manager ID"""
+    campaignManagerId: ID!
+}
+
+"""
+Input for marking a deal as completed.
+"""
+input CompleteDealInput {
+    """Deal ID"""
+    dealId: ID!
+
+    """Completion date (ISO-8601 format)"""
+    endDate: String!
+
+    """Completed deliverables"""
+    deliverables: String!
+}
+
+"""
+Input for updating deal services.
+"""
+input UpdateDealServicesInput {
+    """Deal ID"""
+    dealId: ID!
+
+    """New service package IDs"""
+    servicePackageIds: [ID!]!
+}
+
+"""
+Input for filtering deals with multiple criteria.
+"""
+input DealFilterInput {
+    """Filter by specific statuses"""
+    statuses: [DealStatus!]
+
+    """Filter by customer company"""
+    customerCompanyId: ID
+
+    """Filter by campaign manager"""
+    campaignManagerId: ID
+
+    """Minimum start date (ISO-8601 format)"""
+    startDateFrom: String
+
+    """Maximum start date (ISO-8601 format)"""
+    startDateTo: String
+
+    """Minimum end date (ISO-8601 format)"""
+    endDateFrom: String
+
+    """Maximum end date (ISO-8601 format)"""
+    endDateTo: String
+}
+
+"""
+Paginated response for deals query.
+"""
+type DealPage implements PageResponse {
+    """List of deals"""
+    content: [Deal!]!
+
+    """Pagination metadata"""
+    pagination: PaginationMetadata!
+}
+
+# ============================================================================
+# QUERIES
+# ============================================================================
+
+extend type Query {
+    """
+    Find a specific deal by ID.
+    """
+    deal(id: ID!): Deal
+
+    """
+    Get all deals with pagination and optional filters.
+    """
+    deals(
+        """Pagination parameters"""
+        pageInput: PageInput
+
+        """Optional filter criteria"""
+        filter: DealFilterInput
+    ): DealPage!
+
+    """
+    Get deals for a specific customer company.
+    """
+    dealsByCustomer(customerCompanyId: ID!): [Deal!]!
+
+    """
+    Get deals filtered by status.
+    """
+    dealsByStatus(statuses: [DealStatus!]!): [Deal!]!
+
+    """
+    Get active deals.
+    """
+    activeDeals(pageInput: PageInput): DealPage!
+
+    """
+    Get completed deals.
+    """
+    completedDeals(pageInput: PageInput): DealPage!
+}
+
+# ============================================================================
+# MUTATIONS
+# ============================================================================
+
+extend type Mutation {
+    """
+    Create a new deal from a won opportunity.
+    """
+    createDeal(input: CreateDealInput!): Deal!
+
+    """
+    Sign and activate a deal.
+    """
+    signDeal(input: SignDealInput!): Deal!
+
+    """
+    Update services included in a deal.
+    """
+    updateDealServices(input: UpdateDealServicesInput!): Deal!
+
+    """
+    Mark a deal as completed.
+    """
+    completeDeal(input: CompleteDealInput!): Deal!
+
+    """
+    Cancel a deal.
+    """
+    cancelDeal(
+        """Deal ID to cancel"""
+        dealId: ID!
+
+        """Reason for cancellation"""
+        reason: String!
+    ): Deal!
+
+    """
+    Delete a deal.
+    """
+    deleteDeal(id: ID!): Boolean!
+}

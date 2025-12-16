@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.crm.deal.adapter.output.persistence.repository;
 
 import at.backend.MarketingCompany.crm.deal.adapter.output.persistence.model.DealEntity;
-import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
+import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.DealStatus;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -3,7 +3,7 @@ package at.backend.MarketingCompany.crm.opportunity.core.port.output;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.Opportunity;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityStage;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -9,8 +9,8 @@ import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.QuoteRecons
 
 import java.util.List;
 
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
-import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.adapter.output.persistence.entity.CustomerCompanyEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

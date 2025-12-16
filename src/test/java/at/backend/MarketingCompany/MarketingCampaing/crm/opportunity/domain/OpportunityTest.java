@@ -3,7 +3,7 @@ package at.backend.MarketingCompany.MarketingCampaing.crm.opportunity.domain;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.Opportunity;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.exceptions.OpportunityValidationException;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -471,7 +471,7 @@ class OpportunityTest {
     }
 
     @Test
-    @DisplayName("should handle optional amount and close date correctly")
+    @DisplayName("should deleteServicePackage optional amount and close date correctly")
     void getOptionalFields_WhenNull_ShouldReturnEmptyOptional() {
       // Given
       var params = CreateOpportunityParams.builder()

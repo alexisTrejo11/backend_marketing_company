@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.MarketingCampaing.crm.deal.domain;
 
-import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
+import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.DealStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

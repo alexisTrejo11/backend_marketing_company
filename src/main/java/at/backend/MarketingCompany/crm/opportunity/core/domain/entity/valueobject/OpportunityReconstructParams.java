@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject;
 
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 import lombok.Builder;
 
 import java.time.LocalDateTime;

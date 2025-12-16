@@ -4,8 +4,8 @@ import at.backend.MarketingCompany.crm.interaction.adapter.output.entity.Interac
 import at.backend.MarketingCompany.crm.interaction.core.domain.entity.Interaction;
 import at.backend.MarketingCompany.crm.interaction.core.domain.entity.valueobject.*;
 
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
-import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.adapter.output.persistence.entity.CustomerCompanyEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

@@ -12,7 +12,7 @@ import at.backend.MarketingCompany.crm.quote.core.domain.model.Quote;
 import at.backend.MarketingCompany.crm.quote.core.domain.model.QuoteItem;
 import at.backend.MarketingCompany.crm.quote.core.domain.service.QuoteDomainService;
 import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.*;
-import at.backend.MarketingCompany.crm.servicePackage.domain.repository.ServicePackageRepository;
+import at.backend.MarketingCompany.crm.servicePackage.core.ports.output.ServicePackageRepository;
 import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;

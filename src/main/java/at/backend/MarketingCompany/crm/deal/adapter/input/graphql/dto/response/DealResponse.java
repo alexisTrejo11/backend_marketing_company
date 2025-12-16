@@ -10,7 +10,7 @@ import java.util.UUID;
 @Builder
 public record DealResponse(
     String id,
-    // String customerId,
+    // String customerCompanyId,
     // String opportunityId,
     // String campaignManagerId,
     String dealStatus,

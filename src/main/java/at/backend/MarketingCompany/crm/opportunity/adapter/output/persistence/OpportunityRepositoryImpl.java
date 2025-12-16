@@ -4,7 +4,7 @@ import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.Opportunit
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityStage;
 import at.backend.MarketingCompany.crm.opportunity.core.port.output.OpportunityRepository;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

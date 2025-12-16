@@ -4,7 +4,7 @@ import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobjec
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Discount;
 import at.backend.MarketingCompany.crm.quote.core.domain.model.Quote;
 import at.backend.MarketingCompany.crm.quote.core.domain.model.QuoteItem;
-import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.ServicePackageId;
 
 import java.time.LocalDate;
 

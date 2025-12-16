@@ -1,11 +1,8 @@
 package at.backend.MarketingCompany.crm.opportunity.adapter.input.graphql.controller;
 
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
-import at.backend.MarketingCompany.shared.PageResponse;
-import at.backend.MarketingCompany.shared.dto.PageInput;
-import at.backend.MarketingCompany.crm.opportunity.adapter.input.graphql.dto.*;
+import at.backend.MarketingCompany.crm.opportunity.adapter.input.graphql.dto.OpportunityResponseMapper;
 import at.backend.MarketingCompany.crm.opportunity.adapter.input.graphql.dto.input.*;
-import at.backend.MarketingCompany.crm.opportunity.adapter.input.graphql.dto.output.OpportunityResponse;
+import at.backend.MarketingCompany.crm.opportunity.adapter.input.graphql.dto.output.OpportunityOutput;
 import at.backend.MarketingCompany.crm.opportunity.adapter.input.graphql.dto.output.OpportunityStatisticsResponse;
 import at.backend.MarketingCompany.crm.opportunity.core.application.commands.*;
 import at.backend.MarketingCompany.crm.opportunity.core.application.queries.*;
@@ -13,8 +10,12 @@ import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.Opportunit
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityStage;
 import at.backend.MarketingCompany.crm.opportunity.core.port.input.OpportunityCommandService;
 import at.backend.MarketingCompany.crm.opportunity.core.port.input.OpportunityQueryService;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.shared.PageResponse;
+import at.backend.MarketingCompany.shared.dto.PageInput;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -33,7 +34,7 @@ public class OpportunityController {
   private final OpportunityResponseMapper opportunityResponseMapper;
 
   @QueryMapping
-  public OpportunityResponse opportunity(@Argument @Valid @NotBlank String id) {
+  public OpportunityOutput opportunity(@Argument @Valid @NotBlank String id) {
     var query = GetOpportunityByIdQuery.from(id);
     Opportunity opportunity = queryService.getOpportunityById(query);
 
@@ -41,7 +42,9 @@ public class OpportunityController {
   }
 
   @QueryMapping
-  public PageResponse<OpportunityResponse> opportunities(@Argument OpportunityFilterInput filter) {
+  public PageResponse<OpportunityOutput> opportunities(
+      @Argument @Valid @NotNull OpportunityFilterInput filter
+  ) {
     var searchQuery = createSearchQuery(filter);
     var opportunities = queryService.getOpportunities(searchQuery);
 
@@ -49,7 +52,9 @@ public class OpportunityController {
   }
 
   @QueryMapping
-  public PageResponse<OpportunityResponse> opportunitiesByCustomer(@Argument GetOpportunitiesByCustomerInput input) {
+  public PageResponse<OpportunityOutput> opportunitiesByCustomer(
+      @Argument @Valid @NotNull GetOpportunitiesByCustomerInput input
+  ) {
     var query = input.toQuery();
     var opportunities = queryService.getOpportunitiesByCustomer(query);
 
@@ -57,7 +62,9 @@ public class OpportunityController {
   }
 
   @QueryMapping
-  public PageResponse<OpportunityResponse> opportunitiesByStage(@Argument GetOpportunitiesByStageInput input) {
+  public PageResponse<OpportunityOutput> opportunitiesByStage(
+      @Argument @Valid @NotNull GetOpportunitiesByStageInput input
+  ) {
     var query = input.toQuery();
     var opportunities = queryService.getOpportunitiesByStage(query);
 
@@ -65,7 +72,7 @@ public class OpportunityController {
   }
 
   @QueryMapping
-  public PageResponse<OpportunityResponse> activeOpportunities(@Argument PageInput pageInput) {
+  public PageResponse<OpportunityOutput> activeOpportunities(@Argument @Valid @NotNull PageInput pageInput) {
     var query = new GetActiveOpportunitiesQuery(pageInput.toPageable());
     var opportunities = queryService.getActiveOpportunities(query);
 
@@ -73,7 +80,7 @@ public class OpportunityController {
   }
 
   @QueryMapping
-  public PageResponse<OpportunityResponse> overdueOpportunities(@Argument PageInput pageInput) {
+  public PageResponse<OpportunityOutput> overdueOpportunities(@Argument @Valid @NotNull PageInput pageInput) {
     var query = new GetOverdueOpportunitiesQuery(pageInput.toPageable());
     var opportunities = queryService.getOverdueOpportunities(query);
 
@@ -81,7 +88,7 @@ public class OpportunityController {
   }
 
   @QueryMapping
-  public PageResponse<OpportunityResponse> wonOpportunities(@Argument PageInput pageInput) {
+  public PageResponse<OpportunityOutput> wonOpportunities(@Argument PageInput pageInput) {
     var query = new GetWonOpportunitiesQuery(pageInput.toPageable());
     var opportunities = queryService.getWonOpportunities(query);
 
@@ -89,7 +96,7 @@ public class OpportunityController {
   }
 
   @QueryMapping
-  public PageResponse<OpportunityResponse> lostOpportunities(@Argument PageInput pageInput) {
+  public PageResponse<OpportunityOutput> lostOpportunities(@Argument PageInput pageInput) {
     var query = new GetLostOpportunitiesQuery(pageInput.toPageable());
     var opportunities = queryService.getLostOpportunities(query);
 
@@ -105,7 +112,7 @@ public class OpportunityController {
   }
 
   @MutationMapping
-  public OpportunityResponse createOpportunity(@Valid @Argument CreateOpportunityInput input) {
+  public OpportunityOutput createOpportunity(@Valid @Argument CreateOpportunityInput input) {
     log.info("Creating new opportunity for customer: {}", input.customerId());
 
     var command = input.toCommand();
@@ -115,7 +122,7 @@ public class OpportunityController {
   }
 
   @MutationMapping
-  public OpportunityResponse updateOpportunity(@Valid @Argument UpdateOpportunityInput input) {
+  public OpportunityOutput updateOpportunity(@Valid @Argument UpdateOpportunityInput input) {
     log.info("Updating opportunity: {}", input.opportunityId());
 
     var command = input.toCommand();
@@ -125,7 +132,7 @@ public class OpportunityController {
   }
 
   @MutationMapping
-  public OpportunityResponse qualifyOpportunity(@Argument String opportunityId) {
+  public OpportunityOutput qualifyOpportunity(@Argument String opportunityId) {
     log.info("Qualifying opportunity: {}", opportunityId);
 
     var command = QualifyOpportunityCommand.from(opportunityId);
@@ -135,7 +142,7 @@ public class OpportunityController {
   }
 
   @MutationMapping
-  public OpportunityResponse moveToProposal(@Argument String opportunityId) {
+  public OpportunityOutput moveToProposal(@Argument String opportunityId) {
     log.info("Moving opportunity to proposal: {}", opportunityId);
 
     var command = MoveToProposalCommand.from(opportunityId);
@@ -145,7 +152,7 @@ public class OpportunityController {
   }
 
   @MutationMapping
-  public OpportunityResponse moveToNegotiation(@Argument String opportunityId) {
+  public OpportunityOutput moveToNegotiation(@Argument String opportunityId) {
     log.info("Moving opportunity to negotiation: {}", opportunityId);
 
     var command = MoveToNegotiationCommand.from(opportunityId);
@@ -155,7 +162,7 @@ public class OpportunityController {
   }
 
   @MutationMapping
-  public OpportunityResponse closeOpportunityWon(@Argument String opportunityId) {
+  public OpportunityOutput closeOpportunityWon(@Argument String opportunityId) {
     log.info("Closing opportunity as won: {}", opportunityId);
 
     var command = CloseOpportunityWonCommand.from(opportunityId);
@@ -165,7 +172,7 @@ public class OpportunityController {
   }
 
   @MutationMapping
-  public OpportunityResponse closeOpportunityLost(@Argument String opportunityId) {
+  public OpportunityOutput closeOpportunityLost(@Argument String opportunityId) {
     log.info("Closing opportunity as lost: {}", opportunityId);
 
     var command = CloseOpportunityLostCommand.from(opportunityId);
@@ -175,7 +182,7 @@ public class OpportunityController {
   }
 
   @MutationMapping
-  public OpportunityResponse reopenOpportunity(@Argument String opportunityId) {
+  public OpportunityOutput reopenOpportunity(@Argument String opportunityId) {
     log.info("Reopening opportunity: {}", opportunityId);
 
     var command = ReopenOpportunityCommand.from(opportunityId);

@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.crm.deal.adapter.output.persistence.repository;
 
-import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
+import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.DealStatus;
 import at.backend.MarketingCompany.crm.deal.adapter.output.persistence.model.DealEntity;
 import at.backend.MarketingCompany.crm.deal.adapter.output.persistence.model.DealEntityMapper;
 import at.backend.MarketingCompany.crm.deal.core.domain.entity.Deal;
@@ -8,7 +8,7 @@ import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.DealI
 import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.external.*;
 import at.backend.MarketingCompany.crm.deal.core.domain.respository.DealRepository;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityId;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

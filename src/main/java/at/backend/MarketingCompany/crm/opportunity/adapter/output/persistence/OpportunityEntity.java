@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.crm.opportunity.adapter.output.persistence;
 
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityStage;
-import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity;
+import at.backend.MarketingCompany.customer.adapter.output.persistence.entity.CustomerCompanyEntity;
 import at.backend.MarketingCompany.shared.jpa.BaseJpaEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

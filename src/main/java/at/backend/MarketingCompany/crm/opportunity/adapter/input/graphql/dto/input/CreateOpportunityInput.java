@@ -3,7 +3,7 @@ package at.backend.MarketingCompany.crm.opportunity.adapter.input.graphql.dto.in
 import at.backend.MarketingCompany.crm.opportunity.core.application.commands.CreateOpportunityCommand;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Amount;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.ExpectedCloseDate;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 import jakarta.validation.constraints.NotBlank;
 
 import java.math.BigDecimal;

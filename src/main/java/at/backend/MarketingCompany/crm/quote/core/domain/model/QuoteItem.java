@@ -6,7 +6,7 @@ import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobjec
 import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.QuoteId;
 import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.QuoteItemId;
 import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.QuoteItemReconstructParams;
-import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.ServicePackageId;
 import lombok.Getter;
 
 @Getter

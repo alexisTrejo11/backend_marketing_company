@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.MarketingCampaing.crm.deal.application;
 
-import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
+import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.DealStatus;
 import at.backend.MarketingCompany.crm.deal.core.application.ExternalModuleValidator;
 import at.backend.MarketingCompany.crm.deal.core.application.commands.*;
 import at.backend.MarketingCompany.crm.deal.core.application.queries.*;
@@ -12,9 +12,9 @@ import at.backend.MarketingCompany.crm.deal.core.domain.exceptions.DealStatusTra
 import at.backend.MarketingCompany.crm.deal.core.domain.exceptions.DealValidationException;
 import at.backend.MarketingCompany.crm.deal.core.domain.respository.DealRepository;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityId;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 import at.backend.MarketingCompany.shared.domain.exceptions.ExternalServiceException;
-import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.ServicePackageId;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

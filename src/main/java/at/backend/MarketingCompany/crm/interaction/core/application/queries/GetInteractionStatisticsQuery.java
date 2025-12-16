@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.crm.interaction.core.application.queries;
 
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 
 public record GetInteractionStatisticsQuery(CustomerCompanyId customerCompanyId) {
   public static GetInteractionStatisticsQuery from(String customerId) {

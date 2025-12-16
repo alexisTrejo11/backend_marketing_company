@@ -1,15 +1,14 @@
 package at.backend.MarketingCompany.MarketingCampaing.customer.domain;
 
-import at.backend.MarketingCompany.customer.domain.valueobject.AnnualRevenue;
-import at.backend.MarketingCompany.customer.domain.valueobject.CompanyProfile;
-import at.backend.MarketingCompany.customer.domain.valueobject.CompanySize;
-import at.backend.MarketingCompany.customer.domain.valueobject.Industry;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.AnnualRevenue;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CompanyProfile;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CompanySize;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.Industry;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.Year;
 import java.util.Currency;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.MarketingCampaing.customer.domain;
 
-import at.backend.MarketingCompany.customer.domain.exceptions.CustomerDomainException;
-import at.backend.MarketingCompany.customer.domain.valueobject.CompanyName;
+import at.backend.MarketingCompany.customer.core.domain.exceptions.CustomerDomainException;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CompanyName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;

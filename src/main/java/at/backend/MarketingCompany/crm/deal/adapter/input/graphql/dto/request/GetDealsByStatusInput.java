@@ -2,7 +2,7 @@ package at.backend.MarketingCompany.crm.deal.adapter.input.graphql.dto.request;
 
 import java.util.Set;
 
-import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
+import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.DealStatus;
 import at.backend.MarketingCompany.shared.dto.PageInput;
 
 public record GetDealsByStatusInput(

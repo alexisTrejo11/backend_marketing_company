@@ -2,8 +2,8 @@ package at.backend.MarketingCompany.crm.deal.core.domain.respository;
 
 import at.backend.MarketingCompany.crm.deal.core.domain.entity.Deal;
 import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.DealId;
-import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.DealStatus;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 
 import java.util.Optional;
 import java.util.Set;

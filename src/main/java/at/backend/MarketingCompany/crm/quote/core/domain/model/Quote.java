@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.crm.quote.core.domain.model;
 
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 import at.backend.MarketingCompany.shared.domain.BaseDomainEntity;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Amount;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Discount;

@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.crm.quote.adapter.output.entity;
 
 import at.backend.MarketingCompany.shared.jpa.BaseJpaEntity;
-import at.backend.MarketingCompany.crm.servicePackage.infrastructure.persistence.model.ServicePackageEntity;
+import at.backend.MarketingCompany.crm.servicePackage.adapter.output.model.ServicePackageEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -7,7 +7,7 @@ import at.backend.MarketingCompany.crm.interaction.core.domain.entity.valueobjec
 import at.backend.MarketingCompany.crm.interaction.core.domain.entity.valueobject.InteractionDescription;
 import at.backend.MarketingCompany.crm.interaction.core.domain.entity.valueobject.InteractionOutcome;
 import at.backend.MarketingCompany.crm.interaction.core.domain.entity.valueobject.InteractionType;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 

@@ -2,8 +2,8 @@ package at.backend.MarketingCompany.crm.opportunity.adapter.output.persistence;
 
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.Opportunity;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.*;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
-import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.adapter.output.persistence.entity.CustomerCompanyEntity;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -6,10 +6,10 @@ import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.external.*;
 import at.backend.MarketingCompany.crm.opportunity.adapter.output.persistence.OpportunityEntity;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityId;
-import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
-import at.backend.MarketingCompany.crm.servicePackage.infrastructure.persistence.model.ServicePackageEntity;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
-import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.ServicePackageId;
+import at.backend.MarketingCompany.crm.servicePackage.adapter.output.model.ServicePackageEntity;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.adapter.output.persistence.entity.CustomerCompanyEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

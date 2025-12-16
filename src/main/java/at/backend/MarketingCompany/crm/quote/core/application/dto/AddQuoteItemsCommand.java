@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.QuoteId;
-import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.ServicePackageId;
 
 public record AddQuoteItemsCommand(QuoteId quoteId, List<QuoteItemCreateCommand> input) {
 

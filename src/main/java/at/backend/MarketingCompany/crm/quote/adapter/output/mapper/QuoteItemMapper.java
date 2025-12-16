@@ -6,7 +6,7 @@ import at.backend.MarketingCompany.crm.quote.adapter.output.entity.QuoteItemEnti
 import at.backend.MarketingCompany.crm.quote.core.domain.model.QuoteItem;
 import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.QuoteId;
 import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.QuoteItemId;
-import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.ServicePackageId;
 
 import java.util.List;
 

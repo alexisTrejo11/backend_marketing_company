@@ -16,7 +16,7 @@ import at.backend.MarketingCompany.crm.interaction.core.domain.entity.valueobjec
 import at.backend.MarketingCompany.crm.interaction.core.domain.exceptions.InteractionNotFoundException;
 import at.backend.MarketingCompany.crm.interaction.core.ports.input.InteractionQueryService;
 import at.backend.MarketingCompany.crm.interaction.core.ports.output.InteractionRepository;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

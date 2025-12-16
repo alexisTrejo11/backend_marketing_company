@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Amount;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Discount;
-import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.ServicePackageId;
 
 public record QuoteItemReconstructParams(
     QuoteItemId id,

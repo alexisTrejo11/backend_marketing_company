@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record AddQuotesItemsInput(
-    @NotBlank String id,
+    @NotBlank String quoteId,
     @NotNull @Size(min = 1) List<QuoteItemInput> input) {
 
   public List<QuoteItemCreateCommand> toItemsCommands() {
@@ -21,6 +21,6 @@ public record AddQuotesItemsInput(
 
   public AddQuoteItemsCommand toCommand() {
     var itemsCommands = toItemsCommands();
-    return AddQuoteItemsCommand.from(id, itemsCommands);
+    return AddQuoteItemsCommand.from(quoteId, itemsCommands);
   }
 }

@@ -6,9 +6,9 @@ import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.exter
 import at.backend.MarketingCompany.crm.deal.core.domain.exceptions.DealStatusTransitionException;
 import at.backend.MarketingCompany.crm.deal.core.domain.exceptions.DealValidationException;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityId;
-import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
-import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.ServicePackageId;
+import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.DealStatus;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

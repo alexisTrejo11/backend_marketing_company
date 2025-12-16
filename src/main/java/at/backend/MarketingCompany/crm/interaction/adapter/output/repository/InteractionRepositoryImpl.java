@@ -5,7 +5,7 @@ import at.backend.MarketingCompany.crm.interaction.adapter.output.mapper.Interac
 import at.backend.MarketingCompany.crm.interaction.core.domain.entity.Interaction;
 import at.backend.MarketingCompany.crm.interaction.core.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.crm.interaction.core.ports.output.InteractionRepository;
-import at.backend.MarketingCompany.customer.domain.valueobject.*;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

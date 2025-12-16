@@ -2,7 +2,7 @@ package at.backend.MarketingCompany.crm.opportunity.core.domain.entity;
 
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.exceptions.OpportunityValidationException;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 import at.backend.MarketingCompany.shared.domain.BaseDomainEntity;
 import lombok.Getter;
 

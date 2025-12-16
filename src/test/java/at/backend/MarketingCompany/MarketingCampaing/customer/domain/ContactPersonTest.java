@@ -3,7 +3,7 @@ package at.backend.MarketingCompany.MarketingCampaing.customer.domain;
 import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.Email;
 import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.PersonName;
 import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.PhoneNumber;
-import at.backend.MarketingCompany.customer.domain.valueobject.ContactPerson;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.ContactPerson;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;

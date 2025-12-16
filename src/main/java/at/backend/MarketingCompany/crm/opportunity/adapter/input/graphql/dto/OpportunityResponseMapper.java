@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.crm.opportunity.adapter.input.graphql.dto;
 
 import at.backend.MarketingCompany.shared.PageResponse;
-import at.backend.MarketingCompany.crm.opportunity.adapter.input.graphql.dto.output.OpportunityResponse;
+import at.backend.MarketingCompany.crm.opportunity.adapter.input.graphql.dto.output.OpportunityOutput;
 import at.backend.MarketingCompany.crm.opportunity.adapter.input.graphql.dto.output.OpportunityStatisticsResponse;
 import at.backend.MarketingCompany.crm.opportunity.core.application.OpportunityQueryServiceImpl.OpportunityStatistics;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.Opportunity;
@@ -11,16 +11,17 @@ import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobjec
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Component
 public class OpportunityResponseMapper {
 
-  public OpportunityResponse toResponse(Opportunity opportunity) {
+  public OpportunityOutput toResponse(Opportunity opportunity) {
     if (opportunity == null)
       return null;
 
-    return new OpportunityResponse(
+    return new OpportunityOutput(
         opportunity.getId() != null ? opportunity.getId().value() : null,
         opportunity.getCustomerCompanyId() != null ? opportunity.getCustomerCompanyId().value() : null,
         opportunity.getTitle(),
@@ -32,11 +33,12 @@ public class OpportunityResponseMapper {
         opportunity.isLost(),
         opportunity.isOverdue(),
         opportunity.canBeModified(),
-        opportunity.getCreatedAt(),
-        opportunity.getUpdatedAt());
+        opportunity.getCreatedAt().atOffset(OffsetDateTime.now().getOffset()),
+        opportunity.getUpdatedAt().atOffset(OffsetDateTime.now().getOffset())
+    );
   }
 
-  public List<OpportunityResponse> toGraphQLResponseList(List<Opportunity> opportunities) {
+  public List<OpportunityOutput> toGraphQLResponseList(List<Opportunity> opportunities) {
     if (opportunities == null)
       return List.of();
 
@@ -45,7 +47,7 @@ public class OpportunityResponseMapper {
         .toList();
   }
 
-  public PageResponse<OpportunityResponse> toPageResponse(Page<Opportunity> opportunityPage) {
+  public PageResponse<OpportunityOutput> toPageResponse(Page<Opportunity> opportunityPage) {
     if (opportunityPage == null)
       return PageResponse.empty();
 

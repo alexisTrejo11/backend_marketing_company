@@ -1,11 +1,11 @@
 package at.backend.MarketingCompany.crm.deal.adapter.output.persistence.model;
 
 import at.backend.MarketingCompany.account.user.adapters.outbound.persistence.UserEntity;
-import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity;
+import at.backend.MarketingCompany.customer.adapter.output.persistence.entity.CustomerCompanyEntity;
 import at.backend.MarketingCompany.shared.jpa.BaseJpaEntity;
 import at.backend.MarketingCompany.crm.opportunity.adapter.output.persistence.OpportunityEntity;
-import at.backend.MarketingCompany.crm.servicePackage.infrastructure.persistence.model.ServicePackageEntity;
-import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
+import at.backend.MarketingCompany.crm.servicePackage.adapter.output.model.ServicePackageEntity;
+import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.DealStatus;
 import jakarta.persistence.*;
 import lombok.*;
 

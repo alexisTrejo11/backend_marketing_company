@@ -1,6 +1,7 @@
 package at.backend.MarketingCompany.crm.quote.adapter.input.graphql;
 
-import at.backend.MarketingCompany.crm.quote.adapter.input.graphql.dto.QuoteInput;
+import at.backend.MarketingCompany.crm.quote.adapter.input.graphql.dto.CreateQuoteInput;
+
 import at.backend.MarketingCompany.crm.quote.adapter.input.graphql.dto.input.AddQuotesItemsInput;
 import at.backend.MarketingCompany.crm.quote.adapter.input.graphql.dto.output.QuoteOutput;
 import at.backend.MarketingCompany.crm.quote.adapter.input.graphql.mapper.QuoteResponseMapper;
@@ -13,6 +14,7 @@ import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.QuoteId;
 import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.QuoteItemId;
 import at.backend.MarketingCompany.shared.dto.PageInput;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
@@ -29,20 +31,20 @@ public class QuoteController {
   private final QuoteQueryService queryService;
 
   @QueryMapping
-  public Page<QuoteOutput> getAllQuotes(@Argument PageInput input) {
+  public Page<QuoteOutput> quotes(@Argument @Valid @NotNull PageInput input) {
     var quotes = queryService.getAllQuotes(input.toPageable());
     return quotes.map(responseMapper::toResponse);
   }
 
   @QueryMapping
-  public QuoteOutput getQuoteById(@Argument String id) {
-    var getQuoteById = GetQuoteByIdQuery.from(id);
+  public QuoteOutput quote(@Argument String quoteId) {
+    var getQuoteById = GetQuoteByIdQuery.from(quoteId);
     var quote = queryService.getQuoteById(getQuoteById);
     return responseMapper.toResponse(quote);
   }
 
   @MutationMapping
-  public QuoteOutput createQuote(@Valid @Argument QuoteInput input) {
+  public QuoteOutput createQuote(@Argument @Valid @NotNull CreateQuoteInput input) {
     var createQuoteCommand = input.toCommand();
     var quote = commandService.createQuote(createQuoteCommand);
 
@@ -50,7 +52,7 @@ public class QuoteController {
   }
 
   @MutationMapping
-  public QuoteOutput addQuoteItems(@Valid @Argument AddQuotesItemsInput input) {
+  public QuoteOutput addQuoteItems(@Argument @Valid @NotNull AddQuotesItemsInput input) {
     AddQuoteItemsCommand command = input.toCommand();
     var quote = commandService.addQuoteItems(command);
 
@@ -58,13 +60,13 @@ public class QuoteController {
   }
 
   @MutationMapping
-  public QuoteOutput deleteQuoteItem(@Valid @Argument String itemId) {
+  public QuoteOutput deleteQuoteItem(@Argument @Valid @NotNull String itemId) {
     var quote = commandService.deleteQuoteItem(QuoteItemId.of(itemId));
     return responseMapper.toResponse(quote);
   }
 
   @MutationMapping
-  public QuoteOutput deleteQuote(@Argument String id) {
+  public QuoteOutput deleteQuote(@Argument @Valid @NotNull String id) {
     var quote = commandService.deleteQuote(QuoteId.of(id));
     return responseMapper.toResponse(quote);
   }

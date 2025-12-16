@@ -2,7 +2,7 @@ package at.backend.MarketingCompany.crm.opportunity.core.application.commands;
 
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Amount;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.ExpectedCloseDate;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 
 public record CreateOpportunityCommand(
     CustomerCompanyId customerCompanyId,

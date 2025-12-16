@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.crm.interaction.core.application.commands;
 
 import at.backend.MarketingCompany.crm.interaction.core.domain.entity.valueobject.*;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 
 public record CreateInteractionCommand(
     CustomerCompanyId customerCompanyId,

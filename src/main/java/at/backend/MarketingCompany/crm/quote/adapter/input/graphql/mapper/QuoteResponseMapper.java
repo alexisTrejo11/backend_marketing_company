@@ -51,7 +51,6 @@ public class QuoteResponseMapper {
     }
     return QuoteItemOutput.builder()
         .id(item.getId().toString())
-        .quoteId(item.getQuoteId().toString())
         .unitPrice(item.getUnitPrice().value())
         .createdAt(item.getCreatedAt())
         .updatedAt(item.getUpdatedAt())

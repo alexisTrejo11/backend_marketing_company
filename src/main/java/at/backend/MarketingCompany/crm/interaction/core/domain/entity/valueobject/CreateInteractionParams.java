@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.crm.interaction.core.domain.entity.valueobject;
 
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 import lombok.Builder;
 
 @Builder

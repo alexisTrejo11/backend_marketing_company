@@ -8,7 +8,6 @@ import lombok.Builder;
 @Builder
 public record QuoteItemOutput(
     String id,
-    String quoteId,
     String servicePackageId,
     BigDecimal unitPrice,
     BigDecimal total,

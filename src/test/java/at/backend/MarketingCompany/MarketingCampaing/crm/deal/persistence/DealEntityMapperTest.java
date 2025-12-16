@@ -2,18 +2,18 @@ package at.backend.MarketingCompany.MarketingCampaing.crm.deal.persistence;
 
 import at.backend.MarketingCompany.crm.opportunity.adapter.output.persistence.OpportunityEntity;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityId;
-import at.backend.MarketingCompany.crm.shared.enums.DealStatus;
+import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.DealStatus;
 import at.backend.MarketingCompany.account.user.adapters.outbound.persistence.UserEntity;
 import at.backend.MarketingCompany.crm.deal.adapter.output.persistence.model.DealEntity;
 import at.backend.MarketingCompany.crm.deal.adapter.output.persistence.model.DealEntityMapper;
 import at.backend.MarketingCompany.crm.deal.core.domain.entity.Deal;
 import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.*;
 import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.external.*;
-import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
-import at.backend.MarketingCompany.crm.servicePackage.infrastructure.persistence.model.ServicePackageEntity;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.ServicePackageId;
+import at.backend.MarketingCompany.crm.servicePackage.adapter.output.model.ServicePackageEntity;
 
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
-import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.adapter.output.persistence.entity.CustomerCompanyEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

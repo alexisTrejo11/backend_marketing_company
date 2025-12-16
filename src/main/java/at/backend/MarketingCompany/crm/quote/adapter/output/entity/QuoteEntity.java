@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.crm.quote.adapter.output.entity;
 
-import at.backend.MarketingCompany.customer.infrastructure.adapter.output.persistence.entity.CustomerCompanyEntity;
+import at.backend.MarketingCompany.customer.adapter.output.persistence.entity.CustomerCompanyEntity;
 import at.backend.MarketingCompany.shared.jpa.BaseJpaEntity;
 import at.backend.MarketingCompany.crm.opportunity.adapter.output.persistence.OpportunityEntity;
 import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.QuoteStatus;

@@ -12,7 +12,7 @@ import org.springframework.util.StopWatch;
 @Slf4j
 public class DealLoggingAspect {
 
-  @Around("execution(* application.at.backend.MarketingCompany.crm.deal.DealApplicationServiceImpl.handle(..))")
+  @Around("execution(* application.at.backend.MarketingCompany.crm.deal.DealApplicationServiceImpl.deleteServicePackage(..))")
   public Object logMethodExecution(ProceedingJoinPoint joinPoint) throws Throwable {
     String methodName = joinPoint.getSignature().getName();
     Object[] args = joinPoint.getArgs();

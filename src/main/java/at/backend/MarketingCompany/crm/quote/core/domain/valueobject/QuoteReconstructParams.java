@@ -8,7 +8,7 @@ import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobjec
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Discount;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.quote.core.domain.model.QuoteItem;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 import lombok.Builder;
 
 @Builder

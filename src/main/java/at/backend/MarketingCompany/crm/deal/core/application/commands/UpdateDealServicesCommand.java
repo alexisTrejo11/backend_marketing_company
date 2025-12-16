@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.crm.deal.core.application.commands;
 
 import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.DealId;
-import at.backend.MarketingCompany.crm.servicePackage.domain.entity.valueobjects.ServicePackageId;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.ServicePackageId;
 
 import java.util.List;
 import java.util.UUID;

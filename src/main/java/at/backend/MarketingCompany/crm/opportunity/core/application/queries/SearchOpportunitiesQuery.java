@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.crm.opportunity.core.application.queries;
 
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityStage;
-import at.backend.MarketingCompany.customer.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Set;

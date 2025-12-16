@@ -4,10 +4,12 @@ import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.E
 import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.PersonName;
 import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.PhoneNumber;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityId;
-import at.backend.MarketingCompany.customer.domain.entity.CustomerCompany;
-import at.backend.MarketingCompany.customer.domain.events.*;
-import at.backend.MarketingCompany.customer.domain.exceptions.CustomerDomainException;
-import at.backend.MarketingCompany.customer.domain.valueobject.*;
+import at.backend.MarketingCompany.customer.core.domain.entity.CustomerCompany;
+import at.backend.MarketingCompany.customer.core.domain.events.CompanyCreatedEvent;
+import at.backend.MarketingCompany.customer.core.domain.events.CompanyStatusChangedEvent;
+import at.backend.MarketingCompany.customer.core.domain.events.CompanyUpgradedToEnterpriseEvent;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.*;
+import at.backend.MarketingCompany.customer.core.domain.exceptions.CustomerDomainException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
