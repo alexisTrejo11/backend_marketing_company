@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 public record CreateDealInput(
-    UUID opportunityId,
+    String opportunityId,
     List<String> servicePackageIds,
     LocalDate startDate) {
 }

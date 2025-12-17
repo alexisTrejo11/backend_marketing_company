@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import at.backend.MarketingCompany.account.auth.core.domain.entitiy.valueobject.Role;
 import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.UserStatus;
 
-public interface JpaUserRepository extends JpaRepository<UserEntity, String> {
+public interface JpaUserRepository extends JpaRepository<UserEntity, Long> {
   Optional<UserEntity> findByEmail(String email);
 
   boolean existsByEmail(String email);
@@ -35,7 +35,7 @@ public interface JpaUserRepository extends JpaRepository<UserEntity, String> {
   @Query("SELECT u FROM UserEntity u JOIN u.roles r WHERE r = :role")
   Page<UserEntity> findByRole(@Param("role") Role role, Pageable pageable);
 
-  Optional<UserEntity> findByIdAndDeletedAtIsNotNull(String id);
+  Optional<UserEntity> findByIdAndDeletedAtIsNotNull(Long id);
 
   Page<UserEntity> findAll(Pageable pageable);
 

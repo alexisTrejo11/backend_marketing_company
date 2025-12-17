@@ -120,7 +120,7 @@ class DealEntityMapperTest {
     // Set up relationships with mock entity
     var customer = new CustomerCompanyEntity(customerCompanyId.value());
     var opportunity = new OpportunityEntity(UUID.randomUUID().toString());
-    var manager = new UserEntity(UUID.randomUUID().toString());
+    var manager = new UserEntity(123L);
     var services = serviceIds.stream()
         .map(id -> new ServicePackageEntity(id.value()))
         .toList();

@@ -15,7 +15,7 @@ public class ServicePackageOutputMapper {
     }
 
     return ServicePackageOutput.builder()
-        .id(servicePackage.getId() != null ? servicePackage.getId().value() : null)
+        .id(servicePackage.getId() != null ? servicePackage.getId().asString() : null)
         .name(servicePackage.getName())
         .description(servicePackage.getDescription())
         .price(servicePackage.getPrice() != null ? servicePackage.getPrice().amount() : null)

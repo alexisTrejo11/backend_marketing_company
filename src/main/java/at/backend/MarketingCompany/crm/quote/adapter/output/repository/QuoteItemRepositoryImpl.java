@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import at.backend.MarketingCompany.crm.quote.adapter.output.entity.QuoteItemEntity;
 import at.backend.MarketingCompany.crm.quote.adapter.output.mapper.QuoteItemMapper;
-import at.backend.MarketingCompany.crm.quote.core.application.output.QuoteItemRepository;
+import at.backend.MarketingCompany.crm.quote.core.port.output.QuoteItemRepository;
 import at.backend.MarketingCompany.crm.quote.core.domain.model.QuoteItem;
 import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.QuoteItemId;
 import lombok.RequiredArgsConstructor;
@@ -37,13 +37,13 @@ public class QuoteItemRepositoryImpl implements QuoteItemRepository {
 
   @Override
   public Optional<QuoteItem> findById(QuoteItemId id) {
-    Optional<QuoteItemEntity> entityOpt = quoteItemJpaRepository.findById(id.value());
+    Optional<QuoteItemEntity> entityOpt = quoteItemJpaRepository.findById(id.getValue());
     return entityOpt.map(itemMapper::toDomain);
   }
 
   @Override
   public void delete(QuoteItemId id) {
-    quoteItemJpaRepository.deleteById(id.value());
+    quoteItemJpaRepository.deleteById(id.getValue());
   }
 
 }

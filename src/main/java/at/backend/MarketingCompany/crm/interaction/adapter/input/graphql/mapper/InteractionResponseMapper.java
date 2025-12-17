@@ -30,7 +30,7 @@ public class InteractionResponseMapper {
     var requiresFollowUp = interaction.getFeedbackType().map(FeedbackType::requiresFollowUp).orElse(false);
     var channelPreference = interaction.getChannelPreference().map(ChannelPreference::value).orElse(null);
     var customerCompanyId = interaction.getCustomerCompanyId() != null
-        ? interaction.getCustomerCompanyId().value()
+        ? interaction.getCustomerCompanyId().asString()
         : null;
 
     var createdAt = interaction.getCreatedAt() != null
@@ -42,7 +42,7 @@ public class InteractionResponseMapper {
         : null;
 
     return InteractionResponse.builder()
-        .id(interaction.getId() != null ? interaction.getId().value() : null)
+        .id(interaction.getId() != null ? interaction.getId().asString() : null)
         .customerId(customerCompanyId)
         .type(interaction.getType())
         .dateTime(dateTime)

@@ -23,7 +23,7 @@ public class TaskEntityMapper {
     TaskEntity entity = new TaskEntity();
 
     if (task.getId() != null) {
-      entity.setId(task.getId().value());
+      entity.setId(task.getId().getValue());
     }
 
     entity.setTitle(task.getTitle());
@@ -39,12 +39,12 @@ public class TaskEntityMapper {
     entity.setVersion(task.getVersion());
 
     if (task.getCustomerCompanyId() != null) {
-      var customer = new CustomerCompanyEntity(task.getCustomerCompanyId().value());
+      var customer = new CustomerCompanyEntity(task.getCustomerCompanyId().getValue());
       entity.setCustomer(customer);
     }
 
     if (task.getOpportunityId() != null) {
-      var opportunity = new OpportunityEntity(task.getOpportunityId().value());
+      var opportunity = new OpportunityEntity(task.getOpportunityId().getValue());
       entity.setOpportunity(opportunity);
     }
 
@@ -61,7 +61,7 @@ public class TaskEntityMapper {
       return null;
 
     var reconstructParams = TaskReconstructParams.builder()
-        .id(TaskId.from(entity.getId()))
+        .id(new TaskId(entity.getId()))
         .customerCompanyId(entity.getCustomer() != null ? new CustomerCompanyId(entity.getCustomer().getId()) : null)
         .opportunityId(entity.getOpportunity() != null ? new OpportunityId(entity.getOpportunity().getId()) : null)
         .title(entity.getTitle())

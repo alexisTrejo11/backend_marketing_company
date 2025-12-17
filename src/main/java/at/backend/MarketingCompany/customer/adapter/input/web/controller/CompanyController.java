@@ -15,6 +15,7 @@ import at.backend.MarketingCompany.shared.dto.PageInput;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -30,144 +31,123 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class CompanyController {
-  private final CustomerCompanyCommandHandler companyCommandHandler;
-  private final CustomerCompanyQueryHandler companyQueryHandler;
-  private final CompanyResponseMapper companyResponseMapper;
+	private final CustomerCompanyCommandHandler companyCommandHandler;
+	private final CustomerCompanyQueryHandler companyQueryHandler;
+	private final CompanyResponseMapper companyResponseMapper;
 
-  @QueryMapping
-  public PageResponse<CompanyResponse> companies(@Argument PageInput pageInput) {
-    var query = new GetAllCompaniesQuery(pageInput.toPageable());
+	@QueryMapping
+	public PageResponse<CompanyResponse> companies(@Argument PageInput pageInput) {
+		var query = new GetAllCompaniesQuery(pageInput.toPageable());
 
-    Page<CustomerCompany> companyPage = companyQueryHandler.getAllCompanies(query);
+		Page<CustomerCompany> companyPage = companyQueryHandler.getAllCompanies(query);
 
-    return companyResponseMapper.toPageResponse(companyPage);
-  }
+		return companyResponseMapper.toPageResponse(companyPage);
+	}
 
-  @QueryMapping
-  public CompanyResponse company(@Argument @NotBlank String id) {
-    var query = new GetCompanyByIdQuery(new CustomerCompanyId(id));
-    CustomerCompany company = companyQueryHandler.getCompanyById(query);
-    return companyResponseMapper.toResponse(company);
-  }
+	@QueryMapping
+	public CompanyResponse company(@Argument @NotNull @Positive Long id) {
+		var query = new GetCompanyByIdQuery(new CustomerCompanyId(id));
+		CustomerCompany company = companyQueryHandler.getCompanyById(query);
+		return companyResponseMapper.toResponse(company);
+	}
 
-  @QueryMapping
-  public List<CompanyResponse> searchCompanies(@Argument String searchTerm, @Argument PageInput pageInput) {
-    var query = new SearchCompaniesQuery(searchTerm, pageInput.toPageable());
-    List<CustomerCompany> companies = companyQueryHandler.searchCompanies(query);
-    return companyResponseMapper.toResponses(companies);
-  }
+	@QueryMapping
+	public List<CompanyResponse> searchCompanies(@Argument String searchTerm, @Argument PageInput pageInput) {
+		var query = new SearchCompaniesQuery(searchTerm, pageInput.toPageable());
+		List<CustomerCompany> companies = companyQueryHandler.searchCompanies(query);
+		return companyResponseMapper.toResponses(companies);
+	}
 
-  @QueryMapping
-  public List<CompanyResponse> companiesByIndustry(@Argument @Valid @NotBlank String industryCode) {
-    var query = new GetCompaniesByIndustryQuery(industryCode);
-    List<CustomerCompany> companies = companyQueryHandler.getCompaniesByIndustry(query);
-    return companyResponseMapper.toResponses(companies);
-  }
+	@QueryMapping
+	public List<CompanyResponse> companiesByIndustry(@Argument @Valid @NotBlank String industryCode) {
+		var query = new GetCompaniesByIndustryQuery(industryCode);
+		List<CustomerCompany> companies = companyQueryHandler.getCompaniesByIndustry(query);
+		return companyResponseMapper.toResponses(companies);
+	}
 
-  @QueryMapping
-  public List<CompanyResponse> companiesByStatus(@Argument CompanyStatus status) {
-    var query = new GetCompaniesByStatusQuery(status);
-    List<CustomerCompany> companies = companyQueryHandler.getCompaniesByStatus(query);
-    return companyResponseMapper.toResponses(companies);
-  }
+	@QueryMapping
+	public List<CompanyResponse> companiesByStatus(@Argument CompanyStatus status) {
+		var query = new GetCompaniesByStatusQuery(status);
+		List<CustomerCompany> companies = companyQueryHandler.getCompaniesByStatus(query);
+		return companyResponseMapper.toResponses(companies);
+	}
 
-  @QueryMapping
-  public List<CompanyResponse> highValueCompanies(@Argument @Valid @NotNull Double minRevenue) {
-    var query = new GetHighValueCompaniesQuery(minRevenue != null ? BigDecimal.valueOf(minRevenue) : null);
-    List<CustomerCompany> companies = companyQueryHandler.getHighValueCompanies(query);
-    return companyResponseMapper.toResponses(companies);
-  }
+	@QueryMapping
+	public List<CompanyResponse> highValueCompanies(@Argument @Valid @NotNull Double minRevenue) {
+		var query = new GetHighValueCompaniesQuery(minRevenue != null ? BigDecimal.valueOf(minRevenue) : null);
+		List<CustomerCompany> companies = companyQueryHandler.getHighValueCompanies(query);
+		return companyResponseMapper.toResponses(companies);
+	}
 
-  @QueryMapping
-  public List<CompanyResponse> companyStartups(@Argument @Valid @NotNull Integer startYearSince) {
-    var query = new GetStartupsQuery(startYearSince);
-    List<CustomerCompany> companies = companyQueryHandler.getStartups(query);
-    return companyResponseMapper.toResponses(companies);
-  }
+	@QueryMapping
+	public List<CompanyResponse> companyStartups(@Argument @Valid @NotNull Integer startYearSince) {
+		var query = new GetStartupsQuery(startYearSince);
+		List<CustomerCompany> companies = companyQueryHandler.getStartups(query);
+		return companyResponseMapper.toResponses(companies);
+	}
 
-  @QueryMapping
-  public List<CompanyResponse> companiesWithExpiringContracts(@Argument Integer daysThreshold) {
-    var query = new GetCompaniesWithExpiringContractsQuery(daysThreshold);
-    List<CustomerCompany> companies = companyQueryHandler.getCompaniesWithExpiringContracts(query);
-    return companyResponseMapper.toResponses(companies);
-  }
+	@QueryMapping
+	public boolean isCompanyActive(@Argument @NotBlank String id) {
+		var query = IsCompanyActiveQuery.from(id);
+		return companyQueryHandler.isCompanyActive(query);
+	}
 
-  @QueryMapping
-  public boolean isCompanyActive(@Argument @NotBlank String id) {
-    var query = IsCompanyActiveQuery.from(id);
-    return companyQueryHandler.isCompanyActive(query);
-  }
+	@QueryMapping
+	public CompanyMetrics companyMetrics(@Argument String companyId) {
+		var query = GetCompanyMetricsQuery.from(companyId);
+		return companyQueryHandler.getCompanyMetrics(query);
+	}
 
-  @QueryMapping
-  public boolean hasActiveContract(@Argument @NotBlank String id) {
-    var query = HasActiveContractQuery.from(id);
-    return companyQueryHandler.hasActiveContract(query);
-  }
+	@MutationMapping
+	public CompanyResponse createCompany(@Argument @Valid CreateCompanyCommand command) {
+		var company = companyCommandHandler.createCompany(command);
+		return companyResponseMapper.toResponse(company);
+	}
 
-  @QueryMapping
-  public CompanyMetrics companyMetrics(@Argument String companyId) {
-    var query = GetCompanyMetricsQuery.from(companyId);
-    return companyQueryHandler.getCompanyMetrics(query);
-  }
+	@MutationMapping
+	public CompanyResponse updateCompany(@Valid @Argument UpdateCompanyCommand command) {
+		var company = companyCommandHandler.updateCompany(command);
+		return companyResponseMapper.toResponse(company);
+	}
 
-  @MutationMapping
-  public CompanyResponse createCompany(@Argument @Valid CreateCompanyCommand command) {
-    var company = companyCommandHandler.createCompany(command);
-    return companyResponseMapper.toResponse(company);
-  }
+	@MutationMapping
+	public CompanyResponse activateCompany(@Argument @Valid @NotBlank String id, @Argument String activationNotes) {
+		var command = ActivateCompanyCommand.from(id, activationNotes);
 
-  @MutationMapping
-  public CompanyResponse updateCompany(@Valid @Argument UpdateCompanyCommand command) {
-    var company = companyCommandHandler.updateCompany(command);
-    return companyResponseMapper.toResponse(company);
-  }
+		var company = companyCommandHandler.activateCompany(command);
 
-  @MutationMapping
-  public CompanyResponse activateCompany(@Argument @Valid @NotBlank String id, @Argument String activationNotes) {
-    var command = ActivateCompanyCommand.from(id, activationNotes);
+		return companyResponseMapper.toResponse(company);
+	}
 
-    var company = companyCommandHandler.activateCompany(command);
+	@MutationMapping
+	public CompanyResponse blockCompany(@Argument @Valid BlockCompanyCommand command) {
+		var company = companyCommandHandler.blockCompany(command);
+		return companyResponseMapper.toResponse(company);
+	}
 
-    return companyResponseMapper.toResponse(company);
-  }
+	@MutationMapping
+	public CompanyResponse deactivateCompany(@Argument @Valid DeactivateCompanyCommand command) {
+		var company = companyCommandHandler.deactivateCompany(command);
+		return companyResponseMapper.toResponse(company);
+	}
 
-  @MutationMapping
-  public CompanyResponse blockCompany(@Argument @Valid BlockCompanyCommand command) {
-    var company = companyCommandHandler.blockCompany(command);
-    return companyResponseMapper.toResponse(company);
-  }
+	@MutationMapping
+	public CompanyResponse upgradeToEnterprise(@Argument @Valid @NotNull UpgradeToEnterpriseCommand command) {
+		var company = companyCommandHandler.upgradeToEnterprise(command);
+		return companyResponseMapper.toResponse(company);
+	}
 
-  @MutationMapping
-  public CompanyResponse deactivateCompany(@Argument @Valid DeactivateCompanyCommand command) {
-    var company = companyCommandHandler.deactivateCompany(command);
-    return companyResponseMapper.toResponse(company);
-  }
+	@MutationMapping
+	public boolean deleteCompany(@Argument @Valid @NotNull @Positive Long id) {
+		var command = new DeleteCompanyCommand(new CustomerCompanyId(id));
 
-  @MutationMapping
-  public CompanyResponse upgradeToEnterprise(@Argument @Valid @NotNull UpgradeToEnterpriseCommand command) {
-    var company = companyCommandHandler.upgradeToEnterprise(command);
-    return companyResponseMapper.toResponse(company);
-  }
+		companyCommandHandler.deleteCompany(command);
+		return true;
+	}
 
-  @MutationMapping
-  public CompanyResponse signContract(@Argument @Valid @NotNull SignContractCommand command) {
-    var company = companyCommandHandler.signContract(command);
-    return companyResponseMapper.toResponse(company);
-  }
-
-  @MutationMapping
-  public boolean deleteCompany(@Argument @Valid @NotBlank String id) {
-    var command = DeleteCompanyCommand.builder()
-        .id(new CustomerCompanyId(id))
-        .build();
-
-    companyCommandHandler.deleteCompany(command);
-    return true;
-  }
-
-  @MutationMapping
-  public CompanyResponse addContactPerson(@Argument @Valid @NotNull AddContactPersonCommand command) {
-    var company = companyCommandHandler.addContactPerson(command);
-    return companyResponseMapper.toResponse(company);
-  }
+	@MutationMapping
+	public CompanyResponse addContactPerson(@Argument @Valid @NotNull AddContactPersonCommand command) {
+		var company = companyCommandHandler.addContactPerson(command);
+		return companyResponseMapper.toResponse(company);
+	}
 }

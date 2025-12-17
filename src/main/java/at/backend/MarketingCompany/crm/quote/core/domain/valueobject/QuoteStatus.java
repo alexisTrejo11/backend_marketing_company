@@ -4,5 +4,6 @@ public enum QuoteStatus {
   DRAFT,
   SENT,
   ACCEPTED,
-  REJECTED
+  REJECTED,
+  EXPIRED
 }

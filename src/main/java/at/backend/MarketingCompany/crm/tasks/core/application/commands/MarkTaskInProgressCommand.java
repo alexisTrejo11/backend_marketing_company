@@ -1,3 +1,5 @@
 package at.backend.MarketingCompany.crm.tasks.core.application.commands;
 
-public record MarkTaskInProgressCommand(String taskId) {}
+import at.backend.MarketingCompany.crm.tasks.core.domain.entity.valueobject.TaskId;
+
+public record MarkTaskInProgressCommand(TaskId taskId) {}

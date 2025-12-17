@@ -4,6 +4,6 @@ import at.backend.MarketingCompany.crm.interaction.core.domain.entity.valueobjec
 
 public record MarkPositiveFeedbackCommand(InteractionId interactionId) {
   public static MarkPositiveFeedbackCommand from(String interactionId) {
-    return new MarkPositiveFeedbackCommand(new InteractionId(interactionId));
+    return new MarkPositiveFeedbackCommand(InteractionId.of(interactionId));
   }
 }

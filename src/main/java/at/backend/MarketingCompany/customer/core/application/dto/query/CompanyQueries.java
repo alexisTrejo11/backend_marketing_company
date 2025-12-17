@@ -60,7 +60,7 @@ public class CompanyQueries {
         @NotNull CustomerCompanyId id
     ) {
         public static IsCompanyActiveQuery from(String id) {
-            return new IsCompanyActiveQuery(new CustomerCompanyId(id));
+            return new IsCompanyActiveQuery(CustomerCompanyId.of(id));
         }
     }
     
@@ -69,7 +69,7 @@ public class CompanyQueries {
     ) {
 
         public static HasActiveContractQuery from(String id) {
-            return new HasActiveContractQuery(new CustomerCompanyId(id));
+            return new HasActiveContractQuery(CustomerCompanyId.of(id));
         }
     }
     
@@ -79,7 +79,7 @@ public class CompanyQueries {
             if (id == null) {
                 return new GetCompanyMetricsQuery(Optional.empty());
             }
-            return new GetCompanyMetricsQuery(Optional.of(new CustomerCompanyId(id)));
+            return new GetCompanyMetricsQuery(Optional.of(CustomerCompanyId.of(id)));
         }
 
     }}

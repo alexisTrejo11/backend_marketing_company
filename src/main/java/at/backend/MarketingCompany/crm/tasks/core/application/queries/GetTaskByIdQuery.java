@@ -1,4 +1,6 @@
 package at.backend.MarketingCompany.crm.tasks.core.application.queries;
 
-public record GetTaskByIdQuery(String taskId) {}
+import at.backend.MarketingCompany.crm.tasks.core.domain.entity.valueobject.TaskId;
+
+public record GetTaskByIdQuery(TaskId taskId) {}
 

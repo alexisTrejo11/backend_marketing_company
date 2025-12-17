@@ -23,7 +23,7 @@ public class TaskQueryServiceImpl implements TaskQueryService {
     public Task getTaskById(GetTaskByIdQuery query) {
         log.debug("Fetching task by ID: {}", query.taskId());
 
-        return taskRepository.findById(TaskId.from(query.taskId()))
+        return taskRepository.findById(query.taskId())
                 .orElseThrow(() -> new TaskNotFoundException(query.taskId()));
     }
 

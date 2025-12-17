@@ -34,7 +34,7 @@ public class OpportunityQueryServiceImpl implements OpportunityQueryService {
     log.debug("Fetching opportunity by ID: {}", query.opportunityId());
 
     return opportunityRepository.findById(query.opportunityId())
-        .orElseThrow(() -> new OpportunityNotFoundException(query.opportunityId().value()));
+        .orElseThrow(() -> new OpportunityNotFoundException(query.opportunityId()));
   }
 
   @Override

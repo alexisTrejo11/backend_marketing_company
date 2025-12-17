@@ -12,6 +12,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+
+// TODO: Improve mapping
 @Component
 public class QuoteItemMapper {
 
@@ -44,7 +46,7 @@ public class QuoteItemMapper {
     QuoteItemEntity entity = new QuoteItemEntity();
 
     if (domain.getId() != null) {
-      entity.setId(domain.getId().value());
+      entity.setId(domain.getId().getValue());
     }
 
     // Nota: Quote y ServicePackageEntity se deben establecer desde el adaptador
@@ -59,7 +61,7 @@ public class QuoteItemMapper {
     return entity;
   }
 
-  private void setId(QuoteItem item, String id) {
+  private void setId(QuoteItem item, Long id) {
     try {
       var field = QuoteItem.class.getDeclaredField("id");
       field.setAccessible(true);

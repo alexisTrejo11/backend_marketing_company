@@ -1,19 +1,19 @@
 package at.backend.MarketingCompany.crm.interaction.core.domain.entity.valueobject;
 
-import java.util.UUID;
+import at.backend.MarketingCompany.shared.domain.NumericId;
 
-public record InteractionId(String value) {
-  public InteractionId {
-    if (value == null || value.isBlank()) {
-      throw new IllegalArgumentException("Interaction ID cannot be null or blank");
+
+public class InteractionId extends NumericId {
+    public InteractionId(Long value) {
+        super(value);
     }
-  }
 
-  public static InteractionId create() {
-    return new InteractionId(UUID.randomUUID().toString());
-  }
+    public static InteractionId of(String id) {
+        return NumericId.fromString(id, InteractionId::new);
+    }
 
-  public static InteractionId from(String value) {
-    return new InteractionId(value);
-  }
+    // Database will generate the ID
+    public static InteractionId generate() {
+        return new InteractionId(null);
+    }
 }

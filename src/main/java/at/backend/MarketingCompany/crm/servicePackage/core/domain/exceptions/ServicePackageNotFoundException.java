@@ -4,6 +4,6 @@ import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueob
 
 public class ServicePackageNotFoundException extends RuntimeException {
     public ServicePackageNotFoundException(ServicePackageId id) {
-        super(String.format("Service package not found with id: %s", id.value()));
+        super(String.format("Service package not found with id: %s", id.getValue()));
     }
 }

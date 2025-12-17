@@ -16,8 +16,6 @@ public interface CustomerCompanyQueryHandler {
     List<CustomerCompany> getCompaniesByStatus(GetCompaniesByStatusQuery query);
     List<CustomerCompany> getHighValueCompanies(GetHighValueCompaniesQuery query);
     List<CustomerCompany> getStartups(GetStartupsQuery query);
-    List<CustomerCompany> getCompaniesWithExpiringContracts(GetCompaniesWithExpiringContractsQuery query);
     boolean isCompanyActive(IsCompanyActiveQuery query);
-    boolean hasActiveContract(HasActiveContractQuery query);
     CompanyMetrics getCompanyMetrics(GetCompanyMetricsQuery query);
 }

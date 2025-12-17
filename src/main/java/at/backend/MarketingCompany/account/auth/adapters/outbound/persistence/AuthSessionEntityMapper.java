@@ -13,7 +13,7 @@ public class AuthSessionEntityMapper {
 
         return AuthSessionEntity.builder()
                 .sessionId(domain.getSessionId().value())
-                .userId(domain.getUserId().value())
+                .userId(domain.getUserId().asString())
                 .createdAt(domain.getCreatedAt())
                 .expiresAt(domain.getExpiresAt())
                 .lastAccessedAt(domain.getLastAccessedAt())
@@ -29,7 +29,7 @@ public class AuthSessionEntityMapper {
 
         return AuthSession.reconstruct(
                 SessionId.from(entity.getSessionId()),
-                UserId.from(entity.getUserId()),
+                UserId.of(entity.getUserId()),
                 entity.getCreatedAt(),
                 entity.getExpiresAt(),
                 entity.getLastAccessedAt(),

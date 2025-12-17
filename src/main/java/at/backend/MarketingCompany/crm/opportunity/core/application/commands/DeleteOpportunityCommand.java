@@ -4,6 +4,6 @@ import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobjec
 
 public record DeleteOpportunityCommand(OpportunityId opportunityId) {
   public static DeleteOpportunityCommand from(String id) {
-    return new DeleteOpportunityCommand(new OpportunityId(id));
+    return new DeleteOpportunityCommand(OpportunityId.of(id));
   }
 }

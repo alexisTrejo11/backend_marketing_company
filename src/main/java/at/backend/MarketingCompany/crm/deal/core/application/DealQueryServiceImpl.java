@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import at.backend.MarketingCompany.crm.deal.core.application.queries.*;
 import at.backend.MarketingCompany.crm.deal.core.domain.entity.Deal;
 import at.backend.MarketingCompany.crm.deal.core.domain.exceptions.DealNotFoundException;
-import at.backend.MarketingCompany.crm.deal.core.domain.respository.DealRepository;
+import at.backend.MarketingCompany.crm.deal.core.port.output.DealRepository;
 import at.backend.MarketingCompany.crm.deal.core.port.input.DealQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

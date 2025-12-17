@@ -9,8 +9,8 @@ import java.util.UUID;
 public record UpdateDealServicesCommand(
     DealId dealId,
     List<ServicePackageId> servicePackageIds) {
-  public static UpdateDealServicesCommand from(UUID dealId, List<UUID> servicePackageIds) {
-    DealId dId = new DealId(dealId.toString());
+  public static UpdateDealServicesCommand from(String dealId, List<String> servicePackageIds) {
+    DealId dId = DealId.of(dealId);
     List<ServicePackageId> serviceIds = servicePackageIds.stream()
         .map(ServicePackageId::of)
         .toList();

@@ -1,23 +1,18 @@
 package at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject;
 
-import java.util.UUID;
+import at.backend.MarketingCompany.shared.domain.NumericId;
 
-public record DealId(String value) {
-  public DealId {
-    if (value == null) {
-      throw new IllegalArgumentException("Deal ID cannot be null.");
+public class DealId extends NumericId {
+    public DealId(Long value) {
+        super(value);
     }
-  }
 
-  public String asString() {
-    return value;
-  }
+    public static DealId of(String id) {
+        return NumericId.fromString(id, DealId::new);
+    }
 
-  public static DealId from(String id) {
-    return new DealId(id);
-  }
-
-  public static DealId create() {
-    return new DealId(UUID.randomUUID().toString());
-  }
+    // Database will generate the ID
+    public static DealId generate() {
+        return new DealId(null);
+    }
 }

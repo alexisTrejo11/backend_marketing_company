@@ -77,7 +77,7 @@ public class AuthCommandHandler implements AuthCommandService {
 
     User savedUser = userRepository.save(newUser);
 
-    log.info("User signed up successfully with ID: {}", savedUser.getId().value());
+    log.info("User signed up successfully with ID: {}", savedUser.getId());
 
     return performLogin(savedUser, command.userAgent(), command.ipAddress());
   }
@@ -97,7 +97,7 @@ public class AuthCommandHandler implements AuthCommandService {
     enforceSessionLimit(user.getId());
 
     AuthResult authResult = performLogin(updatedUser, command.userAgent(), command.ipAddress());
-    log.info("User logged in successfully: {}", user.getId().value());
+    log.info("User logged in successfully: {}", user.getId());
 
     return authResult;
   }
@@ -115,17 +115,17 @@ public class AuthCommandHandler implements AuthCommandService {
           .filter(AuthSession::isValid)
           .orElseThrow(() -> new InvalidTokenException("Session not found or invalid"));
 
-      if (!session.getUserId().value().equals(userId)) {
+      if (!session.getUserId().asString().equals(userId)) {
         throw new InvalidTokenException("User mismatch in refresh token");
       }
 
-      User user = findUserById(UserId.from(userId));
+      User user = findUserById(UserId.of(userId));
       validateUserCanLogin(user);
 
       session.updateAccess();
       authSessionRepository.save(session);
 
-      String newAccessToken = tokenProvider.generateAccessToken(user.getId().value(), user.getEmail().value(),
+      String newAccessToken = tokenProvider.generateAccessToken(user.getId().asString(), user.getEmail().value(),
           user.getRoles());
       String currentRefreshToken = command.refreshToken();
       LocalDateTime accessTokenExpiresAt = LocalDateTime.now().plusMinutes(accessTokenExpiryMinutes);
@@ -136,7 +136,7 @@ public class AuthCommandHandler implements AuthCommandService {
           .atZone(ZoneId.systemDefault())
           .toLocalDateTime();
 
-      log.info("Token refreshed successfully for user: {}", user.getId().value());
+      log.info("Token refreshed successfully for user: {}", user.getId());
       return new AuthResult(user.getId(), newAccessToken, currentRefreshToken, accessTokenExpiresAt,
           refreshTokenExpiresAt, user);
     } catch (Exception e) {
@@ -190,12 +190,12 @@ public class AuthCommandHandler implements AuthCommandService {
 
   private User findUserById(UserId userId) {
     return userRepository.findById(userId)
-        .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId.value()));
+        .orElseThrow(() -> new UserNotFoundException(userId));
   }
 
   private User findUserByEmail(Email email) {
     return userRepository.findByEmail(email)
-        .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email.value()));
+        .orElseThrow(() -> new UserNotFoundException(email));
   }
 
   private AuthSession findSessionById(String refreshToken) {
@@ -234,7 +234,7 @@ public class AuthCommandHandler implements AuthCommandService {
   }
 
   private AuthResult performLogin(User user, String userAgent, String ipAddress) {
-    String refreshToken = tokenProvider.generateRefreshToken(user.getId().value());
+    String refreshToken = tokenProvider.generateRefreshToken(user.getId().asString());
 
     AuthSession session = AuthSession.create(
         user.getId(),
@@ -245,7 +245,7 @@ public class AuthCommandHandler implements AuthCommandService {
 
     AuthSession savedSession = authSessionRepository.save(session);
 
-    String accessToken = tokenProvider.generateAccessToken(user.getId().value(), user.getEmail().value(),
+    String accessToken = tokenProvider.generateAccessToken(user.getId().asString(), user.getEmail().value(),
         user.getRoles());
 
     LocalDateTime accessTokenExpiresAt = LocalDateTime.now().plusMinutes(accessTokenExpiryMinutes);

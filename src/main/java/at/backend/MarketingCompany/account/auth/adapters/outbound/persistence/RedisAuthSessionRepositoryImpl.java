@@ -33,7 +33,7 @@ public class RedisAuthSessionRepositoryImpl implements AuthSessionRepository {
     }
 
     private String getUserSessionsKey(UserId userId) {
-        return USER_SESSIONS_PREFIX + userId.value();
+        return USER_SESSIONS_PREFIX + userId.asString();
     }
 
     @Override
@@ -142,7 +142,7 @@ public class RedisAuthSessionRepositoryImpl implements AuthSessionRepository {
     @Override
     public List<AuthSession> findByUserId(UserId userId) {
         try {
-            log.debug("Finding auth sessions for user: {}", userId.value());
+            log.debug("Finding auth sessions for user: {}", userId.asString());
 
             String userSessionsKey = getUserSessionsKey(userId);
             Set<Object> refreshTokens = redisTemplate.opsForSet().members(userSessionsKey);
@@ -158,7 +158,7 @@ public class RedisAuthSessionRepositoryImpl implements AuthSessionRepository {
                     .collect(Collectors.toList());
 
         } catch (Exception e) {
-            log.error("Error finding sessions for user {}: {}", userId.value(), e.getMessage());
+            log.error("Error finding sessions for user {}: {}", userId.asString(), e.getMessage());
             return Collections.emptyList();
         }
     }
@@ -172,7 +172,7 @@ public class RedisAuthSessionRepositoryImpl implements AuthSessionRepository {
     @Override
     public void deleteAllByUserId(UserId userId) {
         try {
-            log.debug("Deleting all sessions for user: {}", userId.value());
+            log.debug("Deleting all sessions for user: {}", userId);
 
             List<AuthSession> userSessions = findByUserId(userId);
 
@@ -181,10 +181,10 @@ public class RedisAuthSessionRepositoryImpl implements AuthSessionRepository {
             String userSessionsKey = getUserSessionsKey(userId);
             redisTemplate.delete(userSessionsKey);
 
-            log.info("Deleted {} sessions for user: {}", userSessions.size(), userId.value());
+            log.info("Deleted {} sessions for user: {}", userSessions.size(), userId);
 
         } catch (Exception e) {
-            log.error("Error deleting sessions for user {}: {}", userId.value(), e.getMessage(), e);
+            log.error("Error deleting sessions for user {}: {}", userId, e.getMessage(), e);
         }
     }
 
@@ -196,14 +196,14 @@ public class RedisAuthSessionRepositoryImpl implements AuthSessionRepository {
     @Override
     public long countActiveSessionsByUserId(UserId userId) {
         try {
-            log.debug("Counting active sessions for user: {}", userId.value());
+            log.debug("Counting active sessions for user: {}", userId);
 
             return findByUserId(userId).stream()
                     .filter(session -> !session.isExpired() && !session.isRevoked())
                     .count();
 
         } catch (Exception e) {
-            log.error("Error counting sessions for user {}: {}", userId.value(), e.getMessage());
+            log.error("Error counting sessions for user {}: {}", userId, e.getMessage());
             return 0L;
         }
     }

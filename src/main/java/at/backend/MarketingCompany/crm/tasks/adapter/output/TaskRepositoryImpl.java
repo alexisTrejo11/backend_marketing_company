@@ -30,7 +30,7 @@ public class TaskRepositoryImpl implements TaskRepository {
   @Override
   @Transactional
   public Task save(Task task) {
-    log.debug("Saving task with ID: {}", task.getId().value());
+    log.debug("Saving task with ID: {}", task.getId());
 
     TaskEntity entity = taskEntityMapper.toEntity(task);
     TaskEntity savedEntity = jpaTaskRepository.save(entity);
@@ -42,35 +42,35 @@ public class TaskRepositoryImpl implements TaskRepository {
   @Override
   @Transactional(readOnly = true)
   public Optional<Task> findById(TaskId taskId) {
-    log.debug("Finding task by ID: {}", taskId.value());
+    log.debug("Finding task by ID: {}", taskId);
 
-    return jpaTaskRepository.findById(taskId.value())
+    return jpaTaskRepository.findById(taskId.getValue())
         .map(taskEntityMapper::toDomain);
   }
 
   @Override
   @Transactional
   public void delete(Task task) {
-    log.debug("Deleting task with ID: {}", task.getId().value());
+    log.debug("Deleting task with ID: {}", task.getId());
 
     TaskEntity entity = taskEntityMapper.toEntity(task);
     jpaTaskRepository.delete(entity);
 
-    log.info("Task deleted successfully with ID: {}", task.getId().value());
+    log.info("Task deleted successfully with ID: {}", task.getId());
   }
 
   @Override
   @Transactional(readOnly = true)
   public boolean existsById(TaskId taskId) {
-    return jpaTaskRepository.existsById(taskId.value());
+    return jpaTaskRepository.existsById(taskId.getValue());
   }
 
   @Override
   @Transactional(readOnly = true)
   public Page<Task> findByCustomer(CustomerCompanyId customerCompanyId, Pageable pageable) {
-    log.debug("Finding tasks by customer ID: {}", customerCompanyId.value());
+    log.debug("Finding tasks by customer ID: {}", customerCompanyId.getValue());
 
-    return jpaTaskRepository.findByCustomer_Id(customerCompanyId.value(), pageable)
+    return jpaTaskRepository.findByCustomer_Id(customerCompanyId.getValue(), pageable)
         .map(taskEntityMapper::toDomain);
   }
 
@@ -82,9 +82,9 @@ public class TaskRepositoryImpl implements TaskRepository {
   @Override
   @Transactional(readOnly = true)
   public Page<Task> findByOpportunity(OpportunityId opportunityId, Pageable pageable) {
-    log.debug("Finding tasks by opportunity ID: {}", opportunityId.value());
+    log.debug("Finding tasks by opportunity ID: {}", opportunityId);
 
-    return jpaTaskRepository.findByOpportunity_Id(opportunityId.value(), pageable)
+    return jpaTaskRepository.findByOpportunity_Id(opportunityId.getValue(), pageable)
         .map(taskEntityMapper::toDomain);
   }
 
@@ -146,9 +146,9 @@ public class TaskRepositoryImpl implements TaskRepository {
   @Override
   @Transactional(readOnly = true)
   public long countByCustomerAndStatus(CustomerCompanyId customerCompanyId, TaskStatus status) {
-    log.debug("Counting tasks for customer {} with status: {}", customerCompanyId.value(), status);
+    log.debug("Counting tasks for customer {} with status: {}", customerCompanyId, status);
 
-    return jpaTaskRepository.countByCustomer_IdAndStatus(customerCompanyId.value(), status);
+    return jpaTaskRepository.countByCustomer_IdAndStatus(customerCompanyId.getValue(), status);
   }
 
   @Override

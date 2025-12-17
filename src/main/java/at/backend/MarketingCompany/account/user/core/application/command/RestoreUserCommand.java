@@ -5,6 +5,6 @@ import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.U
 public record RestoreUserCommand(UserId userId) {
   public static RestoreUserCommand from(String userId) {
     return new RestoreUserCommand(
-        new UserId(userId));
+        UserId.of(userId));
   }
 }

@@ -53,9 +53,9 @@ public class QuoteJpaEntityMapper {
     }
 
     QuoteEntity entity = new QuoteEntity();
-    entity.setId(domain.getId() != null ? domain.getId().value() : null);
+    entity.setId(domain.getId() != null ? domain.getId().getValue() : null);
     entity.setCustomerCompany(
-        domain.getCustomerCompanyId() != null ? new CustomerCompanyEntity(domain.getCustomerCompanyId().value())
+        domain.getCustomerCompanyId() != null ? new CustomerCompanyEntity(domain.getCustomerCompanyId().getValue())
             : null);
     entity.setValidUntil(domain.getValidUntil());
     entity.setSubTotal(domain.getSubTotal() != null ? domain.getSubTotal().value() : null);

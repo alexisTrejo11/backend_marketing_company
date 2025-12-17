@@ -4,6 +4,6 @@ import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.DealI
 
 public record StartDealExecutionCommand(DealId dealId) {
   public static StartDealExecutionCommand from(String dealId) {
-    return new StartDealExecutionCommand(new DealId(dealId));
+    return new StartDealExecutionCommand(DealId.of(dealId));
   }
 }

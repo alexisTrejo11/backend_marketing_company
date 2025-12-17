@@ -13,9 +13,9 @@ public record SignDealCommand(
     EmployeeId campaignManagerId) {
   public static SignDealCommand from(String dealId, BigDecimal finalAmount, String terms, String campaignManagerId) {
     return new SignDealCommand(
-        new DealId(dealId),
+        DealId.of(dealId),
         new FinalAmount(finalAmount),
         terms,
-        new EmployeeId(campaignManagerId));
+        EmployeeId.of(campaignManagerId));
   }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 public class DealResponseMapper {
   public DealResponse toResponse(Deal deal) {
     return DealResponse.builder()
-        .id(deal.getId().value())
+        .id(deal.getId().asString())
         .dealStatus(deal.getDealStatus().name())
         .finalAmount(deal.getFinalAmount().map(FinalAmount::value).orElse(null))
         .startDate(deal.getPeriod().startDate())

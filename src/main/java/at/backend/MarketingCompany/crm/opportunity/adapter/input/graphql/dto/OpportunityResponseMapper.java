@@ -22,8 +22,8 @@ public class OpportunityResponseMapper {
       return null;
 
     return new OpportunityOutput(
-        opportunity.getId() != null ? opportunity.getId().value() : null,
-        opportunity.getCustomerCompanyId() != null ? opportunity.getCustomerCompanyId().value() : null,
+        opportunity.getId() != null ? opportunity.getId().asString() : null,
+        opportunity.getCustomerCompanyId() != null ? opportunity.getCustomerCompanyId().asString() : null,
         opportunity.getTitle(),
         opportunity.getAmount().map(Amount::value).orElse(null),
         opportunity.getStage(),

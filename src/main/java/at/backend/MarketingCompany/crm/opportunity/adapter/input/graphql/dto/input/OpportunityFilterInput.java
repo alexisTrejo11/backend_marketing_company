@@ -7,6 +7,6 @@ import java.util.List;
 public record OpportunityFilterInput(
     String searchTerm,
     List<String> stages,
-    String customerId,
+    Long customerId,
     PageInput pageInput) {
 }

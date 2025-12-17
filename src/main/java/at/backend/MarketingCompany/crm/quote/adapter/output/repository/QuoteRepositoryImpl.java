@@ -2,7 +2,7 @@ package at.backend.MarketingCompany.crm.quote.adapter.output.repository;
 
 import at.backend.MarketingCompany.crm.quote.adapter.output.entity.QuoteEntity;
 import at.backend.MarketingCompany.crm.quote.adapter.output.mapper.QuoteJpaEntityMapper;
-import at.backend.MarketingCompany.crm.quote.core.application.output.QuoteRepository;
+import at.backend.MarketingCompany.crm.quote.core.port.output.QuoteRepository;
 import at.backend.MarketingCompany.crm.quote.core.domain.model.Quote;
 import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.QuoteId;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class QuoteRepositoryImpl implements QuoteRepository {
 
   @Override
   public Optional<Quote> findById(QuoteId id) {
-    return quoteJpaRepository.findById(id.value())
+    return quoteJpaRepository.findById(id.getValue())
         .map(quoteJpaEntityMapper::toDomain);
   }
 
@@ -39,6 +39,6 @@ public class QuoteRepositoryImpl implements QuoteRepository {
 
   @Override
   public void delete(QuoteId id) {
-    quoteJpaRepository.deleteById(id.value());
+    quoteJpaRepository.deleteById(id.getValue());
   }
 }

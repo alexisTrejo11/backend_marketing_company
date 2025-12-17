@@ -17,7 +17,7 @@ public class OpportunityEntityMapper {
 
     // ID
     if (opportunity.getId() != null) {
-      entity.setId(opportunity.getId().value());
+      entity.setId(opportunity.getId().getValue());
     }
 
     // Basic fields
@@ -36,7 +36,7 @@ public class OpportunityEntityMapper {
 
     // Relations - solo IDs
     if (opportunity.getCustomerCompanyId() != null) {
-      entity.setCustomerCompany(new CustomerCompanyEntity(opportunity.getCustomerCompanyId().value()));
+      entity.setCustomerCompany(new CustomerCompanyEntity(opportunity.getCustomerCompanyId().getValue()));
     }
 
     return entity;
@@ -47,7 +47,7 @@ public class OpportunityEntityMapper {
       return null;
 
     var reconstructParams = OpportunityReconstructParams.builder()
-        .id(OpportunityId.from(entity.getId()))
+        .id(new OpportunityId(entity.getId()))
         .customerCompanyId(
             entity.getCustomerCompany() != null ? new CustomerCompanyId(entity.getCustomerCompany().getId()) : null)
         .title(entity.getTitle())

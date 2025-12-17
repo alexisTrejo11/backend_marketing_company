@@ -22,7 +22,7 @@ public class InteractionEntity extends BaseJpaEntity {
   private CustomerCompanyEntity customerCompany;
 
   @Column(name = "customer_id", insertable = false, updatable = false)
-  private String customerId;
+  private Long customerId;
 
   @Enumerated(EnumType.STRING)
   @Column(name = "type", nullable = false, length = 50)

@@ -1,23 +1,19 @@
 package at.backend.MarketingCompany.account.user.core.domain.entity.valueobject;
 
-import java.util.UUID;
+import at.backend.MarketingCompany.shared.domain.NumericId;
 
-public record UserId(String value) {
-  public UserId {
-    if (value == null || value.isBlank()) {
-      throw new IllegalArgumentException("User ID cannot be null or blank");
-    }
-  }
 
-  public static UserId generate() {
-    return new UserId(UUID.randomUUID().toString());
-  }
+public class UserId extends NumericId {
+	public UserId(Long value) {
+		super(value);
+	}
 
-  public static UserId from(String value) {
-    return new UserId(value);
-  }
+	public static UserId of(String id) {
+		return NumericId.fromString(id, UserId::new);
+	}
 
-  public static UserId from(UUID uuid) {
-    return new UserId(uuid.toString());
-  }
+	// Database will generate the ID
+	public static UserId generate() {
+		return new UserId(null);
+	}
 }

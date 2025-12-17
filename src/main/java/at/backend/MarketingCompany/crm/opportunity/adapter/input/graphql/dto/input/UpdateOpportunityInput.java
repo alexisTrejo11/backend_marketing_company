@@ -5,18 +5,20 @@ import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobjec
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.ExpectedCloseDate;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityId;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record UpdateOpportunityInput(
-    @NotBlank String opportunityId,
+    @NotNull @Positive Long opportunityId,
     @NotBlank String title,
     BigDecimal amount,
     LocalDate expectedCloseDate) {
   public UpdateOpportunityDetailsCommand toCommand() {
     return new UpdateOpportunityDetailsCommand(
-        OpportunityId.from(opportunityId),
+        new OpportunityId(opportunityId),
         title,
         new Amount(amount),
         ExpectedCloseDate.from(expectedCloseDate));

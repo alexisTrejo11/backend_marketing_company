@@ -38,7 +38,7 @@ public class CustomerCompanyPersistenceAdapter implements CustomerCompanyReposit
     @Override
     @Transactional(readOnly = true)
     public Optional<CustomerCompany> findById(CustomerCompanyId id) {
-        return customerCompanyJpaRepository.findById(id.value())
+        return customerCompanyJpaRepository.findById(id.getValue())
                 .map(customerCompanyMapper::toDomain);
     }
 
@@ -52,13 +52,13 @@ public class CustomerCompanyPersistenceAdapter implements CustomerCompanyReposit
     @Override
     @Transactional
     public void delete(CustomerCompanyId id) {
-        customerCompanyJpaRepository.deleteById(id.value());
+        customerCompanyJpaRepository.deleteById(id.getValue());
     }
 
     @Override
     @Transactional(readOnly = true)
     public boolean existsById(CustomerCompanyId id) {
-        return customerCompanyJpaRepository.existsById(id.value());
+        return customerCompanyJpaRepository.existsById(id.getValue());
     }
 
     @Override
@@ -101,23 +101,6 @@ public class CustomerCompanyPersistenceAdapter implements CustomerCompanyReposit
                 .collect(Collectors.toList());
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<CustomerCompany> findByTaxId(String taxId) {
-        return customerCompanyJpaRepository.findByTaxId(taxId)
-                .map(customerCompanyMapper::toDomain);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<CustomerCompany> findCompaniesWithExpiringContracts() {
-        LocalDate startDate = LocalDate.now();
-        LocalDate endDate = startDate.plusDays(30);
-        return customerCompanyJpaRepository.findCompaniesWithExpiringContracts(startDate, endDate).stream()
-                .map(customerCompanyMapper::toDomain)
-                .collect(Collectors.toList());
-    }
-
     @Transactional(readOnly = true)
     @Override
     public List<CustomerCompany> findRecentStartups(int startYear) {
@@ -131,11 +114,5 @@ public class CustomerCompanyPersistenceAdapter implements CustomerCompanyReposit
     public Page<CustomerCompany> searchCompanies(String searchTerm, Pageable pageable) {
         return customerCompanyJpaRepository.searchCompanies(searchTerm, pageable)
                 .map(customerCompanyMapper::toDomain);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public boolean existsByTaxId(String taxId) {
-        return customerCompanyJpaRepository.existsByTaxId(taxId);
     }
 }

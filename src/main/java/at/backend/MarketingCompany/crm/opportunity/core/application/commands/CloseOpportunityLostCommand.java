@@ -4,6 +4,6 @@ import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobjec
 
 public record CloseOpportunityLostCommand(OpportunityId opportunityId) {
   public static CloseOpportunityLostCommand from(String id) {
-    return new CloseOpportunityLostCommand(new OpportunityId(id));
+    return new CloseOpportunityLostCommand(OpportunityId.of(id));
   }
 }

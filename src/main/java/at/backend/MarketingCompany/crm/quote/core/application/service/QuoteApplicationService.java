@@ -4,9 +4,10 @@ import at.backend.MarketingCompany.crm.deal.core.application.ExternalModuleValid
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Amount;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Discount;
 import at.backend.MarketingCompany.crm.quote.core.application.dto.*;
-import at.backend.MarketingCompany.crm.quote.core.application.input.*;
-import at.backend.MarketingCompany.crm.quote.core.application.output.QuoteItemRepository;
-import at.backend.MarketingCompany.crm.quote.core.application.output.QuoteRepository;
+import at.backend.MarketingCompany.crm.quote.core.port.input.QuoteCommandService;
+import at.backend.MarketingCompany.crm.quote.core.port.input.QuoteQueryService;
+import at.backend.MarketingCompany.crm.quote.core.port.output.QuoteItemRepository;
+import at.backend.MarketingCompany.crm.quote.core.port.output.QuoteRepository;
 import at.backend.MarketingCompany.crm.quote.core.domain.exception.QuoteNotFoundException;
 import at.backend.MarketingCompany.crm.quote.core.domain.model.Quote;
 import at.backend.MarketingCompany.crm.quote.core.domain.model.QuoteItem;
@@ -71,7 +72,7 @@ public class QuoteApplicationService implements QuoteCommandService, QuoteQueryS
           .filter(item -> item.servicePackageId() != null && item.servicePackageId().equals(servicePackage.getId()))
           .findFirst()
           .orElseThrow(() -> new IllegalArgumentException(
-              "Quote item command not found for service package: " + servicePackage.getId().value()));
+              "Quote item command not found for service package: " + servicePackage.getId()));
 
       QuoteItem item = quoteDomainService.createQuoteItem(
           quote,
@@ -93,7 +94,7 @@ public class QuoteApplicationService implements QuoteCommandService, QuoteQueryS
         .orElseThrow(() -> new IllegalArgumentException("Quote item not found"));
 
     Quote quote = quoteRepository.findById(item.getQuoteId())
-        .orElseThrow(() -> new QuoteNotFoundException(item.getQuoteId().value()));
+        .orElseThrow(() -> new QuoteNotFoundException(item.getQuoteId()));
 
     quote.removeItem(itemId);
     quoteItemRepository.delete(itemId);

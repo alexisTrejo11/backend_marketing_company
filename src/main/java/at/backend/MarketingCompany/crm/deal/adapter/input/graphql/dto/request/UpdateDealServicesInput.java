@@ -4,6 +4,6 @@ import java.util.List;
 import java.util.UUID;
 
 public record UpdateDealServicesInput(
-    UUID dealId,
-    List<UUID> servicePackageIds) {
+    String dealId,
+    List<String> servicePackageIds) {
 }

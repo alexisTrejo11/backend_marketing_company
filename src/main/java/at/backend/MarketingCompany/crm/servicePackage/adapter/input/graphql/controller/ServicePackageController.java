@@ -15,6 +15,7 @@ import at.backend.MarketingCompany.shared.PageResponse;
 import at.backend.MarketingCompany.shared.dto.PageInput;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -59,7 +60,7 @@ public class ServicePackageController {
   }
 
   @MutationMapping
-  public Boolean deleteServicePackage(@Argument @Valid @NotNull String id) {
+  public Boolean deleteServicePackage(@Argument @Valid @NotNull @Positive Long id) {
     var command = DeleteServicePackageCommand.of(id);
     service.deleteServicePackage(command);
     return true;

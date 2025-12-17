@@ -15,8 +15,9 @@ import java.time.LocalDateTime;
 @Setter
 public abstract class BaseJpaEntity {
     @Id
-    @Column(name = "id", updatable = false, nullable = false, length = 36)
-    protected String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    protected Long id;
 
     @Column(name = "created_at", nullable = false)
     protected LocalDateTime createdAt;

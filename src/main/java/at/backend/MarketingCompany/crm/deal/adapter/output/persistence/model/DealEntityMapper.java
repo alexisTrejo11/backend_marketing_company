@@ -26,7 +26,7 @@ public class DealEntityMapper {
 
     DealEntity entity = new DealEntity();
     if (deal.getId() != null)
-      entity.setId(deal.getId().asString());
+      entity.setId(deal.getId().getValue());
     entity.setDealStatus(deal.getDealStatus());
     entity.setStartDate(deal.getPeriod().startDate());
     entity.setEndDate(deal.getPeriod().endDate().orElse(null));
@@ -45,12 +45,12 @@ public class DealEntityMapper {
 
     // Relations
     if (deal.getCustomerId() != null) {
-      var customer = new CustomerCompanyEntity(deal.getCustomerId().value());
+      var customer = new CustomerCompanyEntity(deal.getCustomerId().getValue());
       entity.setCustomerCompany(customer);
     }
 
     if (deal.getOpportunityId() != null) {
-      var opportunity = new OpportunityEntity((deal.getOpportunityId().value()));
+      var opportunity = new OpportunityEntity((deal.getOpportunityId().getValue()));
       entity.setOpportunity(opportunity);
     }
 
@@ -61,7 +61,7 @@ public class DealEntityMapper {
 
     if (deal.getServicePackageIds() != null) {
       var services = deal.getServicePackageIds().stream()
-          .map(serviceId -> new ServicePackageEntity(serviceId.value()))
+          .map(serviceId -> new ServicePackageEntity(serviceId.getValue()))
           .collect(Collectors.toList());
       entity.setServices(services);
     }
@@ -74,7 +74,7 @@ public class DealEntityMapper {
       return null;
 
     var reconstructParams = DealReconstructParams.builder()
-        .id(DealId.from(entity.getId()))
+        .id(new DealId(entity.getId()))
         .customerCompanyId(entity.getCustomerCompany() != null
             ? new CustomerCompanyId(entity.getCustomerCompany().getId())
             : null)

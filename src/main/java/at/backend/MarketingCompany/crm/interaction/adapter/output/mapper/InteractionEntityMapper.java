@@ -21,7 +21,7 @@ public class InteractionEntityMapper {
 
     // ID
     if (interaction.getId() != null) {
-      entity.setId(interaction.getId().value());
+      entity.setId(interaction.getId().getValue());
     }
 
     // Basic fields
@@ -42,7 +42,7 @@ public class InteractionEntityMapper {
 
     // Relations - solo IDs
     if (interaction.getCustomerCompanyId() != null) {
-      var customer = new CustomerCompanyEntity(interaction.getCustomerCompanyId().value());
+      var customer = new CustomerCompanyEntity(interaction.getCustomerCompanyId().getValue());
       entity.setCustomerCompany(customer);
     }
 
@@ -54,7 +54,7 @@ public class InteractionEntityMapper {
       return null;
 
     var reconstructParams = InteractionReconstructParams.builder()
-        .id(InteractionId.from(entity.getId()))
+        .id(new InteractionId(entity.getId()))
         .customerCompanyId(entity.getCustomerCompany() != null ? new CustomerCompanyId(entity.getCustomerId()) : null)
         .type(entity.getType())
         .dateTime(InteractionDateTime.from(entity.getDateTime()))

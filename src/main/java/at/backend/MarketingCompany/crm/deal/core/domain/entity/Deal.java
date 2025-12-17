@@ -52,7 +52,7 @@ public class Deal extends BaseDomainEntity<DealId> {
   public static Deal create(CreateDealParams params) {
     validateCreationParams(params);
 
-    Deal newDeal = new Deal(DealId.create());
+    Deal newDeal = new Deal(DealId.generate());
     newDeal.customerCompanyId = params.customerCompanyId();
     newDeal.opportunityId = params.opportunityId();
     newDeal.servicePackageIds = Collections.unmodifiableList(params.servicePackageIds());

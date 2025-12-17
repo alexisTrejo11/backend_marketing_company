@@ -33,7 +33,6 @@ public class CompanyResponseMapper {
                     .id(safeGetId(company))
                     .companyName(safeGetCompanyName(company))
                     .legalName(safeGetLegalName(company))
-                    .taxId(safeGetTaxId(company))
                     .website(safeGetWebsite(company))
                     .foundingYear(safeGetFoundingYear(company))
                     .industry(mapIndustry(company))
@@ -48,9 +47,6 @@ public class CompanyResponseMapper {
                     .keyProducts(safeGetKeyProducts(company))
                     .competitorUrls(safeGetCompetitorUrls(company))
                     .contactPersons(mapContactPersons(company))
-                    .contractDetails(mapContractDetails(company))
-                    .billingInfo(mapBillingInfo(company))
-                    .socialMedia(mapSocialMedia(company))
                     .opportunityCount(safeGetOpportunityCount(company))
                     .interactionCount(safeGetInteractionCount(company))
                     .createdAt(safeGetCreatedAt(company))
@@ -70,11 +66,10 @@ public class CompanyResponseMapper {
         return PageResponse.of(companiesPage.map(this::toResponse));
     }
 
-
     private String safeGetId(CustomerCompany company) {
         return Optional.ofNullable(company)
                 .map(CustomerCompany::getId)
-                .map(CustomerCompanyId::value)
+                .map(CustomerCompanyId::getValue)
                 .map(Object::toString)
                 .orElse(null);
     }
@@ -89,13 +84,6 @@ public class CompanyResponseMapper {
     private String safeGetLegalName(CustomerCompany company) {
         // Si no tienes legalName separado, puedes usar companyName
         return safeGetCompanyName(company);
-    }
-
-    private String safeGetTaxId(CustomerCompany company) {
-        return Optional.ofNullable(company)
-                .map(CustomerCompany::getBillingInfo)
-                .map(BillingInformation::taxId)
-                .orElse(null);
     }
 
     private String safeGetWebsite(CustomerCompany company) {
@@ -221,47 +209,6 @@ public class CompanyResponseMapper {
                 .build();
     }
 
-    private CompanyResponse.ContractDetailsResponse mapContractDetails(CustomerCompany company) {
-        return Optional.ofNullable(company)
-                .map(CustomerCompany::getContractDetails)
-                .map(contract -> CompanyResponse.ContractDetailsResponse.builder()
-                        .contractId(safeGet(contract::contractId, DEFAULT_STRING))
-                        .startDate(safeGet(contract::startDate, null))
-                        .endDate(safeGet(contract::endDate, null))
-                        .monthlyFee(safeGet(contract::monthlyFee, DEFAULT_BIG_DECIMAL))
-                        .type(safeGet(() -> contract.type().name(), "UNKNOWN"))
-                        .autoRenewal(safeGet(contract::autoRenewal, false))
-                        .isActive(safeGet(contract::isActive, false))
-                        .isExpiringSoon(safeGet(contract::isExpiringSoon, false))
-                        .build())
-                .orElse(null);
-    }
-
-    private CompanyResponse.BillingInfoResponse mapBillingInfo(CustomerCompany company) {
-        return Optional.ofNullable(company)
-                .map(CustomerCompany::getBillingInfo)
-                .map(billing -> CompanyResponse.BillingInfoResponse.builder()
-                        .billingEmail(billing.billingEmail() !=  null ?  billing.billingEmail().value() : null)
-                        .preferredPaymentMethod(safeGet(() -> billing.preferredPaymentMethod().name(), "INVOICE"))
-                        .billingAddress(safeGet(billing::billingAddress, null))
-                        .approvedCredit(safeGet(billing::approvedCredit, false))
-                        .build())
-                .orElse(null);
-    }
-
-    private CompanyResponse.SocialMediaResponse mapSocialMedia(CustomerCompany company) {
-        return Optional.ofNullable(company)
-                .map(CustomerCompany::getCompanyProfile)
-                .map(CompanyProfile::socialMediaHandles)
-                .map(social -> CompanyResponse.SocialMediaResponse.builder()
-                        .linkedinUrl(extractSocialUrl(social, "linkedin"))
-                        .twitterHandle(extractSocialHandle(social, "twitter"))
-                        .facebookUrl(extractSocialUrl(social, "facebook"))
-                        .instagramHandle(extractSocialHandle(social, "instagram"))
-                        .build())
-                .orElse(null);
-    }
-
     private Integer safeGetOpportunityCount(CustomerCompany company) {
         return Optional.ofNullable(company)
                 .map(CustomerCompany::getOpportunities)
@@ -310,14 +257,14 @@ public class CompanyResponseMapper {
 
 
     private Integer estimateEmployeeCount(CompanySize size) {
-        switch (size) {
-            case MICRO: return 5;
-            case SMALL: return 25;
-            case MEDIUM: return 150;
-            case LARGE: return 500;
-            case ENTERPRISE: return 2500;
-            default: return null;
-        }
+	    return switch (size) {
+		    case MICRO -> 5;
+		    case SMALL -> 25;
+		    case MEDIUM -> 150;
+		    case LARGE -> 500;
+		    case ENTERPRISE -> 2500;
+		    default -> null;
+	    };
     }
 
     private String generateContactPersonId(ContactPerson contactPerson) {
@@ -363,9 +310,6 @@ public class CompanyResponseMapper {
                         safeGet(() -> company.getCompanyProfile().size().name(), "UNKNOWN"),
                         1L
                 ))
-                .companiesWithExpiringContracts(company.getContractDetails() != null &&
-                        company.getContractDetails().isExpiringSoon() ? 1 : 0)
-                .averageContractValue(safeGet(() -> company.getContractDetails().monthlyFee(), DEFAULT_BIG_DECIMAL))
                 .build();
     }
 }

@@ -7,6 +7,6 @@ import at.backend.MarketingCompany.shared.dto.PageInput;
 
 public record GetDealsByCustomerQuery(CustomerCompanyId customerCompanyId, Pageable pageable) {
   public static GetDealsByCustomerQuery from(String id, PageInput pageInput) {
-    return new GetDealsByCustomerQuery(new CustomerCompanyId(id), pageInput.toPageable());
+    return new GetDealsByCustomerQuery(CustomerCompanyId.of(id), pageInput.toPageable());
   }
 }

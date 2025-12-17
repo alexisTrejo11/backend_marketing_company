@@ -8,6 +8,6 @@ public class QuoteNotFoundException extends RuntimeException {
   }
 
   public QuoteNotFoundException(QuoteId id) {
-    super("Quote not found with ID: " + id.value());
+    super("Quote not found with ID: " + id.asString());
   }
 }

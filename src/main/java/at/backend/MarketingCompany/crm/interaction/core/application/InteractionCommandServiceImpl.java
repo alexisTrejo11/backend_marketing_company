@@ -23,16 +23,16 @@ public class InteractionCommandServiceImpl implements InteractionCommandService 
   @Override
   @Transactional
   public Interaction createInteraction(CreateInteractionCommand command) {
-    log.info("Creating interaction for customer: {}", command.customerCompanyId().value());
+    log.info("Creating interaction for customer: {}", command.customerCompanyId());
 
     validateExternalDependencies(command);
-    log.info("External dependencies validated successfully for customer: {}", command.customerCompanyId().value());
+    log.info("External dependencies validated successfully for customer: {}", command.customerCompanyId());
 
     Interaction newInteraction = Interaction.create(command.toCreateParams());
-    log.info("Interaction entity created successfully for customer: {}", command.customerCompanyId().value());
+    log.info("Interaction entity created successfully for customer: {}", command.customerCompanyId());
 
     Interaction savedInteraction = interactionRepository.save(newInteraction);
-    log.info("Interaction created successfully with ID: {}", savedInteraction.getId().value());
+    log.info("Interaction created successfully with ID: {}", savedInteraction.getId());
 
     return savedInteraction;
   }
@@ -42,7 +42,7 @@ public class InteractionCommandServiceImpl implements InteractionCommandService 
   public Interaction updateInteraction(UpdateInteractionCommand command) {
     log.info("Updating interaction: {}", command.interactionId());
 
-    Interaction interaction = findInteractionOrThrow(InteractionId.from(command.interactionId()));
+    Interaction interaction = findInteractionOrThrow(command.interactionId());
 
     interaction.updateDetails(
         command.type(),

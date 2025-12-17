@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface JpaServicePackageRepository extends JpaRepository<ServicePackageEntity, String> {
+public interface JpaServicePackageRepository extends JpaRepository<ServicePackageEntity, Long> {
 
-  List<ServicePackageEntity> findByIdIn(List<String> ids);
+  List<ServicePackageEntity> findByIdIn(List<Long> ids);
 }

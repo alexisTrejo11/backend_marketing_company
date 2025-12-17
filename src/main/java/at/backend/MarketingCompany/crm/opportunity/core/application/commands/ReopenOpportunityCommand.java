@@ -4,6 +4,6 @@ import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobjec
 
 public record ReopenOpportunityCommand(OpportunityId opportunityId) {
   public static ReopenOpportunityCommand from(String id) {
-    return new ReopenOpportunityCommand(new OpportunityId(id));
+    return new ReopenOpportunityCommand(OpportunityId.of(id));
   }
 }

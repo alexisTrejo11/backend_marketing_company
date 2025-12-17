@@ -7,7 +7,7 @@ public record AddFeedbackCommand(InteractionId interactionId, FeedbackType feedb
 
   public static AddFeedbackCommand from(String interactionId, FeedbackType feedbackType, String notes) {
     return new AddFeedbackCommand(
-        new InteractionId(interactionId),
+        InteractionId.of(interactionId),
         feedbackType,
         notes);
   }

@@ -121,7 +121,7 @@ public class InteractionController {
 
   @QueryMapping
   public CustomerInteractionAnalyticsResponse customerInteractionAnalytics(@Argument String customerId) {
-    var query = new GetCustomerInteractionAnalyticsQuery(customerId);
+    var query = GetCustomerInteractionAnalyticsQuery.from(customerId);
     var analytics = queryService.getCustomerInteractionAnalytics(query);
 
     return responseMapper.toAnalyticsResponse(analytics);

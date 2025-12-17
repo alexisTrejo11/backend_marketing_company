@@ -12,12 +12,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
-public interface JpaTaskRepository extends JpaRepository<TaskEntity, String> {
+public interface JpaTaskRepository extends JpaRepository<TaskEntity, Long> {
 
     // Basic finders (use nested property traversal with underscore)
-    Page<TaskEntity> findByCustomer_Id(String customerId, Pageable pageable);
-    Page<TaskEntity> findByOpportunity_Id(String opportunityId, Pageable pageable);
-    Page<TaskEntity> findByAssignedTo_Id(String assignedToId, Pageable pageable);
+    Page<TaskEntity> findByCustomer_Id(Long customerId, Pageable pageable);
+    Page<TaskEntity> findByOpportunity_Id(Long opportunityId, Pageable pageable);
+    Page<TaskEntity> findByAssignedTo_Id(Long assignedToId, Pageable pageable);
     Page<TaskEntity> findByStatus(TaskStatus status, Pageable pageable);
     Page<TaskEntity> findByStatusIn(Set<TaskStatus> statuses, Pageable pageable);
     Page<TaskEntity> findByPriority(TaskPriority priority, Pageable pageable);
@@ -47,20 +47,20 @@ public interface JpaTaskRepository extends JpaRepository<TaskEntity, String> {
     }
 
     // Count queries (use nested property)
-    long countByCustomer_IdAndStatus(String customerId, TaskStatus status);
-    long countByAssignedTo_IdAndStatus(String assignedToId, TaskStatus status);
+    long countByCustomer_IdAndStatus(Long customerId, TaskStatus status);
+    long countByAssignedTo_IdAndStatus(Long assignedToId, TaskStatus status);
 
     // Count overdue tasks by assignee
     @Query("SELECT COUNT(t) FROM TaskEntity t WHERE " +
             "t.assignedTo.id = :assigneeId AND " +
             "t.dueDate < :now AND " +
             "t.status NOT IN (:excludedStatuses)")
-    long countOverdueTasksByAssignee(@Param("assigneeId") String assigneeId,
+    long countOverdueTasksByAssignee(@Param("assigneeId") Long assigneeId,
                                      @Param("now") LocalDateTime now,
                                      @Param("excludedStatuses") List<TaskStatus> excludedStatuses);
 
     // Default method for count overdue by assignee
-    default long countOverdueTasksByAssignee(String assigneeId) {
+    default long countOverdueTasksByAssignee(Long assigneeId) {
         return countOverdueTasksByAssignee(
                 assigneeId,
                 LocalDateTime.now(),
@@ -74,8 +74,8 @@ public interface JpaTaskRepository extends JpaRepository<TaskEntity, String> {
             "(:assigneeId IS NULL OR t.assignedTo.id = :assigneeId) AND " +
             "(:statuses IS NULL OR t.status IN :statuses) AND " +
             "(:priorities IS NULL OR t.priority IN :priorities)")
-    List<TaskEntity> findByCriteria(@Param("customerCompanyId") String customerId,
-                                    @Param("assigneeId") String assigneeId,
+    List<TaskEntity> findByCriteria(@Param("customerCompanyId") Long customerId,
+                                    @Param("assigneeId") Long assigneeId,
                                     @Param("statuses") List<TaskStatus> statuses,
                                     @Param("priorities") List<TaskPriority> priorities);
 }

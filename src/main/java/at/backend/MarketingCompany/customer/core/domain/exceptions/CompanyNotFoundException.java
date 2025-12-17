@@ -5,6 +5,6 @@ import at.backend.MarketingCompany.shared.exception.NotFoundException;
 
 public class CompanyNotFoundException extends NotFoundException {
   public CompanyNotFoundException(CustomerCompanyId id) {
-    super("Company", id.value());
+    super("Company", id.asString());
   }
 }

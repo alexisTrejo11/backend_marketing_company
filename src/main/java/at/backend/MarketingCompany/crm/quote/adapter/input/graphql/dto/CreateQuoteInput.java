@@ -11,8 +11,8 @@ import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 
 public record CreateQuoteInput(
-    @NotNull String customerId,
-    String opportunityId,
+    @NotNull Long customerId,
+    Long opportunityId,
     @NotNull @Future LocalDate validUntil,
     List<QuoteItemInput> items) {
 

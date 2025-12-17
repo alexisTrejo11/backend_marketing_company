@@ -51,7 +51,7 @@ public class Task extends BaseDomainEntity<TaskId> {
   public static Task create(CreateTaskParams params) {
     validateCreationParams(params);
 
-    Task newTask = new Task(TaskId.create());
+    Task newTask = new Task(TaskId.generate());
     newTask.customerCompanyId = params.customerCompanyId();
     newTask.opportunityId = params.opportunityId();
     newTask.title = params.title();

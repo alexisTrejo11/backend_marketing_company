@@ -17,10 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CustomerCompanyJpaRepository extends JpaRepository<CustomerCompanyEntity, String> {
-
-    Optional<CustomerCompanyEntity> findByTaxId(String taxId);
-
+public interface CustomerCompanyJpaRepository extends JpaRepository<CustomerCompanyEntity, Long> {
     List<CustomerCompanyEntity> findByIndustryCode(String industryCode);
 
     List<CustomerCompanyEntity> findByCompanyNameContainingIgnoreCase(String name);
@@ -37,18 +34,10 @@ public interface CustomerCompanyJpaRepository extends JpaRepository<CustomerComp
             "c.foundingYear >= :startYear AND c.isStartup = true")
     List<CustomerCompanyEntity> findRecentStartups(@Param("startYear") Integer startYear);
 
-    @Query("SELECT c FROM CustomerCompanyEntity c WHERE " +
-            "c.contractDetails.contractEndDate BETWEEN :startDate AND :endDate " +
-            "AND c.contractDetails.isActive = true")
-    List<CustomerCompanyEntity> findCompaniesWithExpiringContracts(
-            @Param("startDate") LocalDate startDate,
-            @Param("endDate") LocalDate endDate);
 
     @Query("SELECT c FROM CustomerCompanyEntity c WHERE " +
             "c.companySize IN :sizes AND c.status = 'ACTIVE'")
     List<CustomerCompanyEntity> findByCompanySizes(@Param("sizes") List<CompanySize> sizes);
-
-    boolean existsByTaxId(String taxId);
 
     @Query("SELECT DISTINCT c.industryCode FROM CustomerCompanyEntity c")
     List<String> findAllIndustryCodes();

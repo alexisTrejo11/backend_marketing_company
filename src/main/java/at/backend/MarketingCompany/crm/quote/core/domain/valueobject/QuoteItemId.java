@@ -1,13 +1,21 @@
 package at.backend.MarketingCompany.crm.quote.core.domain.valueobject;
 
+import at.backend.MarketingCompany.shared.domain.NumericId;
+
 import java.util.UUID;
 
-public record QuoteItemId(String value) {
-  public static QuoteItemId of(String id) {
-    return new QuoteItemId(id);
-  }
 
-  public static QuoteItemId generate() {
-    return new QuoteItemId(UUID.randomUUID().toString());
-  }
+public class QuoteItemId extends NumericId {
+    public QuoteItemId(Long value) {
+        super(value);
+    }
+
+    public static QuoteItemId of(String id) {
+        return NumericId.fromString(id, QuoteItemId::new);
+    }
+
+    // Database will generate the ID
+    public static QuoteItemId generate() {
+        return new QuoteItemId(null);
+    }
 }

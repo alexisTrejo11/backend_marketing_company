@@ -9,7 +9,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public record UpdateServicePackageInput(
-    ServicePackageId id,
+		@NotNull @Positive
+		Long id,
 
     @NotBlank(message = "Name is required")
     @Size(max = 100, message = "Name cannot exceed 100 characters")
@@ -46,7 +47,7 @@ public record UpdateServicePackageInput(
 ) {
   public UpdateServicePackageCommand toCommand() {
     return UpdateServicePackageCommand.builder()
-        .id(this.id)
+        .id(new ServicePackageId(this.id))
         .name(this.name)
         .description(this.description)
         .price(this.price != null ? Price.of(this.price) : null)

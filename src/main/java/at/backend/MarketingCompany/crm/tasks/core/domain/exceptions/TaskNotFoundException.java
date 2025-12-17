@@ -1,7 +1,10 @@
 package at.backend.MarketingCompany.crm.tasks.core.domain.exceptions;
 
-public class TaskNotFoundException extends RuntimeException {
-    public TaskNotFoundException(String message) {
-        super(message);
+import at.backend.MarketingCompany.crm.tasks.core.domain.entity.valueobject.TaskId;
+import at.backend.MarketingCompany.shared.exception.NotFoundException;
+
+public class TaskNotFoundException extends NotFoundException {
+    public TaskNotFoundException(TaskId taskId) {
+        super("Task", taskId.asString());
     }
 }

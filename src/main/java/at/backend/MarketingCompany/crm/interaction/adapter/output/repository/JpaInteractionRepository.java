@@ -14,17 +14,17 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface JpaInteractionRepository extends JpaRepository<InteractionEntity, String> {
+public interface JpaInteractionRepository extends JpaRepository<InteractionEntity, Long> {
 
-  Page<InteractionEntity> findByCustomerCompanyId(String customerId, Pageable pageable);
+  Page<InteractionEntity> findByCustomerCompanyId(Long customerId, Pageable pageable);
 
-  List<InteractionEntity> findByCustomerCompanyId(String customerId);
+  List<InteractionEntity> findByCustomerCompanyId(Long customerId);
 
   Page<InteractionEntity> findByType(InteractionType type, Pageable pageable);
 
   Page<InteractionEntity> findByFeedbackType(FeedbackType feedbackType, Pageable pageable);
 
-  Page<InteractionEntity> findByCustomerCompanyIdAndType(String customerId, InteractionType type, Pageable pageable);
+  Page<InteractionEntity> findByCustomerCompanyIdAndType(Long customerId, InteractionType type, Pageable pageable);
 
   // Time-based queries
   Page<InteractionEntity> findByDateTimeBetween(LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
@@ -85,26 +85,26 @@ public interface JpaInteractionRepository extends JpaRepository<InteractionEntit
   }
 
   // Count queries
-  long countByCustomerIdAndType(String customerId, InteractionType type);
+  long countByCustomerIdAndType(Long customerId, InteractionType type);
 
-  long countByCustomerIdAndFeedbackType(String customerId, FeedbackType feedbackType);
+  long countByCustomerIdAndFeedbackType(Long customerId, FeedbackType feedbackType);
 
   @Query("SELECT COUNT(i) FROM InteractionEntity i WHERE i.customerId = :customerCompanyId AND i.dateTime >= :startDate")
-  long countRecentInteractionsByCustomer(@Param("customerCompanyId") String customerId,
+  long countRecentInteractionsByCustomer(@Param("customerCompanyId") Long customerId,
       @Param("startDate") LocalDateTime startDate);
 
-  default long countRecentInteractionsByCustomer(String customerId, int days) {
+  default long countRecentInteractionsByCustomer(Long customerId, int days) {
     LocalDateTime startDate = LocalDateTime.now().minusDays(days);
     return countRecentInteractionsByCustomer(customerId, startDate);
   }
 
   // Analytics - Most frequent interaction types by customer
   @Query("SELECT i.type, COUNT(i) FROM InteractionEntity i WHERE i.customerId = :customerCompanyId GROUP BY i.type ORDER BY COUNT(i) DESC")
-  List<Object[]> findInteractionTypeCountsByCustomer(@Param("customerCompanyId") String customerId);
+  List<Object[]> findInteractionTypeCountsByCustomer(@Param("customerCompanyId") Long customerId);
 
   // Analytics - Predominant feedback type by customer
   @Query("SELECT i.feedbackType, COUNT(i) FROM InteractionEntity i WHERE i.customerId = :customerCompanyId AND i.feedbackType IS NOT NULL GROUP BY i.feedbackType ORDER BY COUNT(i) DESC")
-  List<Object[]> findFeedbackTypeCountsByCustomer(@Param("customerCompanyId") String customerId);
+  List<Object[]> findFeedbackTypeCountsByCustomer(@Param("customerCompanyId") Long customerId);
 
   // Search by description or outcome
   @Query("SELECT i FROM InteractionEntity i WHERE " +
@@ -118,7 +118,7 @@ public interface JpaInteractionRepository extends JpaRepository<InteractionEntit
       "(:feedbackType IS NULL OR i.feedbackType = :feedbackType) AND " +
       "(:startDate IS NULL OR i.dateTime >= :startDate) AND " +
       "(:endDate IS NULL OR i.dateTime <= :endDate)")
-  List<InteractionEntity> findByCriteria(@Param("customerCompanyId") String customerId,
+  List<InteractionEntity> findByCriteria(@Param("customerCompanyId") Long customerId,
       @Param("type") InteractionType type,
       @Param("feedbackType") FeedbackType feedbackType,
       @Param("startDate") LocalDateTime startDate,
@@ -130,7 +130,7 @@ public interface JpaInteractionRepository extends JpaRepository<InteractionEntit
       "(:feedbackType IS NULL OR i.feedbackType = :feedbackType) AND " +
       "(:startDate IS NULL OR i.dateTime >= :startDate) AND " +
       "(:endDate IS NULL OR i.dateTime <= :endDate)")
-  Page<InteractionEntity> findByCriteria(@Param("customerCompanyId") String customerId,
+  Page<InteractionEntity> findByCriteria(@Param("customerCompanyId") Long customerId,
       @Param("type") InteractionType type,
       @Param("feedbackType") FeedbackType feedbackType,
       @Param("startDate") LocalDateTime startDate,

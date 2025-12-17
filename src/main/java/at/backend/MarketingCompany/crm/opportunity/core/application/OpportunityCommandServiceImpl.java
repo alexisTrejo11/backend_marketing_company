@@ -24,7 +24,7 @@ public class OpportunityCommandServiceImpl implements OpportunityCommandService 
   @Override
   @Transactional
   public Opportunity createOpportunity(CreateOpportunityCommand command) {
-    log.info("Creating opportunity for customer: {}", command.customerCompanyId().value());
+    log.info("Creating opportunity for customer: {}", command.customerCompanyId());
 
     validateExternalDependencies(command);
 
@@ -38,7 +38,7 @@ public class OpportunityCommandServiceImpl implements OpportunityCommandService 
     Opportunity newOpportunity = Opportunity.create(createParams);
     Opportunity savedOpportunity = opportunityRepository.save(newOpportunity);
 
-    log.info("Opportunity created successfully with ID: {}", savedOpportunity.getId().value());
+    log.info("Opportunity created successfully with ID: {}", savedOpportunity.getId());
     return savedOpportunity;
   }
 
@@ -125,7 +125,7 @@ public class OpportunityCommandServiceImpl implements OpportunityCommandService 
 
   private Opportunity findOpportunityOrThrow(OpportunityId opportunityId) {
     return opportunityRepository.findById(opportunityId)
-        .orElseThrow(() -> new OpportunityNotFoundException(opportunityId.value()));
+        .orElseThrow(() -> new OpportunityNotFoundException(opportunityId));
   }
 
   private Opportunity changeOpportunityStage(OpportunityId opportunityId, String stageName,

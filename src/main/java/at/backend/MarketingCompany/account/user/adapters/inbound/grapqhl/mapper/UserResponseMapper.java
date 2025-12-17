@@ -23,7 +23,7 @@ public class UserResponseMapper {
     var phoneNumber = user.getPhoneNumber() != null ? user.getPhoneNumber().value() : null;
 
     return UserResponse.builder()
-        .id(user.getId() != null ? user.getId().value() : null)
+        .id(user.getId() != null ? user.getId().asString() : null)
         .email(email)
         .phoneNumber(phoneNumber)
         .roles(user.getRoles())

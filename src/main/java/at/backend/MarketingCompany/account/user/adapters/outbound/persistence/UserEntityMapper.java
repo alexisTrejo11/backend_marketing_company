@@ -13,7 +13,7 @@ public class UserEntityMapper {
 
         UserEntity entity = new UserEntity();
         if (userDomain.getId() != null)
-            entity.setId(userDomain.getId().value());
+            entity.setId(userDomain.getId().getValue());
         entity.setEmail(userDomain.getEmail() != null ? userDomain.getEmail().value() : null);
         entity.setHashedPassword(userDomain.getHashedPassword() != null ? userDomain.getHashedPassword().value() : null);
         entity.setStatus(userDomain.getStatus());
@@ -53,7 +53,7 @@ public class UserEntityMapper {
         );
 
         return User.reconstruct(UserReconstructParams.builder()
-                .id(userEntity.getId() != null ? UserId.from(userEntity.getId()) : null)
+                .id(userEntity.getId() != null ? new UserId(userEntity.getId()) : null)
                 .email(userEntity.getEmail() != null ? Email.from(userEntity.getEmail()) : null)
                 .personalData(personalData)
                 .hashedPassword(userEntity.getHashedPassword() != null ? HashedPassword.from(userEntity.getHashedPassword()) : null)

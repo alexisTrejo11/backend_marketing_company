@@ -4,6 +4,6 @@ import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerComp
 
 public record GetInteractionStatisticsQuery(CustomerCompanyId customerCompanyId) {
   public static GetInteractionStatisticsQuery from(String customerId) {
-    return new GetInteractionStatisticsQuery(new CustomerCompanyId(customerId));
+    return new GetInteractionStatisticsQuery(CustomerCompanyId.of(customerId));
   }
 }

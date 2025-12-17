@@ -25,7 +25,7 @@ public class TaskCommandServiceImpl implements TaskCommandService {
   @Override
   @Transactional
   public Task createTask(CreateTaskCommand command) {
-    log.info("Creating task for customer: {}", command.customerCompanyId().value());
+    log.info("Creating task for customer: {}", command.customerCompanyId());
 
     validateExternalDependencies(command);
 
@@ -42,7 +42,7 @@ public class TaskCommandServiceImpl implements TaskCommandService {
     Task newTask = Task.create(createParams);
     Task savedTask = taskRepository.save(newTask);
 
-    log.info("Task created successfully with ID: {}", savedTask.getId().value());
+    log.info("Task created successfully with ID: {}", savedTask.getId());
     return savedTask;
   }
 
@@ -51,7 +51,7 @@ public class TaskCommandServiceImpl implements TaskCommandService {
   public Task updateTask(UpdateTaskDetailsCommand command) {
     log.info("Updating task details: {}", command.taskId());
 
-    Task task = findTaskOrThrow(TaskId.from(command.taskId()));
+    Task task = findTaskOrThrow(command.taskId());
 
     if (!task.canBeModified()) {
       throw new IllegalStateException("Cannot modify a completed or cancelled task");
@@ -70,7 +70,7 @@ public class TaskCommandServiceImpl implements TaskCommandService {
   public Task assingTask(AssignTaskCommand command) {
     log.info("Assigning task {} to employee: {}", command.taskId(), command.assignedTo().value());
 
-    Task task = findTaskOrThrow(TaskId.from(command.taskId()));
+    Task task = findTaskOrThrow(command.taskId());
 
     if (!task.canBeModified()) {
       throw new IllegalStateException("Cannot assign a completed or cancelled task");
@@ -90,7 +90,7 @@ public class TaskCommandServiceImpl implements TaskCommandService {
   public Task unassignTask(UnassignTaskCommand command) {
     log.info("Unassigning task: {}", command.taskId());
 
-    Task task = findTaskOrThrow(TaskId.from(command.taskId()));
+    Task task = findTaskOrThrow(command.taskId());
 
     if (!task.canBeModified()) {
       throw new IllegalStateException("Cannot unassign a completed or cancelled task");
@@ -108,7 +108,7 @@ public class TaskCommandServiceImpl implements TaskCommandService {
   public Task changeTaskDueDate(ChangeTaskDueDateCommand command) {
     log.info("Changing due date for task: {}", command.taskId());
 
-    Task task = findTaskOrThrow(TaskId.from(command.taskId()));
+    Task task = findTaskOrThrow(command.taskId());
 
     if (!task.canBeModified()) {
       throw new IllegalStateException("Cannot change due date of a completed or cancelled task");
@@ -150,7 +150,7 @@ public class TaskCommandServiceImpl implements TaskCommandService {
   public void deleteTask(DeleteTaskCommand command) {
     log.info("Deleting task: {}", command.taskId());
 
-    Task task = findTaskOrThrow(TaskId.from(command.taskId()));
+    Task task = findTaskOrThrow(command.taskId());
     task.softDelete();
 
     taskRepository.delete(task);
@@ -159,13 +159,13 @@ public class TaskCommandServiceImpl implements TaskCommandService {
 
   private Task findTaskOrThrow(TaskId taskId) {
     return taskRepository.findById(taskId)
-        .orElseThrow(() -> new TaskNotFoundException(taskId.value()));
+        .orElseThrow(() -> new TaskNotFoundException(taskId));
   }
 
-  private Task changeTaskStatus(String taskId, String statusName, TaskStatusChanger statusChanger) {
+  private Task changeTaskStatus(TaskId taskId, String statusName, TaskStatusChanger statusChanger) {
     log.info("Marking task {} as {}", taskId, statusName);
 
-    Task task = findTaskOrThrow(TaskId.from(taskId));
+    Task task = findTaskOrThrow(taskId);
     statusChanger.changeStatus(task);
 
     Task updatedTask = taskRepository.save(task);

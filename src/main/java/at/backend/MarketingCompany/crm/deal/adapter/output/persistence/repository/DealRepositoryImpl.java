@@ -6,7 +6,7 @@ import at.backend.MarketingCompany.crm.deal.adapter.output.persistence.model.Dea
 import at.backend.MarketingCompany.crm.deal.core.domain.entity.Deal;
 import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.DealId;
 import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.external.*;
-import at.backend.MarketingCompany.crm.deal.core.domain.respository.DealRepository;
+import at.backend.MarketingCompany.crm.deal.core.port.output.DealRepository;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class DealRepositoryImpl implements DealRepository {
   @Override
   @Transactional
   public Deal save(Deal deal) {
-    log.debug("Saving deal with ID: {}", deal.getId().value());
+    log.debug("Saving deal with ID: {}", deal.getId().getValue());
 
     DealEntity entity = dealEntityMapper.toEntity(deal);
 
@@ -43,17 +43,17 @@ public class DealRepositoryImpl implements DealRepository {
   @Override
   @Transactional(readOnly = true)
   public Optional<Deal> findById(DealId dealId) {
-    log.debug("Finding deal by ID: {}", dealId.value());
-    return jpaDealRepository.findById(dealId.value())
+    log.debug("Finding deal by ID: {}", dealId.getValue());
+    return jpaDealRepository.findById(dealId.getValue())
         .map(dealEntityMapper::toDomain);
   }
 
   @Override
   @Transactional(readOnly = true)
   public Page<Deal> findByCustomer(CustomerCompanyId customerCompanyId, Pageable pageable) {
-    log.debug("Finding deals by customer ID: {}", customerCompanyId.value());
+    log.debug("Finding deals by customer ID: {}", customerCompanyId.getValue());
 
-    return jpaDealRepository.findByCustomerId(customerCompanyId.value(), pageable)
+    return jpaDealRepository.findByCustomerId(customerCompanyId.getValue(), pageable)
         .map(dealEntityMapper::toDomain);
 
   }
@@ -71,25 +71,25 @@ public class DealRepositoryImpl implements DealRepository {
   @Override
   @Transactional
   public void delete(Deal deal) {
-    log.debug("Deleting deal with ID: {}", deal.getId().value());
+    log.debug("Deleting deal with ID: {}", deal.getId().getValue());
 
     DealEntity entity = dealEntityMapper.toEntity(deal);
     jpaDealRepository.delete(entity);
 
-    log.info("Deal deleted successfully with ID: {}", deal.getId().value());
+    log.info("Deal deleted successfully with ID: {}", deal.getId().getValue());
   }
 
   @Override
   @Transactional(readOnly = true)
   public boolean existsById(DealId dealId) {
-    return jpaDealRepository.existsById(dealId.value());
+    return jpaDealRepository.existsById(dealId.getValue());
   }
 
   @Transactional(readOnly = true)
   public Page<Deal> findByOpportunity(OpportunityId opportunityId, Pageable pageable) {
-    log.debug("Finding deals by opportunity ID: {}", opportunityId.value());
+    log.debug("Finding deals by opportunity ID: {}", opportunityId.getValue());
 
-    return jpaDealRepository.findByOpportunityId(opportunityId.value(), pageable)
+    return jpaDealRepository.findByOpportunityId(opportunityId.getValue(), pageable)
         .map(dealEntityMapper::toDomain);
   }
 

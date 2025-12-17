@@ -91,26 +91,12 @@ public class CustomerCompanyQueryHandlerImpl implements CustomerCompanyQueryHand
 
     @Override
     @Transactional(readOnly = true)
-    public List<CustomerCompany> getCompaniesWithExpiringContracts(GetCompaniesWithExpiringContractsQuery query) {
-        log.debug("Fetching companies with expiring contracts");
-        return companyRepository.findCompaniesWithExpiringContracts();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public boolean isCompanyActive(IsCompanyActiveQuery query) {
         log.debug("Checking if company is active: {}", query.id());
         CustomerCompany company = findCompanyOrThrow(query.id());
         return company.isActive();
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public boolean hasActiveContract(HasActiveContractQuery query) {
-        log.debug("Checking if company has active contract: {}", query.id());
-        CustomerCompany company = findCompanyOrThrow(query.id());
-        return company.hasActiveContract();
-    }
 
     @Override
     @Transactional(readOnly = true)
@@ -209,17 +195,6 @@ public class CustomerCompanyQueryHandlerImpl implements CustomerCompanyQueryHand
                         Collectors.counting()
                 ));
 
-        int companiesWithExpiringContracts = 0;
-        try {
-            companiesWithExpiringContracts = companyRepository
-                    .findCompaniesWithExpiringContracts().size();
-        } catch (Exception e) {
-            log.warn("Error fetching companies with expiring contracts", e);
-        }
-
-        // CHANGE: Calculate average contract value if possible
-        BigDecimal averageContractValue = calculateAverageContractValue(allCompanies);
-
         return CompanyMetrics.builder()
                 .totalCompanies(totalCompanies)
                 .activeCompanies(activeCompanies)
@@ -228,27 +203,7 @@ public class CustomerCompanyQueryHandlerImpl implements CustomerCompanyQueryHand
                 .totalAnnualRevenue(totalAnnualRevenue)
                 .companiesByIndustry(companiesByIndustry)
                 .companiesBySize(companiesBySize)
-                .companiesWithExpiringContracts(companiesWithExpiringContracts)
-                .averageContractValue(averageContractValue)
                 .build();
-    }
-
-
-    private BigDecimal calculateAverageContractValue(List<CustomerCompany> companies) {
-        List<BigDecimal> contractValues = companies.stream()
-                .filter(CustomerCompany::hasActiveContract)
-                .map(CustomerCompany::getActiveContractValue)
-                .filter(Objects::nonNull)
-                .toList();
-
-        if (contractValues.isEmpty()) {
-            return BigDecimal.ZERO;
-        }
-
-        BigDecimal total = contractValues.stream()
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        return total.divide(new BigDecimal(contractValues.size()), 2, BigDecimal.ROUND_HALF_UP);
     }
 
 }

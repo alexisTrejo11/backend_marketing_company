@@ -6,7 +6,7 @@ import at.backend.MarketingCompany.crm.deal.core.domain.entity.Deal;
 import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.CreateDealParams;
 import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.DealId;
 import at.backend.MarketingCompany.crm.deal.core.domain.exceptions.DealNotFoundException;
-import at.backend.MarketingCompany.crm.deal.core.domain.respository.DealRepository;
+import at.backend.MarketingCompany.crm.deal.core.port.output.DealRepository;
 import at.backend.MarketingCompany.crm.deal.core.port.input.DealCommandService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +35,7 @@ public class DealCommandServiceImpl implements DealCommandService {
     log.info("Deal created in domain layer for opportunity: {}", command.opportunityId());
 
     Deal savedDeal = dealRepository.save(newDeal);
-    log.info("Deal created successfully with ID: {}", savedDeal.getId().value());
+    log.info("Deal created successfully with ID: {}", savedDeal.getId().getValue());
 
     return savedDeal;
   }

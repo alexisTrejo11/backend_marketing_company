@@ -4,6 +4,6 @@ import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.DealI
 
 public record CancelDealCommand(DealId dealId) {
   public static CancelDealCommand from(String id) {
-    return new CancelDealCommand(new DealId(id));
+    return new CancelDealCommand(DealId.of(id));
   }
 }

@@ -50,7 +50,7 @@ public class UserCommandServiceImpl implements UserCommandService {
     log.info("User entity created");
 
     User createdUser = userRepository.save(user);
-    log.info("User created successfully with ID: {}", createdUser.getId().value());
+    log.info("User created successfully with ID: {}", createdUser.getId());
 
     return createdUser;
   }
@@ -118,7 +118,7 @@ public class UserCommandServiceImpl implements UserCommandService {
   public User handleRestoreUser(RestoreUserCommand command) {
     log.info("Restoring user: {}", command.userId());
     User user = userRepository.findDeletedById(command.userId())
-        .orElseThrow(() -> new UserNotFoundException(command.userId().value()));
+        .orElseThrow(() -> new UserNotFoundException(command.userId()));
 
     user.restore();
     log.info("User marked as active");
@@ -130,6 +130,6 @@ public class UserCommandServiceImpl implements UserCommandService {
 
   private User findUserOrThrow(UserId userId) {
     return userRepository.findById(userId)
-        .orElseThrow(() -> new UserNotFoundException(userId.value()));
+        .orElseThrow(() -> new UserNotFoundException(userId));
   }
 }

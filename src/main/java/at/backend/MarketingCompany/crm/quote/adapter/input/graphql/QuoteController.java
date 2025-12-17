@@ -7,14 +7,15 @@ import at.backend.MarketingCompany.crm.quote.adapter.input.graphql.dto.output.Qu
 import at.backend.MarketingCompany.crm.quote.adapter.input.graphql.mapper.QuoteResponseMapper;
 import at.backend.MarketingCompany.crm.quote.core.application.dto.AddQuoteItemsCommand;
 import at.backend.MarketingCompany.crm.quote.core.application.dto.GetQuoteByIdQuery;
-import at.backend.MarketingCompany.crm.quote.core.application.input.QuoteCommandService;
-import at.backend.MarketingCompany.crm.quote.core.application.input.QuoteQueryService;
+import at.backend.MarketingCompany.crm.quote.core.port.input.QuoteCommandService;
+import at.backend.MarketingCompany.crm.quote.core.port.input.QuoteQueryService;
 
 import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.QuoteId;
 import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.QuoteItemId;
 import at.backend.MarketingCompany.shared.dto.PageInput;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
@@ -60,14 +61,14 @@ public class QuoteController {
   }
 
   @MutationMapping
-  public QuoteOutput deleteQuoteItem(@Argument @Valid @NotNull String itemId) {
-    var quote = commandService.deleteQuoteItem(QuoteItemId.of(itemId));
+  public QuoteOutput deleteQuoteItem(@Argument @Valid @NotNull @Positive Long itemId) {
+    var quote = commandService.deleteQuoteItem(new QuoteItemId(itemId));
     return responseMapper.toResponse(quote);
   }
 
   @MutationMapping
-  public QuoteOutput deleteQuote(@Argument @Valid @NotNull String id) {
-    var quote = commandService.deleteQuote(QuoteId.of(id));
+  public QuoteOutput deleteQuote(@Argument @Valid @NotNull @Positive Long id) {
+    var quote = commandService.deleteQuote(new QuoteId(id));
     return responseMapper.toResponse(quote);
   }
 }

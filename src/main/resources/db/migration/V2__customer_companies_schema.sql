@@ -55,36 +55,24 @@ CREATE TABLE IF NOT EXISTS customer_companies (
 
     CONSTRAINT ck_revenue_range_valid
         CHECK (revenue_range IS NULL OR
-               revenue_range IN ('MICRO', 'SMALL', 'MEDIUM', 'LARGE', 'ENTERPRISE', 'UNKNOWN')),
-
-    CONSTRAINT ck_contract_dates_valid
-        CHECK (contract_start_date IS NULL OR contract_end_date IS NULL OR
-               contract_start_date <= contract_end_date),
-
-    CONSTRAINT ck_monthly_fee_valid
-        CHECK (monthly_fee IS NULL OR monthly_fee >= 0),
+               revenue_range IN ('UNDER_100K', 'BETWEEN_100K_1M', 'BETWEEN_1M_10M', 'BETWEEN_10M_100M', 'OVER_100M', 'UNKNOWN')),
 
     CONSTRAINT ck_website_valid
         CHECK (website IS NULL OR website ~ '^https?://[^\s/$.?#].[^\s]*$'),
 
-    CONSTRAINT ck_email_format
-        CHECK (billing_email IS NULL OR
-               billing_email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),
-
     CONSTRAINT ck_tax_id_format
-        CHECK (tax_id IS NULL OR LENGTH(tax_id) >= 5),
+        CHECK (tax_id IS NULL OR LENGTH(tax_id) >= 5)
 
-    CONSTRAINT ck_payment_method_valid
-        CHECK (preferred_payment_method IS NULL OR
-               preferred_payment_method IN ('CREDIT_CARD', 'BANK_TRANSFER', 'PAYPAL', 'INVOICE', 'CASH'))
+    -- Constraints referencing deleted columns (contract_dates, monthly_fee, billing_email, payment_method) have been removed.
 );
 
 -- ===========================================
 -- Contact Persons Table
 -- ===========================================
 CREATE TABLE IF NOT EXISTS contact_persons (
-    id BIGSERIAL,
-    company_id VARCHAR(36) NOT NULL,
+    id BIGSERIAL PRIMARY KEY,
+    -- Changed from VARCHAR(36) to BIGINT to match customer_companies.id
+    company_id BIGINT NOT NULL,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     email VARCHAR(255),
@@ -98,8 +86,6 @@ CREATE TABLE IF NOT EXISTS contact_persons (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     -- Constraints
-    CONSTRAINT pk_contact_persons PRIMARY KEY (id),
-
     CONSTRAINT fk_contact_persons_company
         FOREIGN KEY (company_id)
         REFERENCES customer_companies(id)
@@ -120,7 +106,8 @@ CREATE TABLE IF NOT EXISTS contact_persons (
 -- TABLE FOR KEY PRODUCTS (ElementCollection)
 -- ===========================================
 CREATE TABLE IF NOT EXISTS company_key_products (
-    company_id VARCHAR(36) NOT NULL,
+    -- Changed from VARCHAR(36) to BIGINT to match customer_companies.id
+    company_id BIGINT NOT NULL,
     product VARCHAR(500) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
@@ -135,7 +122,8 @@ CREATE TABLE IF NOT EXISTS company_key_products (
 -- TABLE FOR COMPETITORS (ElementCollection)
 -- ===========================================
 CREATE TABLE IF NOT EXISTS company_competitors (
-    company_id VARCHAR(36) NOT NULL,
+    -- Changed from VARCHAR(36) to BIGINT to match customer_companies.id
+    company_id BIGINT NOT NULL,
     competitor_url VARCHAR(500) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
@@ -151,10 +139,10 @@ CREATE TABLE IF NOT EXISTS company_competitors (
 
 
 -- ===========================================
--- INDEX FOR CUSTOMER_COMPANIES
+-- INDEXES FOR CUSTOMER_COMPANIES
 -- ===========================================
 
--- INDEX FOR UNIQUE FIELDS
+-- INDEX FOR SEARCH FIELDS
 CREATE INDEX IF NOT EXISTS idx_companies_name_search
     ON customer_companies USING gin (to_tsvector('english', company_name));
 
@@ -188,19 +176,7 @@ CREATE INDEX IF NOT EXISTS idx_companies_founding_year
 CREATE INDEX IF NOT EXISTS idx_companies_public_startup
     ON customer_companies(is_public_company, is_startup);
 
-CREATE INDEX IF NOT EXISTS idx_companies_contract_active
-    ON customer_companies(is_active, contract_end_date)
-    WHERE is_active = TRUE;
-
--- INDEX FOR CONTRACT DATES
-CREATE INDEX IF NOT EXISTS idx_companies_contract_dates
-    ON customer_companies(contract_start_date, contract_end_date)
-    WHERE contract_start_date IS NOT NULL;
-
-CREATE INDEX IF NOT EXISTS idx_companies_contract_expiring
-    ON customer_companies(contract_end_date)
-    WHERE contract_end_date > CURRENT_DATE
-    AND contract_end_date < CURRENT_DATE + INTERVAL '90 days';
+-- Indexes referencing deleted contract or active status columns have been removed.
 
 -- INDEX FOR AUDIT FIELDS
 CREATE INDEX IF NOT EXISTS idx_companies_created_date
@@ -225,13 +201,10 @@ CREATE INDEX IF NOT EXISTS idx_companies_fulltext_search
         )
     );
 
--- Functional Index for Email Domain Search
-CREATE INDEX IF NOT EXISTS idx_companies_billing_email_domain
-    ON customer_companies(SUBSTRING(billing_email FROM '@(.*)$'))
-    WHERE billing_email IS NOT NULL;
+-- Functional Index for Email Domain Search (REMOVED: Billing Email deleted)
 
 -- ===========================================
--- INDEX FOR CONTACT_PERSONS
+-- INDEXES FOR CONTACT_PERSONS
 -- ===========================================
 
 -- Main Indexes
@@ -257,7 +230,7 @@ CREATE INDEX IF NOT EXISTS idx_contacts_position_dept
     ON contact_persons(position, department)
     WHERE position IS NOT NULL;
 
--- Índice para búsqueda combinada
+-- Index for combined search
 CREATE INDEX IF NOT EXISTS idx_contacts_full_search
     ON contact_persons USING GIN (
         to_tsvector('english',
@@ -269,7 +242,7 @@ CREATE INDEX IF NOT EXISTS idx_contacts_full_search
     );
 
 -- ===========================================
--- ÍNDICES FOR KEY PRODUCTS AND COMPETITORS
+-- INDEXES FOR KEY PRODUCTS AND COMPETITORS
 -- ===========================================
 CREATE INDEX IF NOT EXISTS idx_key_products_company
     ON company_key_products(company_id);

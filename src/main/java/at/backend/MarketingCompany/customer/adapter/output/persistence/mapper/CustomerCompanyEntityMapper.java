@@ -27,14 +27,13 @@ public class CustomerCompanyEntityMapper {
 
         CustomerCompanyEntity entity = new CustomerCompanyEntity();
 
-        entity.setId(company.getId().value());
+        entity.setId(company.getId().getValue());
         entity.setCreatedAt(company.getCreatedAt());
         entity.setUpdatedAt(company.getUpdatedAt());
         entity.setDeletedAt(company.getDeletedAt());
         entity.setVersion(company.getVersion());
 
         entity.setCompanyName(company.getCompanyName().value());
-        entity.setTaxId(company.getBillingInfo() != null ? company.getBillingInfo().taxId() : null);
         entity.setWebsite(company.getCompanyProfile() != null ? extractWebsite(company) : null);
         entity.setFoundingYear(company.getCompanyProfile() != null ? company.getCompanyProfile().foundingYear() : null);
 
@@ -77,43 +76,7 @@ public class CustomerCompanyEntityMapper {
             entity.setContactPersons(contactPersonEntities);
         }
 
-        if (company.getContractDetails() != null) {
-            ContractDetailsEmbeddable contract = getContractDetailsEmbeddable(company);
-
-            entity.setContractDetails(contract);
-        }
-
-        if (company.getBillingInfo() != null) {
-            BillingInformationEmbeddable billing = new BillingInformationEmbeddable();
-
-            billing.setBillingEmail(company.getBillingInfo().billingEmail() != null ? company.getBillingInfo().billingEmail().value() : null);
-            billing.setPreferredPaymentMethod(company.getBillingInfo().preferredPaymentMethod());
-            billing.setBillingAddress(company.getBillingInfo().billingAddress());
-            billing.setApprovedCredit(company.getBillingInfo().approvedCredit());
-
-            entity.setBillingInformation(billing);
-        }
-
-        if (company.getCompanyProfile() != null && company.getCompanyProfile().socialMediaHandles() != null) {
-            SocialMediaEmbeddable socialMedia = SocialMediaEmbeddable.fromDomain(company.getCompanyProfile().socialMediaHandles());
-            entity.setSocialMedia(socialMedia);
-
-        }
-
         return entity;
-    }
-
-
-    private static @NotNull ContractDetailsEmbeddable getContractDetailsEmbeddable(CustomerCompany company) {
-        ContractDetailsEmbeddable contract = new ContractDetailsEmbeddable();
-        contract.setContractId(company.getContractDetails().contractId());
-        contract.setContractStartDate(company.getContractDetails().startDate());
-        contract.setContractEndDate(company.getContractDetails().endDate());
-        contract.setMonthlyFee(company.getContractDetails().monthlyFee());
-        contract.setContractType(company.getContractDetails().type().name());
-        contract.setAutoRenewal(company.getContractDetails().autoRenewal());
-        contract.setIsActive(company.getContractDetails().isActive());
-        return contract;
     }
 
     public CustomerCompany toDomain(CustomerCompanyEntity entity) {
@@ -154,29 +117,6 @@ public class CustomerCompanyEntityMapper {
                 .collect(Collectors.toSet())
                 : new HashSet<>();
 
-        ContractDetails contractDetails = null;
-        if (entity.getContractDetails() != null) {
-            contractDetails = new ContractDetails(
-                    entity.getContractDetails().getContractId(),
-                    entity.getContractDetails().getContractStartDate(),
-                    entity.getContractDetails().getContractEndDate(),
-                    entity.getContractDetails().getMonthlyFee(),
-                    ContractDetails.ContractType.valueOf(entity.getContractDetails().getContractType()),
-                    Set.of(),
-                    entity.getContractDetails().getAutoRenewal()
-            );
-        }
-
-        BillingInformation billingInfo = null;
-        if (entity.getBillingInformation() != null) {
-            billingInfo = new BillingInformation(
-                    entity.getTaxId(),
-                    entity.getBillingInformation().getBillingEmail() != null ? new Email(entity.getBillingInformation().getBillingEmail()) : null,
-                    entity.getBillingInformation().getPreferredPaymentMethod(),
-                    entity.getBillingInformation().getBillingAddress(),
-                    entity.getBillingInformation().getApprovedCredit()
-            );
-        }
 
         return CustomerCompany.reconstruct(CustomerCompanyReconstructParams.builder()
                 .id(new CustomerCompanyId(entity.getId()))
@@ -184,8 +124,6 @@ public class CustomerCompanyEntityMapper {
                 .companyProfile(companyProfile)
                 .status(entity.getStatus())
                 .contactPersons(contactPersons)
-                .billingInfo(billingInfo)
-                .contractDetails(contractDetails)
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .deletedAt(entity.getDeletedAt())

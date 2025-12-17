@@ -4,6 +4,6 @@ import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.U
 
 public record LogoutAllCommand(UserId userId) {
     public static  LogoutAllCommand from(String userId) {
-        return new LogoutAllCommand(new UserId(userId));
+        return new LogoutAllCommand(UserId.of(userId));
     }
 }

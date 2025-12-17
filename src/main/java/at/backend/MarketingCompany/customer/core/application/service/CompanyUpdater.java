@@ -31,16 +31,6 @@ class CompanyUpdater {
         return this;
     }
     
-    CompanyUpdater updateBilling(
-        CompanyCommands.UpdateCompanyCommand.UpdateCompanyBillingCommand cmd
-    ) {
-        if (cmd != null && cmd.taxId() != null && !cmd.taxId().isBlank()) {
-            // Billing update logic
-            hasChanges = true;
-        }
-        return this;
-    }
-    
     boolean hasChanges() {
         return hasChanges;
     }

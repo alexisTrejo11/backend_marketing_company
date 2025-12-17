@@ -37,7 +37,7 @@ public class OpportunityEntity extends BaseJpaEntity {
   @Column(name = "expected_close_date")
   private LocalDate expectedCloseDate;
 
-  public OpportunityEntity(String id) {
+  public OpportunityEntity(Long id) {
     this.setId(id);
   }
 }

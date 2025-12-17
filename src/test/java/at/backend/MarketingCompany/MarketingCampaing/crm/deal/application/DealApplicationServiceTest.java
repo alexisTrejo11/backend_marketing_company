@@ -10,7 +10,7 @@ import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.exter
 import at.backend.MarketingCompany.crm.deal.core.domain.exceptions.DealNotFoundException;
 import at.backend.MarketingCompany.crm.deal.core.domain.exceptions.DealStatusTransitionException;
 import at.backend.MarketingCompany.crm.deal.core.domain.exceptions.DealValidationException;
-import at.backend.MarketingCompany.crm.deal.core.domain.respository.DealRepository;
+import at.backend.MarketingCompany.crm.deal.core.port.output.DealRepository;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 import at.backend.MarketingCompany.shared.domain.exceptions.ExternalServiceException;

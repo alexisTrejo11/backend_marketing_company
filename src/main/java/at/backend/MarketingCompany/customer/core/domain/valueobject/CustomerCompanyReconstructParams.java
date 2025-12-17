@@ -16,8 +16,6 @@ public record CustomerCompanyReconstructParams(
     Set<ContactPerson> contactPersons,
     Set<OpportunityId> opportunities,
     Set<InteractionId> interactions,
-    BillingInformation billingInfo,
-    ContractDetails contractDetails,
     LocalDateTime createdAt,
     LocalDateTime updatedAt,
     LocalDateTime deletedAt,

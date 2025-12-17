@@ -11,7 +11,6 @@ public interface CustomerCompanyCommandHandler {
     CustomerCompany blockCompany(BlockCompanyCommand command);
     CustomerCompany deactivateCompany(DeactivateCompanyCommand command);
     CustomerCompany upgradeToEnterprise(UpgradeToEnterpriseCommand command);
-    CustomerCompany signContract(SignContractCommand command);
     void deleteCompany(DeleteCompanyCommand command);
     CustomerCompany addContactPerson(AddContactPersonCommand command);
     CustomerCompany removeContactPerson(RemoveContactPersonCommand command);

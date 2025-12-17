@@ -10,20 +10,20 @@ import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobjec
 import java.util.List;
 import java.util.Set;
 
-public interface JpaOpportunityRepository extends JpaRepository<OpportunityEntity, String> {
+public interface JpaOpportunityRepository extends JpaRepository<OpportunityEntity, Long> {
 
   @Query("SELECT o FROM OpportunityEntity o WHERE o.expectedCloseDate < CURRENT_DATE AND o.stage NOT IN ('CLOSED_WON', 'CLOSED_LOST')")
   Page<OpportunityEntity> findOverdue(Pageable pageable);
 
   Page<OpportunityEntity> findByStageIn(Set<OpportunityStage> stages, Pageable pageable);
 
-  Page<OpportunityEntity> findByCustomerCompanyId(String customerId, Pageable pageable);
+  Page<OpportunityEntity> findByCustomerCompanyId(Long customerId, Pageable pageable);
 
-  List<OpportunityEntity> findByCustomerCompanyId(String customerId);
+  List<OpportunityEntity> findByCustomerCompanyId(Long customerId);
 
   Page<OpportunityEntity> findByStage(OpportunityStage stage, Pageable pageable);
 
-  long countByCustomerCompanyIdAndStage(String customerId, OpportunityStage stage);
+  long countByCustomerCompanyIdAndStage(Long customerId, OpportunityStage stage);
 
-  long countByCustomerCompanyIdAndStageIn(String customerId, Set<OpportunityStage> stages);
+  long countByCustomerCompanyIdAndStageIn(Long customerId, Set<OpportunityStage> stages);
 }

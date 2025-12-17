@@ -20,14 +20,13 @@ import java.util.Set;
 @Repository
 @RequiredArgsConstructor
 public class OpportunityRepositoryImpl implements OpportunityRepository {
-
   private final JpaOpportunityRepository jpaOpportunityRepository;
   private final OpportunityEntityMapper opportunityEntityMapper;
 
   @Override
   @Transactional
   public Opportunity save(Opportunity opportunity) {
-    log.debug("Saving opportunity with ID: {}", opportunity.getId().value());
+    log.debug("Saving opportunity with ID: {}", opportunity.getId().getValue());
 
     OpportunityEntity entity = opportunityEntityMapper.toEntity(opportunity);
     OpportunityEntity savedEntity = jpaOpportunityRepository.save(entity);
@@ -39,43 +38,43 @@ public class OpportunityRepositoryImpl implements OpportunityRepository {
   @Override
   @Transactional(readOnly = true)
   public Optional<Opportunity> findById(OpportunityId opportunityId) {
-    log.debug("Finding opportunity by ID: {}", opportunityId.value());
+    log.debug("Finding opportunity by ID: {}", opportunityId.getValue());
 
-    return jpaOpportunityRepository.findById(opportunityId.value())
+    return jpaOpportunityRepository.findById(opportunityId.getValue())
         .map(opportunityEntityMapper::toDomain);
   }
 
   @Override
   @Transactional
   public void delete(Opportunity opportunity) {
-    log.debug("Deleting opportunity with ID: {}", opportunity.getId().value());
+    log.debug("Deleting opportunity with ID: {}", opportunity.getId().getValue());
 
     OpportunityEntity entity = opportunityEntityMapper.toEntity(opportunity);
     jpaOpportunityRepository.delete(entity);
 
-    log.info("Opportunity deleted successfully with ID: {}", opportunity.getId().value());
+    log.info("Opportunity deleted successfully with ID: {}", opportunity.getId().getValue());
   }
 
   @Override
   @Transactional(readOnly = true)
   public boolean existsById(OpportunityId opportunityId) {
-    return jpaOpportunityRepository.existsById(opportunityId.value());
+    return jpaOpportunityRepository.existsById(opportunityId.getValue());
   }
 
   @Override
   @Transactional(readOnly = true)
   public Page<Opportunity> findByCustomer(CustomerCompanyId customerCompanyId, Pageable pageable) {
-    log.debug("Finding paginated opportunities by customer ID: {}", customerCompanyId.value());
+    log.debug("Finding paginated opportunities by customer ID: {}", customerCompanyId.getValue());
 
-    return jpaOpportunityRepository.findByCustomerCompanyId(customerCompanyId.value(), pageable)
+    return jpaOpportunityRepository.findByCustomerCompanyId(customerCompanyId.getValue(), pageable)
         .map(opportunityEntityMapper::toDomain);
   }
 
   @Override
   public List<Opportunity> findByCustomer(CustomerCompanyId customerCompanyId) {
-    log.debug("Finding all opportunities by customer ID: {}", customerCompanyId.value());
+    log.debug("Finding all opportunities by customer ID: {}", customerCompanyId.getValue());
 
-    return jpaOpportunityRepository.findByCustomerCompanyId(customerCompanyId.value()).stream()
+    return jpaOpportunityRepository.findByCustomerCompanyId(customerCompanyId.getValue()).stream()
         .map(opportunityEntityMapper::toDomain)
         .toList();
   }
@@ -143,15 +142,15 @@ public class OpportunityRepositoryImpl implements OpportunityRepository {
   @Override
   @Transactional(readOnly = true)
   public long countByCustomerAndStage(CustomerCompanyId customerCompanyId, OpportunityStage stage) {
-    log.debug("Counting opportunities for customer {} with stage: {}", customerCompanyId.value(), stage);
+    log.debug("Counting opportunities for customer {} with stage: {}", customerCompanyId.getValue(), stage);
 
-    return jpaOpportunityRepository.countByCustomerCompanyIdAndStage(customerCompanyId.value(), stage);
+    return jpaOpportunityRepository.countByCustomerCompanyIdAndStage(customerCompanyId.getValue(), stage);
   }
 
   @Override
   @Transactional(readOnly = true)
   public long countActiveByCustomer(CustomerCompanyId customerCompanyId) {
-    log.debug("Counting active opportunities for customer: {}", customerCompanyId.value());
+    log.debug("Counting active opportunities for customer: {}", customerCompanyId.getValue());
 
     Set<OpportunityStage> activeStages = Set.of(
         OpportunityStage.LEAD,
@@ -159,16 +158,16 @@ public class OpportunityRepositoryImpl implements OpportunityRepository {
         OpportunityStage.PROPOSAL,
         OpportunityStage.NEGOTIATION);
 
-    return jpaOpportunityRepository.countByCustomerCompanyIdAndStageIn(customerCompanyId.value(), activeStages);
+    return jpaOpportunityRepository.countByCustomerCompanyIdAndStageIn(customerCompanyId.getValue(), activeStages);
   }
 
   @Override
   @Transactional(readOnly = true)
   public double calculateWinRateByCustomer(CustomerCompanyId customerCompanyId) {
-    log.debug("Calculating win rate for customer: {}", customerCompanyId.value());
+    log.debug("Calculating win rate for customer: {}", customerCompanyId.getValue());
 
     long totalClosed = jpaOpportunityRepository.countByCustomerCompanyIdAndStageIn(
-        customerCompanyId.value(),
+        customerCompanyId.getValue(),
         Set.of(OpportunityStage.CLOSED_WON, OpportunityStage.CLOSED_LOST));
 
     if (totalClosed == 0) {
@@ -176,7 +175,7 @@ public class OpportunityRepositoryImpl implements OpportunityRepository {
     }
 
     long wonCount = jpaOpportunityRepository.countByCustomerCompanyIdAndStage(
-        customerCompanyId.value(),
+        customerCompanyId.getValue(),
         OpportunityStage.CLOSED_WON);
 
     return (double) wonCount / totalClosed * 100;

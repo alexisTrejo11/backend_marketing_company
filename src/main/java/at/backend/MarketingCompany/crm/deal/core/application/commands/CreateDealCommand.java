@@ -16,15 +16,15 @@ public record CreateDealCommand(
     LocalDate startDate) {
 
   public static CreateDealCommand from(
-      UUID customerId,
-      UUID opportunityId,
+      String customerId,
+      String opportunityId,
       List<String> servicePackageIds,
       LocalDate startDate) {
     return new CreateDealCommand(
-        new CustomerCompanyId(customerId.toString()),
-        new OpportunityId(opportunityId.toString()),
+        CustomerCompanyId.of(customerId),
+        OpportunityId.of(opportunityId),
         servicePackageIds.stream()
-            .map(ServicePackageId::new)
+            .map(ServicePackageId::of)
             .toList(),
         startDate);
   }

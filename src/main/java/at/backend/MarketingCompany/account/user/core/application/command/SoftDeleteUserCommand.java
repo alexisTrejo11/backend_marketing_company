@@ -5,6 +5,6 @@ import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.U
 public record SoftDeleteUserCommand(UserId userId) {
   public static SoftDeleteUserCommand from(String userId) {
     return new SoftDeleteUserCommand(
-        new UserId(userId));
+        UserId.of(userId));
   }
 }

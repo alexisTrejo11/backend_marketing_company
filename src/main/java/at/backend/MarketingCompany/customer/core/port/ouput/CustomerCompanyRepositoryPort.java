@@ -12,33 +12,27 @@ import org.springframework.data.domain.Pageable;
 
 
 public interface CustomerCompanyRepositoryPort {
-    CustomerCompany save(CustomerCompany customerCompany);
+	CustomerCompany save(CustomerCompany customerCompany);
 
-    Optional<CustomerCompany> findById(CustomerCompanyId id);
+	Optional<CustomerCompany> findById(CustomerCompanyId id);
 
-    Page<CustomerCompany> findAll(Pageable pageable);
+	Page<CustomerCompany> findAll(Pageable pageable);
 
-    void delete(CustomerCompanyId id);
+	void delete(CustomerCompanyId id);
 
-    boolean existsById(CustomerCompanyId id);
+	boolean existsById(CustomerCompanyId id);
 
-    List<CustomerCompany> findByIndustry(String industryCode);
+	List<CustomerCompany> findByIndustry(String industryCode);
 
-    List<CustomerCompany> findByCompanyNameContaining(String name);
+	List<CustomerCompany> findByCompanyNameContaining(String name);
 
-    List<CustomerCompany> findByStatus(CompanyStatus status);
+	List<CustomerCompany> findByStatus(CompanyStatus status);
 
-    Page<CustomerCompany> findByCompanySize(CompanySize size, Pageable pageable);
+	Page<CustomerCompany> findByCompanySize(CompanySize size, Pageable pageable);
 
-    List<CustomerCompany> findHighValueClients();
+	List<CustomerCompany> findHighValueClients();
 
-    Optional<CustomerCompany> findByTaxId(String taxId);
+	List<CustomerCompany> findRecentStartups(int sinceYear);
 
-    List<CustomerCompany> findCompaniesWithExpiringContracts();
-
-    List<CustomerCompany> findRecentStartups(int sinceYear);
-
-    Page<CustomerCompany> searchCompanies(String searchTerm, Pageable pageable);
-
-    boolean existsByTaxId(String taxId);
+	Page<CustomerCompany> searchCompanies(String searchTerm, Pageable pageable);
 }

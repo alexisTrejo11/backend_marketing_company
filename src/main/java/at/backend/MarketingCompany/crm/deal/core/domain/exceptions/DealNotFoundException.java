@@ -4,6 +4,6 @@ import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.DealI
 
 public class DealNotFoundException extends RuntimeException {
   public DealNotFoundException(DealId dealId) {
-    super(String.format("Deal with ID %s not found", dealId.value()));
+    super(String.format("Deal with ID %s not found", dealId.getValue()));
   }
 }

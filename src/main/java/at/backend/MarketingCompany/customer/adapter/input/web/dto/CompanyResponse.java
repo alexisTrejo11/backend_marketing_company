@@ -15,7 +15,6 @@ public record CompanyResponse(
     String id,
     String companyName,
     String legalName,
-    String taxId,
     String website,
     Integer foundingYear,
     
@@ -34,9 +33,6 @@ public record CompanyResponse(
     Set<String> competitorUrls,
     
     Set<ContactPersonResponse> contactPersons,
-    ContractDetailsResponse contractDetails,
-    BillingInfoResponse billingInfo,
-    SocialMediaResponse socialMedia,
     
     Integer opportunityCount,
     Integer interactionCount,
@@ -83,34 +79,6 @@ public record CompanyResponse(
         String department,
         boolean isDecisionMaker,
         boolean isPrimaryContact
-    ) {}
-    
-    @Builder
-    public record ContractDetailsResponse(
-        String contractId,
-        LocalDate startDate,
-        LocalDate endDate,
-        BigDecimal monthlyFee,
-        String type,
-        boolean autoRenewal,
-        boolean isActive,
-        boolean isExpiringSoon
-    ) {}
-    
-    @Builder
-    public record BillingInfoResponse(
-        String billingEmail,
-        String preferredPaymentMethod,
-        String billingAddress,
-        boolean approvedCredit
-    ) {}
-    
-    @Builder
-    public record SocialMediaResponse(
-        String linkedinUrl,
-        String twitterHandle,
-        String facebookUrl,
-        String instagramHandle
     ) {}
 }
 

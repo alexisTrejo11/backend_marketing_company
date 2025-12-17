@@ -83,7 +83,7 @@ public class UserQueryServiceImpl implements UserQueryService {
 
   private User findUserById(UserId userId) {
     return userRepository.findById(userId)
-        .orElseThrow(() -> new UserNotFoundException(userId.value()));
+        .orElseThrow(() -> new UserNotFoundException(userId));
   }
 
   private User findUserByEmail(Email email) {

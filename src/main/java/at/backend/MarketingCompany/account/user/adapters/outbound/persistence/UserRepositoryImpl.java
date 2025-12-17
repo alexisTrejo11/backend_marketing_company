@@ -29,13 +29,13 @@ public class UserRepositoryImpl implements UserRepository {
 
   @Override
   public Optional<User> findById(UserId userId) {
-    return jpaUserRepository.findById(userId.value())
+    return jpaUserRepository.findById(userId.getValue())
         .map(entityMapper::toDomain);
   }
 
   @Override
   public Optional<User> findDeletedById(UserId userId) {
-    return jpaUserRepository.findByIdAndDeletedAtIsNotNull(userId.value())
+    return jpaUserRepository.findByIdAndDeletedAtIsNotNull(userId.getValue())
         .map(entityMapper::toDomain);
   }
 
@@ -54,7 +54,7 @@ public class UserRepositoryImpl implements UserRepository {
 
   @Override
   public boolean existsById(UserId userId) {
-    return jpaUserRepository.existsById(userId.value());
+    return jpaUserRepository.existsById(userId.getValue());
   }
 
   @Override

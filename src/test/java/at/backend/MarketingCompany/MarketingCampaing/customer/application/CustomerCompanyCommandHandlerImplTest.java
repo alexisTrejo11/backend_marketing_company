@@ -6,7 +6,6 @@ import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.P
 import at.backend.MarketingCompany.customer.core.domain.valueobject.*;
 import at.backend.MarketingCompany.customer.core.port.ouput.CustomerCompanyRepositoryPort;
 import at.backend.MarketingCompany.customer.core.application.service.CompanyMapper;
-import at.backend.MarketingCompany.customer.core.application.service.ContractFactory;
 import at.backend.MarketingCompany.customer.core.application.service.CustomerCompanyCommandHandlerImpl;
 import at.backend.MarketingCompany.customer.core.domain.entity.CustomerCompany;
 import at.backend.MarketingCompany.customer.core.domain.exceptions.CompanyNotFoundException;

@@ -6,6 +6,6 @@ public record UpdateUserStatusCommand(UserId userId) {
 
   public static UpdateUserStatusCommand from(String userId) {
     return new UpdateUserStatusCommand(
-        new UserId(userId));
+        UserId.of(userId));
   }
 }

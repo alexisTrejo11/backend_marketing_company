@@ -28,7 +28,7 @@ public class InteractionRepositoryImpl implements InteractionRepository {
   @Override
   @Transactional
   public Interaction save(Interaction interaction) {
-    log.debug("Saving interaction with ID: {}", interaction.getId().value());
+    log.debug("Saving interaction with ID: {}", interaction.getId().getValue());
 
     InteractionEntity entity = interactionEntityMapper.toEntity(interaction);
     InteractionEntity savedEntity = jpaInteractionRepository.save(entity);
@@ -40,43 +40,43 @@ public class InteractionRepositoryImpl implements InteractionRepository {
   @Override
   @Transactional(readOnly = true)
   public Optional<Interaction> findById(InteractionId interactionId) {
-    log.debug("Finding interaction by ID: {}", interactionId.value());
+    log.debug("Finding interaction by ID: {}", interactionId.getValue());
 
-    return jpaInteractionRepository.findById(interactionId.value())
+    return jpaInteractionRepository.findById(interactionId.getValue())
         .map(interactionEntityMapper::toDomain);
   }
 
   @Override
   @Transactional
   public void delete(Interaction interaction) {
-    log.debug("Deleting interaction with ID: {}", interaction.getId().value());
+    log.debug("Deleting interaction with ID: {}", interaction.getId().getValue());
 
     InteractionEntity entity = interactionEntityMapper.toEntity(interaction);
     jpaInteractionRepository.delete(entity);
 
-    log.info("Interaction deleted successfully with ID: {}", interaction.getId().value());
+    log.info("Interaction deleted successfully with ID: {}", interaction.getId().getValue());
   }
 
   @Override
   @Transactional(readOnly = true)
   public boolean existsById(InteractionId interactionId) {
-    return jpaInteractionRepository.existsById(interactionId.value());
+    return jpaInteractionRepository.existsById(interactionId.getValue());
   }
 
   @Override
   @Transactional(readOnly = true)
   public Page<Interaction> findByCustomer(CustomerCompanyId customerCompanyId, Pageable pageable) {
-    log.debug("Finding paginated interactions for customer: {}", customerCompanyId.value());
+    log.debug("Finding paginated interactions for customer: {}", customerCompanyId.getValue());
 
-    return jpaInteractionRepository.findByCustomerCompanyId(customerCompanyId.value(), pageable)
+    return jpaInteractionRepository.findByCustomerCompanyId(customerCompanyId.getValue(), pageable)
         .map(interactionEntityMapper::toDomain);
   }
 
   @Override
   public List<Interaction> findByCustomer(CustomerCompanyId customerCompanyId) {
-    log.debug("Finding interactions for customer: {}", customerCompanyId.value());
+    log.debug("Finding interactions for customer: {}", customerCompanyId.getValue());
 
-    return jpaInteractionRepository.findByCustomerCompanyId(customerCompanyId.value()).stream()
+    return jpaInteractionRepository.findByCustomerCompanyId(customerCompanyId.getValue()).stream()
         .map(interactionEntityMapper::toDomain)
         .toList();
   }
@@ -103,9 +103,9 @@ public class InteractionRepositoryImpl implements InteractionRepository {
   @Transactional(readOnly = true)
   public Page<Interaction> findByCustomerAndType(CustomerCompanyId customerCompanyId, InteractionType type,
       Pageable pageable) {
-    log.debug("Finding interactions for customer {} and type: {}", customerCompanyId.value(), type);
+    log.debug("Finding interactions for customer {} and type: {}", customerCompanyId.getValue(), type);
 
-    return jpaInteractionRepository.findByCustomerCompanyIdAndType(customerCompanyId.value(), type, pageable)
+    return jpaInteractionRepository.findByCustomerCompanyIdAndType(customerCompanyId.getValue(), type, pageable)
         .map(interactionEntityMapper::toDomain);
   }
 
@@ -164,33 +164,33 @@ public class InteractionRepositoryImpl implements InteractionRepository {
   @Override
   @Transactional(readOnly = true)
   public long countByCustomerAndType(CustomerCompanyId customerCompanyId, InteractionType type) {
-    log.debug("Counting interactions for customer {} and type: {}", customerCompanyId.value(), type);
+    log.debug("Counting interactions for customer {} and type: {}", customerCompanyId.getValue(), type);
 
-    return jpaInteractionRepository.countByCustomerIdAndType(customerCompanyId.value(), type);
+    return jpaInteractionRepository.countByCustomerIdAndType(customerCompanyId.getValue(), type);
   }
 
   @Override
   @Transactional(readOnly = true)
   public long countByCustomerAndFeedbackType(CustomerCompanyId customerCompanyId, FeedbackType feedbackType) {
-    log.debug("Counting interactions for customer {} and feedback type: {}", customerCompanyId.value(), feedbackType);
+    log.debug("Counting interactions for customer {} and feedback type: {}", customerCompanyId.getValue(), feedbackType);
 
-    return jpaInteractionRepository.countByCustomerIdAndFeedbackType(customerCompanyId.value(), feedbackType);
+    return jpaInteractionRepository.countByCustomerIdAndFeedbackType(customerCompanyId.getValue(), feedbackType);
   }
 
   @Override
   @Transactional(readOnly = true)
   public long countRecentInteractionsByCustomer(CustomerCompanyId customerCompanyId, int days) {
-    log.debug("Counting recent interactions for customer {} from last {} days", customerCompanyId.value(), days);
+    log.debug("Counting recent interactions for customer {} from last {} days", customerCompanyId.getValue(), days);
 
-    return jpaInteractionRepository.countRecentInteractionsByCustomer(customerCompanyId.value(), days);
+    return jpaInteractionRepository.countRecentInteractionsByCustomer(customerCompanyId.getValue(), days);
   }
 
   @Override
   @Transactional(readOnly = true)
   public List<InteractionType> findMostFrequentInteractionTypesByCustomer(CustomerCompanyId customerCompanyId) {
-    log.debug("Finding most frequent interaction types for customer: {}", customerCompanyId.value());
+    log.debug("Finding most frequent interaction types for customer: {}", customerCompanyId.getValue());
 
-    List<Object[]> results = jpaInteractionRepository.findInteractionTypeCountsByCustomer(customerCompanyId.value());
+    List<Object[]> results = jpaInteractionRepository.findInteractionTypeCountsByCustomer(customerCompanyId.getValue());
 
     return results.stream()
         .map(result -> (InteractionType) result[0])
@@ -200,9 +200,9 @@ public class InteractionRepositoryImpl implements InteractionRepository {
   @Override
   @Transactional(readOnly = true)
   public FeedbackType findPredominantFeedbackByCustomer(CustomerCompanyId customerCompanyId) {
-    log.debug("Finding predominant feedback type for customer: {}", customerCompanyId.value());
+    log.debug("Finding predominant feedback type for customer: {}", customerCompanyId.getValue());
 
-    List<Object[]> results = jpaInteractionRepository.findFeedbackTypeCountsByCustomer(customerCompanyId.value());
+    List<Object[]> results = jpaInteractionRepository.findFeedbackTypeCountsByCustomer(customerCompanyId.getValue());
 
     if (results.isEmpty()) {
       return null;
@@ -232,7 +232,7 @@ public class InteractionRepositoryImpl implements InteractionRepository {
   }
 
   @Transactional(readOnly = true)
-  public List<Interaction> findByCriteria(String customerId, InteractionType type,
+  public List<Interaction> findByCriteria(Long customerId, InteractionType type,
       FeedbackType feedbackType, LocalDateTime startDate,
       LocalDateTime endDate) {
     log.debug("Finding interactions with criteria - customer: {}, type: {}, feedback: {}",

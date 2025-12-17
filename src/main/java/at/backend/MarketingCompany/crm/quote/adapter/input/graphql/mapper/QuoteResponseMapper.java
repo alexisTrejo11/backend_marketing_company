@@ -9,6 +9,7 @@ import at.backend.MarketingCompany.crm.quote.adapter.input.graphql.dto.output.Qu
 import at.backend.MarketingCompany.crm.quote.core.domain.model.Quote;
 import at.backend.MarketingCompany.crm.quote.core.domain.model.QuoteItem;
 
+//TODO: Fix Potential NPEs
 @Component
 public class QuoteResponseMapper {
 
@@ -18,10 +19,10 @@ public class QuoteResponseMapper {
     }
 
     return QuoteOutput.builder()
-        .id(quote.getId().toString())
-        .customerId(quote.getCustomerCompanyId().toString())
+        .id(quote.getId().asString())
+        .customerId(quote.getCustomerCompanyId().asString())
         .opportunityId(
-            quote.getOpportunityId() != null ? quote.getOpportunityId().toString() : null)
+            quote.getOpportunityId() != null ? quote.getOpportunityId().asString() : null)
         .validUntil(quote.getValidUntil())
         .subTotal(quote.getSubTotal().value())
         .discount(quote.getDiscount().percentage())
@@ -50,7 +51,7 @@ public class QuoteResponseMapper {
       return null;
     }
     return QuoteItemOutput.builder()
-        .id(item.getId().toString())
+        .id(item.getId().asString())
         .unitPrice(item.getUnitPrice().value())
         .createdAt(item.getCreatedAt())
         .updatedAt(item.getUpdatedAt())

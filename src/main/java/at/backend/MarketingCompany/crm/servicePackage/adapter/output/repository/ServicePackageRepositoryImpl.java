@@ -22,7 +22,7 @@ public class ServicePackageRepositoryImpl implements ServicePackageRepository {
 
   @Override
   public ServicePackage save(ServicePackage servicePackage) {
-    log.debug("Saving service package to database with id: {}", servicePackage.getId().value());
+    log.debug("Saving service package to database with id: {}", servicePackage.getId());
 
     ServicePackageEntity jpaEntity = toJpaEntity(servicePackage);
     ServicePackageEntity savedEntity = jpaRepository.saveAndFlush(jpaEntity);
@@ -33,14 +33,14 @@ public class ServicePackageRepositoryImpl implements ServicePackageRepository {
 
   @Override
   public Optional<ServicePackage> findById(ServicePackageId id) {
-    log.debug("Finding service package by id: {}", id.value());
-    Optional<ServicePackage> result = jpaRepository.findById(id.value())
+    log.debug("Finding service package by id: {}", id);
+    Optional<ServicePackage> result = jpaRepository.findById(id.getValue())
         .map(this::toDomain);
 
     if (result.isPresent()) {
-      log.debug("Service package found with id: {}", id.value());
+      log.debug("Service package found with id: {}", id.getValue());
     } else {
-      log.debug("Service package not found with id: {}", id.value());
+      log.debug("Service package not found with id: {}", id.getValue());
     }
 
     return result;
@@ -65,22 +65,22 @@ public class ServicePackageRepositoryImpl implements ServicePackageRepository {
   @Override
   public void delete(ServicePackage servicePackage) {
     log.debug("Deleting service package from database with id: {}",
-        servicePackage.getId().value());
+        servicePackage.getId().getValue());
 
-    jpaRepository.deleteById(servicePackage.getId().value());
+    jpaRepository.deleteById(servicePackage.getId().getValue());
     jpaRepository.flush();
 
     log.debug("Service package deleted successfully with id: {}",
-        servicePackage.getId().value());
+        servicePackage.getId().getValue());
 
   }
 
   @Override
   public boolean existsById(ServicePackageId id) {
-    log.debug("Checking if service package exists with id: {}", id.value());
+    log.debug("Checking if service package exists with id: {}", id.getValue());
 
-    boolean exists = jpaRepository.existsById(id.value());
-    log.debug("Service package with id {} exists: {}", id.value(), exists);
+    boolean exists = jpaRepository.existsById(id.getValue());
+    log.debug("Service package with id {} exists: {}", id.getValue(), exists);
     return exists;
   }
 
@@ -89,7 +89,7 @@ public class ServicePackageRepositoryImpl implements ServicePackageRepository {
 
     try {
       ServicePackageEntity entity = new ServicePackageEntity();
-      entity.setId(domain.getId().value());
+      entity.setId(domain.getId().getValue());
       entity.setName(domain.getName());
       entity.setDescription(domain.getDescription());
       entity.setPrice(domain.getPrice().amount());
@@ -151,11 +151,11 @@ public class ServicePackageRepositoryImpl implements ServicePackageRepository {
   public List<ServicePackage> findByIdIn(List<ServicePackageId> ids) {
     log.debug("Finding service packages by ids: {}", ids);
 
-    List<String> stringIds = ids.stream()
-        .map(ServicePackageId::value)
+    List<Long> longList = ids.stream()
+        .map(ServicePackageId::getValue)
         .toList();
 
-    List<ServicePackage> result = jpaRepository.findByIdIn(stringIds).stream()
+    List<ServicePackage> result = jpaRepository.findByIdIn(longList).stream()
         .map(this::toDomain)
         .toList();
 

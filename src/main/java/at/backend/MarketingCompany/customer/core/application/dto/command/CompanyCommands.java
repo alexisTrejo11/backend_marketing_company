@@ -21,7 +21,6 @@ public class CompanyCommands {
             String missionStatement,
             String targetMarket,
             @NotNull Set<ContactPersonCommand> contactPersons,
-            String taxId,
             String website,
             @NotNull Set<String> keyProducts
     ) {
@@ -43,19 +42,8 @@ public class CompanyCommands {
     public static record UpdateCompanyCommand(
             @NotNull CustomerCompanyId id,
             String companyName,
-            UpdateCompanyProfileCommand profileCommand,
-            UpdateCompanyBillingCommand billingCommand
+            UpdateCompanyProfileCommand profileCommand
     ) {
-        @Builder
-        public record UpdateCompanyBillingCommand(
-                @NotNull String taxId,
-                @Email String billingEmail,
-                Optional<BillingInformation.PaymentMethod> paymentMethod,
-                String billingAddress,
-                boolean approvedCredit
-        ) {
-        }
-
         public record UpdateCompanyProfileCommand(
                 @NotNull String industryCode,
                 Optional<Integer> employeeCount,
@@ -99,7 +87,7 @@ public class CompanyCommands {
             String activationNotes
     ) {
         public static ActivateCompanyCommand from(String id, String activationNotes) {
-            return new ActivateCompanyCommand(new CustomerCompanyId(id), activationNotes);
+            return new ActivateCompanyCommand(CustomerCompanyId.of(id), activationNotes);
         }
     }
 
@@ -125,16 +113,6 @@ public class CompanyCommands {
     ) {
     }
 
-    @Builder
-    public record SignContractCommand(
-            @NotNull CustomerCompanyId id,
-            @NotNull String contractId,
-            @NotNull BigDecimal monthlyFee,
-            @NotNull ContractDetails.ContractType contractType,
-            Integer durationMonths,
-            boolean autoRenewal
-    ) {
-    }
 
     @Builder
     public record DeleteCompanyCommand(

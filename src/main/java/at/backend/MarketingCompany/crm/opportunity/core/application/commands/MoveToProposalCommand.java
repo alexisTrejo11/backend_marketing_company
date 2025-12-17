@@ -4,6 +4,6 @@ import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobjec
 
 public record MoveToProposalCommand(OpportunityId opportunityId) {
   public static MoveToProposalCommand from(String id) {
-    return new MoveToProposalCommand(new OpportunityId(id));
+    return new MoveToProposalCommand(OpportunityId.of(id));
   }
 }

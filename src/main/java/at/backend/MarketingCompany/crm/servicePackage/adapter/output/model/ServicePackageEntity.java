@@ -66,7 +66,7 @@ public class ServicePackageEntity extends BaseJpaEntity {
     @Column(name = "active", nullable = false)
     private Boolean active;
 
-    public ServicePackageEntity(String id) {
+    public ServicePackageEntity(Long id) {
         this.id = id;
     }
 }

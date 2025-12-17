@@ -4,6 +4,6 @@ import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobjec
 
 public record QualifyOpportunityCommand(OpportunityId opportunityId) {
   public static QualifyOpportunityCommand from(String id) {
-    return new QualifyOpportunityCommand(new OpportunityId(id));
+    return new QualifyOpportunityCommand(OpportunityId.of(id));
   }
 }

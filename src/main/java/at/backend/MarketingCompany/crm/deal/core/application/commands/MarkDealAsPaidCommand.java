@@ -4,6 +4,6 @@ import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.DealI
 
 public record MarkDealAsPaidCommand(DealId dealId) {
   public static MarkDealAsPaidCommand from(String dealId) {
-    return new MarkDealAsPaidCommand(new DealId(dealId));
+    return new MarkDealAsPaidCommand(DealId.of(dealId));
   }
 }

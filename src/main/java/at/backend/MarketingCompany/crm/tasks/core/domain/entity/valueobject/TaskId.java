@@ -1,23 +1,20 @@
 package at.backend.MarketingCompany.crm.tasks.core.domain.entity.valueobject;
 
+import at.backend.MarketingCompany.shared.domain.NumericId;
+
 import java.util.UUID;
 
-public record TaskId(String value) {
-    public TaskId {
-        if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException("Task ID cannot be null or blank");
-        }
-    }
+public class TaskId extends NumericId {
+	public TaskId(Long value) {
+		super(value);
+	}
 
-    public static TaskId create() {
-        return new TaskId(UUID.randomUUID().toString());
-    }
+	public static TaskId of(String id) {
+		return NumericId.fromString(id, TaskId::new);
+	}
 
-    public static TaskId from(String value) {
-        return new TaskId(value);
-    }
-
-    public static TaskId from(UUID value) {
-        return new TaskId(value.toString());
-    }
+	// Database will generate the ID
+	public static TaskId generate() {
+		return new TaskId(null);
+	}
 }

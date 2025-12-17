@@ -15,25 +15,25 @@ import java.util.List;
 import java.util.Set;
 
 @Repository
-public interface JpaDealRepository extends JpaRepository<DealEntity, String> {
+public interface JpaDealRepository extends JpaRepository<DealEntity, Long> {
 
   @Query("SELECT d FROM DealEntity d WHERE d.customerCompany.id = :customer_id")
-  Page<DealEntity> findByCustomerId(@Param("customer_id") String customerId, Pageable pageable);
+  Page<DealEntity> findByCustomerId(@Param("customer_id") Long customerId, Pageable pageable);
 
   List<DealEntity> findByDealStatus(DealStatus status);
 
   Page<DealEntity> findByDealStatusIn(Set<DealStatus> statuses, Pageable pageable);
 
-  Page<DealEntity> findByOpportunityId(String opportunityId, Pageable pageable);
+  Page<DealEntity> findByOpportunityId(Long opportunityId, Pageable pageable);
 
-  Page<DealEntity> findByCampaignManagerId(String campaignManagerId, Pageable pageable);
+  Page<DealEntity> findByCampaignManagerId(Long campaignManagerId, Pageable pageable);
 
   @Query("SELECT d FROM DealEntity d WHERE d.startDate BETWEEN :startDate AND :endDate")
   List<DealEntity> findDealsBetweenDates(@Param("startDate") LocalDate startDate,
       @Param("endDate") LocalDate endDate);
 
   @Query("SELECT d FROM DealEntity d WHERE d.customerCompany.id = :customer_id AND d.dealStatus IN :statuses")
-  List<DealEntity> findByCustomerAndStatuses(@Param("customer_id") String customerId,
+  List<DealEntity> findByCustomerAndStatuses(@Param("customer_id") Long customerId,
       @Param("statuses") List<DealStatus> statuses);
 
   @Query("SELECT COUNT(d) FROM DealEntity d WHERE d.dealStatus = :status")
@@ -42,5 +42,5 @@ public interface JpaDealRepository extends JpaRepository<DealEntity, String> {
   @Query("SELECT d FROM DealEntity d WHERE d.dealStatus NOT IN (:excludedStatuses)")
   List<DealEntity> findActiveDeals(@Param("excludedStatuses") List<DealStatus> excludedStatuses);
 
-  boolean existsByOpportunityId(String opportunityId);
+  boolean existsByOpportunityId(Long opportunityId);
 }

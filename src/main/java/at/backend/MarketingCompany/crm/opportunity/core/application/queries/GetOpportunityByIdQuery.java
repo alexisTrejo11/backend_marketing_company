@@ -7,6 +7,6 @@ import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobjec
 
 public record GetOpportunityByIdQuery(OpportunityId opportunityId) {
   public static GetOpportunityByIdQuery from(String id) {
-    return new GetOpportunityByIdQuery(new OpportunityId(id));
+    return new GetOpportunityByIdQuery(OpportunityId.of(id));
   }
 }

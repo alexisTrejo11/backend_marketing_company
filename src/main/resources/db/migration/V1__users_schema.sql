@@ -41,3 +41,11 @@ CREATE TABLE IF NOT EXISTS users (
     CONSTRAINT ck_users_names_length
         CHECK (LENGTH(first_name) >= 2 AND LENGTH(last_name) >= 2)
 );
+
+CREATE TABLE IF NOT EXISTS user_roles (
+    user_id BIGINT NOT NULL,
+    role VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT pk_user_roles PRIMARY KEY (user_id, role),
+    CONSTRAINT fk_user_roles_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);

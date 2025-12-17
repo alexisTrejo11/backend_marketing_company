@@ -9,7 +9,7 @@ import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueob
 public record AddQuoteItemsCommand(QuoteId quoteId, List<QuoteItemCreateCommand> input) {
 
   public static AddQuoteItemsCommand from(String quoteId, List<QuoteItemCreateCommand> input) {
-    return new AddQuoteItemsCommand(new QuoteId(quoteId), input);
+    return new AddQuoteItemsCommand(QuoteId.of(quoteId), input);
   }
 
   public List<ServicePackageId> getServicePackageIds() {

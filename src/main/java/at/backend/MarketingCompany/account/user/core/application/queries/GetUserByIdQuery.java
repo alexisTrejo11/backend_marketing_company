@@ -6,7 +6,7 @@ public record GetUserByIdQuery(UserId userId) {
 
     public static GetUserByIdQuery from(String userId) {
         return new GetUserByIdQuery(
-            new UserId(userId)
+						UserId.of(userId)
         );
     }
 }

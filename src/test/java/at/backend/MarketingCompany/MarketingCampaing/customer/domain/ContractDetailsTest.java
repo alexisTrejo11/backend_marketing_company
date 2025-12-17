@@ -1,6 +1,5 @@
 package at.backend.MarketingCompany.MarketingCampaing.customer.domain;
 
-import at.backend.MarketingCompany.customer.core.domain.valueobject.ContractDetails;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -8,8 +7,6 @@ import org.junit.jupiter.params.provider.EnumSource;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ContractDetailsTest {
     

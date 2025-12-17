@@ -1,3 +1,5 @@
 package at.backend.MarketingCompany.crm.tasks.core.application.commands;
 
-public record DeleteTaskCommand(String taskId) {}
+import at.backend.MarketingCompany.crm.tasks.core.domain.entity.valueobject.TaskId;
+
+public record DeleteTaskCommand(TaskId taskId) {}

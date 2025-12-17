@@ -14,8 +14,6 @@ public record CompanyMetrics(
     BigDecimal totalAnnualRevenue,
     Map<String, Long> companiesByIndustry,
     Map<String, Long> companiesBySize,
-    int companiesWithExpiringContracts,
-    BigDecimal averageContractValue,
     String companyName
 ) {
     public static CompanyMetrics empty() {
@@ -27,8 +25,6 @@ public record CompanyMetrics(
             .totalAnnualRevenue(BigDecimal.ZERO)
             .companiesByIndustry(Map.of())
             .companiesBySize(Map.of())
-            .companiesWithExpiringContracts(0)
-            .averageContractValue(BigDecimal.ZERO)
             .companyName("")
             .build();
     }

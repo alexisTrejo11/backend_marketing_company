@@ -10,6 +10,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -32,9 +34,6 @@ public class CustomerCompanyEntity extends BaseJpaEntity {
 
   @Column(name = "legal_name")
   private String legalName;
-
-  @Column(name = "tax_id", unique = true)
-  private String taxId;
 
   @Column(name = "website")
   private String website;
@@ -61,9 +60,11 @@ public class CustomerCompanyEntity extends BaseJpaEntity {
   @Column(name = "annual_revenue_amount", precision = 15, scale = 2)
   private BigDecimal annualRevenueAmount;
 
-  @Column(name = "annual_revenue_currency", length = 3)
+  @JdbcTypeCode(SqlTypes.CHAR)
+  @Column(name = "annual_revenue_currency", length = 3, columnDefinition = "char(3)")
   private String annualRevenueCurrency;
 
+	@Enumerated(EnumType.STRING)
   @Column(name = "revenue_range")
   private AnnualRevenue.RevenueRange revenueRange;
 
@@ -96,22 +97,13 @@ public class CustomerCompanyEntity extends BaseJpaEntity {
   @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<ContactPersonEntity> contactPersons = new HashSet<>();
 
-  @Embedded
-  private ContractDetailsEmbeddable contractDetails;
-
-  @Embedded
-  private BillingInformationEmbeddable billingInformation;
-
   @OneToMany(mappedBy = "customerCompany", fetch = FetchType.LAZY)
   private Set<OpportunityEntity> opportunities = new HashSet<>();
 
   @OneToMany(mappedBy = "customerCompany", fetch = FetchType.LAZY)
   private Set<InteractionEntity> interactions = new HashSet<>();
 
-  @Embedded
-  private SocialMediaEmbeddable socialMedia;
-
-  public CustomerCompanyEntity(String id) {
+  public CustomerCompanyEntity(Long id) {
     this.id = id;
   }
 }

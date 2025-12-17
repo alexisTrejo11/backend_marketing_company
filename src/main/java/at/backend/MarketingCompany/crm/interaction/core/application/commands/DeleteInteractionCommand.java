@@ -4,6 +4,6 @@ import at.backend.MarketingCompany.crm.interaction.core.domain.entity.valueobjec
 
 public record DeleteInteractionCommand(InteractionId interactionId) {
   public static DeleteInteractionCommand from(String interactionId) {
-    return new DeleteInteractionCommand(new InteractionId(interactionId));
+    return new DeleteInteractionCommand(InteractionId.of(interactionId));
   }
 }

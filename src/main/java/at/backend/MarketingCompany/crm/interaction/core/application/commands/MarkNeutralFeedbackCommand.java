@@ -4,6 +4,6 @@ import at.backend.MarketingCompany.crm.interaction.core.domain.entity.valueobjec
 
 public record MarkNeutralFeedbackCommand(InteractionId interactionId) {
   public static MarkNeutralFeedbackCommand from(String interactionId) {
-    return new MarkNeutralFeedbackCommand(new InteractionId(interactionId));
+    return new MarkNeutralFeedbackCommand(InteractionId.of(interactionId));
   }
 }

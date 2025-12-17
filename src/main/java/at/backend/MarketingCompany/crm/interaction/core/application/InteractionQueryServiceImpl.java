@@ -143,18 +143,17 @@ public class InteractionQueryServiceImpl implements InteractionQueryService {
   public CustomerInteractionAnalytics getCustomerInteractionAnalytics(GetCustomerInteractionAnalyticsQuery query) {
     log.debug("Fetching customer interaction analytics for: {}", query.customerId());
 
-    CustomerCompanyId customerCompanyId = new CustomerCompanyId(query.customerId());
 
     List<InteractionType> frequentTypes = interactionRepository
-        .findMostFrequentInteractionTypesByCustomer(customerCompanyId);
-    FeedbackType predominantFeedback = interactionRepository.findPredominantFeedbackByCustomer(customerCompanyId);
-    long totalInteractions = interactionRepository.findByCustomer(customerCompanyId).size();
+        .findMostFrequentInteractionTypesByCustomer(query.customerId());
+    FeedbackType predominantFeedback = interactionRepository.findPredominantFeedbackByCustomer(query.customerId());
+    long totalInteractions = interactionRepository.findByCustomer(query.customerId()).size();
 
     // Calculate interaction frequency (interactions per month)
-    double monthlyFrequency = calculateMonthlyFrequency(customerCompanyId);
+    double monthlyFrequency = calculateMonthlyFrequency(query.customerId());
 
     return new CustomerInteractionAnalytics(
-        customerCompanyId.value(),
+		    query.customerId().asString(),
         frequentTypes,
         predominantFeedback,
         totalInteractions,

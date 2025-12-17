@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public record CompleteDealInput(
-    UUID dealId,
+    String dealId,
     LocalDate endDate,
     String deliverables) {
 }

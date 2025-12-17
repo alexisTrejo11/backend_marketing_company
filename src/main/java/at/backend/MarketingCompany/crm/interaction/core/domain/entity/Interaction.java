@@ -43,7 +43,7 @@ public class Interaction extends BaseDomainEntity<InteractionId> {
   public static Interaction create(CreateInteractionParams params) {
     validateCreationParams(params);
 
-    Interaction newInteraction = new Interaction(InteractionId.create());
+    Interaction newInteraction = new Interaction(InteractionId.generate());
     newInteraction.customerCompanyId = params.customerCompanyId();
     newInteraction.type = params.type();
     newInteraction.dateTime = params.dateTime();

@@ -21,16 +21,16 @@ import java.util.Set;
 @Entity
 @Table(name = "users", indexes = {
     @Index(name = "idx_user_email", columnList = "email", unique = true),
-    @Index(name = "idx_user_active", columnList = "active"),
     @Index(name = "idx_user_created", columnList = "createdAt")
 })
 public class UserEntity extends BaseJpaEntity {
-  @Column(name = "email", nullable = false, unique = true, length = 255)
+  @Column(name = "email", nullable = false, unique = true)
   private String email;
 
   @Column(name = "phone_number", length = 20)
   private String phoneNumber;
 
+	@Enumerated(EnumType.STRING)
   @Column(name = "gender", length = 10, nullable = false)
   private PersonGender gender;
 
@@ -62,7 +62,7 @@ public class UserEntity extends BaseJpaEntity {
   @Column(name = "password_changed_at")
   private LocalDateTime passwordChangedAt;
 
-  public UserEntity(String id) {
+  public UserEntity(Long id) {
     this.setId(id);
   }
 
