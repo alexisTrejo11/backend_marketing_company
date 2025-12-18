@@ -143,3 +143,34 @@ CREATE INDEX IF NOT EXISTS idx_interactions_feedback
 
 CREATE INDEX IF NOT EXISTS idx_interactions_channel
     ON interactions(channel_preference) WHERE channel_preference IS NOT NULL;
+
+
+
+
+-- ===========================================
+-- Extra Indexes for Performance Optimization
+-- ===========================================
+-- Index for customer revenue analysis
+CREATE INDEX IF NOT EXISTS idx_customers_revenue_status
+ON customer_companies(revenue_range, status, company_size)
+WHERE deleted_at IS NULL;
+
+-- Index for opportunity pipeline analysis
+CREATE INDEX IF NOT EXISTS idx_opportunities_pipeline
+ON opportunities(stage, expected_close_date, amount)
+WHERE deleted_at IS NULL AND stage NOT IN ('CLOSED_WON', 'CLOSED_LOST');
+
+-- Index for deal value analysis
+CREATE INDEX IF NOT EXISTS idx_deals_value_analysis
+ON deals(deal_status, final_amount, start_date)
+WHERE deleted_at IS NULL;
+
+-- Index for task prioritization
+CREATE INDEX IF NOT EXISTS idx_tasks_team_priority
+ON tasks(assigned_to_user_id, priority, due_date, status)
+WHERE deleted_at IS NULL AND status IN ('PENDING', 'IN_PROGRESS');
+
+-- Index for interaction timeline
+CREATE INDEX IF NOT EXISTS idx_interactions_customer_timeline
+ON interactions(customer_id, date_time DESC, type)
+WHERE deleted_at IS NULL;

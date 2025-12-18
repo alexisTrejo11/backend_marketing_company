@@ -11,9 +11,9 @@ CREATE TABLE IF NOT EXISTS deals (
     deliverables TEXT,
     terms TEXT,
     customer_id BIGINT NOT NULL,
-    opportunity_id BIGINT NOT NULL,
-    created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP NOT NULL,
+    opportunity_id BIGINT,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP,
     version INTEGER NOT NULL DEFAULT 1,
 

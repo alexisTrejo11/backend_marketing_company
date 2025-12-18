@@ -11,12 +11,10 @@ CREATE TABLE IF NOT EXISTS tasks (
     customer_id BIGINT,
     opportunity_id BIGINT,
     assigned_to_user_id BIGINT,
-    created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP,
     version INTEGER NOT NULL DEFAULT 1,
-
-    -- Constraints (pk_tasks removed as it is redundant with BIGSERIAL PRIMARY KEY)
 
     CONSTRAINT fk_tasks_customer
         FOREIGN KEY (customer_id)
@@ -37,10 +35,9 @@ CREATE TABLE IF NOT EXISTS tasks (
         CHECK (status IN ('PENDING', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED', 'BLOCKED')),
 
     CONSTRAINT ck_task_priority_valid
-        CHECK (priority IN ('LOW', 'MEDIUM', 'HIGH', 'URGENT')),
+        CHECK (priority IN ('LOW', 'MEDIUM', 'HIGH', 'URGENT'))
 
-    CONSTRAINT ck_due_date_future
-        CHECK (due_date IS NULL OR due_date > CURRENT_TIMESTAMP)
+
 );
 
 -- ===========================================
@@ -56,8 +53,8 @@ CREATE TABLE IF NOT EXISTS interactions (
     outcome VARCHAR(500) NOT NULL,
     feedback_type VARCHAR(20),
     channel_preference VARCHAR(50),
-    created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP,
     version INTEGER NOT NULL DEFAULT 1,
 

@@ -14,22 +14,22 @@ type Deal {
     customerCompanyId: ID!
 
     """Basic customer company information"""
-    customerCompany: CompanyInfo!
+    customerCompany: CompanyInfo
 
     """ID of the opportunity that originated this deal"""
-    opportunityId: ID!
+    opportunityId: ID
 
     """Opportunity information"""
-    opportunity: OpportunityInfo!
+    opportunity: OpportunityInfo
 
     """Deal status (DRAFT, ACTIVE, COMPLETED, CANCELLED)"""
-    status: DealStatus!
+    status: DealStatus
 
     """Final agreed amount"""
     finalAmount: Float
 
     """Contract start date (ISO-8601 format)"""
-    startDate: String!
+    startDate: String
 
     """Contract end date (ISO-8601 format)"""
     endDate: String
@@ -41,7 +41,7 @@ type Deal {
     campaignManager: UserInfo
 
     """Service packages included in the deal"""
-    servicePackages: [ServicePackageInfo!]!
+    servicePackages: [ServicePackageInfo]
 
     """Agreed deliverables"""
     deliverables: String
@@ -53,10 +53,10 @@ type Deal {
     cancellationReason: String
 
     """Creation date (ISO-8601 format)"""
-    createdAt: String!
+    createdAt: String
 
     """Last update date (ISO-8601 format)"""
-    updatedAt: String!
+    updatedAt: String
 }
 
 """

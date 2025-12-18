@@ -23,8 +23,8 @@ CREATE TABLE IF NOT EXISTS customer_companies (
     mission_statement VARCHAR(2000),
 
     -- Audit Fields
-    created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP,
     version INTEGER NOT NULL DEFAULT 1,
 

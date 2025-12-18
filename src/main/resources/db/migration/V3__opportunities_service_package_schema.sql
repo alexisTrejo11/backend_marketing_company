@@ -9,8 +9,8 @@ CREATE TABLE IF NOT EXISTS opportunities (
     amount NUMERIC(15,2),
     stage VARCHAR(50) NOT NULL,
     expected_close_date DATE,
-    created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP,
     version INTEGER NOT NULL DEFAULT 1,
 
@@ -24,10 +24,7 @@ CREATE TABLE IF NOT EXISTS opportunities (
         CHECK (amount IS NULL OR amount >= 0),
 
     CONSTRAINT ck_opportunity_stage_valid
-        CHECK (stage IN ('PROSPECTING', 'QUALIFICATION', 'PROPOSAL', 'NEGOTIATION', 'CLOSED_WON', 'CLOSED_LOST')),
-
-    CONSTRAINT ck_expected_close_date_valid
-        CHECK (expected_close_date IS NULL OR expected_close_date >= CURRENT_DATE)
+        CHECK (stage IN ('PROSPECTING', 'QUALIFICATION', 'PROPOSAL', 'NEGOTIATION', 'CLOSED_WON', 'CLOSED_LOST'))
 );
 
 -- ===========================================
@@ -46,8 +43,8 @@ CREATE TABLE IF NOT EXISTS services_packages (
     frequency VARCHAR(50),
     project_duration INTEGER,
     active BOOLEAN NOT NULL DEFAULT TRUE,
-    created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP,
     version INTEGER NOT NULL DEFAULT 1,
 
