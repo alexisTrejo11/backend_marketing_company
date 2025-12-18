@@ -265,48 +265,6 @@ app:
         max-requests: 200
         duration-seconds: 60
 
-  cors:
-    # Allowed origins - domains that can make requests to this API
-    allowed-origins:
-      - http://localhost:3000
-      - http://localhost:5173
-      - http://localhost:8080          # Local testing
-
-    # Allowed HTTP methods
-    allowed-methods:
-      - GET
-      - POST
-      - PUT
-      - PATCH
-      - DELETE
-      - OPTIONS
-
-    # Allowed request headers (* allows all)
-    allowed-headers:
-      - "*"
-
-    # Headers exposed to the browser (so JavaScript can read them)
-    exposed-headers:
-      - X-RateLimit-Global-Limit
-      - X-RateLimit-Global-Remaining
-      - X-RateLimit-Global-Reset
-      - X-RateLimit-Global-Window
-      - X-RateLimit-Operation-Limit
-      - X-RateLimit-Operation-Remaining
-      - X-RateLimit-Operation-Reset
-      - X-RateLimit-Operation-Window
-      - X-RateLimit-Operation-Name
-      - X-RateLimit-Operation-Profile
-      - X-Total-Count
-      - X-Page-Number
-      - X-Page-Size
-
-    # Allow credentials (cookies, authorization headers)
-    allow-credentials: true
-
-    # Cache preflight requests for 1 hour
-    max-age: 3600
-
   upload:
     max-file-size: 10MB
     allowed-extensions: .pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg

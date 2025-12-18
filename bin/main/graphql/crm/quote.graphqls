@@ -1,0 +1,271 @@
+# ============================================================================
+# QUOTES - Client quotation management
+# ============================================================================
+
+"""
+Possible states of a quote.
+"""
+enum QuoteStatus {
+    """Draft - still being edited"""
+    DRAFT
+
+    """Sent to client"""
+    SENT
+
+    """Accepted by client"""
+    ACCEPTED
+
+    """Rejected by client"""
+    REJECTED
+}
+
+"""
+Individual item within a quote.
+"""
+type QuoteItem {
+    """Unique item ID"""
+    id: ID!
+
+    """Associated service package"""
+    servicePackage: ServicePackageInfo!
+
+    """Quantity"""
+    quantity: Int!
+
+    """Unit price"""
+    unitPrice: Float!
+
+    """Discount percentage applied"""
+    discountPercentage: Float
+
+    """Discount amount"""
+    discountAmount: Float
+
+    """Item total (quantity × unitPrice - discountAmount)"""
+    total: Float!
+
+    """Creation date (ISO-8601)"""
+    createdAt: String!
+
+    """Last update date (ISO-8601)"""
+    updatedAt: String!
+}
+
+"""
+Complete representation of a quote.
+"""
+type Quote {
+    """Unique quote ID"""
+    id: ID!
+
+    """Associated opportunity"""
+    opportunity: OpportunityInfo!
+
+    """Associated customer company"""
+    company: Company!
+
+    """Date until which the quote is valid (ISO-8601)"""
+    validUntil: String!
+
+    """Subtotal before discounts"""
+    subTotal: Float!
+
+    """Total discount applied"""
+    totalDiscount: Float!
+
+    """Final total amount"""
+    totalAmount: Float!
+
+    """Current quote status"""
+    status: QuoteStatus!
+
+    """Items included in the quote"""
+    items: [QuoteItem!]!
+
+    """Rejection reason (if applicable)"""
+    rejectionReason: String
+
+    """Creation date (ISO-8601)"""
+    createdAt: String!
+
+    """Last update date (ISO-8601)"""
+    updatedAt: String!
+
+    """Quote version number"""
+    version: Int!
+}
+
+"""
+Paginated response for quotes.
+"""
+type QuotePage implements PageResponse {
+    """List of quotes on the current page"""
+    content: [Quote!]!
+
+    """Pagination metadata"""
+    pagination: PaginationMetadata!
+}
+
+"""
+Input to create a new quote.
+"""
+input CreateQuoteInput {
+    """Customer company ID"""
+    companyId: ID!
+
+    """Associated opportunity ID"""
+    opportunityId: ID!
+
+    """Validity date (ISO-8601 format)"""
+    validUntil: String!
+
+    """Initial quote status"""
+    status: QuoteStatus!
+
+    """Items to include in the quote"""
+    items: [QuoteItemInput!]!
+}
+
+"""
+Input for a quote item.
+"""
+input QuoteItemInput {
+    """Service package ID"""
+    servicePackageId: ID!
+
+    """Quantity"""
+    quantity: Int!
+
+    """Discount percentage"""
+    discountPercentage: Float
+}
+
+"""
+Input to update an existing quote.
+"""
+input UpdateQuoteInput {
+    """Validity date (ISO-8601 format)"""
+    validUntil: String
+
+    """Quote status"""
+    status: QuoteStatus
+
+    """Items to update"""
+    items: [QuoteItemInput!]
+}
+
+"""
+Input to add items to a quote.
+"""
+input AddQuoteItemsInput {
+    """Quote ID"""
+    quoteId: ID!
+
+    """Items to add"""
+    items: [QuoteItemInput!]!
+}
+
+# ============================================================================
+# QUERIES
+# ============================================================================
+
+extend type Query {
+    """
+    Get all quotes with optional pagination.
+    """
+    quotes(
+        """Pagination parameters"""
+        pageInput: PageInput
+    ): QuotePage!
+
+    """
+    Find a specific quote by ID.
+    """
+    quote(id: ID!): Quote
+
+    """
+    Get quotes by status.
+    """
+    quotesByStatus(
+        """Quote status"""
+        status: QuoteStatus!
+
+        """Pagination parameters"""
+        pageInput: PageInput
+    ): QuotePage!
+
+    """
+    Get quotes for a specific opportunity.
+    """
+    quotesByOpportunity(
+        """Opportunity ID"""
+        opportunityId: ID!
+
+        """Pagination parameters"""
+        pageInput: PageInput
+    ): QuotePage!
+}
+
+# ============================================================================
+# MUTATIONS
+# ============================================================================
+
+extend type Mutation {
+    """
+    Create a new quote.
+    """
+    createQuote(input: CreateQuoteInput!): Quote!
+
+    """
+    Update an existing quote.
+    """
+    updateQuote(
+        """Quote ID"""
+        id: ID!
+
+        """Update data"""
+        input: UpdateQuoteInput!
+    ): Quote!
+
+    """
+    Add items to a quote.
+    """
+    addItemsToQuote(input: AddQuoteItemsInput!): Quote!
+
+    """
+    Remove an item from a quote.
+    """
+    removeItemFromQuote(
+        """Quote ID"""
+        quoteId: ID!
+
+        """Item ID to remove"""
+        itemId: ID!
+    ): Quote!
+
+    """
+    Send a quote to client (changes status to SENT).
+    """
+    sendQuote(quoteId: ID!): Quote!
+
+    """
+    Mark a quote as accepted.
+    """
+    acceptQuote(quoteId: ID!): Quote!
+
+    """
+    Mark a quote as rejected.
+    """
+    rejectQuote(
+        """Quote ID"""
+        quoteId: ID!
+
+        """Rejection reason"""
+        reason: String
+    ): Quote!
+
+    """
+    Delete a quote.
+    """
+    deleteQuote(id: ID!): Boolean!
+}
