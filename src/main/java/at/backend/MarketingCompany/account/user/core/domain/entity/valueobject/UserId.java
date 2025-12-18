@@ -14,6 +14,6 @@ public class UserId extends NumericId {
 
 	// Database will generate the ID
 	public static UserId generate() {
-		return new UserId(null);
+		return new UserId(0L);
 	}
 }

@@ -16,6 +16,7 @@ import at.backend.MarketingCompany.account.user.core.application.queries.SearchU
 import at.backend.MarketingCompany.account.user.core.domain.entity.User;
 import at.backend.MarketingCompany.account.user.core.ports.input.UserCommandService;
 import at.backend.MarketingCompany.account.user.core.ports.input.UserQueryService;
+import at.backend.MarketingCompany.config.ratelimit.base.GraphQLRateLimit;
 import at.backend.MarketingCompany.shared.PageResponse;
 import at.backend.MarketingCompany.shared.dto.PageInput;
 import jakarta.validation.Valid;
@@ -37,6 +38,7 @@ public class UserManagerController {
   private final UserResponseMapper mapper;
 
   @MutationMapping
+  @GraphQLRateLimit("strict")
   public UserResponse createUser(@Argument @Valid CreateUserInput input) {
     var command = input.toCommand();
     User createdUser = userCommandService.handleCreateUser(command);
@@ -44,6 +46,7 @@ public class UserManagerController {
   }
 
   @MutationMapping
+  @GraphQLRateLimit("strict")
   public UserResponse updateUserPersonalData(@Argument @Valid UpdatePersonalDataInput input) {
     var command = input.toCommand();
     User updatedUser = userCommandService.handleUpdatePersonalData(command);
@@ -51,6 +54,7 @@ public class UserManagerController {
   }
 
   @MutationMapping
+  @GraphQLRateLimit("strict")
   public UserResponse banUser(@Argument @Valid @NotBlank String id) {
     var command = UpdateUserStatusCommand.from(id);
     User user = userCommandService.handleBanUser(command);
@@ -58,6 +62,7 @@ public class UserManagerController {
   }
 
   @MutationMapping
+  @GraphQLRateLimit("strict")
   public UserResponse activateUser(@Argument @Valid @NotBlank String id) {
     var command = UpdateUserStatusCommand.from(id);
     User user = userCommandService.handleActivateUser(command);
@@ -65,6 +70,7 @@ public class UserManagerController {
   }
 
   @MutationMapping
+  @GraphQLRateLimit("strict")
   public UserResponse restoreUser(@Argument @Valid @NotBlank String id) {
     var command = RestoreUserCommand.from(id);
     User user = userCommandService.handleRestoreUser(command);
@@ -72,6 +78,7 @@ public class UserManagerController {
   }
 
   @MutationMapping
+  @GraphQLRateLimit("strict")
   public Boolean deleteUser(@Argument @Valid @NotBlank String id) {
     var command = SoftDeleteUserCommand.from(id);
     userCommandService.handleSoftDeleteUser(command);
@@ -79,6 +86,7 @@ public class UserManagerController {
   }
 
   @QueryMapping
+  @GraphQLRateLimit
   public PageResponse<UserResponse> getAllUsers(@Argument @Valid @NotNull PageInput pageInput) {
     var searchUsersQuery = new SearchUsersQuery(pageInput.toPageable());
     Page<User> usersPage = userQueryService.handleSearchUsers(searchUsersQuery);
@@ -86,6 +94,7 @@ public class UserManagerController {
   }
 
   @QueryMapping
+  @GraphQLRateLimit
   public UserResponse getUserById(@Argument @Valid @NotBlank String id) {
     var query = GetUserByIdQuery.from(id);
     User user = userQueryService.handleGetUserById(query);
@@ -93,6 +102,7 @@ public class UserManagerController {
   }
 
   @QueryMapping
+  @GraphQLRateLimit
   public UserResponse getUserByEmail(@Argument @Valid @NotBlank String email) {
     var query = GetUserByEmailQuery.from(email);
     User user = userQueryService.handleGetUserByEmail(query);
@@ -100,6 +110,7 @@ public class UserManagerController {
   }
 
   @QueryMapping
+  @GraphQLRateLimit
   public UserStatisticsResponse userStatistics() {
     var query = new GetUserStatisticsQuery();
     UserStatistics statistics = userQueryService.handleGetUserStatistics(query);

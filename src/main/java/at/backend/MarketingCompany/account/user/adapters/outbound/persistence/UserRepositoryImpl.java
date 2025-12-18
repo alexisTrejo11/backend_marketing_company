@@ -23,7 +23,11 @@ public class UserRepositoryImpl implements UserRepository {
   @Override
   public User save(User user) {
     UserEntity entity = entityMapper.toEntity(user);
-    UserEntity savedEntity = jpaUserRepository.save(entity);
+		if (entity.getId().equals(0L)) {
+			entity.setId(null); // Ensure that new entities have null ID for auto-generation
+		}
+
+    UserEntity savedEntity = jpaUserRepository.saveAndFlush(entity);
     return entityMapper.toDomain(savedEntity);
   }
 

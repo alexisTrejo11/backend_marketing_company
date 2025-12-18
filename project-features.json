@@ -10,5 +10,16 @@
     "PostgreSQL",
     "Redis"
   ],
-  "architecture": "Modular Monolith"
+  "architecture": "Modular Monolith",
+  "infrastructure": "Docker",
+  "api-features": {
+    "pagination": true,
+    "rateLimiting": true,
+    "dataValidation": true,
+    "errorHandling": true,
+    "logging": true,
+    "monitoring": true,
+    "documentation": true,
+    "testing": true
+  }
 }

@@ -1,5 +1,6 @@
 package at.backend.MarketingCompany.shared.graphql.error;
 
+import at.backend.MarketingCompany.config.ratelimit.base.RateLimitExceededException;
 import at.backend.MarketingCompany.shared.exception.*;
 import graphql.GraphQLError;
 import graphql.GraphqlErrorBuilder;
@@ -27,6 +28,16 @@ public class GlobalGraphQLExceptionHandler extends DataFetcherExceptionResolverA
         log.error("GraphQL error occurred at path: {}", env.getExecutionStepInfo().getPath(), ex);
 
         switch (ex) {
+	        case RateLimitExceededException rateLimitException -> {
+								return buildGraphQLError(
+												rateLimitException.getMessage(),
+												ErrorType.BAD_REQUEST,
+												env,
+												Map.of("errorCode", "RATE_LIMIT_EXCEEDED",
+																"retryAfterSeconds", rateLimitException.getMessage())
+								);
+						}
+
             case NotFoundException notFoundException -> {
                 return buildGraphQLError(
                         notFoundException.getMessage(),

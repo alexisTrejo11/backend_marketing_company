@@ -230,38 +230,41 @@ app:
     backoff-delay: 1000
     multiplier: 2.0
 
-rate-limit:
-  global:
-    enabled: true
-    maxRequests: 5000  # Límite técnico para evitar ataques DoS básicos
-    durationHours: 1
-  defaults:
-    maxRequests: 100
-    durationSeconds: 60
-  profiles:
-    strict:
-      maxRequests: 5
-      durationSeconds: 300
+  rate-limit:
+    global:
+      enabled: true
+      max-requests: 5000
+      duration-hours: 1
 
-    sensitive:
-      maxRequests: 3
-      durationSeconds: 3600
+    defaults:
+      max-requests: 100
+      duration-seconds: 60
 
-    standard:
-      maxRequests: 30
-      durationSeconds: 60
+    endpoints:
+      sensitive:
+        max-requests: 7
+        duration-seconds: 60
 
-    permissive:
-      maxRequests: 150
-      durationSeconds: 60
+      standard:
+        max-requests: 30
+        duration-seconds: 60
 
-    public:
-      maxRequests: 500
-      durationSeconds: 60
+      strict:
+        max-requests: 5
+        duration-seconds: 300
 
-    external_api:
-      maxRequests: 1000
-      durationSeconds: 3600
+      public:
+        max-requests: 500
+        duration-seconds: 60
+
+      user-operation:
+        max-requests: 60
+        duration-seconds: 60
+
+      companies-operation:
+        max-requests: 200
+        duration-seconds: 60
+
   upload:
     max-file-size: 10MB
     allowed-extensions: .pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg

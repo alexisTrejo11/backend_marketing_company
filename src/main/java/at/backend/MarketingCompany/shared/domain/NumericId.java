@@ -7,8 +7,8 @@ public abstract class NumericId extends BaseId<Long> {
 
     @Override
     protected Long validate(Long value) {
-        if (value <= 0) {
-            throw new IllegalArgumentException(getClass().getSimpleName() + " must be positive");
+        if (value < 0) {
+            throw new IllegalArgumentException(getClass().getSimpleName() + " must be positive or zero");
         }
         return value;
     }

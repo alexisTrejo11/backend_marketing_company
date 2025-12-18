@@ -1,5 +1,6 @@
 package at.backend.MarketingCompany.account.user.adapters.inbound.grapqhl.controller;
 
+import at.backend.MarketingCompany.config.ratelimit.base.GraphQLRateLimit;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -25,12 +26,14 @@ public class UserController {
   private final UserResponseMapper mapper;
 
   @QueryMapping
+  @GraphQLRateLimit("user-operation")
   public UserResponse me(@Argument @Valid @NotBlank String userId) {
     User user = userQueryService.handleGetUserById(GetUserByIdQuery.from(userId));
     return mapper.toUserResponse(user);
   }
 
   @MutationMapping
+  @GraphQLRateLimit("user-operation")
   public UserResponse updateMyPersonalData(@Argument @Valid UpdatePersonalDataInput input) {
     var command = input.toCommand();
 
@@ -40,6 +43,7 @@ public class UserController {
   }
 
   @MutationMapping
+  @GraphQLRateLimit("user-operation")
   public Boolean deleteMyAccount(@Argument @Valid @NotBlank String userId) {
     var command = SoftDeleteUserCommand.from(userId);
     userCommandService.handleSoftDeleteUser(command);

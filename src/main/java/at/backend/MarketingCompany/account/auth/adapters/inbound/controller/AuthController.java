@@ -8,6 +8,8 @@ import at.backend.MarketingCompany.account.auth.adapters.inbound.mapper.AuthResp
 import at.backend.MarketingCompany.account.auth.core.application.commands.*;
 import at.backend.MarketingCompany.account.auth.core.domain.entitiy.AuthResult;
 import at.backend.MarketingCompany.account.auth.core.port.input.AuthCommandService;
+import at.backend.MarketingCompany.config.ratelimit.base.GraphQLRateLimit;
+import at.backend.MarketingCompany.config.ratelimit.base.RateLimitType;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +26,7 @@ public class AuthController {
     private final AuthResponseMapper authResponseMapper;
 
     @MutationMapping
+    @GraphQLRateLimit("sensitive")
     public AuthResponse signUp(
             @Valid @Argument SignUpInput input,
             @ContextValue(name = "userAgent") String userAgent,
@@ -39,6 +42,7 @@ public class AuthController {
     }
 
     @MutationMapping
+    @GraphQLRateLimit("sensitive")
     public AuthResponse login(
             @Valid @Argument LoginInput input,
             @ContextValue(name = "userAgent") String userAgent,
@@ -52,6 +56,7 @@ public class AuthController {
     }
 
     @MutationMapping
+    @GraphQLRateLimit
     public AuthResponse refreshToken(
             @Valid @Argument RefreshTokenInput input,
             @ContextValue(name = "userAgent") String userAgent,
@@ -65,6 +70,7 @@ public class AuthController {
     }
 
     @MutationMapping
+    @GraphQLRateLimit
     public Boolean logout(@Argument String refreshToken) {
         log.info("Logout request for session: {}", refreshToken.substring(0, 6) + "...");
         LogoutCommand command = LogoutCommand.from(refreshToken);
@@ -74,6 +80,7 @@ public class AuthController {
     }
 
     @MutationMapping
+    @GraphQLRateLimit
     public Boolean logoutAll(@ContextValue(name = "userId") String userId) {
         log.info("Logout all request for user: {}", userId);
         LogoutAllCommand command = LogoutAllCommand.from(userId);

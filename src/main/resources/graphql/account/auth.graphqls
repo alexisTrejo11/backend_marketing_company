@@ -1,7 +1,6 @@
 # ============================================================================
 # AUTHENTICATION - Types and operations for the authentication system
 # ============================================================================
-
 """
 Input to register a new user in the system.
 """
@@ -18,9 +17,17 @@ input SignUpInput {
     """User last name"""
     lastName: String!
 
+    """User gender """
+    gender: PersonGender!
+
+    """User date of birth"""
+    dateOfBirth: Date!
+
     """Phone number (optional)"""
     phoneNumber: String
 }
+
+
 
 """
 Input to log in to the system.
