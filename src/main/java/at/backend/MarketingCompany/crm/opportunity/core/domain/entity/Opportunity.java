@@ -42,7 +42,7 @@ public class Opportunity extends BaseDomainEntity<OpportunityId> {
     newOpportunity.customerCompanyId = params.customerCompanyId();
     newOpportunity.title = params.title();
     newOpportunity.amount = params.amount();
-    newOpportunity.stage = OpportunityStage.LEAD;
+    newOpportunity.stage = OpportunityStage.PROSPECTING;
     newOpportunity.expectedCloseDate = params.expectedCloseDate();
     newOpportunity.createdAt = LocalDateTime.now();
     newOpportunity.updatedAt = LocalDateTime.now();

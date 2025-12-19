@@ -16,8 +16,17 @@ enum UserRole {
     """Manager with permissions to manage teams and campaigns"""
     MANAGER
 
+    """Sales representative with access to sales data"""
+    SALES
+
     """Technical support with assistance permissions"""
     SUPPORT
+
+    """Data analyst with read-only access to reports"""
+    ANALYST
+
+    """Campaign manager with permissions to manage marketing campaigns"""
+    CAMPAIGN_MANAGER
 }
 
 """
@@ -118,6 +127,24 @@ type UserPageResponse implements PageResponse {
 }
 
 """
+User statistics response.
+Contains aggregated information about users in the system.
+"""
+type UserStatisticsResponse {
+    """Total number of users in the system"""
+    totalUsers: Int!
+
+    """Total number of activate users"""
+    activeUsers: Int!
+
+    """Total number of users with admin role"""
+    adminUsers: Int!
+
+    """Total number of current active sessions"""
+    totalSessions: Int!
+}
+
+"""
 Input to create a new user in the system.
 """
 input CreateUserInput {
@@ -172,6 +199,11 @@ input UpdateUserPersonalDataInput {
 
 extend type Query {
     """
+    Gets the current authenticated user information.
+    """
+    me(userId: String!): UserResponse
+
+    """
     Gets all users in the system with pagination.
     """
     getAllUsers(pageInput: PageInput!): UserPageResponse
@@ -185,6 +217,11 @@ extend type Query {
     Finds a user by email.
     """
     getUserByEmail(email: String!): UserResponse
+
+    """
+    Gets user statistics (total, active, inactive, etc.).
+    """
+    userStatistics: UserStatisticsResponse
 }
 
 # ============================================================================
@@ -198,9 +235,20 @@ extend type Mutation {
     createUser(input: CreateUserInput!): UserResponse!
 
     """
-    Updates a user's personal data.
+    Updates the current user's personal data.
+    """
+    updateMyPersonalData(input: UpdateUserPersonalDataInput!): UserResponse!
+
+    """
+    Updates a user's personal data (admin operation).
     """
     updateUserPersonalData(input: UpdateUserPersonalDataInput!): UserResponse!
+
+    """
+    Deletes the current user's account (soft delete).
+    Returns true if the deletion was successful.
+    """
+    deleteMyAccount(userId: String!): Boolean!
 
     """
     Suspends a user from the system.

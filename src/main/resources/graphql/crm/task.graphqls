@@ -1,6 +1,6 @@
 # ============================================================================
-# TASKS - CRM task management
-# ============================================================================
+#TASKS - CRM task management
+#============================================================================
 
 """
 Possible states of a task.
@@ -18,8 +18,11 @@ enum TaskStatus {
     """Task cancelled"""
     CANCELLED
 
-    """Task overdue"""
-    OVERDUE
+    """Task urgent"""
+    URGENT
+
+    """Task blocked"""
+    BLOCKED
 }
 
 """
@@ -82,7 +85,7 @@ Paginated response for tasks.
 """
 type TaskPage implements PageResponse {
     """List of tasks on the current page"""
-    content: [Task!]!
+    items: [Task!]!
 
     """Pagination metadata"""
     pagination: PaginationMetadata!
@@ -147,6 +150,23 @@ input UpdateTaskInput {
 }
 
 """
+Input to update task details.
+"""
+input UpdateTaskDetailsInput {
+    """Task ID"""
+    taskId: String!
+
+    """Task title"""
+    title: String
+
+    """Detailed description"""
+    description: String
+
+    """Priority"""
+    priority: TaskPriority
+}
+
+"""
 Input for filtering tasks.
 """
 input TaskFilterInput {
@@ -178,30 +198,30 @@ input TaskFilterInput {
 
 extend type Query {
     """
+    Find a specific task by ID.
+    """
+    task(id: String!): Task
+
+    """
     Get all tasks in the system with filtering and pagination.
     """
     tasks(
         """Pagination parameters"""
-        pageInput: PageInput
+        pageInput: PageInput!
 
         """Optional filter criteria"""
-        filter: TaskFilterInput
+        filterInput: TaskFilterInput!
     ): TaskPage!
-
-    """
-    Find a specific task by ID.
-    """
-    task(id: ID!): Task
 
     """
     Get tasks assigned to a specific user.
     """
     tasksByUser(
         """User ID"""
-        userId: ID!
+        userId: String!
 
         """Pagination parameters"""
-        pageInput: PageInput
+        pageInput: PageInput!
     ): TaskPage!
 
     """
@@ -209,10 +229,10 @@ extend type Query {
     """
     tasksByCompany(
         """Company ID"""
-        companyId: ID!
+        companyId: String!
 
         """Pagination parameters"""
-        pageInput: PageInput
+        pageInput: PageInput!
     ): TaskPage!
 
     """
@@ -223,7 +243,7 @@ extend type Query {
         status: TaskStatus!
 
         """Pagination parameters"""
-        pageInput: PageInput
+        pageInput: PageInput!
     ): TaskPage!
 
     """
@@ -231,15 +251,7 @@ extend type Query {
     """
     overdueTasks(
         """Pagination parameters"""
-        pageInput: PageInput
-    ): TaskPage!
-
-    """
-    Get tasks due today.
-    """
-    tasksDueToday(
-        """Pagination parameters"""
-        pageInput: PageInput
+        pageInput: PageInput!
     ): TaskPage!
 }
 
@@ -254,33 +266,21 @@ extend type Mutation {
     createTask(input: CreateTaskInput!): Task!
 
     """
-    Update an existing task.
+    Update an existing task details.
     """
-    updateTask(
-        """Task ID"""
-        id: ID!
-
-        """Update data"""
-        input: UpdateTaskInput!
-    ): Task!
+    updateTask(input: UpdateTaskDetailsInput!): Task!
 
     """
     Mark a task as completed.
     """
-    completeTask(
-        """Task ID"""
-        id: ID!
-
-        """Completion notes (optional)"""
-        notes: String
-    ): Task!
+    completeTasks(id: String!): Task!
 
     """
     Update task status.
     """
     updateTaskStatus(
         """Task ID"""
-        id: ID!
+        id: String!
 
         """New status"""
         status: TaskStatus!
@@ -291,14 +291,19 @@ extend type Mutation {
     """
     assignTask(
         """Task ID"""
-        taskId: ID!
+        id: String!
 
         """User ID to assign to"""
-        userId: ID!
+        userId: String!
     ): Task!
+
+    """
+    Unassign a task from current user.
+    """
+    unassignTask(id: String!): Task!
 
     """
     Delete a task.
     """
-    deleteTask(id: ID!): Boolean!
+    deleteTask(id: String!): Boolean!
 }

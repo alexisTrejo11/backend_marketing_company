@@ -168,6 +168,10 @@ public class Task extends BaseDomainEntity<TaskId> {
     if (params.title() == null || params.title().trim().isEmpty()) {
       throw new TaskValidationException("Task title is required");
     }
+	  if (params.dueDate() != null && params.dueDate().isPast()) {
+		  throw new TaskValidationException("Due date cannot be in the past");
+	  }
+
     if (params.priority() == null) {
       throw new TaskValidationException("Task priority is required");
     }

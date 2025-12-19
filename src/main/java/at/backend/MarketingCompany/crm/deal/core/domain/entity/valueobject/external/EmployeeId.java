@@ -17,6 +17,11 @@ public record EmployeeId(Long value) {
       throw new IllegalArgumentException("Invalid Employee ID format: " + id);
     }
   }
+
+	public String asString() {
+		return String.valueOf(value);
+	}
+
   public static EmployeeId generate() {
     return new EmployeeId(null);
   }

@@ -103,7 +103,7 @@ public class OpportunityRepositoryImpl implements OpportunityRepository {
     log.debug("Finding active opportunities");
 
     Set<OpportunityStage> activeStages = Set.of(
-        OpportunityStage.LEAD,
+        OpportunityStage.PROSPECTING,
         OpportunityStage.QUALIFIED,
         OpportunityStage.PROPOSAL,
         OpportunityStage.NEGOTIATION);
@@ -153,7 +153,7 @@ public class OpportunityRepositoryImpl implements OpportunityRepository {
     log.debug("Counting active opportunities for customer: {}", customerCompanyId.getValue());
 
     Set<OpportunityStage> activeStages = Set.of(
-        OpportunityStage.LEAD,
+        OpportunityStage.PROSPECTING,
         OpportunityStage.QUALIFIED,
         OpportunityStage.PROPOSAL,
         OpportunityStage.NEGOTIATION);

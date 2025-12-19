@@ -80,7 +80,10 @@ public class UserManagerController {
   @MutationMapping
   @GraphQLRateLimit("strict")
   public Boolean deleteUser(@Argument @Valid @NotBlank String id) {
-    var command = SoftDeleteUserCommand.from(id);
+    // Is Admin Action not user action
+		boolean isUserAction = false;
+
+		var command = SoftDeleteUserCommand.from(id, isUserAction);
     userCommandService.handleSoftDeleteUser(command);
     return true;
   }
@@ -97,7 +100,7 @@ public class UserManagerController {
   @GraphQLRateLimit
   public UserResponse getUserById(@Argument @Valid @NotBlank String id) {
     var query = GetUserByIdQuery.from(id);
-    User user = userQueryService.handleGetUserById(query);
+    User user = userQueryService.getUserById(query);
     return mapper.toUserResponse(user);
   }
 

@@ -58,7 +58,7 @@ class OpportunityTest {
       assertThat(opportunity.getTitle()).isEqualTo(validTitle);
       assertThat(opportunity.getAmount()).contains(validAmount);
       assertThat(opportunity.getExpectedCloseDate()).contains(validCloseDate);
-      assertThat(opportunity.getStage()).isEqualTo(OpportunityStage.LEAD);
+      assertThat(opportunity.getStage()).isEqualTo(OpportunityStage.PROSPECTING);
       assertThat(opportunity.getCreatedAt()).isNotNull();
       assertThat(opportunity.getUpdatedAt()).isNotNull();
       assertThat(opportunity.getVersion()).isEqualTo(1);
@@ -80,7 +80,7 @@ class OpportunityTest {
       assertThat(opportunity).isNotNull();
       assertThat(opportunity.getAmount()).isEmpty();
       assertThat(opportunity.getExpectedCloseDate()).isEmpty();
-      assertThat(opportunity.getStage()).isEqualTo(OpportunityStage.LEAD);
+      assertThat(opportunity.getStage()).isEqualTo(OpportunityStage.PROSPECTING);
     }
 
     @Test
@@ -130,7 +130,7 @@ class OpportunityTest {
     }
 
     @Test
-    @DisplayName("should qualify opportunity from LEAD stage")
+    @DisplayName("should qualify opportunity from PROSPECTING stage")
     void qualify_FromLead_ShouldTransitionToQualified() {
       // When
       leadOpportunity.qualify();
@@ -234,7 +234,7 @@ class OpportunityTest {
     @Test
     @DisplayName("should throw exception when reopening non-closed opportunity")
     void reopen_NonClosedOpportunity_ShouldThrowException() {
-      // Given - Opportunity is still in LEAD stage
+      // Given - Opportunity is still in PROSPECTING stage
 
       // When & Then
       assertThatThrownBy(leadOpportunity::reopen)
@@ -245,12 +245,12 @@ class OpportunityTest {
     @Test
     @DisplayName("should throw exception for invalid stage transition")
     void moveToProposal_FromLead_ShouldThrowException() {
-      // Given - Opportunity is in LEAD stage
+      // Given - Opportunity is in PROSPECTING stage
 
-      // When & Then - Cannot jump from LEAD to PROPOSAL
+      // When & Then - Cannot jump from PROSPECTING to PROPOSAL
       assertThatThrownBy(leadOpportunity::moveToProposal)
           .isInstanceOf(OpportunityValidationException.class)
-          .hasMessageContaining("Cannot transition from LEAD to PROPOSAL");
+          .hasMessageContaining("Cannot transition from PROSPECTING to PROPOSAL");
     }
 
     @Test
@@ -381,7 +381,7 @@ class OpportunityTest {
       // Given - Missing required fields
       var params = OpportunityReconstructParams.builder()
           .id(OpportunityId.generate())
-          .stage(OpportunityStage.LEAD)
+          .stage(OpportunityStage.PROSPECTING)
           .build();
 
       // When & Then - Should fail validation during reconstruction
@@ -544,7 +544,7 @@ class OpportunityTest {
     var opportunity = Opportunity.create(validCreateParams().build());
 
     switch (stage) {
-      case LEAD:
+      case PROSPECTING:
         return opportunity;
       case QUALIFIED:
         opportunity.qualify();

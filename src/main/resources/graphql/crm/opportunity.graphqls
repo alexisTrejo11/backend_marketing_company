@@ -6,8 +6,8 @@
 Stages of the sales opportunity lifecycle.
 """
 enum OpportunityStage {
-    """Initial unqualified lead"""
-    LEAD
+    """Initial unqualified prospect"""
+    PROSPECTING
 
     """Qualified lead with real potential"""
     QUALIFIED
@@ -132,7 +132,7 @@ input CreateOpportunityInput {
     expectedCloseDate: String!
 
     """Initial stage"""
-    stage: OpportunityStage! = LEAD
+    stage: OpportunityStage! = PROSPECTING
 
     """Probability of winning (0-100)"""
     probability: Int! = 10
@@ -175,10 +175,10 @@ input OpportunityFilterInput {
     searchTerm: String
 
     """Filter by specific stages"""
-    stages: [OpportunityStage!]
+    stages: [String!]
 
     """Filter by customer company"""
-    companyId: ID
+    customerId: ID
 
     """Filter by minimum estimated value"""
     minValue: Float
@@ -197,6 +197,83 @@ input OpportunityFilterInput {
 
     """Filter by probability range"""
     maxProbability: Int
+
+    """Pagination parameters"""
+    pageInput: PageInput!
+}
+
+"""
+Input to get opportunity statistics.
+"""
+input GetOpportunityStatisticsInput {
+    """Customer company ID (optional)"""
+    customerId: String
+
+    """Start date for statistics (optional)"""
+    startDate: DateTime
+
+    """End date for statistics (optional)"""
+    endDate: DateTime
+}
+
+"""
+Input to get opportunities by customer.
+"""
+input GetOpportunitiesByCustomerInput {
+    """Customer company ID"""
+    customerId: String!
+
+    """Pagination parameters"""
+    pageInput: PageInput!
+}
+
+"""
+Input to get opportunities by stage.
+"""
+input GetOpportunitiesByStageInput {
+    """Opportunity stage"""
+    stage: OpportunityStage!
+
+    """Pagination parameters"""
+    pageInput: PageInput!
+}
+
+"""
+Opportunity statistics response.
+"""
+type OpportunityStatisticsResponse {
+    """Total opportunities in the system"""
+    totalOpportunities: Int!
+
+    """Active opportunities (not closed)"""
+    activeOpportunities: Int!
+
+    """Won opportunities"""
+    wonOpportunities: Int!
+
+    """Lost opportunities"""
+    lostOpportunities: Int!
+
+    """Success rate (percentage of won opportunities)"""
+    winRate: Float!
+
+    """Total estimated value of active opportunities"""
+    totalPipelineValue: BigDecimal!
+
+    """Average deal size"""
+    averageDealSize: BigDecimal!
+
+    """Opportunities in LEAD stage"""
+    leadStageCount: Int!
+
+    """Opportunities in QUALIFIED stage"""
+    qualifiedStageCount: Int!
+
+    """Opportunities in PROPOSAL stage"""
+    proposalStageCount: Int!
+
+    """Opportunities in NEGOTIATION stage"""
+    negotiationStageCount: Int!
 }
 
 # ============================================================================
@@ -266,7 +343,7 @@ extend type Query {
     """
     Get general opportunity statistics.
     """
-    opportunityStatistics: OpportunityStatistics!
+    opportunityStatistics(input: GetOpportunityStatisticsInput!): OpportunityStatisticsResponse!
 }
 
 # ============================================================================
@@ -282,72 +359,40 @@ extend type Mutation {
     """
     Update information of an existing opportunity.
     """
-    updateOpportunity(
-        """Opportunity ID"""
-        id: ID!
-
-        """Update data"""
-        input: UpdateOpportunityInput!
-    ): Opportunity!
+    updateOpportunity(input: UpdateOpportunityInput!): Opportunity!
 
     """
     Move an opportunity to QUALIFIED stage.
     """
-    qualifyOpportunity(
-        """Opportunity ID"""
-        opportunityId: ID!
-
-        """Qualification notes"""
-        notes: String
-    ): Opportunity!
+    qualifyOpportunity(opportunityId: String!): Opportunity!
 
     """
     Move an opportunity to PROPOSAL stage.
     """
-    moveToProposal(
-        """Opportunity ID"""
-        opportunityId: ID!
-
-        """Proposal notes"""
-        notes: String
-    ): Opportunity!
+    moveToProposal(opportunityId: String!): Opportunity!
 
     """
     Move an opportunity to NEGOTIATION stage.
     """
-    moveToNegotiation(
-        """Opportunity ID"""
-        opportunityId: ID!
-
-        """Negotiation details"""
-        details: String
-    ): Opportunity!
+    moveToNegotiation(opportunityId: String!): Opportunity!
 
     """
     Close an opportunity as won (CLOSED_WON).
     """
-    closeOpportunityWon(
-        """Opportunity ID"""
-        opportunityId: ID!
-
-        """Final deal amount"""
-        finalAmount: Float!
-
-        """Winning notes"""
-        notes: String
-    ): Opportunity!
+    closeOpportunityWon(opportunityId: String!): Opportunity!
 
     """
     Close an opportunity as lost (CLOSED_LOST).
     """
-    closeOpportunityLost(
-        """Opportunity ID"""
-        opportunityId: ID!
+    closeOpportunityLost(opportunityId: String!): Opportunity!
 
-        """Reason for loss"""
-        reason: String!
+    """
+    Reopen a previously closed opportunity.
+    """
+    reopenOpportunity(opportunityId: String!): Opportunity!
 
-        """Loss details"""
-        details: String
-    ): Opportunity!
+    """
+    Delete an opportunity.
+    """
+    deleteOpportunity(opportunityId: String!): Boolean!
 }

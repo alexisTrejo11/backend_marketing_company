@@ -6,7 +6,7 @@ import at.backend.MarketingCompany.customer.core.port.ouput.CustomerCompanyRepos
 import at.backend.MarketingCompany.customer.core.domain.entity.CustomerCompany;
 import at.backend.MarketingCompany.customer.core.domain.exceptions.CompanyNotFoundException;
 import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
-import at.backend.MarketingCompany.customer.adapter.input.web.dto.CompanyMetrics;
+import at.backend.MarketingCompany.customer.adapter.input.graphql.dto.CompanyMetrics;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor

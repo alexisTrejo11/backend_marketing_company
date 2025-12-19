@@ -30,7 +30,7 @@ public class UserQueryServiceImpl implements UserQueryService {
 
   @Override
   @Transactional(readOnly = true)
-  public User handleGetUserById(GetUserByIdQuery query) {
+  public User getUserById(GetUserByIdQuery query) {
     log.debug("Fetching user by ID: {}", query.userId());
 
     return findUserById(query.userId());

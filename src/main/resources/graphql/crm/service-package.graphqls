@@ -236,34 +236,12 @@ extend type Query {
     """
     Get all available service packages.
     """
-    servicePackages(
-        """Pagination parameters"""
-        pageInput: PageInput
-    ): ServicePackagePage!
+    servicePackages(input: PageInput!): ServicePackagePage!
 
     """
     Find a service package by ID.
     """
-    servicePackage(id: ID!): ServicePackage
-
-    """
-    Get service packages by type.
-    """
-    servicePackagesByType(
-        """Service type"""
-        serviceType: ServiceType!
-
-        """Pagination parameters"""
-        pageInput: PageInput
-    ): ServicePackagePage!
-
-    """
-    Get active service packages.
-    """
-    activeServicePackages(
-        """Pagination parameters"""
-        pageInput: PageInput
-    ): ServicePackagePage!
+    servicePackage(id: String!): ServicePackage
 }
 
 # ============================================================================
@@ -279,23 +257,7 @@ extend type Mutation {
     """
     Update an existing service package.
     """
-    updateServicePackage(
-        """Service package ID"""
-        id: ID!
-
-        """Update data"""
-        input: UpdateServicePackageInput!
-    ): ServicePackage!
-
-    """
-    Activate a service package.
-    """
-    activateServicePackage(id: ID!): ServicePackage!
-
-    """
-    Deactivate a service package.
-    """
-    deactivateServicePackage(id: ID!): ServicePackage!
+    updateServicePackage(input: UpdateServicePackageInput!): ServicePackage!
 
     """
     Delete a service package.

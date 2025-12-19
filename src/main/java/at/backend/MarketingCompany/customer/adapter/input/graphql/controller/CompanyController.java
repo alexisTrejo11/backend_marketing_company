@@ -1,8 +1,8 @@
-package at.backend.MarketingCompany.customer.adapter.input.web.controller;
+package at.backend.MarketingCompany.customer.adapter.input.graphql.controller;
 
-import at.backend.MarketingCompany.customer.adapter.input.web.dto.CompanyMetrics;
-import at.backend.MarketingCompany.customer.adapter.input.web.dto.CompanyResponse;
-import at.backend.MarketingCompany.customer.adapter.input.web.mapper.CompanyResponseMapper;
+import at.backend.MarketingCompany.customer.adapter.input.graphql.dto.CompanyMetrics;
+import at.backend.MarketingCompany.customer.adapter.input.graphql.dto.CompanyResponse;
+import at.backend.MarketingCompany.customer.adapter.input.graphql.mapper.CompanyResponseMapper;
 import at.backend.MarketingCompany.customer.core.application.dto.command.CompanyCommands.*;
 import at.backend.MarketingCompany.customer.core.application.dto.query.CompanyQueries.*;
 import at.backend.MarketingCompany.customer.core.domain.entity.CustomerCompany;

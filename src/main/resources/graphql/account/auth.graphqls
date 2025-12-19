@@ -90,4 +90,16 @@ extend type Mutation {
     Returns new authentication tokens.
     """
     refreshToken(input: RefreshTokenInput!): AuthResponse!
+
+    """
+    Logs out from the current session.
+    Invalidates the provided refresh token.
+    """
+    logout(refreshToken: String!): Boolean!
+
+    """
+    Logs out from all active sessions.
+    Invalidates all refresh tokens for the current user.
+    """
+    logoutAll: Boolean!
 }

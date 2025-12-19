@@ -123,7 +123,7 @@ public class TaskCommandServiceImpl implements TaskCommandService {
 
   @Override
   @Transactional
-  public Task markTaskInProgressC(MarkTaskInProgressCommand command) {
+  public Task markTaskInProgress(MarkTaskInProgressCommand command) {
     return changeTaskStatus(command.taskId(), "in progress", Task::markInProgress);
   }
 

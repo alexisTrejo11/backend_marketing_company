@@ -8,7 +8,7 @@ import at.backend.MarketingCompany.customer.core.port.ouput.CustomerCompanyRepos
 import at.backend.MarketingCompany.customer.core.application.service.CustomerCompanyQueryHandlerImpl;
 import at.backend.MarketingCompany.customer.core.domain.entity.CustomerCompany;
 import at.backend.MarketingCompany.customer.core.domain.exceptions.CompanyNotFoundException;
-import at.backend.MarketingCompany.customer.adapter.input.web.dto.CompanyMetrics;
+import at.backend.MarketingCompany.customer.adapter.input.graphql.dto.CompanyMetrics;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

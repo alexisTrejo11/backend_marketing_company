@@ -1,10 +1,10 @@
-package at.backend.MarketingCompany.customer.adapter.input.web.mapper;
+package at.backend.MarketingCompany.customer.adapter.input.graphql.mapper;
 
 import at.backend.MarketingCompany.customer.core.domain.entity.CustomerCompany;
 import at.backend.MarketingCompany.customer.core.domain.valueobject.*;
-import at.backend.MarketingCompany.customer.adapter.input.web.dto.CompanyMetrics;
+import at.backend.MarketingCompany.customer.adapter.input.graphql.dto.CompanyMetrics;
 import at.backend.MarketingCompany.shared.PageResponse;
-import at.backend.MarketingCompany.customer.adapter.input.web.dto.CompanyResponse;
+import at.backend.MarketingCompany.customer.adapter.input.graphql.dto.CompanyResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.mapping.MappingException;

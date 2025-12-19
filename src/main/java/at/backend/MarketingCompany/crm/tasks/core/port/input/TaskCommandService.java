@@ -15,7 +15,7 @@ public interface TaskCommandService {
 
     Task changeTaskDueDate(ChangeTaskDueDateCommand command);
 
-    Task markTaskInProgressC(MarkTaskInProgressCommand command);
+    Task markTaskInProgress(MarkTaskInProgressCommand command);
 
     Task completeTask(CompleteTaskCommand command);
 

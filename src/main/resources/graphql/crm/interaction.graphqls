@@ -109,6 +109,9 @@ input CreateInteractionInput {
 Input to update an existing interaction.
 """
 input UpdateInteractionInput {
+    """Interaction ID"""
+    interactionId: String!
+
     """Interaction type"""
     type: InteractionType
 
@@ -128,34 +131,100 @@ input UpdateInteractionInput {
     channelPreference: String
 }
 
+"""
+Input to add feedback to an interaction.
+"""
+input AddFeedbackInput {
+    """Interaction ID"""
+    interactionId: String!
+
+    """Feedback type"""
+    feedbackType: FeedbackType!
+
+    """Feedback details"""
+    feedbackDetails: String!
+}
+
+"""
+Input to get interactions by customer.
+"""
+input GetInteractionsByCustomerInput {
+    """Customer company ID"""
+    customerId: String!
+
+    """Pagination parameters"""
+    pageInput: PageInput!
+}
+
+"""
+Interaction statistics response.
+"""
+type InteractionStatisticsResponse {
+    """Total number of interactions"""
+    totalInteractions: Int!
+
+    """Number of email interactions"""
+    emailInteractions: Int!
+
+    """Number of call interactions"""
+    callInteractions: Int!
+
+    """Number of meeting interactions"""
+    meetingInteractions: Int!
+
+    """Number of note interactions"""
+    noteInteractions: Int!
+
+    """Number of positive feedback"""
+    positiveFeedback: Int!
+
+    """Number of negative feedback"""
+    negativeFeedback: Int!
+
+    """Number of neutral feedback"""
+    neutralFeedback: Int!
+}
+
+"""
+Customer interaction analytics response.
+"""
+type CustomerInteractionAnalyticsResponse {
+    """Customer company ID"""
+    customerId: String!
+
+    """Total interactions"""
+    totalInteractions: Int!
+
+    """Last interaction date"""
+    lastInteractionDate: DateTime
+
+    """Most frequent interaction type"""
+    mostFrequentType: InteractionType
+
+    """Average interactions per month"""
+    averageInteractionsPerMonth: Float
+
+    """Positive feedback rate"""
+    positiveFeedbackRate: Float
+
+    """Requires follow-up"""
+    requiresFollowUp: Boolean!
+}
+
 # ============================================================================
 # QUERIES
 # ============================================================================
 
 extend type Query {
     """
-    Get all interactions with optional pagination.
-    """
-    interactions(
-        """Pagination parameters"""
-        pageInput: PageInput
-    ): InteractionPage!
-
-    """
     Find a specific interaction by ID.
     """
-    interaction(id: ID!): Interaction
+    interaction(interactionId: String!): Interaction
 
     """
-    Get interactions for a specific company.
+    Get interactions for a specific customer.
     """
-    interactionsByCompany(
-        """Company ID"""
-        companyId: ID!
-
-        """Pagination parameters"""
-        pageInput: PageInput
-    ): InteractionPage!
+    interactionsByCustomer(input: GetInteractionsByCustomerInput!): InteractionPage!
 
     """
     Get interactions by type.
@@ -165,7 +234,18 @@ extend type Query {
         type: InteractionType!
 
         """Pagination parameters"""
-        pageInput: PageInput
+        pageInput: PageInput!
+    ): InteractionPage!
+
+    """
+    Get interactions by feedback type.
+    """
+    interactionsByFeedbackType(
+        """Feedback type"""
+        feedbackType: FeedbackType!
+
+        """Pagination parameters"""
+        pageInput: PageInput!
     ): InteractionPage!
 
     """
@@ -176,8 +256,38 @@ extend type Query {
         days: Int!
 
         """Pagination parameters"""
-        pageInput: PageInput
+        pageInput: PageInput!
     ): InteractionPage!
+
+    """
+    Get today's interactions.
+    """
+    todayInteractions(pageInput: PageInput!): InteractionPage!
+
+    """
+    Get interactions requiring follow-up.
+    """
+    interactionsRequiringFollowUp(pageInput: PageInput!): InteractionPage!
+
+    """
+    Get positive interactions.
+    """
+    positiveInteractions(pageInput: PageInput!): InteractionPage!
+
+    """
+    Get negative interactions.
+    """
+    negativeInteractions(pageInput: PageInput!): InteractionPage!
+
+    """
+    Get interaction statistics for a customer.
+    """
+    interactionStatistics(customerId: String!): InteractionStatisticsResponse
+
+    """
+    Get customer interaction analytics.
+    """
+    customerInteractionAnalytics(customerId: String!): CustomerInteractionAnalyticsResponse
 }
 
 # ============================================================================
@@ -193,16 +303,30 @@ extend type Mutation {
     """
     Update an existing interaction.
     """
-    updateInteraction(
-        """Interaction ID"""
-        id: ID!
+    updateInteraction(input: UpdateInteractionInput!): Interaction!
 
-        """Update data"""
-        input: UpdateInteractionInput!
-    ): Interaction!
+    """
+    Add feedback to an interaction.
+    """
+    addFeedback(input: AddFeedbackInput!): Interaction!
+
+    """
+    Mark interaction with positive feedback.
+    """
+    markPositiveFeedback(interactionId: String!): Interaction!
+
+    """
+    Mark interaction with negative feedback.
+    """
+    markNegativeFeedback(interactionId: String!): Interaction!
+
+    """
+    Mark interaction with neutral feedback.
+    """
+    markNeutralFeedback(interactionId: String!): Interaction!
 
     """
     Delete an interaction.
     """
-    deleteInteraction(id: ID!): Boolean!
+    deleteInteraction(interactionId: String!): Boolean!
 }

@@ -12,7 +12,7 @@ import at.backend.MarketingCompany.account.user.core.application.queries.SearchU
 import at.backend.MarketingCompany.account.user.core.domain.entity.User;
 
 public interface UserQueryService {
-  User handleGetUserById(GetUserByIdQuery query);
+  User getUserById(GetUserByIdQuery query);
 
   User handleGetUserByEmail(GetUserByEmailQuery query);
 

@@ -1,4 +1,4 @@
-package at.backend.MarketingCompany.customer.adapter.input.web.dto;
+package at.backend.MarketingCompany.customer.adapter.input.graphql.dto;
 
 import at.backend.MarketingCompany.customer.core.domain.valueobject.CompanySize;
 import at.backend.MarketingCompany.customer.core.domain.valueobject.CompanyStatus;
@@ -6,7 +6,6 @@ import at.backend.MarketingCompany.customer.core.domain.valueobject.Industry;
 import lombok.Builder;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Set;
 

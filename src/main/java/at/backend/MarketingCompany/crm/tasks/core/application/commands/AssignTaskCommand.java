@@ -6,4 +6,11 @@ import at.backend.MarketingCompany.crm.tasks.core.domain.entity.valueobject.Task
 public record AssignTaskCommand(
     TaskId taskId,
     EmployeeId assignedTo) {
+
+	public static AssignTaskCommand of(String taskId, String assignedTo) {
+		return new AssignTaskCommand(
+			TaskId.of(taskId),
+			EmployeeId.of(assignedTo)
+		);
+	}
 }

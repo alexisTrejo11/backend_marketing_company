@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject;
 
 public enum OpportunityStage {
-  LEAD,
+	PROSPECTING,
   QUALIFIED,
   PROPOSAL,
   NEGOTIATION,
@@ -10,7 +10,7 @@ public enum OpportunityStage {
 
   public boolean canTransitionTo(OpportunityStage newStage) {
     return switch (this) {
-      case LEAD -> newStage == QUALIFIED || newStage == CLOSED_LOST;
+      case PROSPECTING -> newStage == QUALIFIED || newStage == CLOSED_LOST;
       case QUALIFIED -> newStage == PROPOSAL || newStage == CLOSED_LOST;
       case PROPOSAL -> newStage == NEGOTIATION || newStage == CLOSED_LOST;
       case NEGOTIATION -> newStage == CLOSED_WON || newStage == CLOSED_LOST;

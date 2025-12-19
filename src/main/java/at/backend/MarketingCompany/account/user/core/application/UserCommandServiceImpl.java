@@ -102,7 +102,11 @@ public class UserCommandServiceImpl implements UserCommandService {
   public User handleSoftDeleteUser(SoftDeleteUserCommand command) {
     log.info("Soft deleting user: {}", command.userId());
 
-    User user = findUserOrThrow(command.userId());
+		User user = findUserOrThrow(command.userId());
+	  if (command.isUserAction()) {
+		  user.validateUserOperation();
+	  }
+
     log.info("Soft deleting user entity");
 
     user.softDelete();

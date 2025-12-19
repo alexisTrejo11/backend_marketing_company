@@ -41,7 +41,7 @@ public interface JpaTaskRepository extends JpaRepository<TaskEntity, Long> {
     default Page<TaskEntity> findOverdueTasks(Pageable pageable) {
         return findOverdueTasks(
                 LocalDateTime.now(),
-                Set.of(TaskStatus.COMPLETED, TaskStatus.CANCELLED),
+                Set.of(TaskStatus.COMPLETED, TaskStatus.CANCELLED, TaskStatus.BLOCKED),
                 pageable
         );
     }

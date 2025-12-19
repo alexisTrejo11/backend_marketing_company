@@ -5,4 +5,8 @@ import org.springframework.data.domain.Pageable;
 import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.external.EmployeeId;
 
 public record GetTasksByAssigneeQuery(EmployeeId assigneeId, Pageable pageable) {
+
+	public static GetTasksByAssigneeQuery of(String assigneeId, Pageable pageable) {
+		return new GetTasksByAssigneeQuery(EmployeeId.of(assigneeId), pageable);
+	}
 }

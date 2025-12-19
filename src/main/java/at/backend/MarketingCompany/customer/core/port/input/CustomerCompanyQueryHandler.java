@@ -2,7 +2,7 @@ package at.backend.MarketingCompany.customer.core.port.input;
 
 import at.backend.MarketingCompany.customer.core.application.dto.query.CompanyQueries.*;
 import at.backend.MarketingCompany.customer.core.domain.entity.CustomerCompany;
-import at.backend.MarketingCompany.customer.adapter.input.web.dto.CompanyMetrics;
+import at.backend.MarketingCompany.customer.adapter.input.graphql.dto.CompanyMetrics;
 import org.springframework.data.domain.Page;
 
 import java.util.List;

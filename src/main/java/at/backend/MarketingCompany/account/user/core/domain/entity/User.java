@@ -137,6 +137,25 @@ public class User extends BaseDomainEntity<UserId> {
     return this.status.equals(UserStatus.ACTIVE);
   }
 
+	public void validateUserOperation() {
+		if (this.status == UserStatus.SUSPENDED) {
+			throw new UserValidationException("User account is suspended");
+		}
+
+		if (this.status == UserStatus.PENDING_ACTIVATION) {
+			throw new UserValidationException("User account is pending activation");
+		}
+
+		if (this.status == UserStatus.DELETED || this.deletedAt != null) {
+			throw new UserValidationException("User account is deleted");
+		}
+
+		if (!canLogin()) {
+			throw new UserValidationException("User is not active and cannot log in");
+		}
+
+	}
+
   public boolean isPasswordExpired() {
     if (passwordChangedAt == null) {
       return false;

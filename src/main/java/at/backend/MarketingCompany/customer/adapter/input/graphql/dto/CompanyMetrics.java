@@ -1,4 +1,4 @@
-package at.backend.MarketingCompany.customer.adapter.input.web.dto;
+package at.backend.MarketingCompany.customer.adapter.input.graphql.dto;
 
 import lombok.Builder;
 

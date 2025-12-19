@@ -28,7 +28,7 @@ public class UserController {
   @QueryMapping
   @GraphQLRateLimit("user-operation")
   public UserResponse me(@Argument @Valid @NotBlank String userId) {
-    User user = userQueryService.handleGetUserById(GetUserByIdQuery.from(userId));
+    User user = userQueryService.getUserById(GetUserByIdQuery.from(userId));
     return mapper.toUserResponse(user);
   }
 
@@ -45,7 +45,8 @@ public class UserController {
   @MutationMapping
   @GraphQLRateLimit("user-operation")
   public Boolean deleteMyAccount(@Argument @Valid @NotBlank String userId) {
-    var command = SoftDeleteUserCommand.from(userId);
+    boolean userAction = true;
+		var command = SoftDeleteUserCommand.from(userId, userAction);
     userCommandService.handleSoftDeleteUser(command);
 
     return true;
