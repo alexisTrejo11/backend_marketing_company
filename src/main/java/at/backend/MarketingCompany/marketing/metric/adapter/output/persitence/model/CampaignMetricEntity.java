@@ -1,6 +1,7 @@
 package at.backend.MarketingCompany.marketing.metric.adapter.output.persitence.model;
 
 import at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.entity.MarketingCampaignEntity;
+import at.backend.MarketingCompany.marketing.campaign.core.domain.models.MetricType;
 import at.backend.MarketingCompany.shared.jpa.BaseJpaEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -56,8 +57,4 @@ public class CampaignMetricEntity extends BaseJpaEntity {
 
 	@Column(name = "is_target_achieved")
 	private Boolean isTargetAchieved = false;
-
-	public enum MetricType {
-		COUNT, CURRENCY, PERCENTAGE, DURATION, COST, RATIO, SCORE
-	}
 }

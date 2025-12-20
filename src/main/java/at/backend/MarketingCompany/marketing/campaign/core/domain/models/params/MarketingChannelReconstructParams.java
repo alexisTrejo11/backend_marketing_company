@@ -1,8 +1,7 @@
 package at.backend.MarketingCompany.marketing.campaign.core.domain.models.params;
 
-import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.ChannelType;
+import at.backend.MarketingCompany.marketing.channel.core.domain.valueobject.ChannelType;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingChannelId;
-import at.backend.MarketingCompany.marketing.core.domain.entity.MarketingChannel.ChannelType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject;
+package at.backend.MarketingCompany.marketing.channel.core.domain.valueobject;
 
 public enum ChannelType {
     PAID, ORGANIC, SOCIAL, DIRECT, EMAIL, REFERRAL

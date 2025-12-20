@@ -1,4 +1,4 @@
-package at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.repository.jpa;
+package at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.repository;
 
 import at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.entity.AbTestEntity;
 import org.springframework.data.domain.Page;

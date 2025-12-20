@@ -57,7 +57,4 @@ public class CampaignAttributionEntity extends BaseJpaEntity {
   @Column(name = "linear_weight", precision = 5, scale = 2)
   private BigDecimal linearWeight = BigDecimal.ZERO;
 
-  public enum AttributionModel {
-    FIRST_TOUCH, LAST_TOUCH, LINEAR, TIME_DECAY, CUSTOM
-  }
 }

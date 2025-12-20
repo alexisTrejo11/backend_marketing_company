@@ -2,7 +2,7 @@ package at.backend.MarketingCompany.marketing.campaign.core.domain.models.params
 
 import at.backend.MarketingCompany.marketing.campaign.core.domain.models.CampaignTarget;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.*;
-import at.backend.MarketingCompany.marketing.core.domain.valueobject.*;
+
 
 import java.time.LocalDateTime;
 import java.util.Map;

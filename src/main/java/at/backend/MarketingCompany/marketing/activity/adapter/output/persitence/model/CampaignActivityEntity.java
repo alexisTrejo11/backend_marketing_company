@@ -1,5 +1,7 @@
 package at.backend.MarketingCompany.marketing.activity.adapter.output.persitence.model;
 
+import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivityStatus;
+import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivityType;
 import at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.entity.MarketingCampaignEntity;
 import at.backend.MarketingCompany.shared.jpa.BaseJpaEntity;
 import jakarta.persistence.*;
@@ -78,13 +80,4 @@ public class CampaignActivityEntity extends BaseJpaEntity {
   @JdbcTypeCode(SqlTypes.JSON)
   @Column(name = "dependencies", columnDefinition = "jsonb")
   private Map<String, Object> dependencies;
-
-  public enum ActivityType {
-    CONTENT_CREATION, AD_SETUP, EMAIL_BLAST, SOCIAL_POST,
-    EVENT, WEBINAR, ANALYSIS, OPTIMIZATION
-  }
-
-  public enum ActivityStatus {
-    PLANNED, IN_PROGRESS, COMPLETED, CANCELLED, BLOCKED
-  }
 }

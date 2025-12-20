@@ -1,5 +1,7 @@
 package at.backend.MarketingCompany.marketing.assets.adapter.output.persitence.model;
 
+import at.backend.MarketingCompany.marketing.assets.core.domain.entity.AssetStatus;
+import at.backend.MarketingCompany.marketing.assets.core.domain.entity.AssetType;
 import at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.entity.MarketingCampaignEntity;
 import at.backend.MarketingCompany.shared.jpa.BaseJpaEntity;
 import jakarta.persistence.*;
@@ -58,12 +60,5 @@ public class MarketingAssetEntity extends BaseJpaEntity {
   @Column(name = "is_primary_asset")
   private Boolean isPrimaryAsset = false;
 
-  public enum AssetType {
-    LANDING_PAGE, AD_CREATIVE, EMAIL_TEMPLATE, WHITEPAPER,
-    VIDEO, IMAGE, DOCUMENT, SOCIAL_POST
-  }
 
-  public enum AssetStatus {
-    DRAFT, READY, ACTIVE, ARCHIVED
-  }
 }

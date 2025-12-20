@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.marketing.channel.adapter.output.persitence.repository;
 
 import at.backend.MarketingCompany.marketing.channel.adapter.output.persitence.model.MarketingChannelEntity;
-import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.ChannelType;
+import at.backend.MarketingCompany.marketing.channel.core.domain.valueobject.ChannelType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

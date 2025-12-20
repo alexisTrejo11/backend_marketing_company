@@ -36,7 +36,8 @@ public record CampaignTarget(
         .multiply(BigDecimal.valueOf(100));
   }
 
-  public enum MetricType {
-    COUNT, CURRENCY, PERCENTAGE, DURATION, RATIO
-  }
+
+
+
 }
+

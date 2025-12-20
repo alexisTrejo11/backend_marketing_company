@@ -2,7 +2,7 @@ package at.backend.MarketingCompany.marketing.channel.adapter.output.persitence.
 
 import at.backend.MarketingCompany.marketing.interaction.adapter.output.persitence.model.CampaignInteractionEntity;
 import at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.entity.MarketingCampaignEntity;
-import at.backend.MarketingCompany.marketing.campaign.core.domain.models.MarketingChannel;
+import at.backend.MarketingCompany.marketing.channel.core.domain.entity.MarketingChannel;
 import at.backend.MarketingCompany.shared.jpa.BaseJpaEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
