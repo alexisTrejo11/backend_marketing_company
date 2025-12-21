@@ -1,5 +1,6 @@
 package at.backend.MarketingCompany.marketing.metric.adapter.output.persitence.repository;
 
+import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MetricType;
 import at.backend.MarketingCompany.marketing.metric.adapter.output.persitence.model.CampaignMetricEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +29,7 @@ public interface CampaignMetricJpaRepository extends JpaRepository<CampaignMetri
            "AND m.campaign.id = :campaignId AND m.metricType = :metricType")
     Page<CampaignMetricEntity> findByCampaignIdAndMetricType(
             @Param("campaignId") Long campaignId,
-            @Param("metricType") CampaignMetricEntity.MetricType metricType,
+            @Param("metricType") MetricType metricType,
             Pageable pageable);
     
     @Query("SELECT m FROM CampaignMetricEntity m WHERE m.deletedAt IS NULL " +
@@ -58,5 +59,5 @@ public interface CampaignMetricJpaRepository extends JpaRepository<CampaignMetri
            "AND m.campaign.id = :campaignId AND m.metricType = :metricType")
     BigDecimal calculateAverageValueByCampaignAndMetricType(
             @Param("campaignId") Long campaignId,
-            @Param("metricType") CampaignMetricEntity.MetricType metricType);
+            @Param("metricType") MetricType metricType);
 }

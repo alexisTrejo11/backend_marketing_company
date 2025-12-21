@@ -1,5 +1,6 @@
 package at.backend.MarketingCompany.marketing.attribution.adapter.output.persitence.model;
 
+import at.backend.MarketingCompany.marketing.attribution.core.domain.valueobject.AttributionModel;
 import at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.entity.MarketingCampaignEntity;
 import at.backend.MarketingCompany.shared.jpa.BaseJpaEntity;
 import jakarta.persistence.*;

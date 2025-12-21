@@ -111,4 +111,9 @@ public class MarketingCampaignEntity extends BaseJpaEntity {
 
   @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<AbTestEntity> abTests = new HashSet<>();
+
+
+	public MarketingCampaignEntity(Long id) {
+		this.id = id;
+	}
 }

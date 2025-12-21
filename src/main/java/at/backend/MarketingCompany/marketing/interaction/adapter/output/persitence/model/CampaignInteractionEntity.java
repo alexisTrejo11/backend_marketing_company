@@ -3,7 +3,7 @@ package at.backend.MarketingCompany.marketing.interaction.adapter.output.persite
 import at.backend.MarketingCompany.customer.adapter.output.persistence.entity.CustomerCompanyEntity;
 import at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.entity.MarketingCampaignEntity;
 import at.backend.MarketingCompany.marketing.channel.adapter.output.persitence.model.MarketingChannelEntity;
-import at.backend.MarketingCompany.marketing.interaction.core.domain.valueobject.InteractionType;
+import at.backend.MarketingCompany.marketing.interaction.core.domain.valueobject.MarketingInteractionType;
 import at.backend.MarketingCompany.shared.jpa.BaseJpaEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -38,7 +38,7 @@ public class CampaignInteractionEntity extends BaseJpaEntity {
 
   @Enumerated(EnumType.STRING)
   @Column(name = "interaction_type", nullable = false, length = 50)
-  private InteractionType interactionType;
+  private MarketingInteractionType marketingInteractionType;
 
   @Column(name = "interaction_date", nullable = false)
   private LocalDateTime interactionDate = LocalDateTime.now();

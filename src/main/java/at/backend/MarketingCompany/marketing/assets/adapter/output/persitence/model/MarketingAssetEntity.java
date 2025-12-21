@@ -35,9 +35,6 @@ public class MarketingAssetEntity extends BaseJpaEntity {
   @Column(name = "url", nullable = false, length = 500)
   private String url;
 
-  @Column(name = "version", length = 20)
-  private String version = "1.0";
-
   @Column(name = "file_size_kb")
   private Integer fileSizeKb;
 

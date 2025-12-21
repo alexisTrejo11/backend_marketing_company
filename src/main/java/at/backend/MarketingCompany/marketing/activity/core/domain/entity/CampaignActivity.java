@@ -1,8 +1,9 @@
 package at.backend.MarketingCompany.marketing.activity.core.domain.entity;
 
 import at.backend.MarketingCompany.marketing.activity.adapter.output.persitence.model.CampaignActivityEntity;
-import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.CampaignActivityId;
+import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.*;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.exception.InvalidCampaignStateException;
+import at.backend.MarketingCompany.marketing.campaign.core.domain.exception.MarketingDomainException;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
 import at.backend.MarketingCompany.shared.domain.BaseDomainEntity;
 import lombok.Getter;
@@ -14,8 +15,8 @@ public class CampaignActivity extends BaseDomainEntity<CampaignActivityId> {
   private MarketingCampaignId campaignId;
   private String name;
   private String description;
-  private CampaignActivityEntity.ActivityType activityType;
-  private CampaignActivityId.ActivityStatus status;
+  private ActivityType activityType;
+  private ActivityStatus status;
   private ActivitySchedule schedule;
   private ActivityCost cost;
   private Long assignedToUserId;
@@ -25,18 +26,18 @@ public class CampaignActivity extends BaseDomainEntity<CampaignActivityId> {
   private Map<String, Object> dependencies;
 
   private CampaignActivity() {
-    this.status = CampaignActivityId.ActivityStatus.PLANNED;
+    this.status = ActivityStatus.PLANNED;
   }
 
   public CampaignActivity(CampaignActivityId id) {
     super(id);
-    this.status = CampaignActivityId.ActivityStatus.PLANNED;
+    this.status = ActivityStatus.PLANNED;
   }
 
   public static CampaignActivity create(
       MarketingCampaignId campaignId,
       String name,
-      CampaignActivityId.ActivityType activityType,
+      ActivityType activityType,
       ActivitySchedule schedule,
       ActivityCost cost,
       String deliveryChannel) {
@@ -67,7 +68,7 @@ public class CampaignActivity extends BaseDomainEntity<CampaignActivityId> {
     activity.schedule = schedule;
     activity.cost = cost;
     activity.deliveryChannel = deliveryChannel;
-    activity.status = CampaignActivityId.ActivityStatus.PLANNED;
+    activity.status = ActivityStatus.PLANNED;
 
     return activity;
   }
@@ -83,7 +84,7 @@ public class CampaignActivity extends BaseDomainEntity<CampaignActivityId> {
     activity.name = params.name();
     activity.description = params.description();
     activity.activityType = params.activityType();
-    activity.status = params.status() != null ? params.status() : CampaignActivityId.ActivityStatus.PLANNED;
+    activity.status = params.status() != null ? params.status() : ActivityStatus.PLANNED;
     activity.schedule = params.schedule();
     activity.cost = params.cost();
     activity.assignedToUserId = params.assignedToUserId();
@@ -100,31 +101,31 @@ public class CampaignActivity extends BaseDomainEntity<CampaignActivityId> {
   }
 
   public void start() {
-    if (status != CampaignActivityId.ActivityStatus.PLANNED) {
+    if (status != ActivityStatus.PLANNED) {
       throw new InvalidCampaignStateException("Only planned activities can be started");
     }
-    this.status = CampaignActivityId.ActivityStatus.IN_PROGRESS;
+    this.status = ActivityStatus.IN_PROGRESS;
   }
 
   public void complete() {
-    if (status != CampaignActivityId.ActivityStatus.IN_PROGRESS) {
+    if (status != ActivityStatus.IN_PROGRESS) {
       throw new InvalidCampaignStateException("Only in-progress activities can be completed");
     }
-    this.status = CampaignActivityId.ActivityStatus.COMPLETED;
+    this.status = ActivityStatus.COMPLETED;
   }
 
   public void cancel() {
-    if (status == CampaignActivityId.ActivityStatus.COMPLETED) {
+    if (status == ActivityStatus.COMPLETED) {
       throw new InvalidCampaignStateException("Cannot cancel completed activity");
     }
-    this.status = CampaignActivityId.ActivityStatus.CANCELLED;
+    this.status = ActivityStatus.CANCELLED;
   }
 
   public void block() {
-    if (status == CampaignActivityId.ActivityStatus.COMPLETED || status == CampaignActivityId.ActivityStatus.CANCELLED) {
+    if (status == ActivityStatus.COMPLETED || status == ActivityStatus.CANCELLED) {
       throw new InvalidCampaignStateException("Cannot block completed or cancelled activity");
     }
-    this.status = CampaignActivityId.ActivityStatus.BLOCKED;
+    this.status = ActivityStatus.BLOCKED;
   }
 
 

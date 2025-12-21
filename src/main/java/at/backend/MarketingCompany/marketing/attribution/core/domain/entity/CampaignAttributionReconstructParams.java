@@ -4,11 +4,13 @@ import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.DealI
 import at.backend.MarketingCompany.marketing.attribution.core.domain.valueobject.AttributionModel;
 import at.backend.MarketingCompany.marketing.attribution.core.domain.valueobject.CampaignAttributionId;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
+import lombok.Builder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Builder
 public record CampaignAttributionReconstructParams(
     CampaignAttributionId id,
     DealId dealId,

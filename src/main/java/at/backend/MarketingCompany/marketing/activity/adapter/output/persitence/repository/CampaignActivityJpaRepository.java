@@ -1,6 +1,7 @@
 package at.backend.MarketingCompany.marketing.activity.adapter.output.persitence.repository;
 
 import at.backend.MarketingCompany.marketing.activity.adapter.output.persitence.model.CampaignActivityEntity;
+import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivityStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,7 +29,7 @@ public interface CampaignActivityJpaRepository extends JpaRepository<CampaignAct
            "AND a.campaign.id = :campaignId AND a.status = :status")
     Page<CampaignActivityEntity> findByCampaignIdAndStatus(
             @Param("campaignId") Long campaignId,
-            @Param("status") CampaignActivityEntity.ActivityStatus status,
+            @Param("status") ActivityStatus status,
             Pageable pageable);
     
     @Query("SELECT a FROM CampaignActivityEntity a WHERE a.deletedAt IS NULL " +
@@ -55,7 +56,7 @@ public interface CampaignActivityJpaRepository extends JpaRepository<CampaignAct
            "AND a.campaign.id = :campaignId AND a.status = :status")
     long countByCampaignIdAndStatus(
             @Param("campaignId") Long campaignId,
-            @Param("status") CampaignActivityEntity.ActivityStatus status);
+            @Param("status") ActivityStatus status);
     
     @Query("SELECT SUM(a.actualCost) FROM CampaignActivityEntity a WHERE a.deletedAt IS NULL " +
            "AND a.campaign.id = :campaignId")

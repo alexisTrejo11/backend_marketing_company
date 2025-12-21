@@ -1,5 +1,7 @@
 package at.backend.MarketingCompany.marketing.campaign.core.domain.models;
 
+import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MetricType;
+
 import java.math.BigDecimal;
 
 public record CampaignTarget(

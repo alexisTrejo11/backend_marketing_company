@@ -1,6 +1,7 @@
 package at.backend.MarketingCompany.marketing.interaction.adapter.output.persitence.repository;
 
 import at.backend.MarketingCompany.marketing.interaction.adapter.output.persitence.model.CampaignInteractionEntity;
+import at.backend.MarketingCompany.marketing.interaction.core.domain.valueobject.MarketingInteractionType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -45,11 +46,11 @@ public interface CampaignInteractionJpaRepository extends JpaRepository<Campaign
             Pageable pageable);
     
     @Query("SELECT i FROM CampaignInteractionEntity i WHERE i.deletedAt IS NULL " +
-           "AND i.interactionType = :interactionType " +
+           "AND i.marketingInteractionType = :marketingInteractionType " +
            "AND i.campaign.id = :campaignId")
     Page<CampaignInteractionEntity> findByCampaignIdAndInteractionType(
             @Param("campaignId") Long campaignId,
-            @Param("interactionType") CampaignInteractionEntity.InteractionType interactionType,
+            @Param("marketingInteractionType") MarketingInteractionType interactionType,
             Pageable pageable);
     
     @Query("SELECT i FROM CampaignInteractionEntity i WHERE i.deletedAt IS NULL " +

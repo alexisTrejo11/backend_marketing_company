@@ -1,12 +1,13 @@
 package at.backend.MarketingCompany.marketing.activity.core.domain.entity;
 
-import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.CampaignActivityId;
-import at.backend.MarketingCompany.marketing.core.domain.valueobject.*;
-import at.backend.MarketingCompany.marketing.core.domain.entity.CampaignActivity.ActivityType;
-import at.backend.MarketingCompany.marketing.core.domain.entity.CampaignActivity.ActivityStatus;
+import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.*;
+import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
+import lombok.Builder;
+
 import java.time.LocalDateTime;
 import java.util.Map;
 
+@Builder
 public record CampaignActivityReconstructParams(
     CampaignActivityId id,
     MarketingCampaignId campaignId,

@@ -5,7 +5,7 @@ import at.backend.MarketingCompany.marketing.campaign.core.domain.exception.Mark
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingChannelId;
 import at.backend.MarketingCompany.marketing.interaction.core.domain.valueobject.CampaignInteractionId;
-import at.backend.MarketingCompany.marketing.interaction.core.domain.valueobject.InteractionType;
+import at.backend.MarketingCompany.marketing.interaction.core.domain.valueobject.MarketingInteractionType;
 import at.backend.MarketingCompany.shared.domain.BaseDomainEntity;
 import lombok.Getter;
 
@@ -17,7 +17,7 @@ import java.util.Map;
 public class CampaignInteraction extends BaseDomainEntity<CampaignInteractionId> {
   private MarketingCampaignId campaignId;
   private CustomerCompanyId customerId;
-  private InteractionType interactionType;
+  private MarketingInteractionType marketingInteractionType;
   private LocalDateTime interactionDate;
   private MarketingChannelId channelId;
   private String utmSource;
@@ -52,7 +52,7 @@ public class CampaignInteraction extends BaseDomainEntity<CampaignInteractionId>
   public static CampaignInteraction create(
       MarketingCampaignId campaignId,
       CustomerCompanyId customerId,
-      InteractionType interactionType,
+      MarketingInteractionType marketingInteractionType,
       String sessionId) {
     
     if (campaignId == null) {
@@ -61,14 +61,14 @@ public class CampaignInteraction extends BaseDomainEntity<CampaignInteractionId>
     if (customerId == null) {
       throw new MarketingDomainException("Customer ID is required");
     }
-    if (interactionType == null) {
+    if (marketingInteractionType == null) {
       throw new MarketingDomainException("Interaction type is required");
     }
 
     CampaignInteraction interaction = new CampaignInteraction(CampaignInteractionId.generate());
     interaction.campaignId = campaignId;
     interaction.customerId = customerId;
-    interaction.interactionType = interactionType;
+    interaction.marketingInteractionType = marketingInteractionType;
     interaction.sessionId = sessionId;
     interaction.interactionDate = LocalDateTime.now();
     interaction.isConversion = false;
@@ -85,7 +85,7 @@ public class CampaignInteraction extends BaseDomainEntity<CampaignInteractionId>
     interaction.id = params.id();
     interaction.campaignId = params.campaignId();
     interaction.customerId = params.customerId();
-    interaction.interactionType = params.interactionType();
+    interaction.marketingInteractionType = params.marketingInteractionType();
     interaction.interactionDate = params.interactionDate() != null ? params.interactionDate() : LocalDateTime.now();
     interaction.channelId = params.channelId();
     interaction.utmSource = params.utmSource();

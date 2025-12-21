@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.marketing.metric.adapter.output.persitence.model;
 
 import at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.entity.MarketingCampaignEntity;
-import at.backend.MarketingCompany.marketing.campaign.core.domain.models.MetricType;
+import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MetricType;
 import at.backend.MarketingCompany.shared.jpa.BaseJpaEntity;
 import jakarta.persistence.*;
 import lombok.Getter;

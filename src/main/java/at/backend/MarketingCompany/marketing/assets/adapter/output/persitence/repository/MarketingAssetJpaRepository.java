@@ -1,6 +1,8 @@
 package at.backend.MarketingCompany.marketing.assets.adapter.output.persitence.repository;
 
 import at.backend.MarketingCompany.marketing.assets.adapter.output.persitence.model.MarketingAssetEntity;
+import at.backend.MarketingCompany.marketing.assets.core.domain.entity.AssetStatus;
+import at.backend.MarketingCompany.marketing.assets.core.domain.entity.AssetType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,13 +28,13 @@ public interface MarketingAssetJpaRepository extends JpaRepository<MarketingAsse
            "AND a.campaign.id = :campaignId AND a.assetType = :assetType")
     Page<MarketingAssetEntity> findByCampaignIdAndAssetType(
             @Param("campaignId") Long campaignId,
-            @Param("assetType") MarketingAssetEntity.AssetType assetType,
+            @Param("assetType") AssetType assetType,
             Pageable pageable);
     
     @Query("SELECT a FROM MarketingAssetEntity a WHERE a.deletedAt IS NULL " +
            "AND a.status = :status")
     Page<MarketingAssetEntity> findByStatus(
-            @Param("status") MarketingAssetEntity.AssetStatus status,
+            @Param("status") AssetStatus status,
             Pageable pageable);
     
     @Query("SELECT a FROM MarketingAssetEntity a WHERE a.deletedAt IS NULL " +

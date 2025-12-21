@@ -13,7 +13,6 @@ public class MarketingAsset extends BaseDomainEntity<MarketingAssetId> {
   private String name;
   private String description;
   private String url;
-  private String version;
   private Integer fileSizeKb;
   private String mimeType;
   private int viewsCount;
@@ -23,7 +22,6 @@ public class MarketingAsset extends BaseDomainEntity<MarketingAssetId> {
   private boolean isPrimaryAsset;
 
   private MarketingAsset() {
-    this.version = "1.0";
     this.viewsCount = 0;
     this.clicksCount = 0;
     this.conversionsCount = 0;
@@ -33,7 +31,6 @@ public class MarketingAsset extends BaseDomainEntity<MarketingAssetId> {
 
   public MarketingAsset(MarketingAssetId id) {
     super(id);
-    this.version = "1.0";
     this.viewsCount = 0;
     this.clicksCount = 0;
     this.conversionsCount = 0;
@@ -82,7 +79,6 @@ public class MarketingAsset extends BaseDomainEntity<MarketingAssetId> {
     asset.name = params.name();
     asset.description = params.description();
     asset.url = params.url();
-    asset.version = params.version() != null ? params.version() : "1.0";
     asset.fileSizeKb = params.fileSizeKb();
     asset.mimeType = params.mimeType();
     asset.viewsCount = params.viewsCount() != null ? params.viewsCount() : 0;

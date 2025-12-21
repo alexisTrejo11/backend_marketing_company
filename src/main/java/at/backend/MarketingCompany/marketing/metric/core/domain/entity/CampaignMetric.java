@@ -1,10 +1,9 @@
 package at.backend.MarketingCompany.marketing.metric.core.domain.entity;
 
 import at.backend.MarketingCompany.marketing.campaign.core.domain.exception.MarketingDomainException;
-import at.backend.MarketingCompany.marketing.campaign.core.domain.models.MetricType;
+import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MetricType;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
 import at.backend.MarketingCompany.marketing.metric.core.domain.valueobject.CampaignMetricId;
-import at.backend.MarketingCompany.marketing.metric.core.domain.valueobject.MetricType;
 import at.backend.MarketingCompany.shared.domain.BaseDomainEntity;
 import lombok.Getter;
 
