@@ -2,16 +2,13 @@ package at.backend.MarketingCompany.marketing.campaign.adapter.input.graphql.con
 
 import at.backend.MarketingCompany.marketing.campaign.adapter.input.graphql.dto.*;
 import at.backend.MarketingCompany.marketing.campaign.adapter.input.graphql.mapper.MarketingOutputMapper;
-import at.backend.MarketingCompany.marketing.campaign.core.application.CampaignPerformanceSummary;
 import at.backend.MarketingCompany.marketing.campaign.core.application.command.AddCampaignSpendingCommand;
 import at.backend.MarketingCompany.marketing.campaign.core.application.command.CreateCampaignCommand;
 import at.backend.MarketingCompany.marketing.campaign.core.application.command.UpdateCampaignCommand;
 import at.backend.MarketingCompany.marketing.campaign.core.application.query.CampaignQuery;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.models.MarketingCampaign;
-import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.CampaignPeriod;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.CampaignStatus;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
-import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingChannelId;
 import at.backend.MarketingCompany.marketing.campaign.core.ports.input.CampaignCommandServicePort;
 import at.backend.MarketingCompany.marketing.campaign.core.ports.input.CampaignQueryServicePort;
 import at.backend.MarketingCompany.shared.PageResponse;
@@ -30,7 +27,6 @@ import org.springframework.stereotype.Controller;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Map;
 
 @Slf4j
 @Controller
@@ -52,10 +48,10 @@ public class MarketingCampaignController {
   }
 
   @QueryMapping
-  public CampaignOutput campaign(@Argument @Valid @NotNull @Positive Long id) {
+  public CampaignOutput campaign(@Argument @Valid @NotBlank String id) {
     log.debug("GraphQL Query: campaign with id: {}", id);
 
-	  var campaignId = new MarketingCampaignId(id);
+	  var campaignId = MarketingCampaignId.of(id);
     MarketingCampaign campaign = queryServicePort.getCampaignById(campaignId);
     
     return campaignMapper.toOutput(campaign);

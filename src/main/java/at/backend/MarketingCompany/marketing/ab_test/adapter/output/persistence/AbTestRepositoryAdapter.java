@@ -1,7 +1,9 @@
-package at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.repository;
+package at.backend.MarketingCompany.marketing.ab_test.adapter.output.persistence;
 
+import at.backend.MarketingCompany.marketing.ab_test.core.port.output.AbTestRepositoryPort;
 import at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.entity.AbTestEntity;
-import at.backend.MarketingCompany.marketing.campaign.core.domain.models.AbTest;
+import at.backend.MarketingCompany.marketing.ab_test.core.domain.AbTest;
+import at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.repository.AbTestJpaRepository;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.TestType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

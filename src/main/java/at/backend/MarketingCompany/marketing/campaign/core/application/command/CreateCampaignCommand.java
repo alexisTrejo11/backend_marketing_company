@@ -2,8 +2,8 @@ package at.backend.MarketingCompany.marketing.campaign.core.application.command;
 
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.CampaignName;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.CampaignPeriod;
-import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.CampaignType;
-import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingChannelId;
+import at.backend.MarketingCompany.marketing.ab_test.core.domain.valueobject.CampaignType;
+import at.backend.MarketingCompany.marketing.channel.core.domain.valueobject.MarketingChannelId;
 import lombok.Builder;
 
 import java.math.BigDecimal;

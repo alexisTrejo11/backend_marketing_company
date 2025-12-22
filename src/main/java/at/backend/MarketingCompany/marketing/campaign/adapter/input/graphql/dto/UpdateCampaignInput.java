@@ -1,12 +1,13 @@
 package at.backend.MarketingCompany.marketing.campaign.adapter.input.graphql.dto;
 
+import at.backend.MarketingCompany.marketing.ab_test.core.domain.valueobject.CampaignType;
 import at.backend.MarketingCompany.marketing.campaign.core.application.command.UpdateCampaignCommand;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.*;
+import at.backend.MarketingCompany.marketing.channel.core.domain.valueobject.MarketingChannelId;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Map;
 
 public record UpdateCampaignInput(

@@ -244,11 +244,8 @@ type CampaignOutput {
     """Is campaign active"""
     isActive: Boolean!
 
-    """Needs optimization (low ROI)"""
-    needsOptimization: Boolean!
-
-    """Is high performer"""
-    isHighPerformer: Boolean!
+    """Needs optimization (low ROI) Not Added"""
+    needsOptimization: Boolean
 
     """Creation date"""
     createdAt: String!

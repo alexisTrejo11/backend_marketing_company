@@ -6,6 +6,7 @@ import at.backend.MarketingCompany.marketing.campaign.core.domain.models.Marketi
 import at.backend.MarketingCompany.marketing.campaign.core.domain.models.params.MarketingCampaignReconstructParams;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.*;
 import at.backend.MarketingCompany.marketing.channel.adapter.output.persitence.model.MarketingChannelEntity;
+import at.backend.MarketingCompany.marketing.channel.core.domain.valueobject.MarketingChannelId;
 import at.backend.MarketingCompany.marketing.target.adapter.output.persitence.model.CampaignTargetEntity;
 import org.springframework.stereotype.Component;
 

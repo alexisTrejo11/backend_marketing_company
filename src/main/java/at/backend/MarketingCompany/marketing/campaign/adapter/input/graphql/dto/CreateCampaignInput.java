@@ -3,8 +3,8 @@ package at.backend.MarketingCompany.marketing.campaign.adapter.input.graphql.dto
 import at.backend.MarketingCompany.marketing.campaign.core.application.command.CreateCampaignCommand;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.CampaignName;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.CampaignPeriod;
-import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.CampaignType;
-import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingChannelId;
+import at.backend.MarketingCompany.marketing.ab_test.core.domain.valueobject.CampaignType;
+import at.backend.MarketingCompany.marketing.channel.core.domain.valueobject.MarketingChannelId;
 import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;

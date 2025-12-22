@@ -1,7 +1,9 @@
 package at.backend.MarketingCompany.marketing.campaign.core.domain.models.params;
 
+import at.backend.MarketingCompany.marketing.ab_test.core.domain.valueobject.CampaignType;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.models.CampaignTarget;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.*;
+import at.backend.MarketingCompany.marketing.channel.core.domain.valueobject.MarketingChannelId;
 
 
 import java.time.LocalDateTime;

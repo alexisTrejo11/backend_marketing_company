@@ -1,6 +1,6 @@
 package at.backend.MarketingCompany.marketing.channel.core.port.output;
 
-import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingChannelId;
+import at.backend.MarketingCompany.marketing.channel.core.domain.valueobject.MarketingChannelId;
 import at.backend.MarketingCompany.marketing.channel.core.domain.entity.MarketingChannel;
 import at.backend.MarketingCompany.marketing.channel.core.domain.valueobject.ChannelType;
 import org.springframework.data.domain.Page;

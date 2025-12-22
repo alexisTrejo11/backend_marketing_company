@@ -1,15 +1,16 @@
 package at.backend.MarketingCompany.marketing.campaign.core.domain.models;
 
+import at.backend.MarketingCompany.marketing.ab_test.core.domain.valueobject.CampaignType;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.exception.MarketingDomainException;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.models.params.MarketingCampaignReconstructParams;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.*;
+import at.backend.MarketingCompany.marketing.channel.core.domain.valueobject.MarketingChannelId;
 import at.backend.MarketingCompany.shared.domain.BaseDomainEntity;
 import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 @Getter

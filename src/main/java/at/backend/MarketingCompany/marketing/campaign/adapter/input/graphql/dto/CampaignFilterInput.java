@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.marketing.campaign.adapter.input.graphql.dto;
 
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.CampaignStatus;
-import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.CampaignType;
+import at.backend.MarketingCompany.marketing.ab_test.core.domain.valueobject.CampaignType;
 
 import java.util.List;
 

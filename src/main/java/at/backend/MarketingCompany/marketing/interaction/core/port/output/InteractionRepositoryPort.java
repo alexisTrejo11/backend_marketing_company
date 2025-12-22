@@ -3,7 +3,7 @@ package at.backend.MarketingCompany.marketing.interaction.core.port.output;
 
 import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
-import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingChannelId;
+import at.backend.MarketingCompany.marketing.channel.core.domain.valueobject.MarketingChannelId;
 import at.backend.MarketingCompany.marketing.interaction.core.domain.entity.CampaignInteraction;
 import at.backend.MarketingCompany.marketing.interaction.core.domain.valueobject.CampaignInteractionId;
 import at.backend.MarketingCompany.marketing.interaction.core.domain.valueobject.MarketingInteractionType;

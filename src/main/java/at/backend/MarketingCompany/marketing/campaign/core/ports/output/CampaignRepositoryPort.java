@@ -2,7 +2,7 @@ package at.backend.MarketingCompany.marketing.campaign.core.ports.output;
 
 import at.backend.MarketingCompany.marketing.campaign.core.domain.models.MarketingCampaign;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.CampaignStatus;
-import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.CampaignType;
+import at.backend.MarketingCompany.marketing.ab_test.core.domain.valueobject.CampaignType;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

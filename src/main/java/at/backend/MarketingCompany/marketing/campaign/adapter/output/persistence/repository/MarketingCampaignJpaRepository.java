@@ -2,7 +2,7 @@ package at.backend.MarketingCompany.marketing.campaign.adapter.output.persistenc
 
 import at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.entity.MarketingCampaignEntity;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.CampaignStatus;
-import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.CampaignType;
+import at.backend.MarketingCompany.marketing.ab_test.core.domain.valueobject.CampaignType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

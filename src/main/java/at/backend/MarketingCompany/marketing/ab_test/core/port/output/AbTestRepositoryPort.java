@@ -1,6 +1,6 @@
-package at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.repository;
+package at.backend.MarketingCompany.marketing.ab_test.core.port.output;
 
-import at.backend.MarketingCompany.marketing.campaign.core.domain.models.AbTest;
+import at.backend.MarketingCompany.marketing.ab_test.core.domain.AbTest;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.TestType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

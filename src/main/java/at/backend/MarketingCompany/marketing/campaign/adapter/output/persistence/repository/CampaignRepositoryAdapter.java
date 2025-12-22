@@ -2,10 +2,9 @@ package at.backend.MarketingCompany.marketing.campaign.adapter.output.persistenc
 
 import at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.entity.MarketingCampaignEntity;
 import at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.mapper.CampaignEntityMapper;
-import at.backend.MarketingCompany.marketing.campaign.core.domain.exception.MarketingCampaignNotFoundException;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.models.MarketingCampaign;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.CampaignStatus;
-import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.CampaignType;
+import at.backend.MarketingCompany.marketing.ab_test.core.domain.valueobject.CampaignType;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
 import at.backend.MarketingCompany.marketing.campaign.core.ports.output.CampaignRepositoryPort;
 

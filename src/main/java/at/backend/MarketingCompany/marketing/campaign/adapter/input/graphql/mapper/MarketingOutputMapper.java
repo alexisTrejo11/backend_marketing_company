@@ -7,9 +7,10 @@ import at.backend.MarketingCompany.marketing.attribution.adapter.input.graphql.d
 import at.backend.MarketingCompany.marketing.attribution.core.domain.entity.CampaignAttribution;
 import at.backend.MarketingCompany.marketing.campaign.adapter.input.graphql.dto.CampaignOutput;
 import at.backend.MarketingCompany.marketing.campaign.adapter.input.graphql.dto.ab.AbTestResponse;
-import at.backend.MarketingCompany.marketing.campaign.core.domain.models.AbTest;
+import at.backend.MarketingCompany.marketing.ab_test.core.domain.AbTest;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.models.MarketingCampaign;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.*;
+import at.backend.MarketingCompany.marketing.channel.core.domain.valueobject.MarketingChannelId;
 import at.backend.MarketingCompany.marketing.interaction.adapter.input.graphql.dto.CampaignInteractionResponse;
 import at.backend.MarketingCompany.marketing.interaction.core.domain.entity.CampaignInteraction;
 import at.backend.MarketingCompany.marketing.metric.adapter.input.graphql.dto.CampaignMetricResponse;

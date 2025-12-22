@@ -4,7 +4,7 @@ import at.backend.MarketingCompany.marketing.activity.adapter.output.persitence.
 import at.backend.MarketingCompany.marketing.assets.adapter.output.persitence.model.MarketingAssetEntity;
 import at.backend.MarketingCompany.marketing.attribution.adapter.output.persitence.model.CampaignAttributionEntity;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.CampaignStatus;
-import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.CampaignType;
+import at.backend.MarketingCompany.marketing.ab_test.core.domain.valueobject.CampaignType;
 import at.backend.MarketingCompany.marketing.channel.adapter.output.persitence.model.MarketingChannelEntity;
 import at.backend.MarketingCompany.marketing.interaction.adapter.output.persitence.model.CampaignInteractionEntity;
 import at.backend.MarketingCompany.marketing.metric.adapter.output.persitence.model.CampaignMetricEntity;

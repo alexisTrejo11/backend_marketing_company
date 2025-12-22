@@ -1,4 +1,4 @@
-package at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject;
+package at.backend.MarketingCompany.marketing.channel.core.domain.valueobject;
 
 import at.backend.MarketingCompany.shared.domain.NumericId;
 

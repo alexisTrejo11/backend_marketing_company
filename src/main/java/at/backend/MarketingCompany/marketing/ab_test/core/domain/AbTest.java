@@ -1,9 +1,8 @@
-package at.backend.MarketingCompany.marketing.campaign.core.domain.models;
+package at.backend.MarketingCompany.marketing.ab_test.core.domain;
 
+import at.backend.MarketingCompany.marketing.ab_test.core.domain.valueobject.AbTestId;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.exception.InvalidCampaignStateException;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.exception.MarketingDomainException;
-import at.backend.MarketingCompany.marketing.campaign.core.domain.models.params.AbTestReconstructParams;
-import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.AbTestId;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.TestType;
 import at.backend.MarketingCompany.shared.domain.BaseDomainEntity;

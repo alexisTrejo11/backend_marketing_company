@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.marketing.channel.adapter.output.persitence.repository;
 
 
-import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingChannelId;
+import at.backend.MarketingCompany.marketing.channel.core.domain.valueobject.MarketingChannelId;
 import at.backend.MarketingCompany.marketing.channel.adapter.output.persitence.mapper.ChannelEntityMapper;
 import at.backend.MarketingCompany.marketing.channel.adapter.output.persitence.model.MarketingChannelEntity;
 import at.backend.MarketingCompany.marketing.channel.core.domain.entity.MarketingChannel;

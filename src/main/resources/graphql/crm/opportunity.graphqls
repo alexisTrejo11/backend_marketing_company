@@ -83,7 +83,7 @@ Paginated response for opportunities.
 """
 type OpportunityPage implements PageResponse {
     """List of opportunities on the current page"""
-    content: [Opportunity!]!
+    items: [Opportunity!]!
 
     """Pagination metadata"""
     pagination: PaginationMetadata!
