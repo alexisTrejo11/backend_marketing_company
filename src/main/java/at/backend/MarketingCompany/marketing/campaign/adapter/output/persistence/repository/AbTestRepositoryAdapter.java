@@ -1,8 +1,8 @@
 package at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.repository;
 
-
 import at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.entity.AbTestEntity;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.models.AbTest;
+import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.TestType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +16,6 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public class AbTestRepositoryAdapter implements AbTestRepositoryPort {
-
     private final AbTestJpaRepository jpaRepository;
     private final AbTestEntityMapper mapper;
 
@@ -38,10 +37,7 @@ public class AbTestRepositoryAdapter implements AbTestRepositoryPort {
     @Override
     @Transactional
     public void delete(Long id) {
-        AbTestEntity entity = jpaRepository.findByIdAndNotDeleted(id)
-                .orElseThrow(() -> new ResourceNotFoundException("AB Test not found with id: " + id));
-        entity.setDeletedAt(java.time.LocalDateTime.now());
-        jpaRepository.save(entity);
+        jpaRepository.deleteById(id);
     }
 
     @Override
@@ -53,9 +49,7 @@ public class AbTestRepositoryAdapter implements AbTestRepositoryPort {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<AbTest> findByTestType(
-            AbTestEntity.TestType testType, 
-            Pageable pageable) {
+    public Page<AbTest> findByTestType(TestType testType, Pageable pageable) {
         return jpaRepository.findByTestType(testType, pageable)
                 .map(mapper::toDomain);
     }

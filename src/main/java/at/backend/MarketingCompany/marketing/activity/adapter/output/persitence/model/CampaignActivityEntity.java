@@ -1,5 +1,6 @@
 package at.backend.MarketingCompany.marketing.activity.adapter.output.persitence.model;
 
+import at.backend.MarketingCompany.account.user.adapters.outbound.persistence.UserEntity;
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivityStatus;
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivityType;
 import at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.entity.MarketingCampaignEntity;
@@ -25,7 +26,6 @@ import java.util.Map;
     @Index(name = "idx_activities_assigned_user", columnList = "assigned_to_user_id, status")
 })
 public class CampaignActivityEntity extends BaseJpaEntity {
-
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "campaign_id", nullable = false)
   private MarketingCampaignEntity campaign;

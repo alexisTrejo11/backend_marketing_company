@@ -3,7 +3,6 @@
 -- ===========================================
 CREATE TABLE IF NOT EXISTS opportunities (
     id BIGSERIAL PRIMARY KEY,
-    -- Changed from VARCHAR(36) to BIGINT to reference customer_companies.id (BIGSERIAL)
     customer_company_id BIGINT NOT NULL,
     title VARCHAR(255) NOT NULL,
     amount NUMERIC(15,2),

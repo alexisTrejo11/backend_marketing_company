@@ -1,6 +1,7 @@
 package at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.repository;
 
 import at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.entity.AbTestEntity;
+import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.TestType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,7 +29,7 @@ public interface AbTestJpaRepository extends JpaRepository<AbTestEntity, Long> {
     @Query("SELECT t FROM AbTestEntity t WHERE t.deletedAt IS NULL " +
            "AND t.testType = :testType")
     Page<AbTestEntity> findByTestType(
-            @Param("testType") AbTestEntity.TestType testType,
+            @Param("testType") TestType testType,
             Pageable pageable);
     
     @Query("SELECT t FROM AbTestEntity t WHERE t.deletedAt IS NULL " +

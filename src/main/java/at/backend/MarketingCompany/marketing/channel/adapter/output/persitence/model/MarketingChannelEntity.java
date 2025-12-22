@@ -1,5 +1,6 @@
 package at.backend.MarketingCompany.marketing.channel.adapter.output.persitence.model;
 
+import at.backend.MarketingCompany.marketing.channel.core.domain.valueobject.ChannelType;
 import at.backend.MarketingCompany.marketing.interaction.adapter.output.persitence.model.CampaignInteractionEntity;
 import at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.entity.MarketingCampaignEntity;
 import at.backend.MarketingCompany.marketing.channel.core.domain.entity.MarketingChannel;
@@ -27,7 +28,7 @@ public class MarketingChannelEntity extends BaseJpaEntity {
 
   @Enumerated(EnumType.STRING)
   @Column(name = "channel_type", nullable = false, length = 50)
-  private MarketingChannel.ChannelType channelType;
+  private ChannelType channelType;
 
   @Column(name = "description", columnDefinition = "TEXT")
   private String description;

@@ -71,7 +71,7 @@ public class CampaignInteractionEntity extends BaseJpaEntity {
   @Column(name = "browser", length = 100)
   private String browser;
 
-  @Column(name = "country_code", length = 2)
+	@Column(name = "country_code", length = 2)
   private String countryCode;
 
   @Column(name = "city", length = 100)

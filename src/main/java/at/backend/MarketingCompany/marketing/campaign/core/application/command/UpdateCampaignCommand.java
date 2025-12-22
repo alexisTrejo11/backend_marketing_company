@@ -1,0 +1,19 @@
+package at.backend.MarketingCompany.marketing.campaign.core.application.command;
+
+import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.*;
+import lombok.Builder;
+
+import java.util.Map;
+
+@Builder
+public record UpdateCampaignCommand(
+    MarketingCampaignId campaignId,
+    CampaignName name,
+    String description,
+    CampaignType campaignType,
+    CampaignPeriod period,
+    String primaryGoal,
+    Map<String, Object> targetAudienceDemographics,
+    Map<String, Object> targetLocations,
+    MarketingChannelId primaryChannelId
+) {}

@@ -7,4 +7,8 @@ public class BusinessRuleException extends DomainException {
         super(message, "BUSINESS_RULE_VIOLATION", 
               Map.of("ruleCode", ruleCode));
     }
+
+		public BusinessRuleException(String message) {
+				super(message, "BUSINESS_RULE_VIOLATION");
+		}
 }

@@ -22,100 +22,126 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public class CampaignRepositoryAdapter implements CampaignRepositoryPort {
-    private final MarketingCampaignJpaRepository jpaRepository;
-    private final CampaignEntityMapper mapper;
+	private final MarketingCampaignJpaRepository jpaRepository;
+	private final CampaignEntityMapper mapper;
 
-    @Override
-    @Transactional
-    public MarketingCampaign save(MarketingCampaign campaign) {
-        MarketingCampaignEntity entity = mapper.toEntity(campaign);
-        MarketingCampaignEntity savedEntity = jpaRepository.save(entity);
-        return mapper.toDomain(savedEntity);
-    }
+	@Override
+	@Transactional
+	public MarketingCampaign save(MarketingCampaign campaign) {
+		MarketingCampaignEntity entity = mapper.toEntity(campaign);
+		MarketingCampaignEntity savedEntity = jpaRepository.save(entity);
+		return mapper.toDomain(savedEntity);
+	}
 
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<MarketingCampaign> findById(MarketingCampaignId id) {
-        return jpaRepository.findByIdAndNotDeleted(id.getValue())
-                .map(mapper::toDomain);
-    }
+	@Override
+	@Transactional(readOnly = true)
+	public Optional<MarketingCampaign> findById(MarketingCampaignId id) {
+		return jpaRepository.findByIdAndNotDeleted(id.getValue())
+				.map(mapper::toDomain);
+	}
 
-    @Override
-    @Transactional
-    public void delete(MarketingCampaignId id) {
-        MarketingCampaignEntity entity = jpaRepository.findByIdAndNotDeleted(id.getValue())
-                .orElseThrow(() -> new MarketingCampaignNotFoundException(id));
-        entity.setDeletedAt(java.time.LocalDateTime.now());
-        jpaRepository.save(entity);
-    }
+	@Override
+	@Transactional
+	public void delete(MarketingCampaignId id) {
+		jpaRepository.deleteById(id.getValue());
+	}
 
-    @Override
-    @Transactional(readOnly = true)
-    public Page<MarketingCampaign> findByFilters(
-            CampaignStatus status,
-            CampaignType campaignType,
-            Long primaryChannelId, 
-            Pageable pageable) {
-        return jpaRepository.findByFilters(status, campaignType, primaryChannelId, pageable)
-                .map(mapper::toDomain);
-    }
+	@Override
+	@Transactional(readOnly = true)
+	public Page<MarketingCampaign> findByFilters(CampaignStatus status, CampaignType campaignType, Long primaryChannelId, Pageable pageable) {
+		return jpaRepository.findByFilters(status, campaignType, primaryChannelId, pageable)
+				.map(mapper::toDomain);
+	}
 
-    @Override
-    public Page<MarketingCampaign> findByDateRange(
-            LocalDate startDate,
-            LocalDate endDate, 
-            Pageable pageable) {
-        return jpaRepository.findByDateRange(startDate, endDate, pageable)
-                .map(mapper::toDomain);
-    }
+	@Override
+	public Page<MarketingCampaign> findByDateRange(LocalDate startDate, LocalDate endDate, Pageable pageable) {
+		return jpaRepository.findByDateRange(startDate, endDate, pageable)
+				.map(mapper::toDomain);
+	}
 
-    @Override
-    @Transactional(readOnly = true)
-    public Page<MarketingCampaign> findByBudgetRange(
-            BigDecimal minBudget, 
-            BigDecimal maxBudget, 
-            Pageable pageable) {
-        return jpaRepository.findByBudgetRange(minBudget, maxBudget, pageable)
-                .map(mapper::toDomain);
-    }
+	@Override
+	@Transactional(readOnly = true)
+	public Page<MarketingCampaign> searchByName(String searchTerm, Pageable pageable) {
+		return jpaRepository.searchByName(searchTerm, pageable)
+				.map(mapper::toDomain);
+	}
 
-    @Override
-    @Transactional(readOnly = true)
-    public Page<MarketingCampaign> searchByName(String searchTerm, Pageable pageable) {
-        return jpaRepository.searchByName(searchTerm, pageable)
-                .map(mapper::toDomain);
-    }
+	@Override
+	@Transactional(readOnly = true)
+	public Page<MarketingCampaign> findExpiredActiveCampaigns(Pageable pageable) {
+		return jpaRepository.findExpiredActiveCampaigns(pageable)
+				.map(mapper::toDomain);
+	}
 
-    @Override
-    @Transactional(readOnly = true)
-    public Page<MarketingCampaign> findExpiredActiveCampaigns(Pageable pageable) {
-        return jpaRepository.findExpiredActiveCampaigns(pageable)
-                .map(mapper::toDomain);
-    }
+	@Override
+	public Page<MarketingCampaign> findByStatus(CampaignStatus status, Pageable pageable) {
+		return jpaRepository.findByStatus(status, pageable)
+				.map(mapper::toDomain);
+	}
 
-    @Override
-    @Transactional(readOnly = true)
-    public long countByStatus(CampaignStatus status) {
-        return jpaRepository.countByStatus(status);
-    }
+	@Override
+	public Page<MarketingCampaign> findCampaignsNeedingOptimization(Pageable pageable) {
+		return null;
+	}
 
-    @Override
-    @Transactional(readOnly = true)
-    public BigDecimal calculateTotalPlannedBudget() {
-        return jpaRepository.calculateTotalPlannedBudget();
-    }
+	@Override
+	public Page<MarketingCampaign> findHighPerformingCampaigns(Pageable pageable) {
+		return null;
+	}
 
-    @Override
-    @Transactional(readOnly = true)
-    public BigDecimal calculateTotalActiveSpend() {
-        return jpaRepository.calculateTotalActiveSpend();
-    }
+	@Override
+	public Page<MarketingCampaign> findAll(Pageable pageable) {
+		return jpaRepository.findAll(pageable).map(mapper::toDomain);
+	}
 
-    @Override
-    @Transactional(readOnly = true)
-    public boolean existsByNameAndNotDeleted(String name) {
-        return jpaRepository.searchByName(name, Pageable.unpaged())
-                .stream()
-                .anyMatch(campaign -> campaign.getName().equalsIgnoreCase(name));
-    }
+	@Override
+	@Transactional(readOnly = true)
+	public long countByStatus(CampaignStatus status) {
+		return jpaRepository.countByStatus(status);
+	}
+
+	@Override
+	public BigDecimal calculateTotalAttributedRevenue() {
+		return BigDecimal.ZERO; // Placeholder implementation
+	}
+
+	@Override
+	public BigDecimal calculateOverallROI() {
+		return BigDecimal.ZERO; // Placeholder implementation
+	}
+
+	@Override
+	public long countCampaignsNeedingOptimization() {
+		return 0;
+	}
+
+	@Override
+	public long countHighPerformingCampaigns() {
+		return 0;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public BigDecimal calculateTotalPlannedBudget() {
+		return jpaRepository.calculateTotalPlannedBudget();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public BigDecimal calculateTotalActiveSpend() {
+		return jpaRepository.calculateTotalActiveSpend();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public boolean existsByNameAndNotDeleted(String name) {
+		return jpaRepository.searchByName(name, Pageable.unpaged()).
+				stream()
+				.anyMatch(campaign -> campaign.getName().equalsIgnoreCase(name));
+	}
+
+	@Override
+	public long countAll() {
+		return jpaRepository.countNotDeleted();
+	}
 }

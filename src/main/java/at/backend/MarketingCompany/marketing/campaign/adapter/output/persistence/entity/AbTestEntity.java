@@ -1,5 +1,6 @@
 package at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.entity;
 
+import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.TestType;
 import at.backend.MarketingCompany.shared.jpa.BaseJpaEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -65,8 +66,4 @@ public class AbTestEntity extends BaseJpaEntity {
 
 	@Column(name = "end_date")
 	private LocalDateTime endDate;
-
-	public enum TestType {
-		SPLIT_URL, MULTIVARIATE, BANDIT
-	}
 }

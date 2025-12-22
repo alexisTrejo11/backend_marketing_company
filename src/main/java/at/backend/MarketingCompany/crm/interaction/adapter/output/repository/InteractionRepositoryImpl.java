@@ -21,7 +21,6 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public class InteractionRepositoryImpl implements InteractionRepository {
-
   private final JpaInteractionRepository jpaInteractionRepository;
   private final InteractionEntityMapper interactionEntityMapper;
 

@@ -33,7 +33,7 @@ public interface CampaignActivityJpaRepository extends JpaRepository<CampaignAct
             Pageable pageable);
     
     @Query("SELECT a FROM CampaignActivityEntity a WHERE a.deletedAt IS NULL " +
-           "AND a.assignedTo.id = :userId")
+           "AND a.assignedToUserId = :userId")
     Page<CampaignActivityEntity> findByAssignedUserId(
             @Param("userId") Long userId,
             Pageable pageable);

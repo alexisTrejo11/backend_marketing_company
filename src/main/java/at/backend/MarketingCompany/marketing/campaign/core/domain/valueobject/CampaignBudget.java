@@ -44,4 +44,6 @@ public record CampaignBudget(BigDecimal totalBudget, BigDecimal spentAmount) {
     }
     return new CampaignBudget(totalBudget, spentAmount.add(amount));
   }
+
+
 }
