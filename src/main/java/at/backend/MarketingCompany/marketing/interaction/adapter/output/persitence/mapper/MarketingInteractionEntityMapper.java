@@ -1,13 +1,12 @@
 package at.backend.MarketingCompany.marketing.interaction.adapter.output.persitence.mapper;
 
-
-import at.backend.MarketingCompany.crm.interaction.core.domain.entity.valueobject.InteractionId;
 import at.backend.MarketingCompany.marketing.interaction.adapter.output.persitence.model.CampaignInteractionEntity;
 import at.backend.MarketingCompany.marketing.interaction.core.domain.entity.CampaignInteraction;
 import at.backend.MarketingCompany.marketing.interaction.core.domain.entity.CampaignInteractionReconstructParams;
 import at.backend.MarketingCompany.marketing.interaction.core.domain.valueobject.CampaignInteractionId;
 import org.springframework.stereotype.Component;
 
+//TODO: Implement mapping for related entities (Campaign, Customer, Channel) when their mappers are available
 @Component
 public class MarketingInteractionEntityMapper {
 	public CampaignInteractionEntity toEntity(CampaignInteraction interaction) {

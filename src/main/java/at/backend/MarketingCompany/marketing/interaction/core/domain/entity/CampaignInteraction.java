@@ -1,5 +1,6 @@
 package at.backend.MarketingCompany.marketing.interaction.core.domain.entity;
 
+import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.DealId;
 import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.exception.MarketingDomainException;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
@@ -8,6 +9,7 @@ import at.backend.MarketingCompany.marketing.interaction.core.domain.valueobject
 import at.backend.MarketingCompany.marketing.interaction.core.domain.valueobject.MarketingInteractionType;
 import at.backend.MarketingCompany.shared.domain.BaseDomainEntity;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -19,23 +21,37 @@ public class CampaignInteraction extends BaseDomainEntity<CampaignInteractionId>
   private CustomerCompanyId customerId;
   private MarketingInteractionType marketingInteractionType;
   private LocalDateTime interactionDate;
+  @Setter
   private MarketingChannelId channelId;
+  @Setter
   private String utmSource;
+  @Setter
   private String utmMedium;
+  @Setter
   private String utmCampaign;
+  @Setter
   private String utmContent;
+  @Setter
   private String utmTerm;
+  @Setter
   private String deviceType;
+  @Setter
   private String deviceOs;
+  @Setter
   private String browser;
+  @Setter
   private String countryCode;
+  @Setter
   private String city;
   private Long dealId;
   private BigDecimal conversionValue;
   private boolean isConversion;
+  @Setter
   private String landingPageUrl;
+  @Setter
   private String referrerUrl;
   private String sessionId;
+  @Setter
   private Map<String, Object> properties;
 
   private CampaignInteraction() {
@@ -113,7 +129,7 @@ public class CampaignInteraction extends BaseDomainEntity<CampaignInteractionId>
     return interaction;
   }
 
-  public void markAsConversion(Long dealId, BigDecimal conversionValue) {
+  public void markAsConversion(DealId dealId, BigDecimal conversionValue) {
     if (dealId == null) {
       throw new MarketingDomainException("Deal ID is required for conversion");
     }
@@ -122,7 +138,7 @@ public class CampaignInteraction extends BaseDomainEntity<CampaignInteractionId>
     }
     
     this.isConversion = true;
-    this.dealId = dealId;
+    this.dealId = dealId.getValue();
     this.conversionValue = conversionValue;
   }
 

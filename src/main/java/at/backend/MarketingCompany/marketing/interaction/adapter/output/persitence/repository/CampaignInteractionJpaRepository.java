@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -70,4 +71,51 @@ public interface CampaignInteractionJpaRepository extends JpaRepository<Campaign
     @Query("SELECT COUNT(DISTINCT i.customer.id) FROM CampaignInteractionEntity i WHERE i.deletedAt IS NULL " +
            "AND i.campaign.id = :campaignId")
     long countUniqueCustomersByCampaignId(@Param("campaignId") Long campaignId);
+
+    @Query("SELECT i FROM CampaignInteractionEntity i WHERE i.deletedAt IS NULL")
+    Page<CampaignInteractionEntity> findAllNotDeleted(Pageable pageable);
+
+    @Query("SELECT COUNT(i) FROM CampaignInteractionEntity i WHERE i.deletedAt IS NULL " +
+           "AND i.campaign.id = :campaignId")
+    long countByCampaignId(@Param("campaignId") Long campaignId);
+
+    @Query("SELECT COUNT(DISTINCT i.channel.id) FROM CampaignInteractionEntity i WHERE i.deletedAt IS NULL " +
+           "AND i.campaign.id = :campaignId AND i.channel IS NOT NULL")
+    long countUniqueChannelsByCampaignId(@Param("campaignId") Long campaignId);
+
+    @Query("SELECT i FROM CampaignInteractionEntity i WHERE i.deletedAt IS NULL " +
+           "AND (:utmSource IS NULL OR i.utmSource = :utmSource) " +
+           "AND (:utmMedium IS NULL OR i.utmMedium = :utmMedium) " +
+           "AND (:utmCampaign IS NULL OR i.utmCampaign = :utmCampaign)")
+    Page<CampaignInteractionEntity> findByUtmParameters(
+            @Param("utmSource") String utmSource,
+            @Param("utmMedium") String utmMedium,
+            @Param("utmCampaign") String utmCampaign,
+            Pageable pageable);
+
+    @Query("SELECT i.marketingInteractionType as type, COUNT(i) as count " +
+           "FROM CampaignInteractionEntity i WHERE i.deletedAt IS NULL " +
+           "AND i.campaign.id = :campaignId " +
+           "GROUP BY i.marketingInteractionType")
+    List<Object[]> countByInteractionTypeByCampaignId(@Param("campaignId") Long campaignId);
+
+    @Query("SELECT i.deviceType as deviceType, COUNT(i) as count " +
+           "FROM CampaignInteractionEntity i WHERE i.deletedAt IS NULL " +
+           "AND i.campaign.id = :campaignId AND i.deviceType IS NOT NULL " +
+           "GROUP BY i.deviceType")
+    List<Object[]> countByDeviceTypeByCampaignId(@Param("campaignId") Long campaignId);
+
+    @Query("SELECT i.countryCode as country, COUNT(i) as count " +
+           "FROM CampaignInteractionEntity i WHERE i.deletedAt IS NULL " +
+           "AND i.campaign.id = :campaignId AND i.countryCode IS NOT NULL " +
+           "GROUP BY i.countryCode " +
+           "ORDER BY count DESC")
+    List<Object[]> findTopCountriesByCampaignId(@Param("campaignId") Long campaignId, Pageable pageable);
+
+    @Query("SELECT i.city as city, COUNT(i) as count " +
+           "FROM CampaignInteractionEntity i WHERE i.deletedAt IS NULL " +
+           "AND i.campaign.id = :campaignId AND i.city IS NOT NULL " +
+           "GROUP BY i.city " +
+           "ORDER BY count DESC")
+    List<Object[]> findTopCitiesByCampaignId(@Param("campaignId") Long campaignId, Pageable pageable);
 }

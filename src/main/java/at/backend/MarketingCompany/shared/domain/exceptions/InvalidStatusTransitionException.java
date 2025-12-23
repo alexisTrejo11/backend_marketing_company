@@ -1,6 +1,7 @@
 package at.backend.MarketingCompany.shared.domain.exceptions;
 
-import at.backend.MarketingCompany.shared.domain.marketingCampaing.ActivityStatus;
+
+import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivityStatus;
 
 public class InvalidStatusTransitionException extends BaseException {
 

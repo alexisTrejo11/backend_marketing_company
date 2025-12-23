@@ -1,0 +1,506 @@
+# ============================================================================
+# CAMPAIGN INTERACTION - Interaction tracking and analytics
+# ============================================================================
+
+"""
+Type of customer interaction with a campaign.
+"""
+enum MarketingInteractionType {
+    """Ad click"""
+    AD_CLICK
+
+    """Ad view/impression"""
+    AD_VIEW
+
+    """Email opened"""
+    EMAIL_OPEN
+
+    """Email link clicked"""
+    EMAIL_CLICK
+
+    """Landing page visit"""
+    LANDING_PAGE_VISIT
+
+    """Form submitted"""
+    FORM_SUBMIT
+
+    """Social media engagement"""
+    SOCIAL_ENGAGEMENT
+
+    """Webinar registration"""
+    WEBINAR_REGISTRATION
+
+    """Whitepaper download"""
+    WHITEPAPER_DOWNLOAD
+}
+
+"""
+Campaign interaction details.
+"""
+type MarketingInteractionOutput {
+    """Interaction ID"""
+    id: ID!
+
+    """Campaign ID"""
+    campaignId: ID!
+
+    """Campaign name"""
+    campaignName: String
+
+    """Customer ID"""
+    customerId: ID!
+
+    """Customer name"""
+    customerName: String
+
+    """Interaction type"""
+    interactionType: MarketingInteractionType!
+
+    """Interaction timestamp"""
+    interactionDate: String!
+
+    """Marketing channel ID"""
+    channelId: ID
+
+    """Channel name"""
+    channelName: String
+
+    """UTM source parameter"""
+    utmSource: String
+
+    """UTM medium parameter"""
+    utmMedium: String
+
+    """UTM campaign parameter"""
+    utmCampaign: String
+
+    """UTM content parameter"""
+    utmContent: String
+
+    """UTM term parameter"""
+    utmTerm: String
+
+    """Device type (desktop, mobile, tablet)"""
+    deviceType: String
+
+    """Device operating system"""
+    deviceOs: String
+
+    """Browser used"""
+    browser: String
+
+    """Country code (ISO 2-letter)"""
+    countryCode: String
+
+    """City name"""
+    city: String
+
+    """Deal ID if converted"""
+    dealId: ID
+
+    """Conversion value"""
+    conversionValue: Float
+
+    """Is this a conversion"""
+    isConversion: Boolean!
+
+    """Landing page URL"""
+    landingPageUrl: String
+
+    """Referrer URL"""
+    referrerUrl: String
+
+    """Session ID"""
+    sessionId: String
+
+    """Additional properties (JSON)"""
+    properties: String
+
+    """Creation date"""
+    createdAt: String!
+}
+
+"""
+Interaction type breakdown for statistics.
+"""
+type InteractionTypeBreakdown {
+    """Ad clicks count"""
+    adClicks: Int!
+
+    """Ad views count"""
+    adViews: Int!
+
+    """Email opens count"""
+    emailOpens: Int!
+
+    """Email clicks count"""
+    emailClicks: Int!
+
+    """Landing page visits count"""
+    landingPageVisits: Int!
+
+    """Form submits count"""
+    formSubmits: Int!
+
+    """Social engagements count"""
+    socialEngagements: Int!
+
+    """Webinar registrations count"""
+    webinarRegistrations: Int!
+
+    """Whitepaper downloads count"""
+    whitepaperDownloads: Int!
+}
+
+"""
+Device breakdown for statistics.
+"""
+type DeviceBreakdown {
+    """Desktop interactions"""
+    desktop: Int!
+
+    """Mobile interactions"""
+    mobile: Int!
+
+    """Tablet interactions"""
+    tablet: Int!
+
+    """Unknown device interactions"""
+    unknown: Int!
+}
+
+"""
+Geographic breakdown for statistics.
+"""
+type GeographicBreakdown {
+    """Top countries (country code -> count)"""
+    topCountries: [CountryCount!]!
+
+    """Top cities (city name -> count)"""
+    topCities: [CityCount!]!
+}
+
+"""
+Country interaction count.
+"""
+type CountryCount {
+    """Country code"""
+    countryCode: String!
+
+    """Interaction count"""
+    count: Int!
+}
+
+"""
+City interaction count.
+"""
+type CityCount {
+    """City name"""
+    city: String!
+
+    """Interaction count"""
+    count: Int!
+}
+
+"""
+Comprehensive interaction statistics.
+"""
+type MarketingInteractionStatistics {
+    """Campaign ID"""
+    campaignId: ID!
+
+    """Campaign name"""
+    campaignName: String
+
+    """Total interactions"""
+    totalInteractions: Int!
+
+    """Total conversions"""
+    totalConversions: Int!
+
+    """Conversion rate (percentage)"""
+    conversionRate: Float!
+
+    """Total conversion value"""
+    totalConversionValue: Float!
+
+    """Average conversion value"""
+    averageConversionValue: Float!
+
+    """Unique customers who interacted"""
+    uniqueCustomers: Int!
+
+    """Unique channels used"""
+    uniqueChannels: Int!
+
+    """Breakdown by interaction type"""
+    typeBreakdown: InteractionTypeBreakdown!
+
+    """Breakdown by device"""
+    deviceBreakdown: DeviceBreakdown!
+
+    """Geographic breakdown"""
+    geographicBreakdown: GeographicBreakdown!
+}
+
+"""
+Paginated interaction response.
+"""
+type MarketingInteractionPage implements PageResponse {
+    """List of interactions"""
+    content: [MarketingInteractionOutput!]!
+
+    """Pagination metadata"""
+    pagination: PaginationMetadata!
+}
+
+# ============================================================================
+# INPUTS
+# ============================================================================
+
+"""
+Input to track a new interaction.
+"""
+input TrackInteractionInput {
+    """Campaign ID"""
+    campaignId: ID!
+
+    """Customer ID"""
+    customerId: ID!
+
+    """Interaction type"""
+    interactionType: MarketingInteractionType!
+
+    """Session ID"""
+    sessionId: String
+
+    """Channel ID"""
+    channelId: ID
+
+    """UTM source"""
+    utmSource: String
+
+    """UTM medium"""
+    utmMedium: String
+
+    """UTM campaign"""
+    utmCampaign: String
+
+    """UTM content"""
+    utmContent: String
+
+    """UTM term"""
+    utmTerm: String
+
+    """Device type"""
+    deviceType: String
+
+    """Device OS"""
+    deviceOs: String
+
+    """Browser"""
+    browser: String
+
+    """Country code"""
+    countryCode: String
+
+    """City"""
+    city: String
+
+    """Landing page URL"""
+    landingPageUrl: String
+
+    """Referrer URL"""
+    referrerUrl: String
+
+    """Additional properties (JSON string)"""
+    properties: String
+}
+
+"""
+Input to mark an interaction as conversion.
+"""
+input MarkConversionInput {
+    """Interaction ID"""
+    interactionId: ID!
+
+    """Deal ID"""
+    dealId: ID!
+
+    """Conversion value"""
+    conversionValue: Float!
+}
+
+"""
+Interaction filter options.
+"""
+input InteractionFilterInput {
+    """Filter by campaign ID"""
+    campaignId: ID
+
+    """Filter by customer ID"""
+    customerId: ID
+
+    """Filter by channel ID"""
+    channelId: ID
+
+    """Filter by interaction types"""
+    interactionTypes: [MarketingInteractionType!]
+
+    """Filter by conversion status"""
+    isConversion: Boolean
+
+    """Filter from date (ISO-8601)"""
+    dateFrom: String
+
+    """Filter to date (ISO-8601)"""
+    dateTo: String
+
+    """Filter by UTM source"""
+    utmSource: String
+
+    """Filter by UTM medium"""
+    utmMedium: String
+
+    """Filter by UTM campaign"""
+    utmCampaign: String
+
+    """Filter by device type"""
+    deviceType: String
+
+    """Filter by country code"""
+    countryCode: String
+}
+
+# ============================================================================
+# QUERIES
+# ============================================================================
+
+extend type Query {
+    """
+    Get an interaction by ID.
+    """
+    marketingInteraction(id: ID!): MarketingInteractionOutput
+
+    """
+    Search interactions with filters.
+    """
+    searchMarketingInteractions(
+        """Filter options"""
+        filter: InteractionFilterInput
+
+        """Pagination parameters"""
+        pageInput: PageInput!
+    ): MarketingInteractionPage!
+
+    """
+    Get interactions by campaign.
+    """
+    marketingInteractionsByCampaign(
+        """Campaign ID"""
+        campaignId: ID!
+
+        """Pagination parameters"""
+        pageInput: PageInput!
+    ): MarketingInteractionPage!
+
+    """
+    Get interactions by customer.
+    """
+    marketingInteractionsByCustomer(
+        """Customer ID"""
+        customerId: ID!
+
+        """Pagination parameters"""
+        pageInput: PageInput!
+    ): MarketingInteractionPage!
+
+    """
+    Get conversions by campaign.
+    """
+    conversionsByCampaign(
+        """Campaign ID"""
+        campaignId: ID!
+
+        """Pagination parameters"""
+        pageInput: PageInput!
+    ): MarketingInteractionPage!
+
+    """
+    Get interactions by channel.
+    """
+    interactionsByChannel(
+        """Channel ID"""
+        channelId: ID!
+
+        """Pagination parameters"""
+        pageInput: PageInput!
+    ): MarketingInteractionPage!
+
+    """
+    Get interactions by date range.
+    """
+    marketingInteractionsByDateRange(
+        """Start date (ISO-8601)"""
+        startDate: String!
+
+        """End date (ISO-8601)"""
+        endDate: String!
+
+        """Pagination parameters"""
+        pageInput: PageInput!
+    ): MarketingInteractionPage!
+
+    """
+    Get interactions by UTM parameters.
+    """
+    marketingInteractionsByUtm(
+        """UTM source"""
+        utmSource: String
+
+        """UTM medium"""
+        utmMedium: String
+
+        """UTM campaign"""
+        utmCampaign: String
+
+        """Pagination parameters"""
+        pageInput: PageInput!
+    ): MarketingInteractionPage!
+
+    """
+    Get interaction statistics for a campaign.
+    """
+    marketingInteractionStatistics(campaignId: ID!): MarketingInteractionStatistics!
+
+    """
+    Get conversion rate for a campaign.
+    """
+    conversionRate(campaignId: ID!): Float!
+
+    """
+    Get average conversion value for a campaign.
+    """
+    averageConversionValue(campaignId: ID!): Float!
+}
+
+# ============================================================================
+# MUTATIONS
+# ============================================================================
+
+extend type Mutation {
+    """
+    Track a new campaign interaction.
+    """
+    trackMarketingInteraction(input: TrackInteractionInput!): MarketingInteractionOutput!
+
+    """
+    Mark an interaction as a conversion.
+    """
+    markAsConversion(input: MarkConversionInput!): MarketingInteractionOutput!
+
+    """
+    Delete an interaction (soft delete).
+    """
+    deleteMarketingInteraction(id: ID!): Boolean!
+}
