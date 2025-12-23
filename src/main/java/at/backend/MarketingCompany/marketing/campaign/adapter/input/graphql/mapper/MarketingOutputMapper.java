@@ -6,7 +6,7 @@ import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.Ac
 import at.backend.MarketingCompany.marketing.attribution.adapter.input.graphql.dto.CampaignAttributionResponse;
 import at.backend.MarketingCompany.marketing.attribution.core.domain.entity.CampaignAttribution;
 import at.backend.MarketingCompany.marketing.campaign.adapter.input.graphql.dto.CampaignOutput;
-import at.backend.MarketingCompany.marketing.campaign.adapter.input.graphql.dto.ab.AbTestResponse;
+import at.backend.MarketingCompany.marketing.ab_test.adapter.input.ab.AbTestResponse;
 import at.backend.MarketingCompany.marketing.ab_test.core.domain.AbTest;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.models.MarketingCampaign;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.*;
@@ -30,18 +30,46 @@ public class MarketingOutputMapper {
 			return null;
 		}
 
+		var budget = CampaignOutput.CampaignBudget.builder()
+				.totalBudget(domain.getBudget() != null ? domain.getBudget().totalBudget() : null)
+				.spentAmount(domain.getBudget() != null ? domain.getBudget().spentAmount() : null)
+				.remainingBudget(domain.getBudget() != null ? domain.getBudget().remainingBudget() : null)
+				.utilizationPercentage(domain.getBudget() != null ? domain.getBudget().utilizationPercentage() : null)
+				.isNearlyExhausted(domain.getBudget() != null ? domain.getBudget().isNearlyExhausted() : null)
+				.build();
+
+		CampaignOutput.CampaignROI roi = null;
+
+		if (domain.getROIStatus() != null) {
+			var ROI = domain.calculateROI();
+			roi = CampaignOutput.CampaignROI.builder()
+					.totalRevenue(ROI.totalRevenue())
+					.totalCost(ROI.totalCost())
+					.roiPercentage(ROI.roiPercentage())
+					.netProfit(ROI.netProfit())
+					.status(ROI.status())
+					.isProfitable(ROI.isProfitable())
+					.build();
+		}
+
+		var period = CampaignOutput.CampaignPeriod.builder()
+				.startDate(domain.getPeriod() != null ? domain.getPeriod().startDate() : null)
+				.endDate(domain.getPeriod() != null ? domain.getPeriod().endDate() : null)
+				.isActive(domain.getPeriod() != null ? domain.getPeriod().isActive() : null)
+				.hasStarted(domain.getPeriod() != null ? domain.getPeriod().hasStarted() : null)
+				.hasEnded(domain.getPeriod() != null ? domain.getPeriod().hasEnded() : null)
+				.durationInDays(domain.getPeriod() != null ? domain.getPeriod().durationInDays() : null)
+				.build();
+
 		return CampaignOutput.builder()
 				.id(domain.getId() != null ? domain.getId().getValue() : null)
 				.name(domain.getName() != null ? domain.getName().value() : null)
 				.description(domain.getDescription())
 				.campaignType(domain.getCampaignType() != null ? domain.getCampaignType().name() : null)
-				.totalBudget(domain.getBudget() != null ? domain.getBudget().totalBudget() : null)
-				.spentAmount(domain.getBudget() != null ? domain.getBudget().spentAmount() : null)
-				.remainingBudget(domain.getBudget() != null ? domain.getBudget().remainingBudget() : null)
-				.budgetUtilizationPercentage(domain.getBudget() != null ? domain.getBudget().utilizationPercentage() : null)
-				.startDate(domain.getPeriod() != null ? domain.getPeriod().startDate() : null)
-				.endDate(domain.getPeriod() != null ? domain.getPeriod().endDate() : null)
-				.isActive(domain.isActive())
+				.budget(budget)
+				.roi(roi)
+				.period(period)
+				.needsOptimization(domain.needsOptimization())
 				.budgetAllocations(domain.getBudgetAllocations())
 				.targetAudienceDemographics(domain.getTargetAudienceDemographics())
 				.targetLocations(domain.getTargetLocations())
@@ -50,7 +78,7 @@ public class MarketingOutputMapper {
 				.secondaryGoals(domain.getSecondaryGoals())
 				.successMetrics(domain.getSuccessMetrics())
 				.primaryChannelId(domain.getPrimaryChannelId() != null ? domain.getPrimaryChannelId().getValue() : null)
-				.status(domain.getStatus() != null ? domain.getStatus().name() : null)
+				.status(domain.getStatus() != null ? domain.getStatus() : null)
 				.createdAt(domain.getCreatedAt())
 				.updatedAt(domain.getUpdatedAt())
 				.build();

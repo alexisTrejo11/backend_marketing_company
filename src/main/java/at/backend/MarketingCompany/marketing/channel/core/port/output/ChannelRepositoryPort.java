@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 public interface ChannelRepositoryPort {
-    
     MarketingChannel save(MarketingChannel channel);
     
     Optional<MarketingChannel> findById(MarketingChannelId id);
@@ -18,15 +17,14 @@ public interface ChannelRepositoryPort {
     
     Page<MarketingChannel> findByActiveStatus(Boolean isActive, Pageable pageable);
     
-    Page<MarketingChannel> findByChannelType(
-            ChannelType channelType,
-            Pageable pageable);
+    Page<MarketingChannel> findByChannelType(ChannelType channelType, Pageable pageable);
     
     Page<MarketingChannel> searchByName(String searchTerm, Pageable pageable);
     
     Optional<MarketingChannel> findByName(String name);
     
     long countActiveChannels();
-    
+
+
     boolean existsByNameAndNotDeleted(String name);
 }

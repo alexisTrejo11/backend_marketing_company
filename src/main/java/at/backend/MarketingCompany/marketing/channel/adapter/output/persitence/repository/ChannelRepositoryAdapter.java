@@ -25,7 +25,9 @@ public class ChannelRepositoryAdapter implements ChannelRepositoryPort {
     @Transactional
     public MarketingChannel save(MarketingChannel channel) {
         MarketingChannelEntity entity = mapper.toEntity(channel);
-        MarketingChannelEntity savedEntity = jpaRepository.save(entity);
+				entity.processNewEntityIfNeeded();
+
+        MarketingChannelEntity savedEntity = jpaRepository.saveAndFlush(entity);
         return mapper.toDomain(savedEntity);
     }
 

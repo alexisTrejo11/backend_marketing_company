@@ -28,7 +28,9 @@ public class MarketingChannel extends BaseDomainEntity<MarketingChannelId> {
   public static MarketingChannel create(
       String name,
       ChannelType channelType,
-      String description) {
+      String description,
+      BigDecimal defaultCostPerClick,
+			BigDecimal defaultCostPerImpression) {
     
     if (name == null || name.isBlank()) {
       throw new IllegalArgumentException("Channel name is required");
@@ -42,9 +44,41 @@ public class MarketingChannel extends BaseDomainEntity<MarketingChannelId> {
     channel.channelType = channelType;
     channel.description = description;
     channel.isActive = true;
+		channel.defaultCostPerClick = defaultCostPerClick;
+		channel.defaultCostPerImpression = defaultCostPerImpression;
 
     return channel;
   }
+
+	public void updateDetails(
+			String name,
+			ChannelType channelType,
+			String description,
+			BigDecimal defaultCostPerClick,
+			BigDecimal defaultCostPerImpression) {
+		if (name != null) {
+			if (name.isBlank()) {
+				throw new IllegalArgumentException("Channel name cannot be blank");
+			}
+			this.name = name;
+		}
+
+		if (channelType != null) {
+			this.channelType = channelType;
+		}
+
+		if (description != null) {
+			this.description = description;
+		}
+
+		if (defaultCostPerClick != null) {
+			this.defaultCostPerClick = defaultCostPerClick;
+		}
+
+		if (defaultCostPerImpression != null) {
+			this.defaultCostPerImpression = defaultCostPerImpression;
+		}
+	}
 
   public static MarketingChannel reconstruct(MarketingChannelReconstructParams params) {
     if (params == null) {

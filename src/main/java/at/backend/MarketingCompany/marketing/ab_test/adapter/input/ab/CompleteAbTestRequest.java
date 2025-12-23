@@ -1,4 +1,4 @@
-package at.backend.MarketingCompany.marketing.campaign.adapter.input.graphql.dto.ab;
+package at.backend.MarketingCompany.marketing.ab_test.adapter.input.ab;
 
 import jakarta.validation.constraints.*;
 

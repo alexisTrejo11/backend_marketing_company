@@ -45,28 +45,6 @@ enum CampaignStatus {
     CANCELLED
 }
 
-"""
-Marketing channel type.
-"""
-enum ChannelType {
-    """Paid advertising"""
-    PAID
-
-    """Organic traffic"""
-    ORGANIC
-
-    """Social media"""
-    SOCIAL
-
-    """Direct traffic"""
-    DIRECT
-
-    """Email marketing"""
-    EMAIL
-
-    """Referral traffic"""
-    REFERRAL
-}
 
 """
 ROI status category.
@@ -119,22 +97,22 @@ Campaign period/dates.
 """
 type CampaignPeriod {
     """Campaign start date"""
-    startDate: String!
+    startDate: String
 
     """Campaign end date (optional for ongoing campaigns)"""
     endDate: String
 
     """Is campaign currently active"""
-    isActive: Boolean!
+    isActive: Boolean
 
     """Has campaign started"""
-    hasStarted: Boolean!
+    hasStarted: Boolean
 
     """Has campaign ended"""
-    hasEnded: Boolean!
+    hasEnded: Boolean
 
     """Duration in days"""
-    durationInDays: Int!
+    durationInDays: Int
 }
 
 """
@@ -142,54 +120,22 @@ Campaign ROI information.
 """
 type CampaignROI {
     """Total attributed revenue"""
-    totalRevenue: Float!
+    totalRevenue: Float
 
     """Total cost/spending"""
-    totalCost: Float!
+    totalCost: Float
 
     """ROI percentage"""
-    roiPercentage: Float!
+    roiPercentage: Float
 
     """Net profit/loss"""
-    netProfit: Float!
+    netProfit: Float
 
     """ROI status category"""
-    status: ROIStatus!
+    status: ROIStatus
 
     """Is campaign profitable"""
-    isProfitable: Boolean!
-}
-
-"""
-Marketing channel information.
-"""
-type MarketingChannel {
-    """Channel ID"""
-    id: ID!
-
-    """Channel name"""
-    name: String!
-
-    """Channel type"""
-    channelType: ChannelType!
-
-    """Channel description"""
-    description: String
-
-    """Default cost per click"""
-    defaultCostPerClick: Float
-
-    """Default cost per impression"""
-    defaultCostPerImpression: Float
-
-    """Is channel active"""
-    isActive: Boolean!
-
-    """Creation date"""
-    createdAt: String!
-
-    """Last update date"""
-    updatedAt: String!
+    isProfitable: Boolean
 }
 
 """
@@ -212,10 +158,10 @@ type CampaignOutput {
     status: CampaignStatus!
 
     """Budget information"""
-    budget: CampaignBudget!
+    budget: CampaignBudget
 
     """Campaign period"""
-    period: CampaignPeriod!
+    period: CampaignPeriod
 
     """Primary campaign goal"""
     primaryGoal: String
@@ -236,13 +182,10 @@ type CampaignOutput {
     targetInterests: String
 
     """Primary marketing channel"""
-    primaryChannel: MarketingChannel
+    primaryChannel: MarketingChannelOutput
 
     """ROI information"""
     roi: CampaignROI!
-
-    """Is campaign active"""
-    isActive: Boolean!
 
     """Needs optimization (low ROI) Not Added"""
     needsOptimization: Boolean
@@ -344,63 +287,6 @@ type CampaignPage implements PageResponse {
     pagination: PaginationMetadata!
 }
 
-"""
-Paginated channel response.
-"""
-type ChannelPage implements PageResponse {
-    """List of channels"""
-    content: [MarketingChannel!]!
-
-    """Pagination metadata"""
-    pagination: PaginationMetadata!
-}
-
-# ============================================================================
-# INPUTS
-# ============================================================================
-
-"""
-Input to create a marketing channel.
-"""
-input CreateChannelInput {
-    """Channel name"""
-    name: String!
-
-    """Channel type"""
-    channelType: ChannelType!
-
-    """Channel description"""
-    description: String
-
-    """Default cost per click"""
-    defaultCostPerClick: Float
-
-    """Default cost per impression"""
-    defaultCostPerImpression: Float
-}
-
-"""
-Input to update a marketing channel.
-"""
-input UpdateChannelInput {
-    """Channel ID"""
-    id: ID!
-
-    """Channel name"""
-    name: String
-
-    """Channel description"""
-    description: String
-
-    """Default cost per click"""
-    defaultCostPerClick: Float
-
-    """Default cost per impression"""
-    defaultCostPerImpression: Float
-
-    """Is channel active"""
-    isActive: Boolean
-}
 
 """
 Input to create a campaign.
@@ -544,19 +430,6 @@ input CampaignFilterInput {
 
 extend type Query {
     """
-    Get all marketing channels with pagination.
-    """
-    marketingChannels(
-        """Pagination parameters"""
-        pageInput: PageInput!
-    ): ChannelPage!
-
-    """
-    Get a channel by ID.
-    """
-    marketingChannel(id: ID!): MarketingChannel
-
-    """
     Get all campaigns with pagination.
     """
     campaigns(
@@ -636,31 +509,6 @@ extend type Query {
 # ============================================================================
 
 extend type Mutation {
-    """
-    Create a new marketing channel.
-    """
-    createChannel(input: CreateChannelInput!): MarketingChannel!
-
-    """
-    Update a marketing channel.
-    """
-    updateChannel(input: UpdateChannelInput!): MarketingChannel!
-
-    """
-    Activate a channel.
-    """
-    activateChannel(id: ID!): MarketingChannel!
-
-    """
-    Deactivate a channel.
-    """
-    deactivateChannel(id: ID!): MarketingChannel!
-
-    """
-    Delete a channel (soft delete).
-    """
-    deleteChannel(id: ID!): Boolean!
-
     """
     Create a new campaign.
     """

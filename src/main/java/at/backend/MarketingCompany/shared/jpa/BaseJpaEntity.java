@@ -43,4 +43,10 @@ public abstract class BaseJpaEntity {
         updatedAt = LocalDateTime.now();
         version += 1;
     }
+
+		public void processNewEntityIfNeeded() {
+				if (this.id <= 0) {
+						this.id = null;
+				}
+		}
 }

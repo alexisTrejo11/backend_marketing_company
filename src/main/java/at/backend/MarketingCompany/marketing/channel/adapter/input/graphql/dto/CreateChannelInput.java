@@ -1,15 +1,14 @@
 package at.backend.MarketingCompany.marketing.channel.adapter.input.graphql.dto;
 
+import at.backend.MarketingCompany.marketing.channel.core.application.command.CreateChannelCommand;
 import at.backend.MarketingCompany.marketing.channel.core.domain.valueobject.ChannelType;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
+
 import java.math.BigDecimal;
 
-public record CreateMarketingChannelRequest(
+public record CreateChannelInput(
     @NotBlank(message = "Channel name is required")
-    @Size(max = 100, message = "Channel name cannot exceed 100 characters")
+    @Size(min = 3, max = 100, message = "Channel name cannot exceed 100 characters")
     String name,
 
     @NotNull(message = "Channel type is required")
@@ -24,4 +23,14 @@ public record CreateMarketingChannelRequest(
     @Positive(message = "Cost per impression must be positive")
     BigDecimal defaultCostPerImpression
 ) {
+
+	public CreateChannelCommand toCommand() {
+		return new CreateChannelCommand(
+				this.name,
+				this.channelType,
+				this.description,
+				this.defaultCostPerClick,
+				this.defaultCostPerImpression
+		);
+	}
 }

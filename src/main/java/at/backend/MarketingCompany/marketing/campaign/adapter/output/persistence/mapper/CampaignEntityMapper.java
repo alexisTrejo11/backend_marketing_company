@@ -23,7 +23,7 @@ public class CampaignEntityMapper {
 		}
 
 		MarketingCampaignEntity entity = new MarketingCampaignEntity();
-
+		entity.setId(domain.getId() != null ? domain.getId().getValue() : null);
 		entity.setName(domain.getName() != null ? domain.getName().value() : null);
 		entity.setDescription(domain.getDescription());
 		entity.setCampaignType(domain.getCampaignType());
