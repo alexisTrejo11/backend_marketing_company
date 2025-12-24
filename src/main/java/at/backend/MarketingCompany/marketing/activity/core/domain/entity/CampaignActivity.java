@@ -7,10 +7,12 @@ import at.backend.MarketingCompany.marketing.campaign.core.domain.exception.Mark
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
 import at.backend.MarketingCompany.shared.domain.BaseDomainEntity;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Map;
 
 @Getter
+@Setter
 public class CampaignActivity extends BaseDomainEntity<CampaignActivityId> {
   private MarketingCampaignId campaignId;
   private String name;

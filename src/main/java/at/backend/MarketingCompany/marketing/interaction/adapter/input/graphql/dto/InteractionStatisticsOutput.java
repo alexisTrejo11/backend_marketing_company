@@ -1,9 +1,12 @@
 package at.backend.MarketingCompany.marketing.interaction.adapter.input.graphql.dto;
 
+import lombok.Builder;
+
 import java.math.BigDecimal;
 import java.util.List;
 
-public record InteractionStatisticsResponse(
+@Builder
+public record InteractionStatisticsOutput(
     Long campaignId,
     String campaignName,
     Long totalInteractions,

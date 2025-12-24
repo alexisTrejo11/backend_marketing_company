@@ -164,7 +164,7 @@ public class CampaignInteractionController {
 	}
 
 	@QueryMapping
-	public InteractionStatisticsResponse marketingInteractionStatistics(@Argument @NotNull @Positive Long campaignId) {
+	public InteractionStatisticsOutput marketingInteractionStatistics(@Argument @NotNull @Positive Long campaignId) {
 		log.debug("GraphQL Query: interactionStatistics for campaign: {}", campaignId);
 
 		InteractionStatistics statistics = interactionService.getInteractionStatistics(new MarketingCampaignId(campaignId));

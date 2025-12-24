@@ -19,6 +19,8 @@ public interface CampaignRepositoryPort {
 
 	void delete(MarketingCampaignId id);
 
+
+
 	Page<MarketingCampaign> findByFilters(
 			CampaignStatus status,
 			CampaignType campaignType,

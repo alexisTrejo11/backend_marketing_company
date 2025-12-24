@@ -1,7 +1,9 @@
 package at.backend.MarketingCompany.marketing.interaction.adapter.input.graphql.dto;
 
+import at.backend.MarketingCompany.marketing.interaction.core.application.query.InteractionQuery;
 import at.backend.MarketingCompany.marketing.interaction.core.domain.valueobject.MarketingInteractionType;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public record InteractionFilterInput(
@@ -17,4 +19,22 @@ public record InteractionFilterInput(
     String utmCampaign,
     String deviceType,
     String countryCode
-) {}
+) {
+	public InteractionQuery buildInteractionQuery() {
+
+		return new InteractionQuery(
+				campaignId,
+				customerId,
+				channelId,
+				interactionTypes,
+				isConversion,
+				dateFrom != null ? LocalDateTime.parse(dateFrom) : null,
+				dateTo != null ? LocalDateTime.parse(dateTo) : null,
+				utmSource,
+				utmMedium,
+				utmCampaign,
+				deviceType,
+				countryCode
+		);
+	}
+}

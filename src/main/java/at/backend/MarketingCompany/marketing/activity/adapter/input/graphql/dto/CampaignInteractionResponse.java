@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-public record CampaignActivityResponse(
+public record CampaignInteractionResponse(
     Long id,
     Long campaignId,
     String name,

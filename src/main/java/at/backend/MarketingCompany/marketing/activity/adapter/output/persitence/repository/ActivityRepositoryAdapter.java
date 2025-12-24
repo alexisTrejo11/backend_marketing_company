@@ -5,6 +5,7 @@ import at.backend.MarketingCompany.marketing.activity.adapter.output.persitence.
 import at.backend.MarketingCompany.marketing.activity.adapter.output.persitence.model.CampaignActivityEntity;
 import at.backend.MarketingCompany.marketing.activity.core.domain.entity.CampaignActivity;
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivityStatus;
+import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivityType;
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.CampaignActivityId;
 import at.backend.MarketingCompany.marketing.activity.core.port.output.ActivityRepositoryPort;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -24,6 +26,16 @@ public class ActivityRepositoryAdapter implements ActivityRepositoryPort {
 
 	private final CampaignActivityJpaRepository jpaRepository;
 	private final ActivityEntityMapper mapper;
+
+	@Override
+	public Page<CampaignActivity> findAll(Pageable pageable) {
+		return null;
+	}
+
+	@Override
+	public Page<CampaignActivity> findByFilters(Long campaignId, List<ActivityStatus> statuses, List<ActivityType> activityTypes, Long assignedToUserId, LocalDateTime plannedStartFrom, LocalDateTime plannedStartTo, Boolean isDelayed, Boolean isCompleted, String searchTerm, Pageable pageable) {
+		return null;
+	}
 
 	@Override
 	@Transactional
@@ -51,6 +63,16 @@ public class ActivityRepositoryAdapter implements ActivityRepositoryPort {
 	public Page<CampaignActivity> findByCampaignId(MarketingCampaignId campaignId, Pageable pageable) {
 		return jpaRepository.findByCampaignId(campaignId.getValue(), pageable)
 				.map(mapper::toDomain);
+	}
+
+	@Override
+	public Page<CampaignActivity> findDelayedActivities(Pageable pageable) {
+		return null;
+	}
+
+	@Override
+	public Page<CampaignActivity> findOverBudgetActivities(Pageable pageable) {
+		return null;
 	}
 
 	@Override
@@ -91,6 +113,26 @@ public class ActivityRepositoryAdapter implements ActivityRepositoryPort {
 	@Transactional(readOnly = true)
 	public long countByCampaignIdAndStatus(MarketingCampaignId campaignId, ActivityStatus status) {
 		return jpaRepository.countByCampaignIdAndStatus(campaignId.getValue(), status);
+	}
+
+	@Override
+	public Long countDelayedActivitiesByCampaignId(MarketingCampaignId campaignId) {
+		return 0L;
+	}
+
+	@Override
+	public Double calculateOnTimeCompletionRateByCampaignId(MarketingCampaignId campaignId) {
+		return 0.0;
+	}
+
+	@Override
+	public long countByCampaignId(MarketingCampaignId campaignId) {
+		return 0;
+	}
+
+	@Override
+	public BigDecimal calculateTotalPlannedCostByCampaignId(MarketingCampaignId campaignId) {
+		return null;
 	}
 
 	@Override

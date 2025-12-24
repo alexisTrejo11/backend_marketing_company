@@ -11,7 +11,7 @@ import at.backend.MarketingCompany.marketing.ab_test.core.domain.AbTest;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.models.MarketingCampaign;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.*;
 import at.backend.MarketingCompany.marketing.channel.core.domain.valueobject.MarketingChannelId;
-import at.backend.MarketingCompany.marketing.interaction.adapter.input.graphql.dto.CampaignInteractionResponse;
+import at.backend.MarketingCompany.marketing.interaction.adapter.input.graphql.dto.CampaignInteractionOutput;
 import at.backend.MarketingCompany.marketing.interaction.core.domain.entity.CampaignInteraction;
 import at.backend.MarketingCompany.marketing.metric.adapter.input.graphql.dto.CampaignMetricResponse;
 import at.backend.MarketingCompany.marketing.metric.core.domain.entity.CampaignMetric;
@@ -94,12 +94,12 @@ public class MarketingOutputMapper {
 
 	// ========== INTERACTION MAPPING ==========
 
-	public CampaignInteractionResponse toInteractionResponse(CampaignInteraction domain) {
+	public CampaignInteractionOutput toInteractionResponse(CampaignInteraction domain) {
 		if (domain == null) {
 			return null;
 		}
 
-		return new CampaignInteractionResponse(
+		return new CampaignInteractionOutput(
 				domain.getId() != null ? domain.getId().getValue() : null,
 				domain.getCampaignId() != null ? domain.getCampaignId().getValue() : null,
 				domain.getCustomerId() != null ? domain.getCustomerId().getValue() : null,
@@ -127,7 +127,7 @@ public class MarketingOutputMapper {
 		);
 	}
 
-	public List<CampaignInteractionResponse> toInteractionResponseList(List<CampaignInteraction> domains) {
+	public List<CampaignInteractionOutput> toInteractionResponseList(List<CampaignInteraction> domains) {
 		if (domains == null) {
 			return List.of();
 		}

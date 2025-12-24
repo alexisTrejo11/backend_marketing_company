@@ -1,10 +1,13 @@
 package at.backend.MarketingCompany.marketing.interaction.adapter.input.graphql.dto;
 
+import lombok.Builder;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-public record CampaignInteractionResponse(
+@Builder
+public record CampaignInteractionOutput(
     Long id,
     Long campaignId,
     Long customerId,

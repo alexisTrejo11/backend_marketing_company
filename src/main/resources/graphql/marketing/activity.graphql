@@ -1,0 +1,569 @@
+# ============================================================================
+# CAMPAIGN ACTIVITY - Activity planning and tracking
+# ============================================================================
+
+"""
+Type of campaign activity.
+"""
+enum ActivityType {
+    """Content creation activity"""
+    CONTENT_CREATION
+
+    """Ad setup activity"""
+    AD_SETUP
+
+    """Email blast activity"""
+    EMAIL_BLAST
+
+    """Social media post"""
+    SOCIAL_POST
+
+    """Event organization"""
+    EVENT
+
+    """Webinar"""
+    WEBINAR
+
+    """Analysis activity"""
+    ANALYSIS
+
+    """Optimization activity"""
+    OPTIMIZATION
+}
+
+"""
+Status of campaign activity.
+"""
+enum ActivityStatus {
+    """Planned activity"""
+    PLANNED
+
+    """Activity in progress"""
+    IN_PROGRESS
+
+    """Completed activity"""
+    COMPLETED
+
+    """Cancelled activity"""
+    CANCELLED
+
+    """Blocked activity"""
+    BLOCKED
+}
+
+"""
+Activity schedule information.
+"""
+type ActivitySchedule {
+    """Planned start date"""
+    plannedStartDate: String!
+
+    """Planned end date"""
+    plannedEndDate: String!
+
+    """Actual start date"""
+    actualStartDate: String
+
+    """Actual end date"""
+    actualEndDate: String
+
+    """Is activity delayed"""
+    isDelayed: Boolean!
+
+    """Is activity completed"""
+    isCompleted: Boolean!
+
+    """Planned duration in hours"""
+    plannedDurationHours: Int!
+
+    """Actual duration in hours"""
+    actualDurationHours: Int
+}
+
+"""
+Activity cost information.
+"""
+type ActivityCost {
+    """Planned cost"""
+    plannedCost: Float!
+
+    """Actual cost"""
+    actualCost: Float
+
+    """Cost variance"""
+    costVariance: Float
+
+    """Cost overrun percentage"""
+    costOverrunPercentage: Float
+
+    """Is over budget"""
+    isOverBudget: Boolean!
+}
+
+"""
+Campaign activity details.
+"""
+type CampaignActivity {
+    """Activity ID"""
+    id: ID!
+
+    """Campaign ID"""
+    campaignId: ID!
+
+    """Campaign name"""
+    campaignName: String
+
+    """Activity name"""
+    name: String!
+
+    """Activity description"""
+    description: String
+
+    """Activity type"""
+    activityType: ActivityType!
+
+    """Activity status"""
+    status: ActivityStatus!
+
+    """Schedule information"""
+    schedule: ActivitySchedule!
+
+    """Cost information"""
+    cost: ActivityCost!
+
+    """Assigned user ID"""
+    assignedToUserId: ID
+
+    """Assigned user name"""
+    assignedToUserName: String
+
+    """Delivery channel"""
+    deliveryChannel: String!
+
+    """Success criteria"""
+    successCriteria: String
+
+    """Target audience"""
+    targetAudience: String
+
+    """Dependencies (JSON)"""
+    dependencies: String
+
+    """Creation date"""
+    createdAt: String!
+
+    """Last update date"""
+    updatedAt: String!
+}
+
+"""
+Activity type breakdown for statistics.
+"""
+type ActivityTypeBreakdown {
+    """Content creation activities"""
+    contentCreation: Int!
+
+    """Ad setup activities"""
+    adSetup: Int!
+
+    """Email blast activities"""
+    emailBlast: Int!
+
+    """Social post activities"""
+    socialPost: Int!
+
+    """Event activities"""
+    event: Int!
+
+    """Webinar activities"""
+    webinar: Int!
+
+    """Analysis activities"""
+    analysis: Int!
+
+    """Optimization activities"""
+    optimization: Int!
+}
+
+"""
+Activity time metrics.
+"""
+type ActivityTimeMetrics {
+    """Average completion time in hours"""
+    averageCompletionTimeHours: Int!
+
+    """Total delay hours"""
+    totalDelayHours: Int!
+
+    """Activities completed early"""
+    activitiesCompletedEarly: Int!
+
+    """Activities completed late"""
+    activitiesCompletedLate: Int!
+
+    """Activities completed on time"""
+    activitiesCompletedOnTime: Int!
+}
+
+"""
+Comprehensive activity statistics.
+"""
+type ActivityStatistics {
+    """Campaign ID"""
+    campaignId: ID!
+
+    """Campaign name"""
+    campaignName: String
+
+    """Total activities"""
+    totalActivities: Int!
+
+    """Planned activities"""
+    plannedActivities: Int!
+
+    """In-progress activities"""
+    inProgressActivities: Int!
+
+    """Completed activities"""
+    completedActivities: Int!
+
+    """Cancelled activities"""
+    cancelledActivities: Int!
+
+    """Blocked activities"""
+    blockedActivities: Int!
+
+    """Delayed activities"""
+    delayedActivities: Int!
+
+    """Total planned cost"""
+    totalPlannedCost: Float!
+
+    """Total actual cost"""
+    totalActualCost: Float!
+
+    """Average cost overrun"""
+    averageCostOverrun: Float!
+
+    """Completion rate (percentage)"""
+    completionRate: Float!
+
+    """On-time completion rate (percentage)"""
+    onTimeCompletionRate: Float!
+
+    """Breakdown by activity type"""
+    typeBreakdown: ActivityTypeBreakdown!
+
+    """Time metrics"""
+    timeMetrics: ActivityTimeMetrics!
+}
+
+"""
+Paginated activity response.
+"""
+type ActivityPage implements PageResponse {
+    """List of activities"""
+    content: [CampaignActivity!]!
+
+    """Pagination metadata"""
+    pagination: PaginationMetadata!
+}
+
+# ============================================================================
+# INPUTS
+# ============================================================================
+
+"""
+Input to create an activity.
+"""
+input CreateActivityInput {
+    """Campaign ID"""
+    campaignId: ID!
+
+    """Activity name"""
+    name: String!
+
+    """Activity description"""
+    description: String
+
+    """Activity type"""
+    activityType: ActivityType!
+
+    """Planned start date (ISO-8601)"""
+    plannedStartDate: String!
+
+    """Planned end date (ISO-8601)"""
+    plannedEndDate: String!
+
+    """Planned cost"""
+    plannedCost: Float!
+
+    """Assigned user ID"""
+    assignedToUserId: ID
+
+    """Delivery channel"""
+    deliveryChannel: String!
+
+    """Success criteria"""
+    successCriteria: String
+
+    """Target audience"""
+    targetAudience: String
+
+    """Dependencies (JSON string)"""
+    dependencies: String
+}
+
+"""
+Input to update an activity.
+"""
+input UpdateActivityInput {
+    """Activity ID"""
+    id: ID!
+
+    """Activity name"""
+    name: String
+
+    """Activity description"""
+    description: String
+
+    """Assigned user ID"""
+    assignedToUserId: ID
+
+    """Success criteria"""
+    successCriteria: String
+
+    """Target audience"""
+    targetAudience: String
+
+    """Dependencies (JSON string)"""
+    dependencies: String
+}
+
+"""
+Input to update activity cost.
+"""
+input UpdateActivityCostInput {
+    """Activity ID"""
+    activityId: ID!
+
+    """Actual cost"""
+    actualCost: Float!
+
+    """Cost notes"""
+    costNotes: String
+}
+
+"""
+Input to record activity dates.
+"""
+input RecordActivityDatesInput {
+    """Activity ID"""
+    activityId: ID!
+
+    """Actual start date (ISO-8601)"""
+    actualStartDate: String
+
+    """Actual end date (ISO-8601)"""
+    actualEndDate: String
+}
+
+"""
+Activity filter options.
+"""
+input ActivityFilterInput {
+    """Filter by campaign ID"""
+    campaignId: ID
+
+    """Filter by statuses"""
+    statuses: [ActivityStatus!]
+
+    """Filter by activity types"""
+    activityTypes: [ActivityType!]
+
+    """Filter by assigned user ID"""
+    assignedToUserId: ID
+
+    """Filter from planned start date"""
+    plannedStartFrom: String
+
+    """Filter to planned start date"""
+    plannedStartTo: String
+
+    """Filter delayed activities"""
+    isDelayed: Boolean
+
+    """Filter completed activities"""
+    isCompleted: Boolean
+
+    """Search term"""
+    searchTerm: String
+}
+
+# ============================================================================
+# QUERIES
+# ============================================================================
+
+extend type Query {
+    """
+    Get an activity by ID.
+    """
+    activity(id: ID!): CampaignActivity
+
+    """
+    Search activities with filters.
+    """
+    searchActivities(
+        """Filter options"""
+        filter: ActivityFilterInput
+
+        """Pagination parameters"""
+        pageInput: PageInput!
+    ): ActivityPage!
+
+    """
+    Get activities by campaign.
+    """
+    activitiesByCampaign(
+        """Campaign ID"""
+        campaignId: ID!
+
+        """Pagination parameters"""
+        pageInput: PageInput!
+    ): ActivityPage!
+
+    """
+    Get activities by status.
+    """
+    activitiesByStatus(
+        """Campaign ID"""
+        campaignId: ID!
+
+        """Activity status"""
+        status: ActivityStatus!
+
+        """Pagination parameters"""
+        pageInput: PageInput!
+    ): ActivityPage!
+
+    """
+    Get upcoming activities.
+    """
+    upcomingActivities(
+        """From date (ISO-8601)"""
+        fromDate: String!
+
+        """Pagination parameters"""
+        pageInput: PageInput!
+    ): ActivityPage!
+
+    """
+    Get activities by assigned user.
+    """
+    activitiesByUser(
+        """User ID"""
+        userId: ID!
+
+        """Pagination parameters"""
+        pageInput: PageInput!
+    ): ActivityPage!
+
+    """
+    Get delayed activities.
+    """
+    delayedActivities(
+        """Pagination parameters"""
+        pageInput: PageInput!
+    ): ActivityPage!
+
+    """
+    Get over-budget activities.
+    """
+    overBudgetActivities(
+        """Pagination parameters"""
+        pageInput: PageInput!
+    ): ActivityPage!
+
+    """
+    Get activity statistics for a campaign.
+    """
+    activityStatistics(campaignId: ID!): ActivityStatistics!
+
+    """
+    Get completion rate for a campaign.
+    """
+    activityCompletionRate(campaignId: ID!): Float!
+
+    """
+    Get average cost overrun.
+    """
+    averageCostOverrun(campaignId: ID!): Float!
+}
+
+# ============================================================================
+# MUTATIONS
+# ============================================================================
+
+extend type Mutation {
+    """
+    Create a new campaign activity.
+    """
+    createActivity(input: CreateActivityInput!): CampaignActivity!
+
+    """
+    Update an activity.
+    """
+    updateActivity(input: UpdateActivityInput!): CampaignActivity!
+
+    """
+    Start an activity (transition to IN_PROGRESS).
+    """
+    startActivity(id: ID!): CampaignActivity!
+
+    """
+    Complete an activity.
+    """
+    completeActivity(id: ID!): CampaignActivity!
+
+    """
+    Cancel an activity.
+    """
+    cancelActivity(id: ID!): CampaignActivity!
+
+    """
+    Block an activity.
+    """
+    blockActivity(
+        """Activity ID"""
+        id: ID!
+
+        """Block reason"""
+        blockReason: String
+    ): CampaignActivity!
+
+    """
+    Update activity cost.
+    """
+    updateActivityCost(input: UpdateActivityCostInput!): CampaignActivity!
+
+    """
+    Record actual activity dates.
+    """
+    recordActivityDates(input: RecordActivityDatesInput!): CampaignActivity!
+
+    """
+    Assign activity to a user.
+    """
+    assignActivityToUser(
+        """Activity ID"""
+        activityId: ID!
+
+        """User ID"""
+        userId: ID!
+    ): CampaignActivity!
+
+    """
+    Delete an activity (soft delete).
+    """
+    deleteActivity(id: ID!): Boolean!
+}

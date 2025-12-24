@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.marketing.interaction.adapter.input.graphql.mapper;
 
 import at.backend.MarketingCompany.marketing.interaction.adapter.input.graphql.dto.MarketingInteractionOutput;
-import at.backend.MarketingCompany.marketing.interaction.adapter.input.graphql.dto.InteractionStatisticsResponse;
+import at.backend.MarketingCompany.marketing.interaction.adapter.input.graphql.dto.InteractionStatisticsOutput;
 import at.backend.MarketingCompany.marketing.interaction.core.application.dto.DeviceBreakdown;
 import at.backend.MarketingCompany.marketing.interaction.core.application.dto.GeographicBreakdown;
 import at.backend.MarketingCompany.marketing.interaction.core.application.dto.InteractionStatistics;
@@ -61,12 +61,12 @@ public class MarketingInteractionResponseMapper {
 		return PageResponse.of(page.map(this::toResponse));
 	}
 
-	public InteractionStatisticsResponse toStatisticsResponse(InteractionStatistics domain) {
+	public InteractionStatisticsOutput toStatisticsResponse(InteractionStatistics domain) {
 		if (domain == null) {
 			return null;
 		}
 
-		return new InteractionStatisticsResponse(
+		return new InteractionStatisticsOutput(
 				domain.campaignId(),
 				domain.campaignName(),
 				domain.totalInteractions(),
@@ -82,14 +82,14 @@ public class MarketingInteractionResponseMapper {
 		);
 	}
 
-	private InteractionStatisticsResponse.TypeBreakdownResponse toTypeBreakdownResponse(
+	private InteractionStatisticsOutput.TypeBreakdownResponse toTypeBreakdownResponse(
 			InteractionStatistics.InteractionTypeBreakdown domain) {
 
 		if (domain == null) {
 			return null;
 		}
 
-		return new InteractionStatisticsResponse.TypeBreakdownResponse(
+		return new InteractionStatisticsOutput.TypeBreakdownResponse(
 				domain.adClicks(),
 				domain.adViews(),
 				domain.emailOpens(),
@@ -102,13 +102,13 @@ public class MarketingInteractionResponseMapper {
 		);
 	}
 
-	private InteractionStatisticsResponse.DeviceBreakdownResponse toDeviceBreakdownResponse(DeviceBreakdown domain) {
+	private InteractionStatisticsOutput.DeviceBreakdownResponse toDeviceBreakdownResponse(DeviceBreakdown domain) {
 
 		if (domain == null) {
 			return null;
 		}
 
-		return new InteractionStatisticsResponse.DeviceBreakdownResponse(
+		return new InteractionStatisticsOutput.DeviceBreakdownResponse(
 				domain.desktop(),
 				domain.mobile(),
 				domain.tablet(),
@@ -116,22 +116,22 @@ public class MarketingInteractionResponseMapper {
 		);
 	}
 
-	private InteractionStatisticsResponse.GeographicBreakdownResponse toGeographicBreakdownResponse(GeographicBreakdown domain) {
+	private InteractionStatisticsOutput.GeographicBreakdownResponse toGeographicBreakdownResponse(GeographicBreakdown domain) {
 		if (domain == null) {
 			return null;
 		}
 
-		List<InteractionStatisticsResponse.CountryCount> countries =
+		List<InteractionStatisticsOutput.CountryCount> countries =
 				domain.topCountries().entrySet().stream()
-						.map(e -> new InteractionStatisticsResponse.CountryCount(e.getKey(), e.getValue()))
+						.map(e -> new InteractionStatisticsOutput.CountryCount(e.getKey(), e.getValue()))
 						.collect(Collectors.toList());
 
-		List<InteractionStatisticsResponse.CityCount> cities =
+		List<InteractionStatisticsOutput.CityCount> cities =
 				domain.topCities().entrySet().stream()
-						.map(e -> new InteractionStatisticsResponse.CityCount(e.getKey(), e.getValue()))
+						.map(e -> new InteractionStatisticsOutput.CityCount(e.getKey(), e.getValue()))
 						.collect(Collectors.toList());
 
-		return new InteractionStatisticsResponse.GeographicBreakdownResponse(countries, cities);
+		return new InteractionStatisticsOutput.GeographicBreakdownResponse(countries, cities);
 	}
 
 	private String mapToJson(java.util.Map<String, Object> map) {
