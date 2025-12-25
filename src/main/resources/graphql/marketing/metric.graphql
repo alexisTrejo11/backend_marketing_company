@@ -1,0 +1,441 @@
+# ============================================================================
+# CAMPAIGN METRIC - Performance metrics and KPIs
+# ============================================================================
+
+"""
+Type of campaign metric.
+"""
+enum MetricType {
+    """Count metric (e.g., leads, clicks)"""
+    COUNT
+
+    """Currency metric (e.g., revenue, cost)"""
+    CURRENCY
+
+    """Percentage metric (e.g., conversion rate)"""
+    PERCENTAGE
+
+    """Duration metric (e.g., average session time)"""
+    DURATION
+
+    """Cost metric (e.g., CPA, CPC)"""
+    COST
+
+    """Ratio metric (e.g., ROI, engagement rate)"""
+    RATIO
+
+    """Score metric (e.g., quality score, NPS)"""
+    SCORE
+}
+
+"""
+Campaign metric details.
+"""
+type CampaignMetric {
+    """Metric ID"""
+    id: ID!
+
+    """Campaign ID"""
+    campaignId: ID!
+
+    """Campaign name"""
+    campaignName: String
+
+    """Metric name"""
+    name: String!
+
+    """Metric type"""
+    metricType: MetricType!
+
+    """Metric description"""
+    description: String
+
+    """Current value"""
+    currentValue: Float!
+
+    """Target value"""
+    targetValue: Float
+
+    """Achievement percentage"""
+    achievementPercentage: Float!
+
+    """Measurement unit"""
+    measurementUnit: String
+
+    """Calculation formula"""
+    calculationFormula: String
+
+    """Data source"""
+    dataSource: String
+
+    """Last calculated date"""
+    lastCalculatedDate: String
+
+    """Is automated"""
+    isAutomated: Boolean!
+
+    """Is target achieved"""
+    isTargetAchieved: Boolean!
+
+    """Performance level (EXCELLENT, GOOD, FAIR, POOR)"""
+    performanceLevel: String!
+
+    """Creation date"""
+    createdAt: String!
+
+    """Last update date"""
+    updatedAt: String!
+}
+
+"""
+Metric type breakdown.
+"""
+type MetricTypeBreakdown {
+    """Count metrics"""
+    countMetrics: Int!
+
+    """Currency metrics"""
+    currencyMetrics: Int!
+
+    """Percentage metrics"""
+    percentageMetrics: Int!
+
+    """Duration metrics"""
+    durationMetrics: Int!
+
+    """Cost metrics"""
+    costMetrics: Int!
+
+    """Ratio metrics"""
+    ratioMetrics: Int!
+
+    """Score metrics"""
+    scoreMetrics: Int!
+}
+
+"""
+Performance distribution.
+"""
+type PerformanceDistribution {
+    """Exceeded target (>100%)"""
+    exceededTarget: Int!
+
+    """Met target (=100%)"""
+    metTarget: Int!
+
+    """Near target (80-99%)"""
+    nearTarget: Int!
+
+    """Below target (50-79%)"""
+    belowTarget: Int!
+
+    """Far below target (<50%)"""
+    farBelowTarget: Int!
+
+    """Average achievement percentage"""
+    averageAchievement: Float!
+}
+
+"""
+Comprehensive metric statistics.
+"""
+type MetricStatistics {
+    """Campaign ID"""
+    campaignId: ID!
+
+    """Campaign name"""
+    campaignName: String
+
+    """Total metrics"""
+    totalMetrics: Int!
+
+    """Achieved metrics"""
+    achievedMetrics: Int!
+
+    """Not achieved metrics"""
+    notAchievedMetrics: Int!
+
+    """Automated metrics"""
+    automatedMetrics: Int!
+
+    """Manual metrics"""
+    manualMetrics: Int!
+
+    """Achievement rate (percentage)"""
+    achievementRate: Float!
+
+    """Breakdown by metric type"""
+    typeBreakdown: MetricTypeBreakdown!
+
+    """Performance distribution"""
+    performanceDistribution: PerformanceDistribution!
+}
+
+"""
+Metric performance summary.
+"""
+type MetricPerformance {
+    """Metric ID"""
+    metricId: ID!
+
+    """Metric name"""
+    metricName: String!
+
+    """Metric type"""
+    metricType: MetricType!
+
+    """Current value"""
+    currentValue: Float!
+
+    """Target value"""
+    targetValue: Float
+
+    """Achievement percentage"""
+    achievementPercentage: Float!
+
+    """Is target achieved"""
+    isTargetAchieved: Boolean!
+
+    """Measurement unit"""
+    measurementUnit: String
+
+    """Last calculated date"""
+    lastCalculatedDate: String
+
+    """Performance level"""
+    performanceLevel: String!
+}
+
+"""
+Paginated metric response.
+"""
+type MetricPage implements PageResponse {
+    """List of metrics"""
+    content: [CampaignMetric!]!
+
+    """Pagination metadata"""
+    pagination: PaginationMetadata!
+}
+
+# ============================================================================
+# INPUTS
+# ============================================================================
+
+"""
+Input to create a metric.
+"""
+input CreateMetricInput {
+    """Campaign ID"""
+    campaignId: ID!
+
+    """Metric name"""
+    name: String!
+
+    """Metric type"""
+    metricType: MetricType!
+
+    """Metric description"""
+    description: String
+
+    """Target value"""
+    targetValue: Float
+
+    """Measurement unit"""
+    measurementUnit: String
+
+    """Calculation formula"""
+    calculationFormula: String
+
+    """Data source"""
+    dataSource: String
+
+    """Is automated"""
+    isAutomated: Boolean
+}
+
+"""
+Input to update a metric.
+"""
+input UpdateMetricInput {
+    """Metric ID"""
+    id: ID!
+
+    """Metric description"""
+    description: String
+
+    """Target value"""
+    targetValue: Float
+
+    """Calculation formula"""
+    calculationFormula: String
+
+    """Data source"""
+    dataSource: String
+}
+
+"""
+Input to update metric value.
+"""
+input UpdateMetricValueInput {
+    """Metric ID"""
+    metricId: ID!
+
+    """New value"""
+    newValue: Float!
+}
+
+"""
+Metric filter options.
+"""
+input MetricFilterInput {
+    """Filter by campaign ID"""
+    campaignId: ID
+
+    """Filter by metric types"""
+    metricTypes: [MetricType!]
+
+    """Filter by target achievement status"""
+    isTargetAchieved: Boolean
+
+    """Filter by automation status"""
+    isAutomated: Boolean
+
+    """Filter by minimum current value"""
+    minCurrentValue: Float
+
+    """Filter by maximum current value"""
+    maxCurrentValue: Float
+
+    """Filter by last calculated after date"""
+    lastCalculatedAfter: String
+
+    """Search term"""
+    searchTerm: String
+}
+
+# ============================================================================
+# QUERIES
+# ============================================================================
+
+extend type Query {
+    """
+    Get a metric by ID.
+    """
+    metric(id: ID!): CampaignMetric
+
+    """
+    Search metrics with filters.
+    """
+    searchMetrics(
+        """Filter options"""
+        filter: MetricFilterInput
+
+        """Pagination parameters"""
+        pageInput: PageInput!
+    ): MetricPage!
+
+    """
+    Get metrics by campaign.
+    """
+    metricsByCampaign(
+        """Campaign ID"""
+        campaignId: ID!
+
+        """Pagination parameters"""
+        pageInput: PageInput!
+    ): MetricPage!
+
+    """
+    Get achieved metrics for a campaign.
+    """
+    achievedMetrics(
+        """Campaign ID"""
+        campaignId: ID!
+
+        """Pagination parameters"""
+        pageInput: PageInput!
+    ): MetricPage!
+
+    """
+    Get not achieved metrics for a campaign.
+    """
+    notAchievedMetrics(
+        """Campaign ID"""
+        campaignId: ID!
+
+        """Pagination parameters"""
+        pageInput: PageInput!
+    ): MetricPage!
+
+    """
+    Get automated metrics.
+    """
+    automatedMetrics(
+        """Campaign ID"""
+        campaignId: ID!
+
+        """Pagination parameters"""
+        pageInput: PageInput!
+    ): MetricPage!
+
+    """
+    Get recently updated metrics.
+    """
+    recentlyUpdatedMetrics(
+        """From date (ISO-8601)"""
+        fromDate: String!
+
+        """Pagination parameters"""
+        pageInput: PageInput!
+    ): MetricPage!
+
+    """
+    Get metric statistics for a campaign.
+    """
+    metricStatistics(campaignId: ID!): MetricStatistics!
+
+    """
+    Get metric performance.
+    """
+    metricPerformance(metricId: ID!): MetricPerformance!
+
+    """
+    Get achievement rate for a campaign.
+    """
+    metricAchievementRate(campaignId: ID!): Float!
+}
+
+# ============================================================================
+# MUTATIONS
+# ============================================================================
+
+extend type Mutation {
+    """
+    Create a new campaign metric.
+    """
+    createMetric(input: CreateMetricInput!): CampaignMetric!
+
+    """
+    Update a metric.
+    """
+    updateMetric(input: UpdateMetricInput!): CampaignMetric!
+
+    """
+    Update metric value.
+    """
+    updateMetricValue(input: UpdateMetricValueInput!): CampaignMetric!
+
+    """
+    Mark metric as automated.
+    """
+    markMetricAsAutomated(id: ID!): CampaignMetric!
+
+    """
+    Delete a metric (soft delete).
+    """
+    deleteMetric(id: ID!): Boolean!
+}
+
+# ============================================================================
+# CONTROLLER IMPLEMENTATION
+# ============================================================================

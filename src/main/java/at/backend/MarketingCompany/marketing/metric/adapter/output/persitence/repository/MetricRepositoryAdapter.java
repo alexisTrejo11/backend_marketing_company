@@ -4,6 +4,7 @@ import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.Ma
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MetricType;
 import at.backend.MarketingCompany.marketing.metric.adapter.output.persitence.mapper.MetricEntityMapper;
 import at.backend.MarketingCompany.marketing.metric.adapter.output.persitence.model.CampaignMetricEntity;
+import at.backend.MarketingCompany.marketing.metric.core.application.query.MetricQuery;
 import at.backend.MarketingCompany.marketing.metric.core.domain.entity.CampaignMetric;
 import at.backend.MarketingCompany.marketing.metric.core.domain.valueobject.CampaignMetricId;
 import at.backend.MarketingCompany.marketing.metric.core.port.output.MetricRepositoryPort;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -42,6 +44,21 @@ public class MetricRepositoryAdapter implements MetricRepositoryPort {
 	@Transactional
 	public void delete(CampaignMetricId id) {
 		jpaRepository.deleteById(id.getValue());
+	}
+
+	@Override
+	public Page<CampaignMetric> findAll(Pageable pageable) {
+		return null;
+	}
+
+	@Override
+	public Page<CampaignMetric> findByCampaignIdAndIsTargetAchieved(MarketingCampaignId campaignId, Boolean isAchieved, Pageable pageable) {
+		return null;
+	}
+
+	@Override
+	public Page<CampaignMetric> findByCampaignIdAndIsAutomated(MarketingCampaignId campaignId, Boolean isAutomated, Pageable pageable) {
+		return null;
 	}
 
 	@Override
@@ -90,6 +107,16 @@ public class MetricRepositoryAdapter implements MetricRepositoryPort {
 	}
 
 	@Override
+	public Page<CampaignMetric> findByFilters(MetricQuery query, Pageable pageable) {
+		return null;
+	}
+
+	@Override
+	public long countByCampaignId(MarketingCampaignId campaignId) {
+		return 0;
+	}
+
+	@Override
 	public BigDecimal calculateAverageValueByCampaignAndMetricType(
 			MarketingCampaignId campaignId,
 			MetricType metricType) {
@@ -97,9 +124,29 @@ public class MetricRepositoryAdapter implements MetricRepositoryPort {
 	}
 
 	@Override
-	public boolean existsByCampaignIdAndNameAndNotDeleted(MarketingCampaignId campaignId, String name) {
+	public BigDecimal calculateAverageAchievementByCampaignId(MarketingCampaignId campaignId) {
+		return null;
+	}
+
+	@Override
+	public long countAutomatedMetricsByCampaignId(MarketingCampaignId campaignId) {
+		return 0;
+	}
+
+	@Override
+	public boolean existsByCampaignIdAndName(MarketingCampaignId campaignId, String name) {
 		return jpaRepository.findByCampaignId(campaignId.getValue(), Pageable.unpaged())
 				.stream()
 				.anyMatch(metric -> metric.getName().equalsIgnoreCase(name));
+	}
+
+	@Override
+	public Map<String, Long> countByMetricTypeByCampaignId(MarketingCampaignId campaignId) {
+		return Map.of();
+	}
+
+	@Override
+	public Map<String, Long> getPerformanceDistributionByCampaignId(MarketingCampaignId campaignId) {
+		return Map.of();
 	}
 }

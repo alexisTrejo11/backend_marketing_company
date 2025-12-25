@@ -15,6 +15,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -42,6 +44,21 @@ public class AttributionRepositoryAdapter implements AttributionRepositoryPort {
     @Transactional
     public void delete(CampaignAttributionId id) {
         jpaRepository.deleteById(id.getValue());
+    }
+
+    @Override
+    public Page<CampaignAttribution> findTopAttributedCampaigns(Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public Page<CampaignAttribution> findAll(Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public Page<CampaignAttribution> findByFilters(DealId dealId, MarketingCampaignId campaignId, List<AttributionModel> attributionModel, BigDecimal minAttributionPercentage, BigDecimal maxAttributionPercentage, BigDecimal minAttributedRevenue, BigDecimal maxAttributedRevenue, Pageable pageable) {
+        return null;
     }
 
     @Override
@@ -93,8 +110,39 @@ public class AttributionRepositoryAdapter implements AttributionRepositoryPort {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public boolean existsByDealIdAndCampaignIdAndNotDeleted(DealId dealId, MarketingCampaignId campaignId) {
+    public Long countByCampaignId(MarketingCampaignId campaignId) {
+        return 0L;
+    }
+
+    @Override
+    public Long calculateTotalTouchpointsByCampaignId(MarketingCampaignId campaignId) {
+        return 0L;
+    }
+
+    @Override
+    public Map<Integer, Long> getTouchpointDistributionByCampaignId(MarketingCampaignId campaignId) {
+        return Map.of();
+    }
+
+    @Override
+    public Map<String, Long> countByAttributionModelByCampaignId(MarketingCampaignId campaignId) {
+        return Map.of();
+    }
+
+    @Override
+    public List<BigDecimal> getAllAttributedRevenuesByCampaignId(MarketingCampaignId campaignId) {
+        return List.of();
+    }
+
+    @Override
+    public Map<String, BigDecimal> calculateRevenueByModelByCampaignId(MarketingCampaignId campaignId) {
+        return Map.of();
+    }
+
+
+
+    @Override
+    public boolean existsByDealIdAndCampaignId(DealId dealId, MarketingCampaignId campaignId) {
         return jpaRepository.findByDealIdAndCampaignId(dealId.getValue(), campaignId.getValue()).isPresent();
     }
 }

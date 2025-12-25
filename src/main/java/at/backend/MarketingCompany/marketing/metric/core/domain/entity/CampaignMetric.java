@@ -6,11 +6,13 @@ import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.Ma
 import at.backend.MarketingCompany.marketing.metric.core.domain.valueobject.CampaignMetricId;
 import at.backend.MarketingCompany.shared.domain.BaseDomainEntity;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 public class CampaignMetric extends BaseDomainEntity<CampaignMetricId> {
   private MarketingCampaignId campaignId;
   private String name;

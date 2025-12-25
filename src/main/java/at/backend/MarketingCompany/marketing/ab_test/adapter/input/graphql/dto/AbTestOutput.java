@@ -1,10 +1,13 @@
-package at.backend.MarketingCompany.marketing.ab_test.adapter.input.ab;
+package at.backend.MarketingCompany.marketing.ab_test.adapter.input.graphql.dto;
+
+import lombok.Builder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-public record AbTestResponse(
+@Builder
+public record AbTestOutput(
     Long id,
     Long campaignId,
     String testName,

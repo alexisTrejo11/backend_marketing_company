@@ -6,7 +6,7 @@ import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.Ac
 import at.backend.MarketingCompany.marketing.attribution.adapter.input.graphql.dto.CampaignAttributionResponse;
 import at.backend.MarketingCompany.marketing.attribution.core.domain.entity.CampaignAttribution;
 import at.backend.MarketingCompany.marketing.campaign.adapter.input.graphql.dto.CampaignOutput;
-import at.backend.MarketingCompany.marketing.ab_test.adapter.input.ab.AbTestResponse;
+import at.backend.MarketingCompany.marketing.ab_test.adapter.input.graphql.dto.AbTestOutput;
 import at.backend.MarketingCompany.marketing.ab_test.core.domain.AbTest;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.models.MarketingCampaign;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.*;
@@ -206,12 +206,12 @@ public class MarketingOutputMapper {
 	}
 
 
-	public AbTestResponse toAbTestResponse(AbTest domain) {
+	public AbTestOutput toAbTestResponse(AbTest domain) {
 		if (domain == null) {
 			return null;
 		}
 
-		return new AbTestResponse(
+		return new AbTestOutput(
 				domain.getId() != null ? domain.getId().getValue() : null,
 				domain.getCampaignId() != null ? domain.getCampaignId().getValue() : null,
 				domain.getTestName(),
@@ -234,7 +234,7 @@ public class MarketingOutputMapper {
 		);
 	}
 
-	public List<AbTestResponse> toAbTestResponseList(List<AbTest> domains) {
+	public List<AbTestOutput> toAbTestResponseList(List<AbTest> domains) {
 		if (domains == null) {
 			return List.of();
 		}

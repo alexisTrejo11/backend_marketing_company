@@ -7,6 +7,7 @@ import at.backend.MarketingCompany.marketing.campaign.core.domain.exception.Mark
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
 import at.backend.MarketingCompany.shared.domain.BaseDomainEntity;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 public class CampaignAttribution extends BaseDomainEntity<CampaignAttributionId> {
   private DealId dealId;
   private MarketingCampaignId campaignId;

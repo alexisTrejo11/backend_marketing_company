@@ -1,0 +1,486 @@
+# ============================================================================
+# A/B TESTING - Test management and analysis
+# ============================================================================
+
+"""
+Type of A/B test being conducted.
+"""
+enum TestType {
+    """UI/UX element test"""
+    UI_ELEMENT
+
+    """Email campaign test"""
+    EMAIL
+
+    """Landing page test"""
+    LANDING_PAGE
+
+    """Ad creative test"""
+    AD_CREATIVE
+
+    """Call-to-action test"""
+    CTA
+
+    """Pricing test"""
+    PRICING
+
+    """Content test"""
+    CONTENT
+
+    """Feature test"""
+    FEATURE
+}
+
+"""
+Current status of the A/B test.
+"""
+enum TestStatus {
+    """Test is in draft state"""
+    DRAFT
+
+    """Test is scheduled to start"""
+    SCHEDULED
+
+    """Test is currently running"""
+    RUNNING
+
+    """Test is paused"""
+    PAUSED
+
+    """Test is completed"""
+    COMPLETED
+
+    """Test was cancelled"""
+    CANCELLED
+}
+
+"""
+Confidence level for statistical significance.
+"""
+type ConfidenceLevel {
+    """Confidence level value (0.80-0.99)"""
+    value: Float!
+
+    """Confidence level as percentage (80-99%)"""
+    percentage: Float!
+
+    """Description of confidence level"""
+    description: String!
+}
+
+"""
+Variant information in an A/B test.
+"""
+type Variant {
+    """Variant identifier"""
+    variantId: String!
+
+    """Variant name/description"""
+    name: String!
+
+    """Is this the control variant"""
+    isControl: Boolean!
+
+    """Sample size for this variant"""
+    sampleSize: Int
+
+    """Conversion rate"""
+    conversionRate: Float
+
+    """Additional variant data (JSON)"""
+    variantData: String
+}
+
+"""
+Test period information.
+"""
+type TestPeriod {
+    """Test start date"""
+    startDate: String!
+
+    """Test end date (if completed)"""
+    endDate: String
+
+    """Duration in days"""
+    durationInDays: Int
+
+    """Is test currently running"""
+    isRunning: Boolean!
+
+    """Has test started"""
+    hasStarted: Boolean!
+
+    """Has test ended"""
+    hasEnded: Boolean!
+}
+
+"""
+Test results information.
+"""
+type TestResults {
+    """Winning variant identifier"""
+    winningVariant: String
+
+    """Statistical significance (0-1)"""
+    statisticalSignificance: Float
+
+    """Is result statistically significant"""
+    isSignificant: Boolean!
+
+    """Results summary"""
+    resultsSummary: String
+
+    """Detailed variant results (JSON)"""
+    variantResults: String
+
+    """Confidence level achieved"""
+    confidenceLevelAchieved: Float
+}
+
+"""
+Sample size information.
+"""
+type SampleSize {
+    """Required sample size"""
+    required: Int!
+
+    """Current sample size"""
+    current: Int!
+
+    """Sample size progress percentage"""
+    progressPercentage: Float!
+
+    """Has reached required sample size"""
+    hasReachedRequired: Boolean!
+}
+
+"""
+Complete A/B test representation.
+"""
+type AbTestOutput {
+    """Test ID"""
+    id: ID!
+
+    """Associated campaign ID"""
+    campaignId: ID!
+
+    """Test name"""
+    testName: String!
+
+    """Test hypothesis"""
+    hypothesis: String!
+
+    """Type of test"""
+    testType: TestType!
+
+    """Primary metric being tested"""
+    primaryMetric: String!
+
+    """Test status"""
+    status: TestStatus!
+
+    """Confidence level"""
+    confidenceLevel: ConfidenceLevel!
+
+    """Sample size information"""
+    sampleSize: SampleSize!
+
+    """Control variant"""
+    controlVariant: String!
+
+    """Treatment variants (JSON)"""
+    treatmentVariants: String!
+
+    """All variants information"""
+    variants: [Variant!]
+
+    """Test period"""
+    period: TestPeriod!
+
+    """Test results (if completed)"""
+    results: TestResults
+
+    """Creation date"""
+    createdAt: String!
+
+    """Last update date"""
+    updatedAt: String!
+}
+
+"""
+A/B test statistics for a campaign.
+"""
+type AbTestStatisticsOutput {
+    """Campaign ID"""
+    campaignId: ID!
+
+    """Total tests"""
+    totalTests: Int!
+
+    """Running tests"""
+    runningTests: Int!
+
+    """Completed tests"""
+    completedTests: Int!
+
+    """Scheduled tests"""
+    scheduledTests: Int!
+
+    """Cancelled tests"""
+    cancelledTests: Int!
+
+    """Tests with significant results"""
+    significantResults: Int!
+
+    """Average statistical significance"""
+    averageSignificance: Float!
+
+    """Completion rate percentage"""
+    completionRate: Float!
+
+    """Average test duration in days"""
+    averageTestDuration: Float!
+
+    """Success rate (significant results / completed)"""
+    successRate: Float!
+}
+
+"""
+Paginated A/B test response.
+"""
+type AbTestPage implements PageResponse {
+    """List of A/B tests"""
+    items: [AbTestOutput!]!
+
+    """Pagination metadata"""
+    pagination: PaginationMetadata!
+}
+
+"""
+Input to create an A/B test.
+"""
+input CreateAbTestInput {
+    """Campaign ID"""
+    campaignId: ID!
+
+    """Test name"""
+    testName: String!
+
+    """Test hypothesis"""
+    hypothesis: String!
+
+    """Test type"""
+    testType: TestType!
+
+    """Primary metric"""
+    primaryMetric: String!
+
+    """Confidence level (0.80-0.99)"""
+    confidenceLevel: Float!
+
+    """Required sample size"""
+    requiredSampleSize: Int!
+
+    """Control variant description"""
+    controlVariant: String!
+
+    """Treatment variants (JSON string)"""
+    treatmentVariants: String!
+
+    """Start date (ISO format: 2024-12-24T10:00:00)"""
+    startDate: String!
+}
+
+"""
+Input to update an A/B test.
+"""
+input UpdateAbTestInput {
+    """Test ID"""
+    id: ID!
+
+    """Test name"""
+    testName: String
+
+    """Test hypothesis"""
+    hypothesis: String
+
+    """Test type"""
+    testType: TestType
+
+    """Primary metric"""
+    primaryMetric: String
+
+    """Confidence level (0.80-0.99)"""
+    confidenceLevel: Float
+
+    """Required sample size"""
+    requiredSampleSize: Int
+
+    """Control variant description"""
+    controlVariant: String
+
+    """Treatment variants (JSON string)"""
+    treatmentVariants: String
+
+    """Start date (ISO format)"""
+    startDate: String
+}
+
+"""
+Input to complete an A/B test.
+"""
+input CompleteAbTestInput {
+    """Test ID"""
+    id: ID!
+
+    """Winning variant identifier"""
+    winningVariant: String!
+
+    """Statistical significance (0-1)"""
+    statisticalSignificance: Float!
+
+    """Results summary"""
+    resultsSummary: String
+
+    """Detailed variant results (JSON string)"""
+    variantResults: String
+}
+
+"""
+A/B test filter options.
+"""
+input AbTestFilterInput {
+    """Filter by campaign ID"""
+    campaignId: ID
+
+    """Filter by test types"""
+    testTypes: [TestType!]
+
+    """Filter by statuses"""
+    statuses: [TestStatus!]
+
+    """Filter by start date from (ISO format)"""
+    startDateFrom: String
+
+    """Filter by start date to (ISO format)"""
+    startDateTo: String
+
+    """Filter by minimum confidence level"""
+    minConfidenceLevel: Float
+
+    """Filter by maximum confidence level"""
+    maxConfidenceLevel: Float
+
+    """Filter by minimum sample size"""
+    minSampleSize: Int
+
+    """Filter by maximum sample size"""
+    maxSampleSize: Int
+
+    """Filter by running status"""
+    isRunning: Boolean
+
+    """Filter by completed status"""
+    isCompleted: Boolean
+
+    """Search term"""
+    searchTerm: String
+}
+
+# ============================================================================
+# QUERIES
+# ============================================================================
+
+extend type Query {
+    """
+    Get an A/B test by ID.
+    """
+    abTest(id: ID!): AbTestOutput
+
+    """
+    Search A/B tests with filters.
+    """
+    searchAbTests(
+        """Filter options"""
+        filter: AbTestFilterInput
+
+        """Pagination parameters"""
+        pageInput: PageInput!
+    ): AbTestPage!
+
+    """
+    Get A/B tests by campaign.
+    """
+    abTestsByCampaign(
+        """Campaign ID"""
+        campaignId: ID!
+
+        """Pagination parameters"""
+        pageInput: PageInput!
+    ): AbTestPage!
+
+    """
+    Get completed A/B tests.
+    """
+    completedAbTests(
+        """Pagination parameters"""
+        pageInput: PageInput!
+    ): AbTestPage!
+
+    """
+    Get running A/B tests.
+    """
+    runningAbTests(
+        """Pagination parameters"""
+        pageInput: PageInput!
+    ): AbTestPage!
+
+    """
+    Get scheduled A/B tests.
+    """
+    scheduledAbTests(
+        """Pagination parameters"""
+        pageInput: PageInput!
+    ): AbTestPage!
+
+    """
+    Get A/B test statistics for a campaign.
+    """
+    abTestStatistics(campaignId: ID!): AbTestStatisticsOutput!
+
+    """
+    Get completion rate for a campaign's tests.
+    """
+    abTestCompletionRate(campaignId: ID!): Float!
+
+    """
+    Get average statistical significance for a campaign.
+    """
+    abTestAverageSignificance(campaignId: ID!): Float!
+}
+
+# ============================================================================
+# MUTATIONS
+# ============================================================================
+
+extend type Mutation {
+    """
+    Create a new A/B test.
+    """
+    createAbTest(input: CreateAbTestInput!): AbTestOutput!
+
+    """
+    Update an A/B test.
+    """
+    updateAbTest(input: UpdateAbTestInput!): AbTestOutput!
+
+    """
+    Complete an A/B test with results.
+    """
+    completeAbTest(input: CompleteAbTestInput!): AbTestOutput!
+
+    """
+    Delete an A/B test.
+    """
+    deleteAbTest(id: ID!): Boolean!
+}

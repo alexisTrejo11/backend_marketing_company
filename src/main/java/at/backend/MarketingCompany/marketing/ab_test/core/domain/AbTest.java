@@ -7,12 +7,14 @@ import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.Ma
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.TestType;
 import at.backend.MarketingCompany.shared.domain.BaseDomainEntity;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Map;
 
 @Getter
+@Setter
 public class AbTest extends BaseDomainEntity<AbTestId> {
 	private MarketingCampaignId campaignId;
 	private String testName;
