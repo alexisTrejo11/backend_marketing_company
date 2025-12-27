@@ -50,7 +50,7 @@ public class AbTestEntity extends BaseJpaEntity {
 
 	@JdbcTypeCode(SqlTypes.JSON)
 	@Column(name = "treatment_variants", nullable = false, columnDefinition = "jsonb")
-	private Map<String, Object> treatmentVariants;
+	private Object treatmentVariants;
 
 	@Column(name = "winning_variant", length = 100)
 	private String winningVariant;

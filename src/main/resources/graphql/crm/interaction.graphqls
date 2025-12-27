@@ -69,11 +69,11 @@ type Interaction {
 }
 
 """
-Paginated response for interactions.
+Paginated response specifically for CRM interactions to avoid collisions with other modules.
 """
-type InteractionPage implements PageResponse {
-    """List of interactions on the current page"""
-    content: [Interaction!]!
+type CrmInteractionPage implements PageResponse {
+    """List of CRM interactions"""
+    items: [Interaction!]!
 
     """Pagination metadata"""
     pagination: PaginationMetadata!
@@ -224,7 +224,7 @@ extend type Query {
     """
     Get interactions for a specific customer.
     """
-    interactionsByCustomer(input: GetInteractionsByCustomerInput!): InteractionPage!
+    interactionsByCustomer(input: GetInteractionsByCustomerInput!): CrmInteractionPage!
 
     """
     Get interactions by type.
@@ -235,7 +235,7 @@ extend type Query {
 
         """Pagination parameters"""
         pageInput: PageInput!
-    ): InteractionPage!
+    ): CrmInteractionPage!
 
     """
     Get interactions by feedback type.
@@ -246,7 +246,7 @@ extend type Query {
 
         """Pagination parameters"""
         pageInput: PageInput!
-    ): InteractionPage!
+    ): CrmInteractionPage!
 
     """
     Get recent interactions (last N days).
@@ -257,27 +257,27 @@ extend type Query {
 
         """Pagination parameters"""
         pageInput: PageInput!
-    ): InteractionPage!
+    ): CrmInteractionPage!
 
     """
     Get today's interactions.
     """
-    todayInteractions(pageInput: PageInput!): InteractionPage!
+    todayInteractions(pageInput: PageInput!): CrmInteractionPage!
 
     """
     Get interactions requiring follow-up.
     """
-    interactionsRequiringFollowUp(pageInput: PageInput!): InteractionPage!
+    interactionsRequiringFollowUp(pageInput: PageInput!): CrmInteractionPage!
 
     """
     Get positive interactions.
     """
-    positiveInteractions(pageInput: PageInput!): InteractionPage!
+    positiveInteractions(pageInput: PageInput!): CrmInteractionPage!
 
     """
     Get negative interactions.
     """
-    negativeInteractions(pageInput: PageInput!): InteractionPage!
+    negativeInteractions(pageInput: PageInput!): CrmInteractionPage!
 
     """
     Get interaction statistics for a customer.

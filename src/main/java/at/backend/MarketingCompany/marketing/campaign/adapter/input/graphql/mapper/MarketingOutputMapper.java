@@ -1,6 +1,7 @@
 package at.backend.MarketingCompany.marketing.campaign.adapter.input.graphql.mapper;
 
 import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.marketing.ab_test.adapter.input.graphql.mapper.AbTestOutputMapper;
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivityCost;
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivitySchedule;
 import at.backend.MarketingCompany.marketing.attribution.adapter.input.graphql.dto.CampaignAttributionResponse;
@@ -16,6 +17,7 @@ import at.backend.MarketingCompany.marketing.interaction.core.domain.entity.Camp
 import at.backend.MarketingCompany.marketing.metric.adapter.input.graphql.dto.CampaignMetricResponse;
 import at.backend.MarketingCompany.marketing.metric.core.domain.entity.CampaignMetric;
 import at.backend.MarketingCompany.shared.PageResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +25,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class MarketingOutputMapper {
+	private final AbTestOutputMapper abTestOutputMapper;
+
+
+
 
 	public CampaignOutput toOutput(MarketingCampaign domain) {
 		if (domain == null) {
@@ -206,40 +213,13 @@ public class MarketingOutputMapper {
 	}
 
 
-	public AbTestOutput toAbTestResponse(AbTest domain) {
-		if (domain == null) {
-			return null;
-		}
-
-		return new AbTestOutput(
-				domain.getId() != null ? domain.getId().getValue() : null,
-				domain.getCampaignId() != null ? domain.getCampaignId().getValue() : null,
-				domain.getTestName(),
-				domain.getHypothesis(),
-				domain.getTestType() != null ? domain.getTestType().name() : null,
-				domain.getPrimaryMetric(),
-				domain.getConfidenceLevel(),
-				domain.getRequiredSampleSize(),
-				domain.getControlVariant(),
-				domain.getTreatmentVariants(),
-				domain.getWinningVariant(),
-				domain.getStatisticalSignificance(),
-				domain.isCompleted(),
-				domain.hasStarted(),
-				domain.hasEnded(),
-				domain.getStartDate(),
-				domain.getEndDate(),
-				domain.getCreatedAt(),
-				domain.getUpdatedAt()
-		);
-	}
 
 	public List<AbTestOutput> toAbTestResponseList(List<AbTest> domains) {
 		if (domains == null) {
 			return List.of();
 		}
 		return domains.stream()
-				.map(this::toAbTestResponse)
+				.map(abTestOutputMapper::toOutput)
 				.collect(Collectors.toList());
 	}
 

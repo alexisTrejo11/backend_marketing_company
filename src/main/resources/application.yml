@@ -261,8 +261,8 @@ app:
         max-requests: 60
         duration-seconds: 60
 
-      companies-operation:
-        max-requests: 200
+      resource-mutation:
+        max-requests: 10
         duration-seconds: 60
 
   cors:

@@ -50,6 +50,8 @@ public interface CampaignRepositoryPort {
 
 	boolean existsByNameAndNotDeleted(String name);
 
+	boolean existsById(MarketingCampaignId id);
+
 	long countAll();
 
 	long countByStatus(CampaignStatus status);

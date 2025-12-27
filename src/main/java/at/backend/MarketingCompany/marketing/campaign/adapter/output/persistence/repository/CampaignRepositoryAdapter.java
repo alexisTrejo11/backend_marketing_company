@@ -144,6 +144,11 @@ public class CampaignRepositoryAdapter implements CampaignRepositoryPort {
 	}
 
 	@Override
+	public boolean existsById(MarketingCampaignId id) {
+		return jpaRepository.existsByIdAndDeletedAtIsNull(id.getValue());
+	}
+
+	@Override
 	public long countAll() {
 		return jpaRepository.countNotDeleted();
 	}

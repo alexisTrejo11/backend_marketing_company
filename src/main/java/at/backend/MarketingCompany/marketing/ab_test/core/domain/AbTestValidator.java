@@ -1,5 +1,6 @@
 package at.backend.MarketingCompany.marketing.ab_test.core.domain;
 
+import at.backend.MarketingCompany.marketing.ab_test.core.domain.exception.AbTestValidationException;
 import at.backend.MarketingCompany.shared.exception.BusinessRuleException;
 
 import java.math.BigDecimal;
@@ -80,34 +81,34 @@ public class AbTestValidator {
       BigDecimal statisticalSignificance) {
     
     if (test == null) {
-      throw new BusinessRuleException("Test cannot be null");
+      throw new AbTestValidationException("Test cannot be null");
     }
     
     if (test.isCompleted()) {
-      throw new BusinessRuleException("AB Test is already completed");
+      throw new AbTestValidationException("AB Test is already completed");
     }
     
     if (winningVariant == null || winningVariant.isBlank()) {
-      throw new BusinessRuleException("Winning variant is required to complete test");
+      throw new AbTestValidationException("Winning variant is required to complete test");
     }
     
     if (statisticalSignificance == null) {
-      throw new BusinessRuleException("Statistical significance is required");
+      throw new AbTestValidationException("Statistical significance is required");
     }
     
     if (statisticalSignificance.compareTo(BigDecimal.ZERO) < 0 ||
         statisticalSignificance.compareTo(BigDecimal.ONE) > 0) {
-      throw new BusinessRuleException("Statistical significance must be between 0 and 1");
+      throw new AbTestValidationException("Statistical significance must be between 0 and 1");
     }
   }
 
   public static void validateForUpdate(AbTest test) {
     if (test == null) {
-      throw new BusinessRuleException("Test cannot be null");
+      throw new AbTestValidationException("Test cannot be null");
     }
     
     if (test.isCompleted()) {
-      throw new BusinessRuleException("Cannot update a completed test");
+      throw new AbTestValidationException("Cannot update a completed test");
     }
   }
 }

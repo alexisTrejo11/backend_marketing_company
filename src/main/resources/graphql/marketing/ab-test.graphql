@@ -6,29 +6,14 @@
 Type of A/B test being conducted.
 """
 enum TestType {
-    """UI/UX element test"""
-    UI_ELEMENT
+    """Standard A/B test"""
+    SPLIT_URL,
 
-    """Email campaign test"""
-    EMAIL
+    """Multivariate test"""
+    MULTIVARIATE,
 
-    """Landing page test"""
-    LANDING_PAGE
-
-    """Ad creative test"""
-    AD_CREATIVE
-
-    """Call-to-action test"""
-    CTA
-
-    """Pricing test"""
-    PRICING
-
-    """Content test"""
-    CONTENT
-
-    """Feature test"""
-    FEATURE
+    """Bandit test"""
+    BANDIT
 }
 
 """
@@ -69,93 +54,7 @@ type ConfidenceLevel {
 }
 
 """
-Variant information in an A/B test.
-"""
-type Variant {
-    """Variant identifier"""
-    variantId: String!
-
-    """Variant name/description"""
-    name: String!
-
-    """Is this the control variant"""
-    isControl: Boolean!
-
-    """Sample size for this variant"""
-    sampleSize: Int
-
-    """Conversion rate"""
-    conversionRate: Float
-
-    """Additional variant data (JSON)"""
-    variantData: String
-}
-
-"""
-Test period information.
-"""
-type TestPeriod {
-    """Test start date"""
-    startDate: String!
-
-    """Test end date (if completed)"""
-    endDate: String
-
-    """Duration in days"""
-    durationInDays: Int
-
-    """Is test currently running"""
-    isRunning: Boolean!
-
-    """Has test started"""
-    hasStarted: Boolean!
-
-    """Has test ended"""
-    hasEnded: Boolean!
-}
-
-"""
-Test results information.
-"""
-type TestResults {
-    """Winning variant identifier"""
-    winningVariant: String
-
-    """Statistical significance (0-1)"""
-    statisticalSignificance: Float
-
-    """Is result statistically significant"""
-    isSignificant: Boolean!
-
-    """Results summary"""
-    resultsSummary: String
-
-    """Detailed variant results (JSON)"""
-    variantResults: String
-
-    """Confidence level achieved"""
-    confidenceLevelAchieved: Float
-}
-
-"""
-Sample size information.
-"""
-type SampleSize {
-    """Required sample size"""
-    required: Int!
-
-    """Current sample size"""
-    current: Int!
-
-    """Sample size progress percentage"""
-    progressPercentage: Float!
-
-    """Has reached required sample size"""
-    hasReachedRequired: Boolean!
-}
-
-"""
-Complete A/B test representation.
+Complete A/B test representation (flattened to match Java AbTestOutput DTO exactly).
 """
 type AbTestOutput {
     """Test ID"""
@@ -165,46 +64,55 @@ type AbTestOutput {
     campaignId: ID!
 
     """Test name"""
-    testName: String!
+    testName: String
 
     """Test hypothesis"""
-    hypothesis: String!
+    hypothesis: String
 
     """Type of test"""
-    testType: TestType!
+    testType: TestType
 
     """Primary metric being tested"""
-    primaryMetric: String!
+    primaryMetric: String
 
-    """Test status"""
-    status: TestStatus!
+    """Confidence level (decimal)"""
+    confidenceLevel: BigDecimal
 
-    """Confidence level"""
-    confidenceLevel: ConfidenceLevel!
-
-    """Sample size information"""
-    sampleSize: SampleSize!
+    """Required sample size"""
+    requiredSampleSize: Int
 
     """Control variant"""
-    controlVariant: String!
+    controlVariant: String
 
-    """Treatment variants (JSON)"""
-    treatmentVariants: String!
+    """Treatment variants (JSON string)"""
+    treatmentVariants: String
 
-    """All variants information"""
-    variants: [Variant!]
+    """Winning variant"""
+    winningVariant: String
 
-    """Test period"""
-    period: TestPeriod!
+    """Statistical significance (decimal)"""
+    statisticalSignificance: BigDecimal
 
-    """Test results (if completed)"""
-    results: TestResults
+    """Is the test completed"""
+    isCompleted: Boolean
 
-    """Creation date"""
-    createdAt: String!
+    """Has test started"""
+    hasStarted: Boolean
 
-    """Last update date"""
-    updatedAt: String!
+    """Has test ended"""
+    hasEnded: Boolean
+
+    """Test start date/time (ISO)"""
+    startDate: DateTime
+
+    """Test end date/time (ISO)"""
+    endDate: DateTime
+
+    """Creation date/time"""
+    createdAt: DateTime!
+
+    """Last update date/time"""
+    updatedAt: DateTime!
 }
 
 """
@@ -233,16 +141,16 @@ type AbTestStatisticsOutput {
     significantResults: Int!
 
     """Average statistical significance"""
-    averageSignificance: Float!
+    averageSignificance: BigDecimal!
 
     """Completion rate percentage"""
-    completionRate: Float!
+    completionRate: Int!
 
     """Average test duration in days"""
-    averageTestDuration: Float!
+    averageTestDuration: Int!
 
     """Success rate (significant results / completed)"""
-    successRate: Float!
+    successRate: Int!
 }
 
 """
@@ -267,41 +175,6 @@ input CreateAbTestInput {
     testName: String!
 
     """Test hypothesis"""
-    hypothesis: String!
-
-    """Test type"""
-    testType: TestType!
-
-    """Primary metric"""
-    primaryMetric: String!
-
-    """Confidence level (0.80-0.99)"""
-    confidenceLevel: Float!
-
-    """Required sample size"""
-    requiredSampleSize: Int!
-
-    """Control variant description"""
-    controlVariant: String!
-
-    """Treatment variants (JSON string)"""
-    treatmentVariants: String!
-
-    """Start date (ISO format: 2024-12-24T10:00:00)"""
-    startDate: String!
-}
-
-"""
-Input to update an A/B test.
-"""
-input UpdateAbTestInput {
-    """Test ID"""
-    id: ID!
-
-    """Test name"""
-    testName: String
-
-    """Test hypothesis"""
     hypothesis: String
 
     """Test type"""
@@ -311,19 +184,42 @@ input UpdateAbTestInput {
     primaryMetric: String
 
     """Confidence level (0.80-0.99)"""
-    confidenceLevel: Float
+    confidenceLevel: BigDecimal
 
     """Required sample size"""
     requiredSampleSize: Int
 
     """Control variant description"""
-    controlVariant: String
+    controlVariant: String!
 
-    """Treatment variants (JSON string)"""
-    treatmentVariants: String
+    """Treatment variants (JSON)"""
+    treatmentVariants: JSON!
 
     """Start date (ISO format)"""
-    startDate: String
+    startDate: DateTime!
+}
+
+"""
+Input to update an A/B test.
+"""
+input UpdateAbTestInput {
+    """Test ID"""
+    testId: ID!
+
+    """Test hypothesis"""
+    hypothesis: String
+
+    """Confidence level (0.80-0.99)"""
+    confidenceLevel: BigDecimal
+
+    """Required sample size"""
+    requiredSampleSize: Int
+
+    """End date (ISO format)"""
+    endDate: DateTime
+
+    """Test type"""
+    testType: TestType
 }
 
 """
@@ -331,19 +227,19 @@ Input to complete an A/B test.
 """
 input CompleteAbTestInput {
     """Test ID"""
-    id: ID!
+    testId: ID!
 
     """Winning variant identifier"""
     winningVariant: String!
 
     """Statistical significance (0-1)"""
-    statisticalSignificance: Float!
+    statisticalSignificance: BigDecimal!
 
     """Results summary"""
     resultsSummary: String
 
-    """Detailed variant results (JSON string)"""
-    variantResults: String
+    """Detailed variant results (JSON)"""
+    variantResults: JSON
 }
 
 """
@@ -356,32 +252,17 @@ input AbTestFilterInput {
     """Filter by test types"""
     testTypes: [TestType!]
 
-    """Filter by statuses"""
-    statuses: [TestStatus!]
-
-    """Filter by start date from (ISO format)"""
-    startDateFrom: String
-
-    """Filter by start date to (ISO format)"""
-    startDateTo: String
-
-    """Filter by minimum confidence level"""
-    minConfidenceLevel: Float
-
-    """Filter by maximum confidence level"""
-    maxConfidenceLevel: Float
-
-    """Filter by minimum sample size"""
-    minSampleSize: Int
-
-    """Filter by maximum sample size"""
-    maxSampleSize: Int
-
-    """Filter by running status"""
-    isRunning: Boolean
-
     """Filter by completed status"""
     isCompleted: Boolean
+
+    """Filter by start date from (ISO format)"""
+    startDateFrom: DateTime
+
+    """Filter by start date to (ISO format)"""
+    startDateTo: DateTime
+
+    """Filter by minimum confidence level"""
+    minConfidenceLevel: BigDecimal
 
     """Search term"""
     searchTerm: String

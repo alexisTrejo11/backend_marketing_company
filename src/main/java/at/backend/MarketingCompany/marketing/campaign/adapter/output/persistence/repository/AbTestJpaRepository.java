@@ -11,15 +11,19 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface AbTestJpaRepository extends JpaRepository<AbTestEntity, Long> {
     
     @Query("SELECT t FROM AbTestEntity t WHERE t.deletedAt IS NULL AND t.id = :id")
-    Optional<AbTestEntity> findByIdAndNotDeleted(@
-		                                                 Param("id") Long id);
-    
+    Optional<AbTestEntity> findByIdAndNotDeleted(@Param("id") Long id);
+
+    @Query("SELECT t FROM AbTestEntity t WHERE t.deletedAt IS NULL " +
+           "AND t.campaign.id = :campaignId AND t.isCompleted = true")
+    List<AbTestEntity> findCompletedTestsByCampaignId(@Param("campaignId") Long campaignId);
+
     @Query("SELECT t FROM AbTestEntity t WHERE t.deletedAt IS NULL " +
            "AND t.campaign.id = :campaignId")
     Page<AbTestEntity> findByCampaignId(
@@ -54,7 +58,10 @@ public interface AbTestJpaRepository extends JpaRepository<AbTestEntity, Long> {
     @Query("SELECT COUNT(t) FROM AbTestEntity t WHERE t.deletedAt IS NULL " +
            "AND t.campaign.id = :campaignId AND t.isCompleted = true")
     long countCompletedTestsByCampaignId(@Param("campaignId") Long campaignId);
-    
+
+    long countByCampaignIdAndDeletedAtIsNull(Long campaignId);
+
+
     @Query("SELECT AVG(t.statisticalSignificance) FROM AbTestEntity t WHERE t.deletedAt IS NULL " +
            "AND t.campaign.id = :campaignId AND t.statisticalSignificance IS NOT NULL")
     BigDecimal calculateAverageSignificanceByCampaignId(@Param("campaignId") Long campaignId);

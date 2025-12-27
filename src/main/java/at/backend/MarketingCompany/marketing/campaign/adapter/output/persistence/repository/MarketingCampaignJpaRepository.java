@@ -74,4 +74,6 @@ public interface MarketingCampaignJpaRepository extends JpaRepository<MarketingC
 	@Query("SELECT SUM(c.spentAmount) FROM MarketingCampaignEntity c WHERE c.deletedAt IS NULL " +
 			"AND c.status = 'ACTIVE'")
 	BigDecimal calculateTotalActiveSpend();
+
+	boolean existsByIdAndDeletedAtIsNull(Long id);
 }
