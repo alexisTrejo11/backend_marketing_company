@@ -53,7 +53,9 @@ public interface CampaignActivityCommandServicePort {
    * Assigns activity to a user
    */
   CampaignActivity assignToUser(CampaignActivityId activityId, Long userId);
-  
+
+  CampaignActivity unassign(CampaignActivityId activityId);
+
   /**
    * Deletes an activity (soft delete)
    */

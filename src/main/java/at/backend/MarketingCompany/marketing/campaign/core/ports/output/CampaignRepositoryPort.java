@@ -19,18 +19,9 @@ public interface CampaignRepositoryPort {
 
 	void delete(MarketingCampaignId id);
 
+	Page<MarketingCampaign> findByFilters(CampaignStatus status, CampaignType campaignType, Long primaryChannelId, Pageable pageable);
 
-
-	Page<MarketingCampaign> findByFilters(
-			CampaignStatus status,
-			CampaignType campaignType,
-			Long primaryChannelId,
-			Pageable pageable);
-
-	Page<MarketingCampaign> findByDateRange(
-			LocalDate startDate,
-			LocalDate endDate,
-			Pageable pageable);
+	Page<MarketingCampaign> findByDateRange(LocalDate startDate, LocalDate endDate, Pageable pageable);
 
 	Page<MarketingCampaign> searchByName(String searchTerm, Pageable pageable);
 

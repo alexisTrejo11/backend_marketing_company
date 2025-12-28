@@ -4,284 +4,202 @@ import at.backend.MarketingCompany.marketing.activity.core.application.command.C
 import at.backend.MarketingCompany.marketing.activity.core.application.command.RecordActivityDatesCommand;
 import at.backend.MarketingCompany.marketing.activity.core.application.command.UpdateActivityCommand;
 import at.backend.MarketingCompany.marketing.activity.core.application.command.UpdateActivityCostCommand;
-import at.backend.MarketingCompany.marketing.activity.core.application.dto.ActivityStatistics;
-import at.backend.MarketingCompany.marketing.activity.core.application.query.ActivityQuery;
-import at.backend.MarketingCompany.marketing.activity.core.domain.entity.ActivityValidator;
 import at.backend.MarketingCompany.marketing.activity.core.domain.entity.CampaignActivity;
-import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivityCost;
-import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivitySchedule;
+import at.backend.MarketingCompany.marketing.activity.core.domain.entity.CreateActivityParams;
+import at.backend.MarketingCompany.marketing.activity.core.domain.exception.CampaignActivityNotFoundException;
+import at.backend.MarketingCompany.marketing.activity.core.domain.exception.CampaignActivityValidationException;
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivityStatus;
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.CampaignActivityId;
 import at.backend.MarketingCompany.marketing.activity.core.port.input.CampaignActivityCommandServicePort;
 import at.backend.MarketingCompany.marketing.activity.core.port.output.ActivityRepositoryPort;
-import at.backend.MarketingCompany.marketing.campaign.core.domain.models.MarketingCampaign;
-import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
 import at.backend.MarketingCompany.marketing.campaign.core.ports.output.CampaignRepositoryPort;
-import at.backend.MarketingCompany.shared.exception.BusinessRuleException;
+
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class CampaignActivityCommandService implements CampaignActivityCommandServicePort {
-  private final ActivityRepositoryPort activityRepository;
-  private final CampaignRepositoryPort campaignRepository;
+	private final ActivityRepositoryPort activityRepository;
+	private final CampaignRepositoryPort campaignRepository;
 
-  @Override
-  @Transactional
-  public CampaignActivity createActivity(CreateActivityCommand command) {
-    log.debug("Creating activity for campaign: {}, name: {}",
-        command.campaignId().getValue(), command.name());
+	@Override
+	@Transactional
+	public CampaignActivity createActivity(CreateActivityCommand command) {
+		log.debug("Creating activity for campaign: {}, name: {}", command.campaignId().getValue(), command.name());
 
-    // Validate campaign exists
-    MarketingCampaign campaign = campaignRepository.findById(command.campaignId())
-        .orElseThrow(() -> new BusinessRuleException("Campaign not found"));
+		if (!campaignRepository.existsById(command.campaignId())) {
+			throw new CampaignActivityValidationException("Campaign not found");
+		}
 
-    // Validate activity creation
-    ActivityValidator.validateForCreation(
-        command.plannedStartDate(),
-        command.plannedEndDate(),
-        command.plannedCost(),
-        campaign
-    );
+		CreateActivityParams params = command.toCreateActivityParams();
+		CampaignActivity activity = CampaignActivity.create(params);
 
-    // Create activity using domain factory
-    ActivitySchedule schedule = new ActivitySchedule(
-        command.plannedStartDate(),
-        command.plannedEndDate(),
-        null,
-        null
-    );
+		CampaignActivity savedActivity = activityRepository.save(activity);
+		log.info("Activity created successfully with ID: {}", savedActivity.getId().getValue());
 
-    ActivityCost cost = new ActivityCost(command.plannedCost(), null);
+		return savedActivity;
+	}
 
-    CampaignActivity activity = CampaignActivity.create(
-        command.campaignId(),
-        command.name(),
-        command.activityType(),
-        schedule,
-        cost,
-        command.deliveryChannel()
-    );
+	@Override
+	@Transactional
+	public CampaignActivity updateActivity(UpdateActivityCommand command) {
+		log.debug("Updating activity: {}", command.activityId().getValue());
 
-    // Set optional fields
-    if (command.description() != null) {
-      activity.setDescription(command.description());
-    }
-    if (command.assignedToUserId() != null) {
-      activity.setAssignedToUserId(command.assignedToUserId());
-    }
-    if (command.successCriteria() != null) {
-      activity.setSuccessCriteria(command.successCriteria());
-    }
-    if (command.targetAudience() != null) {
-      activity.setTargetAudience(command.targetAudience());
-    }
-    if (command.dependencies() != null) {
-      activity.setDependencies(command.dependencies());
-    }
+		CampaignActivity activity = findActivityByIdOrThrow(command.activityId());
+		activity.updateGeneralInfo(
+				command.name(),
+				command.description(),
+				command.successCriteria(),
+				command.targetAudience(),
+				command.dependencies()
+		);
 
-    CampaignActivity savedActivity = activityRepository.save(activity);
-    log.info("Activity created successfully with ID: {}", savedActivity.getId().getValue());
 
-    return savedActivity;
-  }
+		CampaignActivity updatedActivity = activityRepository.save(activity);
+		log.info("Activity updated successfully: {}", command.activityId().getValue());
 
-  @Override
-  @Transactional
-  public CampaignActivity updateActivity(UpdateActivityCommand command) {
-    log.debug("Updating activity: {}", command.activityId().getValue());
+		return updatedActivity;
+	}
 
-    CampaignActivity activity = findActivityByIdOrThrow(command.activityId());
+	@Override
+	@Transactional
+	public CampaignActivity startActivity(CampaignActivityId activityId) {
+		log.debug("Starting activity: {}", activityId.getValue());
 
-    // Validate update is allowed
-    ActivityValidator.validateForUpdate(activity);
+		CampaignActivity activity = findActivityByIdOrThrow(activityId);
+		activity.start();
 
-    // Update fields
-    if (command.name() != null) {
-      activity.setName(command.name());
-    }
-    if (command.description() != null) {
-      activity.setDescription(command.description());
-    }
-    if (command.assignedToUserId() != null) {
-      activity.setAssignedToUserId(command.assignedToUserId());
-    }
-    if (command.successCriteria() != null) {
-      activity.setSuccessCriteria(command.successCriteria());
-    }
-    if (command.targetAudience() != null) {
-      activity.setTargetAudience(command.targetAudience());
-    }
-    if (command.dependencies() != null) {
-      activity.setDependencies(command.dependencies());
-    }
+		CampaignActivity startedActivity = activityRepository.save(activity);
+		log.info("Activity started successfully: {}", activityId.getValue());
 
-    CampaignActivity updatedActivity = activityRepository.save(activity);
-    log.info("Activity updated successfully: {}", command.activityId().getValue());
+		return startedActivity;
+	}
 
-    return updatedActivity;
-  }
+	@Override
+	@Transactional
+	public CampaignActivity completeActivity(CampaignActivityId activityId) {
+		log.debug("Completing activity: {}", activityId.getValue());
 
-  @Override
-  @Transactional
-  public CampaignActivity startActivity(CampaignActivityId activityId) {
-    log.debug("Starting activity: {}", activityId.getValue());
+		CampaignActivity activity = findActivityByIdOrThrow(activityId);
+		activity.complete();
 
-    CampaignActivity activity = findActivityByIdOrThrow(activityId);
+		CampaignActivity completedActivity = activityRepository.save(activity);
+		log.info("Activity completed successfully: {}", activityId.getValue());
 
-    // Validate start is allowed
-    ActivityValidator.validateForStart(activity);
+		return completedActivity;
+	}
 
-    activity.start();
+	@Override
+	@Transactional
+	public CampaignActivity cancelActivity(CampaignActivityId activityId) {
+		log.debug("Cancelling activity: {}", activityId.getValue());
 
-    CampaignActivity startedActivity = activityRepository.save(activity);
-    log.info("Activity started successfully: {}", activityId.getValue());
+		CampaignActivity activity = findActivityByIdOrThrow(activityId);
+		activity.cancel();
 
-    return startedActivity;
-  }
+		CampaignActivity cancelledActivity = activityRepository.save(activity);
+		log.info("Activity cancelled successfully: {}", activityId.getValue());
 
-  @Override
-  @Transactional
-  public CampaignActivity completeActivity(CampaignActivityId activityId) {
-    log.debug("Completing activity: {}", activityId.getValue());
+		return cancelledActivity;
+	}
 
-    CampaignActivity activity = findActivityByIdOrThrow(activityId);
+	@Override
+	@Transactional
+	public CampaignActivity blockActivity(CampaignActivityId activityId, String blockReason) {
+		log.debug("Blocking activity: {} with reason: {}", activityId.getValue(), blockReason);
 
-    // Validate completion is allowed
-    ActivityValidator.validateForCompletion(activity);
+		CampaignActivity activity = findActivityByIdOrThrow(activityId);
+		activity.block();
 
-    activity.complete();
+		CampaignActivity blockedActivity = activityRepository.save(activity);
+		log.info("Activity blocked successfully: {}", activityId.getValue());
 
-    CampaignActivity completedActivity = activityRepository.save(activity);
-    log.info("Activity completed successfully: {}", activityId.getValue());
+		return blockedActivity;
+	}
 
-    return completedActivity;
-  }
+	@Override
+	@Transactional
+	public CampaignActivity updateActivityCost(UpdateActivityCostCommand command) {
+		log.debug("Updating activity cost: {} to {}", command.activityId().getValue(), command.actualCost());
 
-  @Override
-  @Transactional
-  public CampaignActivity cancelActivity(CampaignActivityId activityId) {
-    log.debug("Cancelling activity: {}", activityId.getValue());
+		CampaignActivity activity = findActivityByIdOrThrow(command.activityId());
+		activity.updateActualCost(command.actualCost());
 
-    CampaignActivity activity = findActivityByIdOrThrow(activityId);
+		CampaignActivity updatedActivity = activityRepository.save(activity);
+		log.info("Activity cost updated successfully: {}", command.activityId().getValue());
 
-    // Validate cancellation is allowed
-    ActivityValidator.validateForCancellation(activity);
+		return updatedActivity;
+	}
 
-    activity.cancel();
+	@Override
+	@Transactional
+	public CampaignActivity recordActivityDates(RecordActivityDatesCommand command) {
+		log.debug("Recording activity dates: {}", command.activityId().getValue());
 
-    CampaignActivity cancelledActivity = activityRepository.save(activity);
-    log.info("Activity cancelled successfully: {}", activityId.getValue());
+		CampaignActivity activity = findActivityByIdOrThrow(command.activityId());
+		activity.recordActivityDates(command.actualStartDate(), command.actualEndDate());
 
-    return cancelledActivity;
-  }
+		CampaignActivity updatedActivity = activityRepository.save(activity);
+		log.info("Activity dates recorded successfully: {}", command.activityId().getValue());
 
-  @Override
-  @Transactional
-  public CampaignActivity blockActivity(CampaignActivityId activityId, String blockReason) {
-    log.debug("Blocking activity: {} with reason: {}", activityId.getValue(), blockReason);
+		return updatedActivity;
+	}
 
-    CampaignActivity activity = findActivityByIdOrThrow(activityId);
-    activity.block();
+	@Override
+	@Transactional
+	public CampaignActivity assignToUser(CampaignActivityId activityId, Long userId) {
+		log.debug("Assigning activity {} to user: {}", activityId.getValue(), userId);
 
-    CampaignActivity blockedActivity = activityRepository.save(activity);
-    log.info("Activity blocked successfully: {}", activityId.getValue());
+		CampaignActivity activity = findActivityByIdOrThrow(activityId);
+		activity.assign(userId);
 
-    return blockedActivity;
-  }
+		CampaignActivity assignedActivity = activityRepository.save(activity);
+		log.info("Activity assigned successfully: {}", activityId.getValue());
 
-  @Override
-  @Transactional
-  public CampaignActivity updateActivityCost(UpdateActivityCostCommand command) {
-    log.debug("Updating activity cost: {} to {}",
-        command.activityId().getValue(), command.actualCost());
+		return assignedActivity;
+	}
 
-    CampaignActivity activity = findActivityByIdOrThrow(command.activityId());
+	@Override
+	public CampaignActivity unassign(CampaignActivityId activityId) {
+		log.debug("Unassigning activity: {}", activityId.getValue());
 
-    // Validate cost update
-    ActivityValidator.validateCostUpdate(activity, command.actualCost());
+		CampaignActivity activity = findActivityByIdOrThrow(activityId);
+		activity.unassign();
 
-    // Update cost using domain logic
-    ActivityCost currentCost = activity.getCost();
-    ActivityCost newCost = new ActivityCost(currentCost.plannedCost(), command.actualCost());
-    activity.setCost(newCost);
+		CampaignActivity unassignedActivity = activityRepository.save(activity);
+		log.info("Activity unassigned successfully: {}", activityId.getValue());
 
-    CampaignActivity updatedActivity = activityRepository.save(activity);
-    log.info("Activity cost updated successfully: {}", command.activityId().getValue());
+		return unassignedActivity;
+	}
 
-    return updatedActivity;
-  }
+	@Override
+	@Transactional
+	public void deleteActivity(CampaignActivityId activityId) {
+		log.debug("Deleting activity: {}", activityId.getValue());
 
-  @Override
-  @Transactional
-  public CampaignActivity recordActivityDates(RecordActivityDatesCommand command) {
-    log.debug("Recording activity dates: {}", command.activityId().getValue());
+		CampaignActivity activity = findActivityByIdOrThrow(activityId);
 
-    CampaignActivity activity = findActivityByIdOrThrow(command.activityId());
+		if (activity.getStatus() == ActivityStatus.IN_PROGRESS) {
+			throw new CampaignActivityValidationException(
+					"Cannot delete an activity that is in progress. Please cancel or complete it first."
+			);
+		}
 
-    ActivitySchedule currentSchedule = activity.getSchedule();
-    ActivitySchedule newSchedule = new ActivitySchedule(
-        currentSchedule.plannedStartDate(),
-        currentSchedule.plannedEndDate(),
-        command.actualStartDate(),
-        command.actualEndDate()
-    );
+		activity.softDelete();
+		activityRepository.save(activity);
 
-    activity.setSchedule(newSchedule);
+		log.info("Activity deleted successfully: {}", activityId.getValue());
+	}
 
-    CampaignActivity updatedActivity = activityRepository.save(activity);
-    log.info("Activity dates recorded successfully: {}", command.activityId().getValue());
-
-    return updatedActivity;
-  }
-
-  @Override
-  @Transactional
-  public CampaignActivity assignToUser(CampaignActivityId activityId, Long userId) {
-    log.debug("Assigning activity {} to user: {}", activityId.getValue(), userId);
-
-    CampaignActivity activity = findActivityByIdOrThrow(activityId);
-    activity.setAssignedToUserId(userId);
-
-    CampaignActivity assignedActivity = activityRepository.save(activity);
-    log.info("Activity assigned successfully: {}", activityId.getValue());
-
-    return assignedActivity;
-  }
-
-  @Override
-  @Transactional
-  public void deleteActivity(CampaignActivityId activityId) {
-    log.debug("Deleting activity: {}", activityId.getValue());
-
-    CampaignActivity activity = findActivityByIdOrThrow(activityId);
-
-    if (activity.getStatus() == ActivityStatus.IN_PROGRESS) {
-      throw new BusinessRuleException(
-          "Cannot delete an activity that is in progress. " +
-              "Please cancel or complete it first."
-      );
-    }
-
-    activity.softDelete();
-    activityRepository.save(activity);
-
-    log.info("Activity deleted successfully: {}", activityId.getValue());
-  }
-
-  private CampaignActivity findActivityByIdOrThrow(CampaignActivityId activityId) {
-    return activityRepository.findById(activityId)
-        .orElseThrow(() -> new BusinessRuleException(
-            "Activity not found with ID: " + activityId.getValue()
-        ));
-  }
+	private CampaignActivity findActivityByIdOrThrow(CampaignActivityId activityId) {
+		return activityRepository.findById(activityId)
+				.orElseThrow(() -> new CampaignActivityNotFoundException(activityId));
+		}
 }

@@ -9,12 +9,14 @@ import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.Ma
 import at.backend.MarketingCompany.marketing.campaign.core.ports.output.CampaignRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
 @Slf4j
 @RequiredArgsConstructor
+@Service
 public class CampaignActivityStatisticsService implements CampaignActivityStatisticsServicePort {
 	private final ActivityRepositoryPort activityRepository;
 	private final CampaignRepositoryPort campaignRepository;
@@ -25,43 +27,26 @@ public class CampaignActivityStatisticsService implements CampaignActivityStatis
 		log.debug("Getting activity statistics for campaign: {}", campaignId);
 
 		Long totalActivities = activityRepository.countByCampaignId(campaignId);
-		Long plannedActivities = activityRepository.countByCampaignIdAndStatus(
-				campaignId, ActivityStatus.PLANNED
-		);
-		Long inProgressActivities = activityRepository.countByCampaignIdAndStatus(
-				campaignId, ActivityStatus.IN_PROGRESS
-		);
-		Long completedActivities = activityRepository.countByCampaignIdAndStatus(
-				campaignId, ActivityStatus.COMPLETED
-		);
-		Long cancelledActivities = activityRepository.countByCampaignIdAndStatus(
-				campaignId, ActivityStatus.CANCELLED
-		);
-		Long blockedActivities = activityRepository.countByCampaignIdAndStatus(
-				campaignId, ActivityStatus.BLOCKED
-		);
+
+		Long plannedActivities = activityRepository.countByCampaignIdAndStatus(campaignId, ActivityStatus.PLANNED);
+		Long inProgressActivities = activityRepository.countByCampaignIdAndStatus(campaignId, ActivityStatus.IN_PROGRESS);
+		Long completedActivities = activityRepository.countByCampaignIdAndStatus(campaignId, ActivityStatus.COMPLETED);
+		Long cancelledActivities = activityRepository.countByCampaignIdAndStatus(campaignId, ActivityStatus.CANCELLED);
+		Long blockedActivities = activityRepository.countByCampaignIdAndStatus(campaignId, ActivityStatus.BLOCKED);
 
 		Long delayedActivities = activityRepository.countDelayedActivitiesByCampaignId(campaignId);
 
-		BigDecimal totalPlannedCost = activityRepository
-				.calculateTotalPlannedCostByCampaignId(campaignId);
-		BigDecimal totalActualCost = activityRepository
-				.calculateTotalActualCostByCampaignId(campaignId);
-		BigDecimal averageCostOverrun = activityRepository
-				.calculateAverageCostOverrunByCampaignId(campaignId);
+		BigDecimal totalPlannedCost = activityRepository.calculateTotalPlannedCostByCampaignId(campaignId);
+		BigDecimal totalActualCost = activityRepository.calculateTotalActualCostByCampaignId(campaignId);
+		BigDecimal averageCostOverrun = activityRepository.calculateAverageCostOverrunByCampaignId(campaignId);
 
 		Double completionRate = 0d; //calculateCompletionRate(totalActivities, completedActivities);
-		Double onTimeRate = activityRepository
-				.calculateOnTimeCompletionRateByCampaignId(campaignId);
+		Double onTimeRate = activityRepository.calculateOnTimeCompletionRateByCampaignId(campaignId);
 
-		ActivityStatistics.ActivityTypeBreakdown typeBreakdown =
-				buildTypeBreakdown(campaignId);
-		ActivityStatistics.ActivityTimeMetrics timeMetrics =
-				buildTimeMetrics(campaignId);
+		ActivityStatistics.ActivityTypeBreakdown typeBreakdown = buildTypeBreakdown(campaignId);
+		ActivityStatistics.ActivityTimeMetrics timeMetrics = buildTimeMetrics(campaignId);
 
-		MarketingCampaign campaign = campaignRepository.findById(
-				campaignId
-		).orElse(null);
+		MarketingCampaign campaign = campaignRepository.findById(campaignId).orElse(null);
 
 		return ActivityStatistics.builder()
 				.campaignId(campaignId.getValue())
@@ -104,7 +89,6 @@ public class CampaignActivityStatisticsService implements CampaignActivityStatis
 	public ActivityStatistics.ActivityTypeBreakdown buildTypeBreakdown(MarketingCampaignId campaignId) {
 		return null;
 	}
-
 
 	public ActivityStatistics.ActivityTimeMetrics buildTimeMetrics(MarketingCampaignId campaignId) {
 		return null;

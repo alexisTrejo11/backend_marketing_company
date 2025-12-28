@@ -26,6 +26,25 @@ public record ActivitySchedule(
     }
   }
 
+  public ActivitySchedule recordWithActualDates(
+      LocalDateTime actualStartDate,
+      LocalDateTime actualEndDate
+  ) {
+    return new ActivitySchedule(
+        this.plannedStartDate,
+        this.plannedEndDate,
+        actualStartDate,
+        actualEndDate
+    );
+  }
+
+  public static ActivitySchedule createPlannedSchedule(
+      LocalDateTime plannedStartDate,
+      LocalDateTime plannedEndDate
+  ) {
+    return new ActivitySchedule(plannedStartDate, plannedEndDate, null, null);
+  }
+
   public boolean isCompleted() {
     return actualStartDate != null && actualEndDate != null;
   }

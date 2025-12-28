@@ -13,6 +13,10 @@ public record ActivityCost(BigDecimal plannedCost, BigDecimal actualCost) {
     }
   }
 
+  public static ActivityCost create(BigDecimal plannedCost) {
+    return new ActivityCost(plannedCost, null);
+  }
+
   public BigDecimal costVariance() {
     if (actualCost == null) {
       return BigDecimal.ZERO;

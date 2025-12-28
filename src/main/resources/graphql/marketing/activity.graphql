@@ -55,16 +55,16 @@ enum ActivityStatus {
 Activity schedule information.
 """
 type ActivitySchedule {
-    """Planned start date"""
-    plannedStartDate: String!
+    """Planned start date (ISO-8601)"""
+    plannedStartDate: String
 
-    """Planned end date"""
-    plannedEndDate: String!
+    """Planned end date (ISO-8601)"""
+    plannedEndDate: String
 
-    """Actual start date"""
+    """Actual start date (ISO-8601)"""
     actualStartDate: String
 
-    """Actual end date"""
+    """Actual end date (ISO-8601)"""
     actualEndDate: String
 
     """Is activity delayed"""
@@ -74,7 +74,7 @@ type ActivitySchedule {
     isCompleted: Boolean!
 
     """Planned duration in hours"""
-    plannedDurationHours: Int!
+    plannedDurationHours: Int
 
     """Actual duration in hours"""
     actualDurationHours: Int
@@ -85,7 +85,7 @@ Activity cost information.
 """
 type ActivityCost {
     """Planned cost"""
-    plannedCost: Float!
+    plannedCost: Float
 
     """Actual cost"""
     actualCost: Float
@@ -101,47 +101,44 @@ type ActivityCost {
 }
 
 """
-Campaign activity details.
+Campaign activity details (graphQL representation matching CampaignActivityOutput DTO).
 """
 type CampaignActivity {
     """Activity ID"""
-    id: ID!
+    id: ID
 
     """Campaign ID"""
-    campaignId: ID!
-
-    """Campaign name"""
-    campaignName: String
+    campaignId: ID
 
     """Activity name"""
-    name: String!
+    name: String
 
     """Activity description"""
     description: String
 
     """Activity type"""
-    activityType: ActivityType!
+    activityType: ActivityType
 
     """Activity status"""
-    status: ActivityStatus!
+    status: ActivityStatus
 
-    """Schedule information"""
-    schedule: ActivitySchedule!
+    """Planned start date (ISO-8601)"""
+    plannedStartDate: String
 
-    """Cost information"""
-    cost: ActivityCost!
+    """Planned end date (ISO-8601)"""
+    plannedEndDate: String
 
-    """Assigned user ID"""
-    assignedToUserId: ID
+    """Actual start date (ISO-8601)"""
+    actualStartDate: String
 
-    """Assigned user name"""
-    assignedToUserName: String
+    """Actual end date (ISO-8601)"""
+    actualEndDate: String
 
-    """Delivery channel"""
-    deliveryChannel: String!
+    """Planned cost"""
+    plannedCost: Float
 
-    """Success criteria"""
-    successCriteria: String
+    """Actual cost"""
+    actualCost: Float
 
     """Target audience"""
     targetAudience: String
@@ -149,39 +146,24 @@ type CampaignActivity {
     """Dependencies (JSON)"""
     dependencies: String
 
-    """Creation date"""
-    createdAt: String!
+    """Creation date (ISO-8601)"""
+    createdAt: String
 
-    """Last update date"""
-    updatedAt: String!
+    """Last update date (ISO-8601)"""
+    updatedAt: String
 }
 
 """
 Activity type breakdown for statistics.
 """
 type ActivityTypeBreakdown {
-    """Content creation activities"""
     contentCreation: Int!
-
-    """Ad setup activities"""
     adSetup: Int!
-
-    """Email blast activities"""
     emailBlast: Int!
-
-    """Social post activities"""
     socialPost: Int!
-
-    """Event activities"""
     event: Int!
-
-    """Webinar activities"""
     webinar: Int!
-
-    """Analysis activities"""
     analysis: Int!
-
-    """Optimization activities"""
     optimization: Int!
 }
 
@@ -189,83 +171,40 @@ type ActivityTypeBreakdown {
 Activity time metrics.
 """
 type ActivityTimeMetrics {
-    """Average completion time in hours"""
     averageCompletionTimeHours: Int!
-
-    """Total delay hours"""
     totalDelayHours: Int!
-
-    """Activities completed early"""
     activitiesCompletedEarly: Int!
-
-    """Activities completed late"""
     activitiesCompletedLate: Int!
-
-    """Activities completed on time"""
     activitiesCompletedOnTime: Int!
 }
 
 """
-Comprehensive activity statistics.
+Comprehensive activity statistics (matches ActivityStatistics DTO).
 """
 type ActivityStatistics {
-    """Campaign ID"""
     campaignId: ID!
-
-    """Campaign name"""
     campaignName: String
-
-    """Total activities"""
     totalActivities: Int!
-
-    """Planned activities"""
     plannedActivities: Int!
-
-    """In-progress activities"""
     inProgressActivities: Int!
-
-    """Completed activities"""
     completedActivities: Int!
-
-    """Cancelled activities"""
     cancelledActivities: Int!
-
-    """Blocked activities"""
     blockedActivities: Int!
-
-    """Delayed activities"""
     delayedActivities: Int!
-
-    """Total planned cost"""
-    totalPlannedCost: Float!
-
-    """Total actual cost"""
-    totalActualCost: Float!
-
-    """Average cost overrun"""
-    averageCostOverrun: Float!
-
-    """Completion rate (percentage)"""
-    completionRate: Float!
-
-    """On-time completion rate (percentage)"""
-    onTimeCompletionRate: Float!
-
-    """Breakdown by activity type"""
-    typeBreakdown: ActivityTypeBreakdown!
-
-    """Time metrics"""
-    timeMetrics: ActivityTimeMetrics!
+    totalPlannedCost: Float
+    totalActualCost: Float
+    averageCostOverrun: Float
+    completionRate: Float
+    onTimeCompletionRate: Float
+    typeBreakdown: ActivityTypeBreakdown
+    timeMetrics: ActivityTimeMetrics
 }
 
 """
 Paginated activity response.
 """
 type ActivityPage implements PageResponse {
-    """List of activities"""
-    content: [CampaignActivity!]!
-
-    """Pagination metadata"""
+    items: [CampaignActivity!]!
     pagination: PaginationMetadata!
 }
 
@@ -274,129 +213,70 @@ type ActivityPage implements PageResponse {
 # ============================================================================
 
 """
-Input to create an activity.
+Input to create an activity (matches `CreateCampaignActivityInput` Java record).
 """
-input CreateActivityInput {
-    """Campaign ID"""
+input CreateCampaignActivityInput {
     campaignId: ID!
-
-    """Activity name"""
     name: String!
-
-    """Activity description"""
     description: String
-
-    """Activity type"""
     activityType: ActivityType!
-
-    """Planned start date (ISO-8601)"""
     plannedStartDate: String!
-
-    """Planned end date (ISO-8601)"""
     plannedEndDate: String!
-
-    """Planned cost"""
     plannedCost: Float!
-
-    """Assigned user ID"""
     assignedToUserId: ID
-
-    """Delivery channel"""
     deliveryChannel: String!
-
-    """Success criteria"""
     successCriteria: String
-
-    """Target audience"""
     targetAudience: String
-
-    """Dependencies (JSON string)"""
     dependencies: String
 }
 
 """
-Input to update an activity.
+Input to update an activity (matches `UpdateCampaignActivityInput` Java record).
 """
-input UpdateActivityInput {
-    """Activity ID"""
+input UpdateCampaignActivityInput {
     id: ID!
-
-    """Activity name"""
     name: String
-
-    """Activity description"""
     description: String
-
-    """Assigned user ID"""
+    actualStartDate: String
+    actualEndDate: String
+    actualCost: Float
     assignedToUserId: ID
-
-    """Success criteria"""
     successCriteria: String
-
-    """Target audience"""
     targetAudience: String
-
-    """Dependencies (JSON string)"""
+    activityType: ActivityType
     dependencies: String
 }
 
 """
-Input to update activity cost.
+Input to update activity cost (matches `UpdateActivityCostInput`).
 """
 input UpdateActivityCostInput {
-    """Activity ID"""
     activityId: ID!
-
-    """Actual cost"""
     actualCost: Float!
-
-    """Cost notes"""
     costNotes: String
 }
 
 """
-Input to record activity dates.
+Input to record activity dates (matches `RecordActivityDatesInput`).
 """
 input RecordActivityDatesInput {
-    """Activity ID"""
     activityId: ID!
-
-    """Actual start date (ISO-8601)"""
     actualStartDate: String
-
-    """Actual end date (ISO-8601)"""
     actualEndDate: String
 }
 
 """
-Activity filter options.
+Search input (matches `SearchActivityInput` Java record used by the controller).
 """
-input ActivityFilterInput {
-    """Filter by campaign ID"""
+input SearchActivityInput {
     campaignId: ID
-
-    """Filter by statuses"""
     statuses: [ActivityStatus!]
-
-    """Filter by activity types"""
     activityTypes: [ActivityType!]
-
-    """Filter by assigned user ID"""
     assignedToUserId: ID
-
-    """Filter from planned start date"""
     plannedStartFrom: String
-
-    """Filter to planned start date"""
     plannedStartTo: String
-
-    """Filter delayed activities"""
     isDelayed: Boolean
-
-    """Filter completed activities"""
     isCompleted: Boolean
-
-    """Search term"""
     searchTerm: String
 }
 
@@ -406,98 +286,45 @@ input ActivityFilterInput {
 
 extend type Query {
     """
-    Get an activity by ID.
+    Get an activity by ID (controller: `campaignActivity`).
     """
-    activity(id: ID!): CampaignActivity
+    campaignActivity(activityId: ID!): CampaignActivity
 
     """
-    Search activities with filters.
+    Search activities with filters (controller: `searchCampaignActivities`).
     """
-    searchActivities(
-        """Filter options"""
-        filter: ActivityFilterInput
-
-        """Pagination parameters"""
-        pageInput: PageInput!
-    ): ActivityPage!
+    searchCampaignActivities(filter: SearchActivityInput, pageInput: PageInput!): ActivityPage!
 
     """
-    Get activities by campaign.
+    Get activities by campaign and status (controller: `campaignActivitiesByCampaignAndByStatus`).
     """
-    activitiesByCampaign(
-        """Campaign ID"""
-        campaignId: ID!
-
-        """Pagination parameters"""
-        pageInput: PageInput!
-    ): ActivityPage!
+    campaignActivitiesByCampaignAndByStatus(campaignId: ID!, status: ActivityStatus!, pageInput: PageInput!): ActivityPage!
 
     """
-    Get activities by status.
+    Get activities by assigned user (controller: `campaignActivitiesByUser`).
     """
-    activitiesByStatus(
-        """Campaign ID"""
-        campaignId: ID!
-
-        """Activity status"""
-        status: ActivityStatus!
-
-        """Pagination parameters"""
-        pageInput: PageInput!
-    ): ActivityPage!
+    campaignActivitiesByUser(userId: ID!, pageInput: PageInput!): ActivityPage!
 
     """
-    Get upcoming activities.
+    Get delayed activities (controller: `delayedCampaignActivities`).
     """
-    upcomingActivities(
-        """From date (ISO-8601)"""
-        fromDate: String!
-
-        """Pagination parameters"""
-        pageInput: PageInput!
-    ): ActivityPage!
+    delayedCampaignActivities(pageInput: PageInput!): ActivityPage!
 
     """
-    Get activities by assigned user.
+    Get over-budget activities (controller: `overBudgetCampaignActivities`).
     """
-    activitiesByUser(
-        """User ID"""
-        userId: ID!
-
-        """Pagination parameters"""
-        pageInput: PageInput!
-    ): ActivityPage!
+    overBudgetCampaignActivities(pageInput: PageInput!): ActivityPage!
 
     """
-    Get delayed activities.
+    Get upcoming activities (controller: `upcomingCampaignActivities`).
     """
-    delayedActivities(
-        """Pagination parameters"""
-        pageInput: PageInput!
-    ): ActivityPage!
+    upcomingCampaignActivities(pageInput: PageInput!): ActivityPage!
 
     """
-    Get over-budget activities.
+    Get activity statistics for a campaign (controller: `campaignActivityStatistics`).
     """
-    overBudgetActivities(
-        """Pagination parameters"""
-        pageInput: PageInput!
-    ): ActivityPage!
+    campaignActivityStatistics(campaignId: ID!): ActivityStatistics!
 
-    """
-    Get activity statistics for a campaign.
-    """
-    activityStatistics(campaignId: ID!): ActivityStatistics!
-
-    """
-    Get completion rate for a campaign.
-    """
-    activityCompletionRate(campaignId: ID!): Float!
-
-    """
-    Get average cost overrun.
-    """
-    averageCostOverrun(campaignId: ID!): Float!
 }
 
 # ============================================================================
@@ -505,65 +332,15 @@ extend type Query {
 # ============================================================================
 
 extend type Mutation {
-    """
-    Create a new campaign activity.
-    """
-    createActivity(input: CreateActivityInput!): CampaignActivity!
-
-    """
-    Update an activity.
-    """
-    updateActivity(input: UpdateActivityInput!): CampaignActivity!
-
-    """
-    Start an activity (transition to IN_PROGRESS).
-    """
-    startActivity(id: ID!): CampaignActivity!
-
-    """
-    Complete an activity.
-    """
-    completeActivity(id: ID!): CampaignActivity!
-
-    """
-    Cancel an activity.
-    """
-    cancelActivity(id: ID!): CampaignActivity!
-
-    """
-    Block an activity.
-    """
-    blockActivity(
-        """Activity ID"""
-        id: ID!
-
-        """Block reason"""
-        blockReason: String
-    ): CampaignActivity!
-
-    """
-    Update activity cost.
-    """
-    updateActivityCost(input: UpdateActivityCostInput!): CampaignActivity!
-
-    """
-    Record actual activity dates.
-    """
-    recordActivityDates(input: RecordActivityDatesInput!): CampaignActivity!
-
-    """
-    Assign activity to a user.
-    """
-    assignActivityToUser(
-        """Activity ID"""
-        activityId: ID!
-
-        """User ID"""
-        userId: ID!
-    ): CampaignActivity!
-
-    """
-    Delete an activity (soft delete).
-    """
-    deleteActivity(id: ID!): Boolean!
+    createCampaignActivity(input: CreateCampaignActivityInput!): CampaignActivity!
+    updateCampaignActivity(input: UpdateCampaignActivityInput!): CampaignActivity!
+    updateCampaignActivityCost(input: UpdateActivityCostInput!): CampaignActivity!
+    updateCampaignActivitySchedule(input: RecordActivityDatesInput!): CampaignActivity!
+    startCampaignActivity(id: ID!): CampaignActivity!
+    cancelCampaignActivity(id: ID!): CampaignActivity!
+    completeCampaignActivity(id: ID!): CampaignActivity!
+    blockCampaignActivity(id: ID!, blockReason: String): CampaignActivity!
+    assignCampaignActivityToUser(id: ID!, userId: ID!): CampaignActivity!
+    unassignCampaignActivity(id: ID!): CampaignActivity!
+    deleteCampaignActivity(id: ID!): Boolean!
 }

@@ -9,6 +9,8 @@ import at.backend.MarketingCompany.marketing.activity.core.application.dto.Activ
 import at.backend.MarketingCompany.marketing.activity.core.application.query.ActivityQuery;
 import at.backend.MarketingCompany.marketing.activity.core.domain.entity.ActivityValidator;
 import at.backend.MarketingCompany.marketing.activity.core.domain.entity.CampaignActivity;
+import at.backend.MarketingCompany.marketing.activity.core.domain.exception.CampaignActivityNotFoundException;
+import at.backend.MarketingCompany.marketing.activity.core.domain.exception.CampaignActivityValidationException;
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivityCost;
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivitySchedule;
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivityStatus;
@@ -16,6 +18,7 @@ import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.Ca
 import at.backend.MarketingCompany.marketing.activity.core.port.input.CampaignActivityCommandServicePort;
 import at.backend.MarketingCompany.marketing.activity.core.port.input.CampaignActivityQueryServicePort;
 import at.backend.MarketingCompany.marketing.activity.core.port.output.ActivityRepositoryPort;
+import at.backend.MarketingCompany.marketing.campaign.core.domain.exception.MarketingCampaignNotFoundException;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.models.MarketingCampaign;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
 import at.backend.MarketingCompany.marketing.campaign.core.ports.output.CampaignRepositoryPort;
@@ -41,9 +44,7 @@ public class CampaignActivityQueryService implements CampaignActivityQueryServic
   @Transactional(readOnly = true)
   public CampaignActivity getActivityById(CampaignActivityId activityId) {
     return activityRepository.findById(activityId)
-        .orElseThrow(() -> new BusinessRuleException(
-            "Activity with ID " + activityId.getValue() + " not found."
-        ));
+        .orElseThrow(() -> new CampaignActivityNotFoundException(activityId));
   }
 
   @Override
@@ -70,6 +71,10 @@ public class CampaignActivityQueryService implements CampaignActivityQueryServic
   @Override
   @Transactional(readOnly = true)
   public Page<CampaignActivity> getActivitiesByCampaign(MarketingCampaignId campaignId, Pageable pageable) {
+    if (!campaignRepository.existsById(campaignId)) {
+      throw new CampaignActivityValidationException(campaignId);
+    }
+
     return activityRepository.findByCampaignId(campaignId, pageable);
   }
 
@@ -77,9 +82,10 @@ public class CampaignActivityQueryService implements CampaignActivityQueryServic
   @Override
   @Transactional(readOnly = true)
   public Page<CampaignActivity> getActivitiesByStatus(
-      MarketingCampaignId campaignId,
-      ActivityStatus status,
-      Pageable pageable) {
+      MarketingCampaignId campaignId, ActivityStatus status, Pageable pageable) {
+    if (!campaignRepository.existsById(campaignId)) {
+      throw new CampaignActivityValidationException(campaignId);
+    }
 
     return activityRepository.findByCampaignIdAndStatus(campaignId, status, pageable);
   }

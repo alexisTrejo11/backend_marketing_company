@@ -79,5 +79,5 @@ public class CampaignActivityEntity extends BaseJpaEntity {
 
   @JdbcTypeCode(SqlTypes.JSON)
   @Column(name = "dependencies", columnDefinition = "jsonb")
-  private Map<String, Object> dependencies;
+  private Object dependencies;
 }

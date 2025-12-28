@@ -21,7 +21,7 @@ public record CampaignActivityReconstructParams(
     String deliveryChannel,
     String successCriteria,
     String targetAudience,
-    Map<String, Object> dependencies,
+    Object dependencies,
     LocalDateTime createdAt,
     LocalDateTime updatedAt,
     LocalDateTime deletedAt,
