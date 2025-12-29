@@ -28,9 +28,7 @@ public class CampaignRepositoryAdapter implements CampaignRepositoryPort {
 	@Transactional
 	public MarketingCampaign save(MarketingCampaign campaign) {
 		MarketingCampaignEntity entity = mapper.toEntity(campaign);
-		if (entity.getId() == 0L) {
-			entity.setId(null); // Ensure new entity creation
-		}
+		entity.processNewEntityIfNeeded();
 
 		MarketingCampaignEntity savedEntity = jpaRepository.saveAndFlush(entity);
 		return mapper.toDomain(savedEntity);
