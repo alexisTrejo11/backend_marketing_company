@@ -14,8 +14,6 @@ import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.*;
 import at.backend.MarketingCompany.marketing.channel.core.domain.valueobject.MarketingChannelId;
 import at.backend.MarketingCompany.marketing.interaction.adapter.input.graphql.dto.CampaignInteractionOutput;
 import at.backend.MarketingCompany.marketing.interaction.core.domain.entity.CampaignInteraction;
-import at.backend.MarketingCompany.marketing.metric.adapter.input.graphql.dto.CampaignMetricResponse;
-import at.backend.MarketingCompany.marketing.metric.core.domain.entity.CampaignMetric;
 import at.backend.MarketingCompany.shared.PageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,9 +26,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MarketingOutputMapper {
 	private final AbTestOutputMapper abTestOutputMapper;
-
-
-
 
 	public CampaignOutput toOutput(MarketingCampaign domain) {
 		if (domain == null) {
@@ -143,41 +138,6 @@ public class MarketingOutputMapper {
 				.collect(Collectors.toList());
 	}
 
-	// ========== METRIC MAPPING ==========
-
-	public CampaignMetricResponse toMetricResponse(CampaignMetric domain) {
-		if (domain == null) {
-			return null;
-		}
-
-		return new CampaignMetricResponse(
-				domain.getId() != null ? domain.getId().getValue() : null,
-				domain.getCampaignId() != null ? domain.getCampaignId().getValue() : null,
-				domain.getName(),
-				domain.getMetricType() != null ? domain.getMetricType().name() : null,
-				domain.getDescription(),
-				domain.getCurrentValue(),
-				domain.getTargetValue(),
-				domain.getMeasurementUnit(),
-				domain.getCalculationFormula(),
-				domain.getDataSource(),
-				domain.getLastCalculatedDate(),
-				domain.isAutomated(),
-				domain.isTargetAchieved(),
-				domain.achievementPercentage(),
-				domain.getCreatedAt(),
-				domain.getUpdatedAt()
-		);
-	}
-
-	public List<CampaignMetricResponse> toMetricResponseList(List<CampaignMetric> domains) {
-		if (domains == null) {
-			return List.of();
-		}
-		return domains.stream()
-				.map(this::toMetricResponse)
-				.collect(Collectors.toList());
-	}
 
 	// ========== ATTRIBUTION MAPPING ==========
 
@@ -211,7 +171,6 @@ public class MarketingOutputMapper {
 				.map(this::toAttributionResponse)
 				.collect(Collectors.toList());
 	}
-
 
 
 	public List<AbTestOutput> toAbTestResponseList(List<AbTest> domains) {
