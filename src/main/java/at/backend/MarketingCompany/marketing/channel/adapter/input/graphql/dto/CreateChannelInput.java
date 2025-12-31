@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 public record CreateChannelInput(
     @NotBlank(message = "Channel name is required")
-    @Size(min = 3, max = 100, message = "Channel name cannot exceed 100 characters")
+    @Size(min = 3, max = 100, message = "Channel name length must be between 3 and 100 characters")
     String name,
 
     @NotNull(message = "Channel type is required")

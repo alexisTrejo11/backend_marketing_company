@@ -9,6 +9,7 @@ import at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.TestType;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class AbTestRepositoryAdapter implements AbTestRepositoryPort {
 	private final AbTestJpaRepository jpaRepository;
 	private final AbTestEntityMapper mapper;
@@ -31,6 +33,8 @@ public class AbTestRepositoryAdapter implements AbTestRepositoryPort {
 	public AbTest save(AbTest abTest) {
 		AbTestEntity entity = mapper.toEntity(abTest);
 		entity.processNewEntityIfNeeded();
+
+		log.info("Saving A/B Test Entity: {}", entity.getTestName());
 
 		AbTestEntity savedEntity = jpaRepository.saveAndFlush(entity);
 		return mapper.toDomain(savedEntity);

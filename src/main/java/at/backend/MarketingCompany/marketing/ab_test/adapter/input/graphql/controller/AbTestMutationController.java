@@ -42,6 +42,7 @@ public class AbTestMutationController {
 		CreateAbTestCommand command = input.toCommand();
 		AbTest abTest = abTestQueryServicePort.createAbTest(command);
 
+		log.debug("GraphQL Mutation: createAbTest created with id: {}", abTest.getId().getValue());
 		return abTestMapper.toOutput(abTest);
 	}
 
@@ -53,6 +54,7 @@ public class AbTestMutationController {
 		UpdateAbTestCommand command = input.toCommand();
 		AbTest abTest = abTestQueryServicePort.updateAbTest(command);
 
+		log.debug("GraphQL Mutation: updateAbTest updated with id: {}", abTest.getId().getValue());
 		return abTestMapper.toOutput(abTest);
 	}
 
@@ -64,6 +66,7 @@ public class AbTestMutationController {
 		CompleteAbTestCommand command = input.toCommand();
 		AbTest abTest = abTestQueryServicePort.completeAbTest(command);
 
+		log.debug("GraphQL Mutation: completeAbTest completed with id: {}", abTest.getId().getValue());
 		return abTestMapper.toOutput(abTest);
 	}
 
@@ -75,6 +78,7 @@ public class AbTestMutationController {
 		var testId = new AbTestId(id);
 		abTestQueryServicePort.deleteAbTest(testId);
 
+		log.debug("GraphQL Mutation: deleteAbTest deleted with id: {}", id);
 		return true;
 	}
 }

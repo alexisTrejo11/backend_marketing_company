@@ -1,6 +1,7 @@
 package at.backend.MarketingCompany.marketing.ab_test.adapter.input.graphql.dto;
 
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.TestType;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Builder;
 
 import java.math.BigDecimal;
@@ -19,7 +20,7 @@ public record AbTestOutput(
     BigDecimal confidenceLevel,
     Integer requiredSampleSize,
     String controlVariant,
-    String treatmentVariants, // Serialized as JSON string
+    JsonNode treatmentVariants,
     String winningVariant,
     BigDecimal statisticalSignificance,
     Boolean isCompleted,

@@ -84,8 +84,8 @@ type AbTestOutput {
     """Control variant"""
     controlVariant: String
 
-    """Treatment variants (JSON string)"""
-    treatmentVariants: String
+    """Treatment variants (JSON)"""
+    treatmentVariants: JSON
 
     """Winning variant"""
     winningVariant: String

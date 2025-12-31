@@ -3,11 +3,11 @@ package at.backend.MarketingCompany.marketing.ab_test.core.domain;
 import at.backend.MarketingCompany.marketing.ab_test.core.domain.valueobject.AbTestId;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.TestType;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Builder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Map;
 
 @Builder
 public record AbTestReconstructParams(
@@ -20,7 +20,7 @@ public record AbTestReconstructParams(
     BigDecimal confidenceLevel,
     Integer requiredSampleSize,
     String controlVariant,
-    Object treatmentVariantsJson,
+    JsonNode treatmentVariantsJson,
     String winningVariant,
     BigDecimal statisticalSignificance,
     Boolean isCompleted,

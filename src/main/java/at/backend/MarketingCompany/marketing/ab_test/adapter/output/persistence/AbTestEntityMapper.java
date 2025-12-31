@@ -6,12 +6,24 @@ import at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence
 import at.backend.MarketingCompany.marketing.ab_test.core.domain.AbTest;
 import at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.entity.MarketingCampaignEntity;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
+@Slf4j
 public class AbTestEntityMapper {
+	private final ObjectMapper objectMapper;
+
+	@Autowired
+	public AbTestEntityMapper(ObjectMapper objectMapper) {
+		this.objectMapper = objectMapper;
+	}
+
 
 	public AbTestEntity toEntity(AbTest domain) {
 		if (domain == null) {
@@ -31,7 +43,6 @@ public class AbTestEntityMapper {
 		entity.setConfidenceLevel(domain.getConfidenceLevel());
 		entity.setRequiredSampleSize(domain.getRequiredSampleSize());
 		entity.setControlVariant(domain.getControlVariant());
-		entity.setTreatmentVariants(domain.getTreatmentVariantsJson());
 		entity.setWinningVariant(domain.getWinningVariant());
 		entity.setStatisticalSignificance(domain.getStatisticalSignificance());
 		entity.setIsCompleted(domain.isCompleted());
@@ -39,7 +50,18 @@ public class AbTestEntityMapper {
 		entity.setEndDate(domain.getEndDate());
 		entity.setCreatedAt(domain.getCreatedAt());
 		entity.setUpdatedAt(domain.getUpdatedAt());
+		entity.setDeletedAt(domain.getDeletedAt());
 		entity.setVersion(domain.getVersion());
+
+		try {
+			String jsonString = domain.getTreatmentVariantsJson();
+			entity.setTreatmentVariants(jsonString);
+			log.debug("Setting treatment variants JSON: {}", jsonString);
+		} catch (Exception e) {
+			log.error("Error serializing treatment variants", e);
+			entity.setTreatmentVariants("{}");
+		}
+
 
 		return entity;
 	}
@@ -47,6 +69,18 @@ public class AbTestEntityMapper {
 	public AbTest toDomain(AbTestEntity entity) {
 		if (entity == null) {
 			return null;
+		}
+
+		JsonNode treatmentVariantsNode;
+		try {
+			if (entity.getTreatmentVariants() == null) {
+				treatmentVariantsNode = objectMapper.createObjectNode();
+			} else {
+				treatmentVariantsNode = objectMapper.readTree(entity.getTreatmentVariants().toString());
+			}
+		} catch (Exception e) {
+			log.error("Error parsing treatment variants JSON: {}", entity.getTreatmentVariants(), e);
+			treatmentVariantsNode = objectMapper.createObjectNode();
 		}
 
 		AbTestReconstructParams params = AbTestReconstructParams.builder()
@@ -59,7 +93,7 @@ public class AbTestEntityMapper {
 				.confidenceLevel(entity.getConfidenceLevel())
 				.requiredSampleSize(entity.getRequiredSampleSize())
 				.controlVariant(entity.getControlVariant())
-				.treatmentVariantsJson(entity.getTreatmentVariants())
+				.treatmentVariantsJson(treatmentVariantsNode)
 				.winningVariant(entity.getWinningVariant())
 				.statisticalSignificance(entity.getStatisticalSignificance())
 				.isCompleted(entity.getIsCompleted())

@@ -8,6 +8,7 @@ import at.backend.MarketingCompany.marketing.ab_test.core.application.statistics
 import at.backend.MarketingCompany.marketing.ab_test.core.domain.AbTest;
 import at.backend.MarketingCompany.marketing.ab_test.core.domain.AbTestCreateParams;
 import at.backend.MarketingCompany.marketing.ab_test.core.domain.AbTestValidator;
+import at.backend.MarketingCompany.marketing.ab_test.core.domain.exception.AbTestNotFoundException;
 import at.backend.MarketingCompany.marketing.ab_test.core.domain.valueobject.AbTestId;
 import at.backend.MarketingCompany.marketing.ab_test.core.port.input.AbTestCommandServicePort;
 
@@ -32,7 +33,7 @@ public class AbTestCommandService implements AbTestCommandServicePort {
 	@Override
 	@Transactional
 	public AbTest createAbTest(CreateAbTestCommand command) {
-		log.debug("Creating AB test for campaign: {}, name: {}", command.campaignId().getValue(), command.testName());
+		log.info("Creating AB test for campaign: {}, name: {}", command.campaignId().getValue(), command.testName());
 
 		if (!campaignRepository.existsById(command.campaignId())) {
 			throw new MarketingCampaignNotFoundException(command.campaignId());
@@ -43,16 +44,12 @@ public class AbTestCommandService implements AbTestCommandServicePort {
 			);
 		}
 
+		log.info("AB test creation parameters validated successfully for test name: {}", command.testName());
+
 		AbTestCreateParams createParams = command.toAbTestCreateParams();
 		AbTest test = AbTest.create(createParams);
 
-		if (command.hypothesis() != null) {
-			test.setHypothesis(command.hypothesis());
-		}
-
-		if (command.requiredSampleSize() != null) {
-			test.setRequiredSampleSize(command.requiredSampleSize());
-		}
+		log.info("AB test instance created successfully for test name: {}", command.testName());
 
 		AbTest savedTest = abTestRepository.save(test);
 		log.info("AB test created successfully with ID: {}", savedTest.getId().getValue());
@@ -66,13 +63,8 @@ public class AbTestCommandService implements AbTestCommandServicePort {
 
 		AbTest test = findAbTestByIdOrThrow(command.testId());
 
-		test.update(
-				command.hypothesis(),
-				command.confidenceLevel(),
-				command.requiredSampleSize(),
-				command.endDate(),
-				command.testType()
-		);
+		var params = command.toUpdateParams(test.getStartDate());
+		test.update(params);
 
 		AbTest updatedTest = abTestRepository.save(test);
 		log.info("AB test updated successfully: {}", command.testId().getValue());
@@ -86,13 +78,6 @@ public class AbTestCommandService implements AbTestCommandServicePort {
 		log.debug("Completing AB test: {}", command.testId().getValue());
 
 		AbTest test = findAbTestByIdOrThrow(command.testId());
-
-		AbTestValidator.validateCompletion(
-				test,
-				command.winningVariant(),
-				command.statisticalSignificance()
-		);
-
 		test.complete(command.winningVariant(), command.statisticalSignificance());
 
 		AbTest completedTest = abTestRepository.save(test);
@@ -107,18 +92,13 @@ public class AbTestCommandService implements AbTestCommandServicePort {
 		log.debug("Deleting AB test: {}", testId.getValue());
 
 		AbTest test = findAbTestByIdOrThrow(testId);
-
 		test.softDelete();
-		abTestRepository.save(test);
 
+		abTestRepository.save(test);
 		log.info("AB test soft-deleted successfully: {}", testId.getValue());
 	}
 
 	private AbTest findAbTestByIdOrThrow(AbTestId testId) {
-		return abTestRepository.findById(testId)
-				.orElseThrow(() -> new MarketingDomainException(
-						"AB Test not found with id: " + testId.getValue()
-				));
+		return abTestRepository.findById(testId).orElseThrow(() -> new AbTestNotFoundException(testId));
 	}
-
 }

@@ -26,7 +26,7 @@ public class AbTestOutputMapper {
 				.confidenceLevel(abTest.getConfidenceLevel())
 				.requiredSampleSize(abTest.getRequiredSampleSize())
 				.controlVariant(abTest.getControlVariant())
-				.treatmentVariants(abTest.getTreatmentVariantsJson().toString())
+				.treatmentVariants(abTest.getTreatmentVariants())
 				.winningVariant(abTest.getWinningVariant())
 				.statisticalSignificance(abTest.getStatisticalSignificance())
 				.isCompleted(abTest.isCompleted())

@@ -1,5 +1,6 @@
 package at.backend.MarketingCompany.shared.dto.GraphQL;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import graphql.GraphQLContext;
 import graphql.execution.CoercedVariables;
 import graphql.language.StringValue;
@@ -23,41 +24,65 @@ public class GraphQLScalars {
     public static final GraphQLScalarType Date = ExtendedScalars.Date;
     public static final GraphQLScalarType BigDecimal = ExtendedScalars.GraphQLBigDecimal;
 
-    public static final GraphQLScalarType JSON = GraphQLScalarType.newScalar()
-            .name("JSON")
-            .description("Custom scalar type for JSON objects")
-            .coercing(new Coercing<Object, Object>() {
-                private final ObjectMapper objectMapper = new ObjectMapper();
+  public static final GraphQLScalarType JSON = GraphQLScalarType.newScalar()
+      .name("JSON")
+      .description("Custom scalar type for JSON objects or arrays")
+      .coercing(new Coercing<JsonNode, String>() {
+        private final ObjectMapper objectMapper = new ObjectMapper();
 
-                @Override
-                public Object serialize(@NotNull Object dataFetcherResult, @NotNull GraphQLContext graphQLContext, @NotNull Locale locale) throws CoercingSerializeException {
-                    try {
-                        return objectMapper.convertValue(dataFetcherResult, Map.class);
-                    } catch (Exception e) {
-                        throw new CoercingSerializeException("Error serializing JSON: " + e.getMessage());
-                    }
-                }
+        @Override
+        public String serialize(@NotNull Object dataFetcherResult,
+                                @NotNull GraphQLContext graphQLContext,
+                                @NotNull Locale locale) throws CoercingSerializeException {
+          try {
+            if (dataFetcherResult instanceof JsonNode) {
+              return dataFetcherResult.toString();
+            }
+            if (dataFetcherResult instanceof String) {
+              objectMapper.readTree((String) dataFetcherResult);
+              return (String) dataFetcherResult;
+            }
+            return objectMapper.writeValueAsString(dataFetcherResult);
+          } catch (Exception e) {
+            throw new CoercingSerializeException("Error serializing JSON: " + e.getMessage());
+          }
+        }
 
-                @Override
-                public Object parseValue(@NotNull Object input, @NotNull GraphQLContext graphQLContext, @NotNull Locale locale) throws CoercingParseValueException {
-                    try {
-                        return objectMapper.convertValue(input, Map.class);
-                    } catch (Exception e) {
-                        throw new CoercingParseValueException("Error parsing JSON value: " + e.getMessage());
-                    }
-                }
+        @Override
+        public JsonNode parseValue(@NotNull Object input,
+                                   @NotNull GraphQLContext graphQLContext,
+                                   @NotNull Locale locale) throws CoercingParseValueException {
+          try {
+	          if (input instanceof String) {
+              return objectMapper.readTree((String) input);
+            }
 
-                @Override
-                public Object parseLiteral(@NotNull Value<?> input, @NotNull CoercedVariables variables, @NotNull GraphQLContext graphQLContext, @NotNull Locale locale) throws CoercingParseLiteralException {
-                    if (input instanceof StringValue) {
-                        try {
-                            return objectMapper.readValue(((StringValue) input).getValue(), Map.class);
-                        } catch (Exception e) {
-                            throw new CoercingParseLiteralException("Error parsing JSON literal: " + e.getMessage());
-                        }
-                    }
-                    throw new CoercingParseLiteralException("Expected a JSON string but got: " + input.getClass().getSimpleName());
-                }
-            })
-            .build();
+            if (input instanceof JsonNode) {
+              return (JsonNode) input;
+            }
+
+            return objectMapper.valueToTree(input);
+          } catch (Exception e) {
+            throw new CoercingParseValueException("Error parsing JSON value: " + e.getMessage());
+          }
+        }
+
+        @Override
+        public JsonNode parseLiteral(@NotNull Value<?> input,
+                                     @NotNull CoercedVariables variables,
+                                     @NotNull GraphQLContext graphQLContext,
+                                     @NotNull Locale locale) throws CoercingParseLiteralException {
+          try {
+            if (input instanceof StringValue) {
+              String stringValue = ((StringValue) input).getValue();
+              return objectMapper.readTree(stringValue);
+            }
+
+            return objectMapper.valueToTree(input);
+          } catch (Exception e) {
+            throw new CoercingParseLiteralException("Error parsing JSON literal: " + e.getMessage());
+          }
+        }
+      })
+      .build();
 }
