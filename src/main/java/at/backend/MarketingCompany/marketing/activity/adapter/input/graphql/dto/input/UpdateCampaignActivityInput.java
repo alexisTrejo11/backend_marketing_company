@@ -3,6 +3,7 @@ package at.backend.MarketingCompany.marketing.activity.adapter.input.graphql.dto
 import at.backend.MarketingCompany.marketing.activity.core.application.command.UpdateActivityCommand;
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivityType;
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.CampaignActivityId;
+import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -23,14 +24,8 @@ public record UpdateCampaignActivityInput(
 		@Size(max = 1000, message = "Description cannot exceed 1000 characters")
 		String description,
 
-		LocalDateTime actualStartDate,
-
-		LocalDateTime actualEndDate,
-
 		@DecimalMin(value = "0.0", message = "Actual cost cannot be negative")
 		BigDecimal actualCost,
-
-		Long assignedToUserId,
 
 		@Size(max = 500, message = "Success criteria cannot exceed 500 characters")
 		String successCriteria,
@@ -38,9 +33,7 @@ public record UpdateCampaignActivityInput(
 		@Size(max = 500, message = "Target audience cannot exceed 500 characters")
 		String targetAudience,
 
-		ActivityType activityType,
-
-		Map<String, Object> dependencies
+		JsonNode dependencies
 
 ) {
 
@@ -49,13 +42,9 @@ public record UpdateCampaignActivityInput(
 				.activityId(new CampaignActivityId(id))
 				.name(name)
 				.description(description)
-				.plannedStartDate(null) // Not included in this DTO
-				.plannedEndDate(null)   // Not included in this DTO
-				.assignedToUserId(assignedToUserId)
 				.successCriteria(successCriteria)
 				.targetAudience(targetAudience)
 				.dependencies(dependencies)
-				.activityType(activityType)
 				.build();
 	}
 }

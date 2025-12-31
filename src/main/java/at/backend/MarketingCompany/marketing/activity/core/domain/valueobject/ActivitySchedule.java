@@ -57,7 +57,7 @@ public record ActivitySchedule(
     if (actualEndDate != null) {
       return actualEndDate.isAfter(plannedEndDate);
     }
-    return LocalDateTime.now().isAfter(plannedEndDate) && actualEndDate == null;
+    return LocalDateTime.now().isAfter(plannedEndDate);
   }
 
   public long plannedDurationHours() {

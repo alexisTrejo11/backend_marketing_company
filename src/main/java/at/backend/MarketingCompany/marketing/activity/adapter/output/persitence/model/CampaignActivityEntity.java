@@ -5,6 +5,7 @@ import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.Ac
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivityType;
 import at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.entity.MarketingCampaignEntity;
 import at.backend.MarketingCompany.shared.jpa.BaseJpaEntity;
+import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -79,5 +80,5 @@ public class CampaignActivityEntity extends BaseJpaEntity {
 
   @JdbcTypeCode(SqlTypes.JSON)
   @Column(name = "dependencies", columnDefinition = "jsonb")
-  private Object dependencies;
+  private JsonNode dependencies;
 }

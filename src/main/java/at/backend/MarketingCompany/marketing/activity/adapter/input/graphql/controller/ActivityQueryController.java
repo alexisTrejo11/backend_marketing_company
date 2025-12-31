@@ -6,7 +6,6 @@ import at.backend.MarketingCompany.marketing.activity.adapter.input.graphql.dto.
 import at.backend.MarketingCompany.marketing.activity.adapter.input.graphql.mapper.CampaignActivityOutputMapper;
 import at.backend.MarketingCompany.marketing.activity.core.application.dto.ActivityStatistics;
 import at.backend.MarketingCompany.marketing.activity.core.application.query.ActivityQuery;
-import at.backend.MarketingCompany.marketing.activity.core.application.service.CampaignActivityQueryService;
 import at.backend.MarketingCompany.marketing.activity.core.domain.entity.CampaignActivity;
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivityStatus;
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.CampaignActivityId;
@@ -31,7 +30,7 @@ import java.time.LocalDateTime;
 
 @Controller
 @RequiredArgsConstructor
-public class CampaignActivityQueryController {
+public class ActivityQueryController {
 	private final CampaignActivityQueryServicePort activityQueryService;
 	private final CampaignActivityStatisticsServicePort statisticsService;
 	private final CampaignActivityOutputMapper outputMapper;

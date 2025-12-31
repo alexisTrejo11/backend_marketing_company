@@ -197,6 +197,15 @@ input CreateAbTestInput {
 
     """Start date (ISO format)"""
     startDate: DateTime!
+
+    """End date (ISO format)"""
+    endDate: DateTime
+
+    """Statistical significance (0-1)"""
+    statisticalSignificance: BigDecimal
+
+    """Winning variant identifier"""
+    winningVariant: String
 }
 
 """

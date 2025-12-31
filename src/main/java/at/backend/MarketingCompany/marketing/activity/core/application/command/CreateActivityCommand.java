@@ -5,6 +5,7 @@ import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.Ac
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivitySchedule;
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivityType;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Builder;
 
 import java.math.BigDecimal;
@@ -24,7 +25,7 @@ public record CreateActivityCommand(
     String deliveryChannel,
     String successCriteria,
     String targetAudience,
-    Map<String, Object> dependencies
+    JsonNode dependencies
 ) {
 
 	public CreateActivityParams toCreateActivityParams() {

@@ -24,6 +24,7 @@ public record CampaignActivityOutput(
 		BigDecimal plannedCost,
 		BigDecimal actualCost,
 		String targetAudience,
+		Long assignedToUserId,
 		String dependenciesJson,
 		String createdAt,
 		String updatedAt

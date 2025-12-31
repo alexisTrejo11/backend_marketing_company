@@ -144,7 +144,10 @@ type CampaignActivity {
     targetAudience: String
 
     """Dependencies (JSON)"""
-    dependencies: String
+    dependencies: JSON
+
+    """User Assigned to the activity"""
+    assignedToUserId: ID
 
     """Creation date (ISO-8601)"""
     createdAt: String
@@ -227,7 +230,7 @@ input CreateCampaignActivityInput {
     deliveryChannel: String!
     successCriteria: String
     targetAudience: String
-    dependencies: String
+    dependencies: JSON
 }
 
 """
@@ -237,14 +240,10 @@ input UpdateCampaignActivityInput {
     id: ID!
     name: String
     description: String
-    actualStartDate: String
-    actualEndDate: String
     actualCost: Float
-    assignedToUserId: ID
     successCriteria: String
     targetAudience: String
-    activityType: ActivityType
-    dependencies: String
+    dependencies: JSON
 }
 
 """

@@ -4,6 +4,7 @@ import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.Ac
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivitySchedule;
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivityType;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Builder;
 
 import java.util.Map;
@@ -16,7 +17,7 @@ public record CreateActivityParams(
 		ActivitySchedule schedule,
 		ActivityCost cost,
 		String deliveryChannel,
-		Map<String, Object> dependencies,
+		JsonNode dependencies,
 		String description,
 		String successCriteria,
 		String targetAudience

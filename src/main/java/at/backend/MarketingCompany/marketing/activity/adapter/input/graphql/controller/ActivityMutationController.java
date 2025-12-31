@@ -22,7 +22,7 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 @RequiredArgsConstructor
-public class CampaignActivityMutationController {
+public class ActivityMutationController {
 	private final CampaignActivityCommandServicePort commandServicePort;
 	private final CampaignActivityOutputMapper outputMapper;
 

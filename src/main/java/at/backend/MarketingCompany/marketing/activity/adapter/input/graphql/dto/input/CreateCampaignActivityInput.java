@@ -3,6 +3,7 @@ package at.backend.MarketingCompany.marketing.activity.adapter.input.graphql.dto
 import at.backend.MarketingCompany.marketing.activity.core.application.command.CreateActivityCommand;
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivityType;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
+import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
@@ -48,7 +49,7 @@ public record CreateCampaignActivityInput(
 		@Size(max = 500, message = "Target audience cannot exceed 500 characters")
 		String targetAudience,
 
-		Map<String, Object> dependencies
+		JsonNode dependencies
 ) {
 
 	public CreateActivityCommand toCommand() {

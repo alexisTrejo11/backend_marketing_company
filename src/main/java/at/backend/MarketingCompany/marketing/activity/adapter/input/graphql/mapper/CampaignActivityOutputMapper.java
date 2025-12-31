@@ -22,6 +22,7 @@ public class CampaignActivityOutputMapper {
 				.activityType(activity.getActivityType())
 				.status(activity.getStatus())
 				.targetAudience(activity.getTargetAudience())
+				.assignedToUserId(activity.getAssignedToUserId())
 				.dependenciesJson(activity.getDependencies() != null ? activity.getDependencies().toString() : null)
 				.createdAt(activity.getCreatedAt() != null ? activity.getCreatedAt().toString() : null)
 				.updatedAt(activity.getUpdatedAt() != null ? activity.getUpdatedAt().toString() : null);

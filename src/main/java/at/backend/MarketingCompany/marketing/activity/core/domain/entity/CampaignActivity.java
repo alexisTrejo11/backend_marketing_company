@@ -6,6 +6,7 @@ import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.*;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
 import at.backend.MarketingCompany.shared.domain.BaseDomainEntity;
 import at.backend.MarketingCompany.shared.domain.ValidationResult;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,7 +31,7 @@ public class CampaignActivity extends BaseDomainEntity<CampaignActivityId> {
 	private String description;
 	private String successCriteria;
 	private String targetAudience;
-	private Object dependencies;
+	private JsonNode dependencies;
 
 	private LocalDateTime statusChangedAt;
 	private String lastStatusChangeReason;
@@ -341,7 +342,7 @@ public class CampaignActivity extends BaseDomainEntity<CampaignActivityId> {
 
 			BigDecimal variance = calculateCostVariance(cost.plannedCost(), actualCost);
 			if (variance.abs().compareTo(new BigDecimal("0.10")) > 0) {
-				log.warn(String.format("Warning: Significant cost variance detected: %s%%", variance.multiply(new BigDecimal("100")).setScale(2, RoundingMode.HALF_UP)));
+				log.warn("Warning: Significant cost variance detected: {}%", variance.multiply(new BigDecimal("100")).setScale(2, RoundingMode.HALF_UP));
 			}
 		}
 	}
@@ -388,11 +389,11 @@ public class CampaignActivity extends BaseDomainEntity<CampaignActivityId> {
 		long variance = actualDuration - plannedDuration;
 
 		if (Math.abs(variance) > 7) {
-			System.out.println(String.format("Warning: Significant duration variance: %d days (Planned: %d, Actual: %d)", variance, plannedDuration, actualDuration));
+			log.warn("Warning: Significant duration variance: {} days (Planned: {}, Actual: {})", variance, plannedDuration, actualDuration);
 		}
 	}
 
-	public void updateGeneralInfo(String name, String description, String successCriteria, String targetAudience, Map<String, Object> dependencies) {
+	public void updateGeneralInfo(String name, String description, String successCriteria, String targetAudience, JsonNode dependencies) {
 
 		ValidationResult result = ActivityValidator.validateForUpdate(this, null);
 		if (!result.isValid()) {
@@ -406,7 +407,7 @@ public class CampaignActivity extends BaseDomainEntity<CampaignActivityId> {
 		}
 	}
 
-	private boolean applyGeneralInfoUpdates(String name, String description, String successCriteria, String targetAudience, Map<String, Object> dependencies) {
+	private boolean applyGeneralInfoUpdates(String name, String description, String successCriteria, String targetAudience, JsonNode dependencies) {
 
 		boolean hasChanges = false;
 		hasChanges |= updateName(name);
@@ -486,7 +487,7 @@ public class CampaignActivity extends BaseDomainEntity<CampaignActivityId> {
 		}
 	}
 
-	private boolean updateDependencies(Map<String, Object> dependencies) {
+	private boolean updateDependencies(JsonNode dependencies) {
 		if (dependencies == null || Objects.equals(dependencies, this.dependencies)) {
 			return false;
 		}
@@ -496,7 +497,7 @@ public class CampaignActivity extends BaseDomainEntity<CampaignActivityId> {
 		return true;
 	}
 
-	private void validateDependencies(Map<String, Object> dependencies) {
+	private void validateDependencies(JsonNode dependencies) {
 		if (dependencies.size() > 50) {
 			throw new ActivityValidationException("Too many dependencies (max 50)");
 		}
@@ -504,6 +505,10 @@ public class CampaignActivity extends BaseDomainEntity<CampaignActivityId> {
 
 	public void assign(Long userId, String reason) {
 		validateUserId(userId);
+
+		if (this.status == ActivityStatus.CANCELLED || this.status == ActivityStatus.COMPLETED) {
+			throw new ActivityStatusException("Cannot assign user to a cancelled or completed activity");
+		}
 
 		if (!Objects.equals(this.assignedToUserId, userId)) {
 			this.assignedToUserId = userId;
@@ -525,13 +530,13 @@ public class CampaignActivity extends BaseDomainEntity<CampaignActivityId> {
 
 	private void logAssignment(String reason) {
 		if (reason != null) {
-			System.out.println(String.format("Activity assigned to user %d. Reason: %s", assignedToUserId, reason));
+			log.info("Activity assigned to user {}. Reason: {}", assignedToUserId, reason);
 		}
 	}
 
 	private void notifyUserIfInProgress() {
 		if (status == ActivityStatus.IN_PROGRESS) {
-			System.out.println(String.format("Notification: You have been assigned to activity '%s' which is currently in progress", name));
+			log.info("Notification: You have been assigned to activity '{}' which is currently in progress", name);
 		}
 	}
 
@@ -549,13 +554,13 @@ public class CampaignActivity extends BaseDomainEntity<CampaignActivityId> {
 
 	private void logUnassignment(Long previousUser, String reason) {
 		if (reason != null) {
-			System.out.println(String.format("Activity unassigned from user %d. Reason: %s", previousUser, reason));
+			log.info("Activity unassigned from user {}. Reason: {}", previousUser, reason);
 		}
 	}
 
 	private void checkForBlocking() {
 		if (status == ActivityStatus.IN_PROGRESS) {
-			System.out.println("Warning: In-progress activity has been unassigned. Consider blocking it.");
+			log.warn("Warning: In-progress activity has been unassigned. Consider blocking it.");
 		}
 	}
 
@@ -630,5 +635,13 @@ public class CampaignActivity extends BaseDomainEntity<CampaignActivityId> {
 
 	public boolean requiresAttention() {
 		return isOverdue() || status == ActivityStatus.BLOCKED || (getCostVariancePercentage() != null && getCostVariancePercentage().abs().compareTo(new BigDecimal("20")) > 0);
+	}
+
+	@Override
+	public void softDelete() {
+		if (!canBeDeleted()) {
+			throw new ActivityBusinessRuleException("Only planned or cancelled activities can be deleted");
+		}
+		super.softDelete();
 	}
 }

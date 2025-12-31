@@ -2,6 +2,7 @@ package at.backend.MarketingCompany.marketing.activity.core.domain.entity;
 
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.*;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -21,7 +22,7 @@ public record CampaignActivityReconstructParams(
     String deliveryChannel,
     String successCriteria,
     String targetAudience,
-    Object dependencies,
+    JsonNode dependencies,
     LocalDateTime createdAt,
     LocalDateTime updatedAt,
     LocalDateTime deletedAt,

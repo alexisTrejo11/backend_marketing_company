@@ -14,39 +14,39 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public abstract class BaseJpaEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false, nullable = false)
-    protected Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", updatable = false, nullable = false)
+	protected Long id;
 
-    @Column(name = "created_at", nullable = false)
-    protected LocalDateTime createdAt;
+	@Column(name = "created_at", nullable = false)
+	protected LocalDateTime createdAt;
 
-    @Column(name = "updated_at", nullable = false)
-    protected LocalDateTime updatedAt;
+	@Column(name = "updated_at", nullable = false)
+	protected LocalDateTime updatedAt;
 
-    @Column(name = "deleted_at")
-    protected LocalDateTime deletedAt;
+	@Column(name = "deleted_at")
+	protected LocalDateTime deletedAt;
 
-    @Version
-    @Column(name = "version", nullable = false)
-    protected Integer version = 1;
+	@Version
+	@Column(name = "version", nullable = false)
+	protected Integer version = 1;
 
-    @PrePersist
-    public void prePersist() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-    }
+	@PrePersist
+	public void prePersist() {
+		createdAt = LocalDateTime.now();
+		updatedAt = LocalDateTime.now();
+	}
 
-    @PreUpdate
-    public void preUpdate() {
-        updatedAt = LocalDateTime.now();
-        version += 1;
-    }
+	@PreUpdate
+	public void preUpdate() {
+		updatedAt = LocalDateTime.now();
+		version += 1;
+	}
 
-		public void processNewEntityIfNeeded() {
-				if (this.id <= 0) {
-						this.id = null;
-				}
+	public void processNewEntityIfNeeded() {
+		if (this.id != null && this.id <= 0) {
+			this.id = null;
 		}
+	}
 }

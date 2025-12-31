@@ -8,11 +8,19 @@ import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.Ac
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.CampaignActivityId;
 import at.backend.MarketingCompany.marketing.campaign.adapter.output.persistence.entity.MarketingCampaignEntity;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ActivityEntityMapper {
+	private final ObjectMapper objectMapper;
 
+	@Autowired
+	public ActivityEntityMapper(ObjectMapper objectMapper) {
+		this.objectMapper = objectMapper;
+	}
 
 	public CampaignActivityEntity toEntity(CampaignActivity domain) {
 		if (domain == null) {
@@ -62,6 +70,7 @@ public class ActivityEntityMapper {
 				entity.getActualStartDate(),
 				entity.getActualEndDate()
 		);
+
 
 		var params = CampaignActivityReconstructParams.builder()
 				.id(entity.getId() != null ? new CampaignActivityId(entity.getId()) : null)

@@ -179,11 +179,6 @@ public class CampaignActivityCommandService implements CampaignActivityCommandSe
 		log.debug("Deleting activity: {}", activityId.getValue());
 
 		CampaignActivity activity = findActivityByIdOrThrow(activityId);
-
-		if (activity.getStatus() == ActivityStatus.IN_PROGRESS) {
-			throw new ActivityValidationException("Cannot delete an activity that is in progress. Please cancel or complete it first.");
-		}
-
 		activity.softDelete();
 		activityRepository.save(activity);
 

@@ -128,7 +128,9 @@ public class ActivityRepositoryAdapter implements ActivityRepositoryPort {
 	@Transactional
 	public CampaignActivity save(CampaignActivity activity) {
 		CampaignActivityEntity entity = mapper.toEntity(activity);
-		CampaignActivityEntity savedEntity = jpaRepository.save(entity);
+		entity.processNewEntityIfNeeded();
+
+		CampaignActivityEntity savedEntity = jpaRepository.saveAndFlush(entity);
 		return mapper.toDomain(savedEntity);
 	}
 

@@ -2,6 +2,7 @@ package at.backend.MarketingCompany.marketing.activity.core.application.command;
 
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivityType;
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.CampaignActivityId;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -12,11 +13,7 @@ public record UpdateActivityCommand(
 		CampaignActivityId activityId,
 		String name,
 		String description,
-		ActivityType activityType,
-		LocalDateTime plannedStartDate,
-		LocalDateTime plannedEndDate,
-		Long assignedToUserId,
 		String successCriteria,
 		String targetAudience,
-		Map<String, Object> dependencies
+		JsonNode dependencies
 ) {}

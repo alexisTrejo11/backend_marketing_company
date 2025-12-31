@@ -57,8 +57,6 @@ public record CreateAbTestInput(
 ) {
 
 	public CreateAbTestCommand toCommand() {
-		validateBusinessRules();
-
 		return CreateAbTestCommand.builder()
 				.campaignId(new MarketingCampaignId(campaignId))
 				.testName(testName.trim())
@@ -74,20 +72,5 @@ public record CreateAbTestInput(
 				.startDate(startDate)
 				.endDate(endDate)
 				.build();
-	}
-
-	private void validateBusinessRules() {
-		if (endDate != null && startDate != null && endDate.isBefore(startDate)) {
-			throw new IllegalArgumentException("End date cannot be before start date");
-		}
-
-		if (confidenceLevel != null && requiredSampleSize != null) {
-			// Rule: For confidence levels ≥ 0.95, sample size must be at least 500
-			if (confidenceLevel.compareTo(new BigDecimal("0.95")) >= 0 && requiredSampleSize < 500) {
-				throw new IllegalArgumentException(
-						"For confidence levels ≥ 0.95, sample size must be at least 500"
-				);
-			}
-		}
 	}
 }
