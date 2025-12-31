@@ -25,5 +25,9 @@ public record CampaignActivityReconstructParams(
     LocalDateTime createdAt,
     LocalDateTime updatedAt,
     LocalDateTime deletedAt,
-    Integer version
+    Integer version,
+    // TODO: Add audit fields if necessary
+    LocalDateTime statusChangedAt,
+    String lastStatusChangeReason,
+    Long lastModifiedByUserId
 ) {}

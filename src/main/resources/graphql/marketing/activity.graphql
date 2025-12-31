@@ -337,8 +337,8 @@ extend type Mutation {
     updateCampaignActivityCost(input: UpdateActivityCostInput!): CampaignActivity!
     updateCampaignActivitySchedule(input: RecordActivityDatesInput!): CampaignActivity!
     startCampaignActivity(id: ID!): CampaignActivity!
-    cancelCampaignActivity(id: ID!): CampaignActivity!
-    completeCampaignActivity(id: ID!): CampaignActivity!
+    cancelCampaignActivity(id: ID!, cancelReason: String): CampaignActivity!
+    completeCampaignActivity(id: ID!, completionNotes: String): CampaignActivity!
     blockCampaignActivity(id: ID!, blockReason: String): CampaignActivity!
     assignCampaignActivityToUser(id: ID!, userId: ID!): CampaignActivity!
     unassignCampaignActivity(id: ID!): CampaignActivity!

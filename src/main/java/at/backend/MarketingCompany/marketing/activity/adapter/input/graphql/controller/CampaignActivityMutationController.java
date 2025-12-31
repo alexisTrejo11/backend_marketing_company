@@ -66,17 +66,17 @@ public class CampaignActivityMutationController {
 	}
 
 	@MutationMapping
-	public CampaignActivityOutput cancelCampaignActivity(@Argument @Valid @NotNull Long id) {
+	public CampaignActivityOutput cancelCampaignActivity(@Argument @Valid @NotNull Long id, @Argument String cancelReason) {
 		CampaignActivityId campaignActivityId = new CampaignActivityId(id);
-		CampaignActivity activity = commandServicePort.cancelActivity(campaignActivityId);
+		CampaignActivity activity = commandServicePort.cancelActivity(campaignActivityId, cancelReason);
 
 		return outputMapper.toOutput(activity);
 	}
 
 	@MutationMapping
-	public CampaignActivityOutput completeCampaignActivity(@Argument @Valid @NotNull Long id) {
+	public CampaignActivityOutput completeCampaignActivity(@Argument @Valid @NotNull Long id, @Argument String completionNotes) {
 		CampaignActivityId campaignActivityId = new CampaignActivityId(id);
-		CampaignActivity activity = commandServicePort.completeActivity(campaignActivityId);
+		CampaignActivity activity = commandServicePort.completeActivity(campaignActivityId, completionNotes);
 
 		return outputMapper.toOutput(activity);
 	}

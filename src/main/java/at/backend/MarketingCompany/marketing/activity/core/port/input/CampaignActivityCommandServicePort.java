@@ -27,12 +27,12 @@ public interface CampaignActivityCommandServicePort {
   /**
    * Completes an activity
    */
-  CampaignActivity completeActivity(CampaignActivityId activityId);
+  CampaignActivity completeActivity(CampaignActivityId activityId, String completionNotes);
   
   /**
    * Cancels an activity
    */
-  CampaignActivity cancelActivity(CampaignActivityId activityId);
+  CampaignActivity cancelActivity(CampaignActivityId activityId, String cancelReason);
   
   /**
    * Blocks an activity

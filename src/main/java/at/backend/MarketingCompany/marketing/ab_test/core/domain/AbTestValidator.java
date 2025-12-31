@@ -2,6 +2,7 @@ package at.backend.MarketingCompany.marketing.ab_test.core.domain;
 
 import at.backend.MarketingCompany.marketing.ab_test.core.domain.exception.AbTestValidationException;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
+import at.backend.MarketingCompany.shared.domain.ValidationResult;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -348,7 +349,9 @@ public class AbTestValidator {
 			validateEndDateForUpdate(existingTest, updateParams.endDate(), result);
 		}
 
-		result.throwIfInvalid();
+		if (!result.isValid()) {
+			throw new AbTestValidationException(result.getErrorsAsString());
+		}
 	}
 
 	private static void validateRunningTestUpdate(AbTest test, AbTestUpdateParams updateParams,
@@ -376,49 +379,6 @@ public class AbTestValidator {
 		long newDuration = ChronoUnit.DAYS.between(test.getStartDate(), newEndDate);
 		if (newDuration > MAX_TEST_DURATION_DAYS) {
 			result.addError(String.format("Total test duration cannot exceed %d days", MAX_TEST_DURATION_DAYS));
-		}
-	}
-
-	public static class ValidationResult {
-		private final List<String> errors = new ArrayList<>();
-		private final List<String> warnings = new ArrayList<>();
-
-		public void addError(String error) {
-			errors.add(error);
-		}
-
-		public void addWarning(String warning) {
-			warnings.add(warning);
-		}
-
-		public boolean isValid() {
-			return errors.isEmpty();
-		}
-
-		public boolean hasWarnings() {
-			return !warnings.isEmpty();
-		}
-
-		public List<String> getErrors() {
-			return Collections.unmodifiableList(errors);
-		}
-
-		public List<String> getWarnings() {
-			return Collections.unmodifiableList(warnings);
-		}
-
-		public String getErrorsAsString() {
-			return String.join("; ", errors);
-		}
-
-		public String getWarningsAsString() {
-			return String.join("; ", warnings);
-		}
-
-		public void throwIfInvalid() {
-			if (!isValid()) {
-				throw new AbTestValidationException(getErrorsAsString());
-			}
 		}
 	}
 }

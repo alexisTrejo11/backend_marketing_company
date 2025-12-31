@@ -59,7 +59,7 @@ public class AbTestCommandService implements AbTestCommandServicePort {
 	@Override
 	@Transactional
 	public AbTest updateAbTest(UpdateAbTestCommand command) {
-		log.debug("Updating AB test: {}", command.testId());
+		log.info("Updating AB test: {}", command.testId());
 
 		AbTest test = findAbTestByIdOrThrow(command.testId());
 
@@ -75,7 +75,7 @@ public class AbTestCommandService implements AbTestCommandServicePort {
 	@Override
 	@Transactional
 	public AbTest completeAbTest(CompleteAbTestCommand command) {
-		log.debug("Completing AB test: {}", command.testId().getValue());
+		log.info("Completing AB test: {}", command.testId().getValue());
 
 		AbTest test = findAbTestByIdOrThrow(command.testId());
 		test.complete(command.winningVariant(), command.statisticalSignificance());
@@ -89,7 +89,7 @@ public class AbTestCommandService implements AbTestCommandServicePort {
 	@Override
 	@Transactional
 	public void deleteAbTest(AbTestId testId) {
-		log.debug("Deleting AB test: {}", testId.getValue());
+		log.info("Deleting AB test: {}", testId.getValue());
 
 		AbTest test = findAbTestByIdOrThrow(testId);
 		test.softDelete();

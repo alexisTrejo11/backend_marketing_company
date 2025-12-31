@@ -6,6 +6,7 @@ import at.backend.MarketingCompany.marketing.ab_test.core.domain.valueobject.AbT
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.TestType;
 import at.backend.MarketingCompany.shared.domain.BaseDomainEntity;
+import at.backend.MarketingCompany.shared.domain.ValidationResult;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -59,8 +60,10 @@ public class AbTest extends BaseDomainEntity<AbTestId> {
 	}
 
 	public static AbTest create(AbTestCreateParams params) {
-		AbTestValidator.ValidationResult validationResult = AbTestValidator.validateForCreation(params);
-		validationResult.throwIfInvalid();
+		ValidationResult validationResult = AbTestValidator.validateForCreation(params);
+		if (!validationResult.isValid()) {
+			throw new AbTestValidationException("AB Test creation failed: " + validationResult.getErrorsAsString());
+		}
 
 		if (validationResult.hasWarnings()) {
 			log.warn("Warnings during AB Test creation: {}", validationResult.getWarningsAsString());

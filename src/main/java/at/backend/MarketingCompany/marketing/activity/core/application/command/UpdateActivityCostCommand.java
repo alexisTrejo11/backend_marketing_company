@@ -7,5 +7,5 @@ import java.math.BigDecimal;
 public record UpdateActivityCostCommand(
     CampaignActivityId activityId,
     BigDecimal actualCost,
-    String costNotes
+    String reason
 ) {}

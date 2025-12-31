@@ -1,28 +1,17 @@
 package at.backend.MarketingCompany.marketing.activity.core.application.service;
 
 import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.UserId;
-import at.backend.MarketingCompany.marketing.activity.core.application.command.CreateActivityCommand;
-import at.backend.MarketingCompany.marketing.activity.core.application.command.RecordActivityDatesCommand;
-import at.backend.MarketingCompany.marketing.activity.core.application.command.UpdateActivityCommand;
-import at.backend.MarketingCompany.marketing.activity.core.application.command.UpdateActivityCostCommand;
-import at.backend.MarketingCompany.marketing.activity.core.application.dto.ActivityStatistics;
 import at.backend.MarketingCompany.marketing.activity.core.application.query.ActivityQuery;
 import at.backend.MarketingCompany.marketing.activity.core.domain.entity.ActivityValidator;
 import at.backend.MarketingCompany.marketing.activity.core.domain.entity.CampaignActivity;
 import at.backend.MarketingCompany.marketing.activity.core.domain.exception.CampaignActivityNotFoundException;
-import at.backend.MarketingCompany.marketing.activity.core.domain.exception.CampaignActivityValidationException;
-import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivityCost;
-import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivitySchedule;
+import at.backend.MarketingCompany.marketing.activity.core.domain.exception.ActivityValidationException;
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.ActivityStatus;
 import at.backend.MarketingCompany.marketing.activity.core.domain.valueobject.CampaignActivityId;
-import at.backend.MarketingCompany.marketing.activity.core.port.input.CampaignActivityCommandServicePort;
 import at.backend.MarketingCompany.marketing.activity.core.port.input.CampaignActivityQueryServicePort;
 import at.backend.MarketingCompany.marketing.activity.core.port.output.ActivityRepositoryPort;
-import at.backend.MarketingCompany.marketing.campaign.core.domain.exception.MarketingCampaignNotFoundException;
-import at.backend.MarketingCompany.marketing.campaign.core.domain.models.MarketingCampaign;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
 import at.backend.MarketingCompany.marketing.campaign.core.ports.output.CampaignRepositoryPort;
-import at.backend.MarketingCompany.shared.exception.BusinessRuleException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -30,7 +19,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Slf4j
@@ -72,7 +60,7 @@ public class CampaignActivityQueryService implements CampaignActivityQueryServic
   @Transactional(readOnly = true)
   public Page<CampaignActivity> getActivitiesByCampaign(MarketingCampaignId campaignId, Pageable pageable) {
     if (!campaignRepository.existsById(campaignId)) {
-      throw new CampaignActivityValidationException(campaignId);
+      throw new ActivityValidationException(campaignId);
     }
 
     return activityRepository.findByCampaignId(campaignId, pageable);
@@ -84,7 +72,7 @@ public class CampaignActivityQueryService implements CampaignActivityQueryServic
   public Page<CampaignActivity> getActivitiesByStatus(
       MarketingCampaignId campaignId, ActivityStatus status, Pageable pageable) {
     if (!campaignRepository.existsById(campaignId)) {
-      throw new CampaignActivityValidationException(campaignId);
+      throw new ActivityValidationException(campaignId);
     }
 
     return activityRepository.findByCampaignIdAndStatus(campaignId, status, pageable);
