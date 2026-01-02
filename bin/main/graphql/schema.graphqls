@@ -66,6 +66,9 @@ type Subscription {
 #   ├── account/
 #   │   ├── auth.graphqls
 #   │   └── user.graphqls
+#   │
+#   ├── marketing/
+#   │
 #   ├── crm/
 #   │   ├── company.graphqls
 #   │   ├── opportunity.graphqls

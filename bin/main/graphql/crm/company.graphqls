@@ -547,7 +547,7 @@ extend type Query {
 
         """Pagination parameters"""
         pageInput: PageInput!
-    ): CompanyPage!
+    ): [Company!]!
 
     """
     Get companies by industry.
@@ -567,22 +567,13 @@ extend type Query {
     """
     Get startups founded since a specific year.
     """
-    startups(startYearSince: Int!): [Company!]!
-
-    """
-    Get companies with contracts expiring soon.
-    """
-    companiesWithExpiringContracts(daysThreshold: Int): [Company!]!
+    companyStartups(startYearSince: Int!): [Company!]!
 
     """
     Check if a company is active.
     """
     isCompanyActive(id: ID!): Boolean!
 
-    """
-    Check if a company has an active contract.
-    """
-    hasActiveContract(id: ID!): Boolean!
 
     """
     Get company metrics.
@@ -631,10 +622,6 @@ extend type Mutation {
     """
     upgradeToEnterprise(input: UpgradeToEnterpriseInput!): Company!
 
-    """
-    Sign a contract with a company.
-    """
-    signContract(input: SignContractInput!): Company!
 
     """
     Delete a company (soft delete).

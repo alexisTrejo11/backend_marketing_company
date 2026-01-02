@@ -14,22 +14,22 @@ type Deal {
     customerCompanyId: ID!
 
     """Basic customer company information"""
-    customerCompany: CompanyInfo!
+    customerCompany: CompanyInfo
 
     """ID of the opportunity that originated this deal"""
-    opportunityId: ID!
+    opportunityId: ID
 
     """Opportunity information"""
-    opportunity: OpportunityInfo!
+    opportunity: OpportunityInfo
 
     """Deal status (DRAFT, ACTIVE, COMPLETED, CANCELLED)"""
-    status: DealStatus!
+    status: DealStatus
 
     """Final agreed amount"""
     finalAmount: Float
 
     """Contract start date (ISO-8601 format)"""
-    startDate: String!
+    startDate: String
 
     """Contract end date (ISO-8601 format)"""
     endDate: String
@@ -41,7 +41,7 @@ type Deal {
     campaignManager: UserInfo
 
     """Service packages included in the deal"""
-    servicePackages: [ServicePackageInfo!]!
+    servicePackages: [ServicePackageInfo]
 
     """Agreed deliverables"""
     deliverables: String
@@ -53,10 +53,10 @@ type Deal {
     cancellationReason: String
 
     """Creation date (ISO-8601 format)"""
-    createdAt: String!
+    createdAt: String
 
     """Last update date (ISO-8601 format)"""
-    updatedAt: String!
+    updatedAt: String
 }
 
 """
@@ -159,6 +159,28 @@ input DealFilterInput {
 }
 
 """
+Input to get deals by customer.
+"""
+input GetDealsByCustomerInput {
+    """Customer company ID"""
+    customerId: String!
+
+    """Pagination parameters"""
+    pageInput: PageInput!
+}
+
+"""
+Input to get deals by status.
+"""
+input GetDealsByStatusInput {
+    """Deal statuses to filter"""
+    statuses: [DealStatus!]!
+
+    """Pagination parameters"""
+    pageInput: PageInput!
+}
+
+"""
 Paginated response for deals query.
 """
 type DealPage implements PageResponse {
@@ -180,35 +202,19 @@ extend type Query {
     deal(id: ID!): Deal
 
     """
-    Get all deals with pagination and optional filters.
+    Get all deals with pagination.
     """
-    deals(
-        """Pagination parameters"""
-        pageInput: PageInput
-
-        """Optional filter criteria"""
-        filter: DealFilterInput
-    ): DealPage!
+    getAllDeals(input: PageInput!): DealPage!
 
     """
     Get deals for a specific customer company.
     """
-    dealsByCustomer(customerCompanyId: ID!): [Deal!]!
+    getDealsByCustomer(input: GetDealsByCustomerInput!): DealPage!
 
     """
     Get deals filtered by status.
     """
-    dealsByStatus(statuses: [DealStatus!]!): [Deal!]!
-
-    """
-    Get active deals.
-    """
-    activeDeals(pageInput: PageInput): DealPage!
-
-    """
-    Get completed deals.
-    """
-    completedDeals(pageInput: PageInput): DealPage!
+    getDealsByStatus(input: GetDealsByStatusInput!): DealPage!
 }
 
 # ============================================================================
@@ -227,6 +233,16 @@ extend type Mutation {
     signDeal(input: SignDealInput!): Deal!
 
     """
+    Mark a deal as paid.
+    """
+    markDealAsPaid(id: String!): Deal!
+
+    """
+    Start deal execution phase.
+    """
+    startDealExecution(dealId: String!): Deal!
+
+    """
     Update services included in a deal.
     """
     updateDealServices(input: UpdateDealServicesInput!): Deal!
@@ -239,16 +255,5 @@ extend type Mutation {
     """
     Cancel a deal.
     """
-    cancelDeal(
-        """Deal ID to cancel"""
-        dealId: ID!
-
-        """Reason for cancellation"""
-        reason: String!
-    ): Deal!
-
-    """
-    Delete a deal.
-    """
-    deleteDeal(id: ID!): Boolean!
+    cancelDeal(id: String!): Deal!
 }

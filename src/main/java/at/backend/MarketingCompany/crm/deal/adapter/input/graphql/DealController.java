@@ -1,9 +1,28 @@
 package at.backend.MarketingCompany.crm.deal.adapter.input.graphql;
 
-import at.backend.MarketingCompany.crm.deal.adapter.input.graphql.dto.request.*;
+import org.springframework.data.domain.Page;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.stereotype.Controller;
+
+import at.backend.MarketingCompany.crm.deal.adapter.input.graphql.dto.request.CompleteDealInput;
+import at.backend.MarketingCompany.crm.deal.adapter.input.graphql.dto.request.CreateDealInput;
+import at.backend.MarketingCompany.crm.deal.adapter.input.graphql.dto.request.GetDealsByCustomerInput;
+import at.backend.MarketingCompany.crm.deal.adapter.input.graphql.dto.request.GetDealsByStatusInput;
+import at.backend.MarketingCompany.crm.deal.adapter.input.graphql.dto.request.SignDealInput;
+import at.backend.MarketingCompany.crm.deal.adapter.input.graphql.dto.request.UpdateDealServicesInput;
 import at.backend.MarketingCompany.crm.deal.adapter.input.graphql.dto.response.DealResponse;
-import at.backend.MarketingCompany.crm.deal.core.application.commands.*;
-import at.backend.MarketingCompany.crm.deal.core.application.queries.*;
+import at.backend.MarketingCompany.crm.deal.core.application.commands.CancelDealCommand;
+import at.backend.MarketingCompany.crm.deal.core.application.commands.CompleteDealCommand;
+import at.backend.MarketingCompany.crm.deal.core.application.commands.CreateDealCommand;
+import at.backend.MarketingCompany.crm.deal.core.application.commands.MarkDealAsPaidCommand;
+import at.backend.MarketingCompany.crm.deal.core.application.commands.SignDealCommand;
+import at.backend.MarketingCompany.crm.deal.core.application.commands.StartDealExecutionCommand;
+import at.backend.MarketingCompany.crm.deal.core.application.commands.UpdateDealServicesCommand;
+import at.backend.MarketingCompany.crm.deal.core.application.queries.GetAllDealsQuery;
+import at.backend.MarketingCompany.crm.deal.core.application.queries.GetDealByIdQuery;
+import at.backend.MarketingCompany.crm.deal.core.application.queries.GetDealsByStatusQuery;
 import at.backend.MarketingCompany.crm.deal.core.domain.entity.Deal;
 import at.backend.MarketingCompany.crm.deal.core.port.input.DealCommandService;
 import at.backend.MarketingCompany.crm.deal.core.port.input.DealQueryService;
@@ -14,12 +33,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.data.domain.Page;
-import org.springframework.graphql.data.method.annotation.Argument;
-import org.springframework.graphql.data.method.annotation.MutationMapping;
-import org.springframework.graphql.data.method.annotation.QueryMapping;
-import org.springframework.stereotype.Controller;
 
 @Slf4j
 @Controller

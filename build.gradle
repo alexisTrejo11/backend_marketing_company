@@ -21,6 +21,9 @@
 
     repositories {
         mavenCentral()
+        maven {
+            url 'https://projectlombok.org/edge-releases'
+        }
     }
 
     dependencies {
@@ -36,12 +39,11 @@
         implementation 'org.springframework.boot:spring-boot-starter-graphql'
         implementation 'com.graphql-java:graphql-java-extended-scalars:20.2'
 
-        // Lombok
-        compileOnly 'org.projectlombok:lombok'
-        runtimeOnly 'org.postgresql:postgresql'
-        annotationProcessor 'org.projectlombok:lombok'
-
-        // Postgres
+        // Lombok Edge (con soporte completo para Java 23)
+        compileOnly 'org.projectlombok:lombok:edge-SNAPSHOT'
+        annotationProcessor 'org.projectlombok:lombok:edge-SNAPSHOT'
+        testCompileOnly 'org.projectlombok:lombok:edge-SNAPSHOT'
+        testAnnotationProcessor 'org.projectlombok:lombok:edge-SNAPSHOT'
         runtimeOnly 'org.postgresql:postgresql'
         implementation 'org.postgresql:postgresql'
 

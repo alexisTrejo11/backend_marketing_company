@@ -171,39 +171,14 @@ input AddQuoteItemsInput {
 
 extend type Query {
     """
-    Get all quotes with optional pagination.
+    Get all quotes with pagination.
     """
-    quotes(
-        """Pagination parameters"""
-        pageInput: PageInput
-    ): QuotePage!
+    quotes(input: PageInput!): QuotePage!
 
     """
     Find a specific quote by ID.
     """
-    quote(id: ID!): Quote
-
-    """
-    Get quotes by status.
-    """
-    quotesByStatus(
-        """Quote status"""
-        status: QuoteStatus!
-
-        """Pagination parameters"""
-        pageInput: PageInput
-    ): QuotePage!
-
-    """
-    Get quotes for a specific opportunity.
-    """
-    quotesByOpportunity(
-        """Opportunity ID"""
-        opportunityId: ID!
-
-        """Pagination parameters"""
-        pageInput: PageInput
-    ): QuotePage!
+    quote(quoteId: String!): Quote
 }
 
 # ============================================================================
@@ -217,55 +192,17 @@ extend type Mutation {
     createQuote(input: CreateQuoteInput!): Quote!
 
     """
-    Update an existing quote.
-    """
-    updateQuote(
-        """Quote ID"""
-        id: ID!
-
-        """Update data"""
-        input: UpdateQuoteInput!
-    ): Quote!
-
-    """
     Add items to a quote.
     """
-    addItemsToQuote(input: AddQuoteItemsInput!): Quote!
+    addQuoteItems(input: AddQuoteItemsInput!): Quote!
 
     """
-    Remove an item from a quote.
+    Delete an item from a quote.
     """
-    removeItemFromQuote(
-        """Quote ID"""
-        quoteId: ID!
-
-        """Item ID to remove"""
-        itemId: ID!
-    ): Quote!
-
-    """
-    Send a quote to client (changes status to SENT).
-    """
-    sendQuote(quoteId: ID!): Quote!
-
-    """
-    Mark a quote as accepted.
-    """
-    acceptQuote(quoteId: ID!): Quote!
-
-    """
-    Mark a quote as rejected.
-    """
-    rejectQuote(
-        """Quote ID"""
-        quoteId: ID!
-
-        """Rejection reason"""
-        reason: String
-    ): Quote!
+    deleteQuoteItem(itemId: ID!): Quote!
 
     """
     Delete a quote.
     """
-    deleteQuote(id: ID!): Boolean!
+    deleteQuote(id: ID!): Quote!
 }
