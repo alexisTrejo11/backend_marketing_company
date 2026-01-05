@@ -1,4 +1,8 @@
-package at.backend.MarketingCompany.marketing.interaction.adapter.input.graphql.dto;
+package at.backend.MarketingCompany.marketing.interaction.adapter.input.graphql.dto.input;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.MarketingCampaignId;
@@ -6,9 +10,6 @@ import at.backend.MarketingCompany.marketing.channel.core.domain.valueobject.Mar
 import at.backend.MarketingCompany.marketing.interaction.core.application.command.TrackInteractionCommand;
 import at.backend.MarketingCompany.marketing.interaction.core.domain.valueobject.MarketingInteractionType;
 import jakarta.validation.constraints.Positive;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Map;
 
 public record TrackInteractionInput(
     @NotNull @Positive Long campaignId,
@@ -28,28 +29,28 @@ public record TrackInteractionInput(
     String city,
     String landingPageUrl,
     String referrerUrl,
-    String properties
-) {
-	public TrackInteractionCommand toCommand(Map<String, Object> propertiesMap) {
-		return new TrackInteractionCommand(
-				new MarketingCampaignId(campaignId),
-				new CustomerCompanyId(customerId),
-				interactionType,
-				sessionId,
-				channelId != null ? new MarketingChannelId(channelId) : null,
-				utmSource,
-				utmMedium,
-				utmCampaign,
-				utmContent,
-				utmTerm,
-				deviceType,
-				deviceOs,
-				browser,
-				countryCode,
-				city,
-				landingPageUrl,
-				referrerUrl,
-				propertiesMap
-		);
-	}
+    JsonNode properties) {
+
+  public TrackInteractionCommand toCommand() {
+    return TrackInteractionCommand.builder()
+        .campaignId(new MarketingCampaignId(campaignId))
+        .customerId(new CustomerCompanyId(customerId))
+        .interactionType(interactionType)
+        .sessionId(sessionId)
+        .channelId(channelId != null ? new MarketingChannelId(channelId) : null)
+        .utmSource(utmSource)
+        .utmMedium(utmMedium)
+        .utmCampaign(utmCampaign)
+        .utmContent(utmContent)
+        .utmTerm(utmTerm)
+        .deviceType(deviceType)
+        .deviceOs(deviceOs)
+        .browser(browser)
+        .countryCode(countryCode)
+        .city(city)
+        .landingPageUrl(landingPageUrl)
+        .referrerUrl(referrerUrl)
+        .properties(properties)
+        .build();
+  }
 }

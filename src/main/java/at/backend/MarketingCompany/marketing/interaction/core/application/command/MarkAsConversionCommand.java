@@ -8,5 +8,6 @@ import java.math.BigDecimal;
 public record MarkAsConversionCommand(
     CampaignInteractionId interactionId,
     DealId dealId,
-    BigDecimal conversionValue
-) {}
+    BigDecimal conversionValue,
+    String notes) {
+}

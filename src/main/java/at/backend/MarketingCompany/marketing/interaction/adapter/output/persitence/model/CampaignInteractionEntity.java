@@ -9,12 +9,14 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Map;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 @Getter
 @Setter
@@ -71,7 +73,7 @@ public class CampaignInteractionEntity extends BaseJpaEntity {
   @Column(name = "browser", length = 100)
   private String browser;
 
-	@Column(name = "country_code", length = 2)
+  @Column(name = "country_code", length = 2)
   private String countryCode;
 
   @Column(name = "city", length = 100)
@@ -82,6 +84,12 @@ public class CampaignInteractionEntity extends BaseJpaEntity {
 
   @Column(name = "conversion_value", precision = 10, scale = 2)
   private BigDecimal conversionValue;
+
+  @Column(name = "conversion_date")
+  private LocalDateTime conversionDate;
+
+  @Column(name = "conversion_notes", length = 1000)
+  private String conversionNotes;
 
   @Column(name = "is_conversion")
   private Boolean isConversion = false;
@@ -97,5 +105,5 @@ public class CampaignInteractionEntity extends BaseJpaEntity {
 
   @JdbcTypeCode(SqlTypes.JSON)
   @Column(name = "properties", columnDefinition = "jsonb")
-  private Map<String, Object> properties;
+  private JsonNode properties;
 }

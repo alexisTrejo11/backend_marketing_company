@@ -5,6 +5,9 @@ import at.backend.MarketingCompany.marketing.interaction.core.domain.valueobject
 import java.time.LocalDateTime;
 import java.util.List;
 
+import lombok.Builder;
+
+@Builder
 public record InteractionQuery(
     Long campaignId,
     Long customerId,
@@ -17,23 +20,21 @@ public record InteractionQuery(
     String utmMedium,
     String utmCampaign,
     String deviceType,
-    String countryCode
-) {
+    String countryCode) {
   public static InteractionQuery empty() {
     return new InteractionQuery(
-        null, null, null, null, null, null, null, 
-        null, null, null, null, null
-    );
+        null, null, null, null, null, null, null,
+        null, null, null, null, null);
   }
 
   public boolean isEmpty() {
     return campaignId == null && customerId == null && channelId == null &&
-           (interactionTypes == null || interactionTypes.isEmpty()) &&
-           isConversion == null && dateFrom == null && dateTo == null &&
-           (utmSource == null || utmSource.isBlank()) &&
-           (utmMedium == null || utmMedium.isBlank()) &&
-           (utmCampaign == null || utmCampaign.isBlank()) &&
-           (deviceType == null || deviceType.isBlank()) &&
-           (countryCode == null || countryCode.isBlank());
+        (interactionTypes == null || interactionTypes.isEmpty()) &&
+        isConversion == null && dateFrom == null && dateTo == null &&
+        (utmSource == null || utmSource.isBlank()) &&
+        (utmMedium == null || utmMedium.isBlank()) &&
+        (utmCampaign == null || utmCampaign.isBlank()) &&
+        (deviceType == null || deviceType.isBlank()) &&
+        (countryCode == null || countryCode.isBlank());
   }
 }
