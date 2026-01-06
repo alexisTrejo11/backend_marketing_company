@@ -1,14 +1,14 @@
 package at.backend.MarketingCompany.crm.quote.core.domain.service;
 
-import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Amount;
-import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Discount;
-import at.backend.MarketingCompany.crm.quote.core.domain.model.Quote;
-import at.backend.MarketingCompany.crm.quote.core.domain.model.QuoteItem;
-import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.ServicePackageId;
-
 import java.time.LocalDate;
 
 import org.springframework.stereotype.Service;
+
+import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Amount;
+import at.backend.MarketingCompany.crm.quote.core.domain.model.Quote;
+import at.backend.MarketingCompany.crm.quote.core.domain.model.QuoteItem;
+import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.Discount;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.ServicePackageId;
 
 @Service
 public class QuoteDomainService {

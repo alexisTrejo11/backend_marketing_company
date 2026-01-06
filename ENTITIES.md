@@ -226,7 +226,7 @@ Primary customer/company information.
 **Status Values:**
 
 - `LEAD`: Potential customer
-- `PROSPECT`: Qualified lead
+- `PROSPECT`: QUALIFICATION lead
 - `ACTIVE`: Active customer
 - `INACTIVE`: Inactive customer
 - `CHURNED`: Lost customer

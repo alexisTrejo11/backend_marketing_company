@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Amount;
-import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Discount;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.quote.core.domain.model.QuoteItem;
 import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;

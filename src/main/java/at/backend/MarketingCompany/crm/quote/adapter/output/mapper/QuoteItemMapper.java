@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.crm.quote.adapter.output.mapper;
 
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Amount;
-import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Discount;
+import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.Discount;
 import at.backend.MarketingCompany.crm.quote.adapter.output.entity.QuoteItemEntity;
 import at.backend.MarketingCompany.crm.quote.core.domain.model.QuoteItem;
 import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.QuoteId;
@@ -11,7 +11,6 @@ import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueob
 import java.util.List;
 
 import org.springframework.stereotype.Component;
-
 
 // TODO: Improve mapping
 @Component

@@ -2,7 +2,6 @@ package at.backend.MarketingCompany.crm.quote.core.application.service;
 
 import at.backend.MarketingCompany.crm.deal.core.application.ExternalModuleValidator;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Amount;
-import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Discount;
 import at.backend.MarketingCompany.crm.quote.core.application.dto.*;
 import at.backend.MarketingCompany.crm.quote.core.port.input.QuoteCommandService;
 import at.backend.MarketingCompany.crm.quote.core.port.input.QuoteQueryService;

@@ -99,7 +99,12 @@ CREATE TABLE IF NOT EXISTS contact_persons (
                email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),
 
     CONSTRAINT ck_contact_phone_format
-        CHECK (phone IS NULL OR phone ~ '^\+?[0-9\s\-\(\)]{7,20}$')
+        CHECK (phone IS NULL OR phone ~ '^\+?[0-9\s\-\(\)]{7,20}$'),
+
+    CONSTRAINT ck_contact_department_valid
+        CHECK (department IS NULL OR
+               department IN ('SALES', 'MARKETING', 'IT', 'FINANCE', 'HR', 'OPERATIONS', 'EXECUTIVE', 'OTHER'))
+
 );
 
 -- ===========================================

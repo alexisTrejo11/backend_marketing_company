@@ -1,57 +1,67 @@
 package at.backend.MarketingCompany.crm.opportunity.adapter.input.graphql.dto;
 
-import at.backend.MarketingCompany.shared.PageResponse;
-import at.backend.MarketingCompany.crm.opportunity.adapter.input.graphql.dto.output.OpportunityOutput;
-import at.backend.MarketingCompany.crm.opportunity.adapter.input.graphql.dto.output.OpportunityStatisticsResponse;
-import at.backend.MarketingCompany.crm.opportunity.core.application.OpportunityQueryServiceImpl.OpportunityStatistics;
-import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.Opportunity;
-import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Amount;
-import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.ExpectedCloseDate;
+import java.math.BigDecimal;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
-import java.time.OffsetDateTime;
-import java.util.List;
+import at.backend.MarketingCompany.crm.opportunity.adapter.input.graphql.dto.output.OpportunityOutput;
+import at.backend.MarketingCompany.crm.opportunity.adapter.input.graphql.dto.output.OpportunityStatisticsResponse;
+import at.backend.MarketingCompany.crm.opportunity.core.application.OpportunityQueryServiceImpl.OpportunityStatistics;
+import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.Opportunity;
+import at.backend.MarketingCompany.shared.PageResponse;
 
 @Component
 public class OpportunityResponseMapper {
 
-  public OpportunityOutput toResponse(Opportunity opportunity) {
-    if (opportunity == null)
-      return null;
+  public OpportunityOutput toOutput(Opportunity opportunity) {
+    BigDecimal estimatedValue = null;
+    if (opportunity.getAmount() != null) {
+      estimatedValue = opportunity.getAmount().value();
+    }
 
-    return new OpportunityOutput(
-        opportunity.getId() != null ? opportunity.getId().asString() : null,
-        opportunity.getCustomerCompanyId() != null ? opportunity.getCustomerCompanyId().asString() : null,
-        opportunity.getTitle(),
-        opportunity.getAmount().map(Amount::value).orElse(null),
-        opportunity.getStage(),
-        opportunity.getExpectedCloseDate().map(ExpectedCloseDate::value).orElse(null),
-        opportunity.isClosed(),
-        opportunity.isWon(),
-        opportunity.isLost(),
-        opportunity.isOverdue(),
-        opportunity.canBeModified(),
-        opportunity.getCreatedAt().atOffset(OffsetDateTime.now().getOffset()),
-        opportunity.getUpdatedAt().atOffset(OffsetDateTime.now().getOffset())
-    );
-  }
+    String expectedCloseDate = null;
+    if (opportunity.getExpectedCloseDate() != null) {
+      expectedCloseDate = opportunity.getExpectedCloseDate().value() != null
+          ? opportunity.getExpectedCloseDate().value().toString()
+          : null;
+    }
 
-  public List<OpportunityOutput> toGraphQLResponseList(List<Opportunity> opportunities) {
-    if (opportunities == null)
-      return List.of();
+    String nextStepsDueDate = null;
+    if (opportunity.getNextSteps() != null && opportunity.getNextSteps().hasDueDate()) {
+      nextStepsDueDate = opportunity.getNextSteps().dueDate() != null
+          ? opportunity.getNextSteps().dueDate().toString()
+          : null;
+    }
 
-    return opportunities.stream()
-        .map(this::toResponse)
-        .toList();
+    return OpportunityOutput.builder()
+        .id(opportunity.getId() != null ? opportunity.getId().asString() : null)
+        .companyId(opportunity.getCustomerCompanyId() != null
+            ? opportunity.getCustomerCompanyId().getValue().toString()
+            : null)
+        .title(opportunity.getTitle())
+        .estimatedValue(estimatedValue)
+        .stage(opportunity.getStage() != null ? opportunity.getStage().name() : null)
+        .expectedCloseDate(expectedCloseDate)
+        .isClosed(opportunity.isClosed())
+        .isWon(opportunity.isWon())
+        .isLost(opportunity.isLost())
+        .isOverdue(opportunity.isOverdue())
+        .lossReason(opportunity.getLossReason() != null ? opportunity.getLossReason().value() : null)
+        .lossReasonDetails(opportunity.getLossReason() != null ? opportunity.getLossReason().details() : null)
+        .nextSteps(opportunity.getNextSteps() != null ? opportunity.getNextSteps().value() : null)
+        .nextStepsDueDate(nextStepsDueDate)
+        .probability(opportunity.getProbability() != null ? opportunity.getProbability().value() : null)
+        .createdAt(opportunity.getCreatedAt() != null ? opportunity.getCreatedAt().toString() : null)
+        .updatedAt(opportunity.getUpdatedAt() != null ? opportunity.getUpdatedAt().toString() : null)
+        .build();
   }
 
   public PageResponse<OpportunityOutput> toPageResponse(Page<Opportunity> opportunityPage) {
     if (opportunityPage == null)
       return PageResponse.empty();
 
-    var responsePage = opportunityPage.map(this::toResponse);
+    var responsePage = opportunityPage.map(this::toOutput);
     return PageResponse.of(responsePage);
   }
 
@@ -65,6 +75,12 @@ public class OpportunityResponseMapper {
         statistics.activeOpportunities(),
         statistics.wonOpportunities(),
         statistics.lostOpportunities(),
-        statistics.winRate());
+        statistics.winRate(),
+        BigDecimal.valueOf(statistics.totalPipelineValue()),
+        BigDecimal.valueOf(statistics.averageDealSize()),
+        statistics.prospectingStageCount(),
+        statistics.QUALIFICATIONStageCount(),
+        statistics.proposalStageCount(),
+        statistics.negotiationStageCount());
   }
 }

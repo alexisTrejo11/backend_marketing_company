@@ -1,15 +1,16 @@
 package at.backend.MarketingCompany.crm.opportunity.core.port.output;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.Opportunity;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityStage;
 import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 public interface OpportunityRepository {
   Opportunity save(Opportunity opportunity);
@@ -41,4 +42,38 @@ public interface OpportunityRepository {
   long countActiveByCustomer(CustomerCompanyId customerCompanyId);
 
   double calculateWinRateByCustomer(CustomerCompanyId customerCompanyId);
+
+  /**
+   * Count total opportunities (all customers)
+   */
+  long count();
+
+  /**
+   * Count active opportunities (all customers)
+   */
+  long countActive();
+
+  /**
+   * Count opportunities by stage (all customers)
+   */
+  long countByStage(OpportunityStage stage);
+
+  /**
+   * Calculate global win rate (all customers)
+   */
+  double calculateWinRate();
+
+  /**
+   * Calculate total pipeline value
+   * 
+   * @param customerCompanyId Optional customer filter (null for all)
+   */
+  double calculateTotalPipelineValue(CustomerCompanyId customerCompanyId);
+
+  /**
+   * Calculate average deal size
+   * 
+   * @param customerCompanyId Optional customer filter (null for all)
+   */
+  double calculateAverageDealSize(CustomerCompanyId customerCompanyId);
 }

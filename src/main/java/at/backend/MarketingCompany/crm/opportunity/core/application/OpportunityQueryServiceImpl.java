@@ -114,20 +114,64 @@ public class OpportunityQueryServiceImpl implements OpportunityQueryService {
   public OpportunityStatistics getOpportunityStatistics(GetOpportunityStatisticsQuery query) {
     log.debug("Fetching opportunity statistics for customer: {}", query.customerCompanyId());
 
-    long totalOpportunities = opportunityRepository.findByCustomer(query.customerCompanyId()).size();
-    long activeOpportunities = opportunityRepository.countActiveByCustomer(query.customerCompanyId());
-    long wonOpportunities = opportunityRepository.countByCustomerAndStage(query.customerCompanyId(),
-        OpportunityStage.CLOSED_WON);
-    long lostOpportunities = opportunityRepository.countByCustomerAndStage(query.customerCompanyId(),
-        OpportunityStage.CLOSED_LOST);
-    double winRate = opportunityRepository.calculateWinRateByCustomer(query.customerCompanyId());
+    long totalOpportunities;
+    long activeOpportunities;
+    long wonOpportunities;
+    long lostOpportunities;
+    double winRate;
+    double totalPipelineValue;
+    double averageDealSize;
+    long prospectingCount;
+    long QUALIFICATIONCount;
+    long proposalCount;
+    long negotiationCount;
+
+    if (query.customerCompanyId() != null) {
+      // Filter by customer
+      totalOpportunities = opportunityRepository.findByCustomer(query.customerCompanyId()).size();
+      activeOpportunities = opportunityRepository.countActiveByCustomer(query.customerCompanyId());
+      wonOpportunities = opportunityRepository.countByCustomerAndStage(
+          query.customerCompanyId(), OpportunityStage.CLOSED_WON);
+      lostOpportunities = opportunityRepository.countByCustomerAndStage(
+          query.customerCompanyId(), OpportunityStage.CLOSED_LOST);
+      winRate = opportunityRepository.calculateWinRateByCustomer(query.customerCompanyId());
+      totalPipelineValue = opportunityRepository.calculateTotalPipelineValue(query.customerCompanyId());
+      averageDealSize = opportunityRepository.calculateAverageDealSize(query.customerCompanyId());
+      prospectingCount = opportunityRepository.countByCustomerAndStage(
+          query.customerCompanyId(), OpportunityStage.PROSPECTING);
+      QUALIFICATIONCount = opportunityRepository.countByCustomerAndStage(
+          query.customerCompanyId(), OpportunityStage.QUALIFICATION);
+      proposalCount = opportunityRepository.countByCustomerAndStage(
+          query.customerCompanyId(), OpportunityStage.PROPOSAL);
+      negotiationCount = opportunityRepository.countByCustomerAndStage(
+          query.customerCompanyId(), OpportunityStage.NEGOTIATION);
+    } else {
+      // Global statistics (all customers)
+      totalOpportunities = opportunityRepository.count();
+      activeOpportunities = opportunityRepository.countActive();
+      wonOpportunities = opportunityRepository.countByStage(OpportunityStage.CLOSED_WON);
+      lostOpportunities = opportunityRepository.countByStage(OpportunityStage.CLOSED_LOST);
+      winRate = opportunityRepository.calculateWinRate();
+      totalPipelineValue = opportunityRepository.calculateTotalPipelineValue(null);
+      averageDealSize = opportunityRepository.calculateAverageDealSize(null);
+      prospectingCount = opportunityRepository.countByStage(OpportunityStage.PROSPECTING);
+      QUALIFICATIONCount = opportunityRepository.countByStage(OpportunityStage.QUALIFICATION);
+      proposalCount = opportunityRepository.countByStage(OpportunityStage.PROPOSAL);
+      negotiationCount = opportunityRepository.countByStage(OpportunityStage.NEGOTIATION);
+    }
 
     return new OpportunityStatistics(
         totalOpportunities,
         activeOpportunities,
         wonOpportunities,
         lostOpportunities,
-        winRate);
+        winRate,
+        totalPipelineValue,
+        averageDealSize,
+        prospectingCount,
+        QUALIFICATIONCount,
+        proposalCount,
+        negotiationCount);
   }
 
   public record OpportunityStatistics(
@@ -135,6 +179,12 @@ public class OpportunityQueryServiceImpl implements OpportunityQueryService {
       long activeOpportunities,
       long wonOpportunities,
       long lostOpportunities,
-      double winRate) {
+      double winRate,
+      double totalPipelineValue,
+      double averageDealSize,
+      long prospectingStageCount,
+      long QUALIFICATIONStageCount,
+      long proposalStageCount,
+      long negotiationStageCount) {
   }
 }

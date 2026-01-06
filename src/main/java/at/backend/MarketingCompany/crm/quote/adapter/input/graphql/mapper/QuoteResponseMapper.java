@@ -3,11 +3,11 @@ package at.backend.MarketingCompany.crm.quote.adapter.input.graphql.mapper;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
-import at.backend.MarketingCompany.shared.PageResponse;
 import at.backend.MarketingCompany.crm.quote.adapter.input.graphql.dto.input.QuoteItemOutput;
 import at.backend.MarketingCompany.crm.quote.adapter.input.graphql.dto.output.QuoteOutput;
 import at.backend.MarketingCompany.crm.quote.core.domain.model.Quote;
 import at.backend.MarketingCompany.crm.quote.core.domain.model.QuoteItem;
+import at.backend.MarketingCompany.shared.PageResponse;
 
 //TODO: Fix Potential NPEs
 @Component

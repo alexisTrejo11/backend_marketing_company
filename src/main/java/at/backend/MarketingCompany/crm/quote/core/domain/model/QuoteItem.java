@@ -2,7 +2,7 @@ package at.backend.MarketingCompany.crm.quote.core.domain.model;
 
 import at.backend.MarketingCompany.shared.domain.BaseDomainEntity;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Amount;
-import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Discount;
+import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.Discount;
 import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.QuoteId;
 import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.QuoteItemId;
 import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.QuoteItemReconstructParams;

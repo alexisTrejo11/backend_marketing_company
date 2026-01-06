@@ -8,13 +8,22 @@ public record Amount(BigDecimal value) {
   public static final Amount ZERO = new Amount(BigDecimal.ZERO);
 
   public Amount {
+    value = value.setScale(2, RoundingMode.HALF_UP);
+  }
+
+  public static Amount create(BigDecimal value) {
+    Amount amount = new Amount(value);
+    amount.validate();
+    return amount;
+  }
+
+  public void validate() {
     if (value == null) {
       throw new IllegalArgumentException("Amount cannot be null");
     }
     if (value.compareTo(BigDecimal.ZERO) < 0) {
       throw new IllegalArgumentException("Amount cannot be negative");
     }
-    value = value.setScale(2, RoundingMode.HALF_UP);
   }
 
   public Amount add(Amount other) {

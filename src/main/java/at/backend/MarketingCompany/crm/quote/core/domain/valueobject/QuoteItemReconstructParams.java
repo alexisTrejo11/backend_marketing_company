@@ -3,7 +3,6 @@ package at.backend.MarketingCompany.crm.quote.core.domain.valueobject;
 import java.time.LocalDateTime;
 
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Amount;
-import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Discount;
 import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.ServicePackageId;
 
 public record QuoteItemReconstructParams(

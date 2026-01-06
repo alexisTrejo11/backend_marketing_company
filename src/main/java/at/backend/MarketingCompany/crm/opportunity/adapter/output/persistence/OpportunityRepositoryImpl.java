@@ -1,5 +1,14 @@
 package at.backend.MarketingCompany.crm.opportunity.adapter.output.persistence;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.Opportunity;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityStage;
@@ -7,14 +16,6 @@ import at.backend.MarketingCompany.crm.opportunity.core.port.output.OpportunityR
 import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @Slf4j
 @Repository
@@ -29,7 +30,9 @@ public class OpportunityRepositoryImpl implements OpportunityRepository {
     log.debug("Saving opportunity with ID: {}", opportunity.getId().getValue());
 
     OpportunityEntity entity = opportunityEntityMapper.toEntity(opportunity);
-    OpportunityEntity savedEntity = jpaOpportunityRepository.save(entity);
+    entity.processNewEntityIfNeeded();
+
+    OpportunityEntity savedEntity = jpaOpportunityRepository.saveAndFlush(entity);
 
     log.info("Opportunity saved successfully with ID: {}", savedEntity.getId());
     return opportunityEntityMapper.toDomain(savedEntity);
@@ -66,7 +69,7 @@ public class OpportunityRepositoryImpl implements OpportunityRepository {
   public Page<Opportunity> findByCustomer(CustomerCompanyId customerCompanyId, Pageable pageable) {
     log.debug("Finding paginated opportunities by customer ID: {}", customerCompanyId.getValue());
 
-    return jpaOpportunityRepository.findByCustomerCompanyId(customerCompanyId.getValue(), pageable)
+    return jpaOpportunityRepository.findByCustomerCompany_Id(customerCompanyId.getValue(), pageable)
         .map(opportunityEntityMapper::toDomain);
   }
 
@@ -74,7 +77,7 @@ public class OpportunityRepositoryImpl implements OpportunityRepository {
   public List<Opportunity> findByCustomer(CustomerCompanyId customerCompanyId) {
     log.debug("Finding all opportunities by customer ID: {}", customerCompanyId.getValue());
 
-    return jpaOpportunityRepository.findByCustomerCompanyId(customerCompanyId.getValue()).stream()
+    return jpaOpportunityRepository.findByCustomerCompany_Id(customerCompanyId.getValue()).stream()
         .map(opportunityEntityMapper::toDomain)
         .toList();
   }
@@ -104,7 +107,7 @@ public class OpportunityRepositoryImpl implements OpportunityRepository {
 
     Set<OpportunityStage> activeStages = Set.of(
         OpportunityStage.PROSPECTING,
-        OpportunityStage.QUALIFIED,
+        OpportunityStage.QUALIFICATION,
         OpportunityStage.PROPOSAL,
         OpportunityStage.NEGOTIATION);
 
@@ -144,7 +147,7 @@ public class OpportunityRepositoryImpl implements OpportunityRepository {
   public long countByCustomerAndStage(CustomerCompanyId customerCompanyId, OpportunityStage stage) {
     log.debug("Counting opportunities for customer {} with stage: {}", customerCompanyId.getValue(), stage);
 
-    return jpaOpportunityRepository.countByCustomerCompanyIdAndStage(customerCompanyId.getValue(), stage);
+    return jpaOpportunityRepository.countByCustomerCompany_IdAndStage(customerCompanyId.getValue(), stage);
   }
 
   @Override
@@ -154,11 +157,11 @@ public class OpportunityRepositoryImpl implements OpportunityRepository {
 
     Set<OpportunityStage> activeStages = Set.of(
         OpportunityStage.PROSPECTING,
-        OpportunityStage.QUALIFIED,
+        OpportunityStage.QUALIFICATION,
         OpportunityStage.PROPOSAL,
         OpportunityStage.NEGOTIATION);
 
-    return jpaOpportunityRepository.countByCustomerCompanyIdAndStageIn(customerCompanyId.getValue(), activeStages);
+    return jpaOpportunityRepository.countByCustomerCompany_IdAndStageIn(customerCompanyId.getValue(), activeStages);
   }
 
   @Override
@@ -166,7 +169,7 @@ public class OpportunityRepositoryImpl implements OpportunityRepository {
   public double calculateWinRateByCustomer(CustomerCompanyId customerCompanyId) {
     log.debug("Calculating win rate for customer: {}", customerCompanyId.getValue());
 
-    long totalClosed = jpaOpportunityRepository.countByCustomerCompanyIdAndStageIn(
+    long totalClosed = jpaOpportunityRepository.countByCustomerCompany_IdAndStageIn(
         customerCompanyId.getValue(),
         Set.of(OpportunityStage.CLOSED_WON, OpportunityStage.CLOSED_LOST));
 
@@ -174,10 +177,88 @@ public class OpportunityRepositoryImpl implements OpportunityRepository {
       return 0.0;
     }
 
-    long wonCount = jpaOpportunityRepository.countByCustomerCompanyIdAndStage(
+    long wonCount = jpaOpportunityRepository.countByCustomerCompany_IdAndStage(
         customerCompanyId.getValue(),
         OpportunityStage.CLOSED_WON);
 
     return (double) wonCount / totalClosed * 100;
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public long count() {
+    log.debug("Counting all opportunities");
+    return jpaOpportunityRepository.count();
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public long countActive() {
+    log.debug("Counting all active opportunities");
+
+    Set<OpportunityStage> activeStages = Set.of(
+        OpportunityStage.PROSPECTING,
+        OpportunityStage.QUALIFICATION,
+        OpportunityStage.PROPOSAL,
+        OpportunityStage.NEGOTIATION);
+
+    return jpaOpportunityRepository.countByStageIn(activeStages);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public long countByStage(OpportunityStage stage) {
+    log.debug("Counting opportunities by stage: {}", stage);
+    return jpaOpportunityRepository.countByStage(stage);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public double calculateWinRate() {
+    log.debug("Calculating global win rate");
+
+    long totalClosed = jpaOpportunityRepository.countByStageIn(
+        Set.of(OpportunityStage.CLOSED_WON, OpportunityStage.CLOSED_LOST));
+
+    if (totalClosed == 0) {
+      return 0.0;
+    }
+
+    long wonCount = jpaOpportunityRepository.countByStage(OpportunityStage.CLOSED_WON);
+    return (double) wonCount / totalClosed * 100;
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public double calculateTotalPipelineValue(CustomerCompanyId customerCompanyId) {
+    log.debug("Calculating total pipeline value for customer: {}", customerCompanyId);
+
+    Set<OpportunityStage> activeStages = Set.of(
+        OpportunityStage.PROSPECTING,
+        OpportunityStage.QUALIFICATION,
+        OpportunityStage.PROPOSAL,
+        OpportunityStage.NEGOTIATION);
+
+    if (customerCompanyId != null) {
+      return jpaOpportunityRepository.sumAmountByCustomerAndStages(
+          customerCompanyId.getValue(), activeStages);
+    } else {
+      return jpaOpportunityRepository.sumAmountByStages(activeStages);
+    }
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public double calculateAverageDealSize(CustomerCompanyId customerCompanyId) {
+    log.debug("Calculating average deal size for customer: {}", customerCompanyId);
+
+    Double average;
+    if (customerCompanyId != null) {
+      average = jpaOpportunityRepository.averageAmountByCustomer(customerCompanyId.getValue());
+    } else {
+      average = jpaOpportunityRepository.averageAmount();
+    }
+
+    return average != null ? average : 0.0;
   }
 }

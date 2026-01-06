@@ -1,7 +1,7 @@
 package at.backend.MarketingCompany.crm.quote.adapter.output.mapper;
 
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Amount;
-import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Discount;
+import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.Discount;
 import at.backend.MarketingCompany.crm.quote.adapter.output.entity.QuoteEntity;
 import at.backend.MarketingCompany.crm.quote.core.domain.model.Quote;
 import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.QuoteId;

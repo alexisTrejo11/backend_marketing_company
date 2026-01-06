@@ -1,13 +1,18 @@
 package at.backend.MarketingCompany.crm.opportunity.core.domain.entity;
 
-import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.*;
+import java.time.LocalDateTime;
+
+import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Amount;
+import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.ExpectedCloseDate;
+import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.LossReason;
+import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.NextSteps;
+import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityId;
+import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityStage;
+import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Probability;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.exceptions.OpportunityValidationException;
 import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 import at.backend.MarketingCompany.shared.domain.BaseDomainEntity;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Getter
 public class Opportunity extends BaseDomainEntity<OpportunityId> {
@@ -16,9 +21,15 @@ public class Opportunity extends BaseDomainEntity<OpportunityId> {
   private Amount amount;
   private OpportunityStage stage;
   private ExpectedCloseDate expectedCloseDate;
+  private LossReason lossReason;
+  private NextSteps nextSteps;
+  private Probability probability;
 
   private Opportunity(OpportunityId opportunityId) {
     super(opportunityId);
+    this.lossReason = LossReason.NONE;
+    this.nextSteps = NextSteps.EMPTY;
+    this.probability = Probability.MIN;
   }
 
   private Opportunity(OpportunityReconstructParams params) {
@@ -28,7 +39,9 @@ public class Opportunity extends BaseDomainEntity<OpportunityId> {
     this.amount = params.amount();
     this.stage = params.stage();
     this.expectedCloseDate = params.expectedCloseDate();
-    validateState();
+    this.lossReason = params.lossReason();
+    this.nextSteps = params.nextSteps();
+    this.probability = params.probability();
   }
 
   public static Opportunity reconstruct(OpportunityReconstructParams params) {
@@ -36,75 +49,117 @@ public class Opportunity extends BaseDomainEntity<OpportunityId> {
   }
 
   public static Opportunity create(CreateOpportunityParams params) {
-    validateCreationParams(params);
-
     Opportunity newOpportunity = new Opportunity(OpportunityId.generate());
     newOpportunity.customerCompanyId = params.customerCompanyId();
-    newOpportunity.title = params.title();
+    newOpportunity.title = params.title().trim();
     newOpportunity.amount = params.amount();
     newOpportunity.stage = OpportunityStage.PROSPECTING;
     newOpportunity.expectedCloseDate = params.expectedCloseDate();
-    newOpportunity.createdAt = LocalDateTime.now();
-    newOpportunity.updatedAt = LocalDateTime.now();
-    newOpportunity.version = 1;
+    newOpportunity.nextSteps = NextSteps.createInitial();
+    newOpportunity.probability = Probability.fromStage(OpportunityStage.PROSPECTING);
 
+    newOpportunity.validateState();
     return newOpportunity;
   }
 
-  public void updateDetails(String title, Amount amount, ExpectedCloseDate expectedCloseDate) {
+  public void updateDetails(
+      String title,
+      Amount amount,
+      ExpectedCloseDate expectedCloseDate,
+      NextSteps nextSteps,
+      Probability probability) {
+    validateCanBeModified();
+
     if (title == null || title.trim().isEmpty()) {
       throw new OpportunityValidationException("Opportunity title cannot be empty");
     }
 
     this.title = title.trim();
-    this.amount = amount;
-    this.expectedCloseDate = expectedCloseDate;
+    this.amount = amount != null ? amount : this.amount;
+    this.expectedCloseDate = expectedCloseDate != null ? expectedCloseDate : this.expectedCloseDate;
+    this.nextSteps = nextSteps != null ? nextSteps : this.nextSteps;
+    this.probability = probability != null ? probability : this.probability;
     updateTimestamp();
   }
 
   public void qualify() {
-    validateStageTransition(OpportunityStage.QUALIFIED);
-    this.stage = OpportunityStage.QUALIFIED;
-    updateTimestamp();
+    transitionToStage(OpportunityStage.QUALIFICATION);
+    this.probability = Probability.fromStage(OpportunityStage.QUALIFICATION);
   }
 
   public void moveToProposal() {
-    validateStageTransition(OpportunityStage.PROPOSAL);
-    this.stage = OpportunityStage.PROPOSAL;
-    updateTimestamp();
+    transitionToStage(OpportunityStage.PROPOSAL);
+    this.probability = Probability.fromStage(OpportunityStage.PROPOSAL);
   }
 
   public void moveToNegotiation() {
-    validateStageTransition(OpportunityStage.NEGOTIATION);
-    this.stage = OpportunityStage.NEGOTIATION;
-    updateTimestamp();
+    transitionToStage(OpportunityStage.NEGOTIATION);
+    this.probability = Probability.fromStage(OpportunityStage.NEGOTIATION);
   }
 
-  public void closeWon() {
-    validateStageTransition(OpportunityStage.CLOSED_WON);
+  public void closeWon(String closeNotes) {
+    validateCanTransitionToClosed();
+
     this.stage = OpportunityStage.CLOSED_WON;
+    this.probability = Probability.WON;
+    this.lossReason = null;
+    if (closeNotes != null && !closeNotes.trim().isEmpty()) {
+      this.nextSteps = NextSteps.withCloseNotes(closeNotes.trim());
+    }
     updateTimestamp();
   }
 
-  public void closeLost() {
-    validateStageTransition(OpportunityStage.CLOSED_LOST);
+  public void closeLost(LossReason lossReason, String notes) {
+    validateCanTransitionToClosed();
+
+    if (lossReason == null) {
+      throw new OpportunityValidationException("Loss reason is required when closing as lost");
+    }
+
     this.stage = OpportunityStage.CLOSED_LOST;
+    this.probability = Probability.LOST;
+    this.lossReason = lossReason;
+    if (notes != null && !notes.trim().isEmpty()) {
+      this.nextSteps = NextSteps.withCloseNotes(notes.trim());
+    }
     updateTimestamp();
   }
 
-  public void reopen() {
-    if (this.stage != OpportunityStage.CLOSED_WON && this.stage != OpportunityStage.CLOSED_LOST) {
+  public void reopen(String reason) {
+    if (!isClosed()) {
       throw new OpportunityValidationException("Only closed opportunities can be reopened");
     }
-    this.stage = OpportunityStage.QUALIFIED;
+    if (reason == null || reason.trim().isEmpty()) {
+      throw new OpportunityValidationException("Reopen reason is required");
+    }
+
+    this.stage = OpportunityStage.QUALIFICATION;
+    this.probability = Probability.fromStage(OpportunityStage.QUALIFICATION);
+    this.lossReason = null;
+    this.nextSteps = NextSteps.withReopenReason(reason.trim());
     updateTimestamp();
   }
 
   public void updateAmount(Amount newAmount) {
-    if (this.stage == OpportunityStage.CLOSED_WON || this.stage == OpportunityStage.CLOSED_LOST) {
-      throw new OpportunityValidationException("Cannot update amount for a closed opportunity");
-    }
+    validateCanBeModified();
     this.amount = newAmount;
+    updateTimestamp();
+  }
+
+  public void updateProbability(Probability newProbability) {
+    validateCanBeModified();
+
+    if (stage == OpportunityStage.CLOSED_WON || stage == OpportunityStage.CLOSED_LOST) {
+      throw new OpportunityValidationException("Cannot update probability for closed opportunities");
+    }
+
+    if (!newProbability.isValidForStage(stage)) {
+      throw new OpportunityValidationException(
+          String.format("Probability %d%% is not valid for stage %s",
+              newProbability.value(), stage));
+    }
+
+    this.probability = newProbability;
     updateTimestamp();
   }
 
@@ -120,8 +175,16 @@ public class Opportunity extends BaseDomainEntity<OpportunityId> {
     return this.stage == OpportunityStage.CLOSED_LOST;
   }
 
-  public boolean isOverdue() {
+  private boolean calculateIsOverdue() {
+    // Only active opportunities can be overdue
+    if (isClosed()) {
+      return false;
+    }
     return expectedCloseDate != null && expectedCloseDate.isOverdue();
+  }
+
+  public boolean isOverdue() {
+    return calculateIsOverdue();
   }
 
   public boolean canBeModified() {
@@ -138,24 +201,32 @@ public class Opportunity extends BaseDomainEntity<OpportunityId> {
     if (stage == null) {
       throw new OpportunityValidationException("Opportunity stage is required");
     }
+    if (probability == null) {
+      throw new OpportunityValidationException("Probability is required");
+    }
+    if (nextSteps == null) {
+      throw new OpportunityValidationException("Next steps are required");
+    }
+
+    if (!probability.isValidForStage(stage)) {
+      throw new OpportunityValidationException(
+          String.format("Probability %d%% is not valid for stage %s",
+              probability.value(), stage));
+    }
+
+    if (lossReason != null && !lossReason.isNone() && !isLost()) {
+      throw new OpportunityValidationException("Loss reason can only be set for lost opportunities");
+    }
   }
 
-  private static void validateCreationParams(CreateOpportunityParams params) {
-    if (params == null) {
-      throw new OpportunityValidationException("Creation parameters cannot be null");
-    }
-    if (params.customerCompanyId() == null) {
-      throw new OpportunityValidationException("Customer ID is required");
-    }
-    if (params.title() == null || params.title().trim().isEmpty()) {
-      throw new OpportunityValidationException("Opportunity title is required");
-    }
+  private void transitionToStage(OpportunityStage newStage) {
+    validateStageTransition(newStage);
+    this.stage = newStage;
+    updateTimestamp();
   }
 
   private void validateStageTransition(OpportunityStage newStage) {
-    if (this.stage == OpportunityStage.CLOSED_WON || this.stage == OpportunityStage.CLOSED_LOST) {
-      throw new OpportunityValidationException("Cannot change stage of a closed opportunity");
-    }
+    validateCanBeModified();
 
     if (!this.stage.canTransitionTo(newStage)) {
       throw new OpportunityValidationException(
@@ -163,16 +234,24 @@ public class Opportunity extends BaseDomainEntity<OpportunityId> {
     }
   }
 
+  private void validateCanBeModified() {
+    if (isClosed()) {
+      throw new OpportunityValidationException("Cannot modify a closed opportunity");
+    }
+  }
+
+  private void validateCanTransitionToClosed() {
+    if (isClosed()) {
+      throw new OpportunityValidationException("Opportunity is already closed");
+    }
+    if (stage == OpportunityStage.PROSPECTING) {
+      throw new OpportunityValidationException(
+          "Cannot close opportunity directly from prospecting stage");
+    }
+  }
+
   private void updateTimestamp() {
     this.updatedAt = LocalDateTime.now();
-  }
-
-  public Optional<Amount> getAmount() {
-    return Optional.ofNullable(amount);
-  }
-
-  public Optional<ExpectedCloseDate> getExpectedCloseDate() {
-    return Optional.ofNullable(expectedCloseDate);
   }
 
   @Override
