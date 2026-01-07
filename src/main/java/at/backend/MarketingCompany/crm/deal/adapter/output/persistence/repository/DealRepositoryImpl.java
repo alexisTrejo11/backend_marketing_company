@@ -33,8 +33,9 @@ public class DealRepositoryImpl implements DealRepository {
     log.debug("Saving deal with ID: {}", deal.getId().getValue());
 
     DealEntity entity = dealEntityMapper.toEntity(deal);
+    entity.processNewEntityIfNeeded();
 
-    DealEntity savedEntity = jpaDealRepository.save(entity);
+    DealEntity savedEntity = jpaDealRepository.saveAndFlush(entity);
     log.info("Deal saved successfully with ID: {}", savedEntity.getId());
 
     return dealEntityMapper.toDomain(savedEntity);

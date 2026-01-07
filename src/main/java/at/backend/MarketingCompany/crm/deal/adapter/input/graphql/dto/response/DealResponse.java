@@ -5,7 +5,6 @@ import lombok.Builder;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Builder
 public record DealResponse(
@@ -13,7 +12,7 @@ public record DealResponse(
     String customerCompanyId,
     String opportunityId,
     String campaignManagerId,
-    String dealStatus,
+    String status,
     BigDecimal finalAmount,
     LocalDate startDate,
     LocalDate endDate,

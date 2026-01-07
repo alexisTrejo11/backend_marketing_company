@@ -1,10 +1,10 @@
 package at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects;
 
 public enum Frequency {
-    DAILY,
-    WEEKLY,
-    MONTHLY,
-    QUARTERLY,
-    YEARLY
+  WEEKLY,
+  BIWEEKLY,
+  MONTHLY,
+  QUARTERLY,
+  YEARLY,
+  ONE_TIME
 }
-

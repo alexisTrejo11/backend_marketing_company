@@ -14,8 +14,8 @@ public record FinalAmount(BigDecimal value) {
     }
   }
 
-  public static FinalAmount zero() {
-    return new FinalAmount(BigDecimal.ZERO);
+  public static FinalAmount one() {
+    return new FinalAmount(BigDecimal.ONE);
   }
 
   public boolean isPositive() {

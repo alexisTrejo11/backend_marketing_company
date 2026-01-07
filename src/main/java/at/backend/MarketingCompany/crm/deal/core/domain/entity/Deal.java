@@ -1,20 +1,24 @@
 package at.backend.MarketingCompany.crm.deal.core.domain.entity;
 
-import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
-import at.backend.MarketingCompany.shared.domain.BaseDomainEntity;
-import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.*;
-import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.external.EmployeeId;
-import at.backend.MarketingCompany.crm.deal.core.domain.exceptions.DealStatusTransitionException;
-import at.backend.MarketingCompany.crm.deal.core.domain.exceptions.DealValidationException;
-import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityId;
-import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.DealStatus;
-import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.ServicePackageId;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.ContractPeriod;
+import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.CreateDealParams;
+import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.DealId;
+import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.DealReconstructParams;
+import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.DealStatus;
+import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.FinalAmount;
+import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.external.EmployeeId;
+import at.backend.MarketingCompany.crm.deal.core.domain.exceptions.DealStatusTransitionException;
+import at.backend.MarketingCompany.crm.deal.core.domain.exceptions.DealValidationException;
+import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityId;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.ServicePackageId;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
+import at.backend.MarketingCompany.shared.domain.BaseDomainEntity;
 
 public class Deal extends BaseDomainEntity<DealId> {
   private CustomerCompanyId customerCompanyId;
@@ -29,24 +33,28 @@ public class Deal extends BaseDomainEntity<DealId> {
 
   private Deal(DealId dealId) {
     super(dealId);
-  }
-
-  private Deal(DealReconstructParams params) {
-    super(params.id(), params.version(), params.deletedAt(), params.createdAt(), params.updatedAt());
-    this.customerCompanyId = params.customerCompanyId();
-    this.opportunityId = params.opportunityId();
-    this.dealStatus = params.dealStatus();
-    this.finalAmount = params.finalAmount();
-    this.period = params.period();
-    this.campaignManagerId = params.campaignManagerId();
-    this.deliverables = params.deliverables();
-    this.terms = params.terms();
-    this.servicePackageIds = Collections.unmodifiableList(params.servicePackageIds());
-    validateState();
+    this.servicePackageIds = Collections.emptyList();
+    this.dealStatus = DealStatus.DRAFT;
+    this.period = ContractPeriod.none();
+    this.finalAmount = FinalAmount.one();
   }
 
   public static Deal reconstruct(DealReconstructParams params) {
-    return new Deal(params);
+    Deal deal = new Deal(params.id());
+    deal.customerCompanyId = params.customerCompanyId();
+    deal.opportunityId = params.opportunityId();
+    deal.dealStatus = params.dealStatus();
+    deal.finalAmount = params.finalAmount();
+    deal.period = params.period();
+    deal.campaignManagerId = params.campaignManagerId();
+    deal.deliverables = params.deliverables();
+    deal.terms = params.terms();
+    deal.servicePackageIds = Collections.unmodifiableList(params.servicePackageIds());
+    deal.createdAt = params.createdAt();
+    deal.updatedAt = params.updatedAt();
+    deal.deletedAt = params.deletedAt();
+    deal.version = params.version();
+    return deal;
   }
 
   public static Deal create(CreateDealParams params) {
@@ -58,7 +66,7 @@ public class Deal extends BaseDomainEntity<DealId> {
     newDeal.servicePackageIds = Collections.unmodifiableList(params.servicePackageIds());
     newDeal.dealStatus = DealStatus.DRAFT;
     newDeal.period = new ContractPeriod(params.startDate(), Optional.empty());
-    newDeal.finalAmount = FinalAmount.zero();
+    newDeal.finalAmount = FinalAmount.one();
 
     return newDeal;
   }

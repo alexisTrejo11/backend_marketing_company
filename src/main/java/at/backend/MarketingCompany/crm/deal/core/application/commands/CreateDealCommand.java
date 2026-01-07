@@ -7,35 +7,33 @@ import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerComp
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 public record CreateDealCommand(
-		CustomerCompanyId customerCompanyId,
-		OpportunityId opportunityId,
-		List<ServicePackageId> servicePackageIds,
-		LocalDate startDate) {
+    CustomerCompanyId customerCompanyId,
+    OpportunityId opportunityId,
+    List<ServicePackageId> servicePackageIds,
+    LocalDate startDate) {
 
-	public static CreateDealCommand from(
-			String customerId,
-			String opportunityId,
-			List<String> servicePackageIds,
-			LocalDate startDate) {
-		return new CreateDealCommand(
-				customerId != null ? CustomerCompanyId.of(customerId) : null,
-				opportunityId != null ? OpportunityId.of(opportunityId) : null,
-				servicePackageIds != null
-						? servicePackageIds.stream().map(ServicePackageId::of).toList()
-						: List.of(),
-				startDate
-		);
-	}
+  public static CreateDealCommand from(
+      String customerId,
+      String opportunityId,
+      List<String> servicePackageIds,
+      LocalDate startDate) {
+    return new CreateDealCommand(
+        customerId != null ? CustomerCompanyId.of(customerId) : null,
+        opportunityId != null ? OpportunityId.of(opportunityId) : null,
+        servicePackageIds != null
+            ? servicePackageIds.stream().map(ServicePackageId::of).toList()
+            : List.of(),
+        startDate);
+  }
 
-	public CreateDealParams toCreateParams() {
-		return CreateDealParams.builder()
-				.customerCompanyId(customerCompanyId)
-				.opportunityId(opportunityId)
-				.startDate(startDate)
-				.servicePackageIds(servicePackageIds)
-				.build();
-	}
+  public CreateDealParams toCreateParams() {
+    return CreateDealParams.builder()
+        .customerCompanyId(customerCompanyId)
+        .opportunityId(opportunityId)
+        .startDate(startDate)
+        .servicePackageIds(servicePackageIds)
+        .build();
+  }
 }

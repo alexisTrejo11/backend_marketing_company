@@ -1,23 +1,28 @@
 package at.backend.MarketingCompany.crm.deal.adapter.input.graphql;
 
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Component;
+
 import at.backend.MarketingCompany.crm.deal.adapter.input.graphql.dto.response.DealResponse;
 import at.backend.MarketingCompany.crm.deal.core.domain.entity.Deal;
 import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.FinalAmount;
 import at.backend.MarketingCompany.shared.PageResponse;
-import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class DealResponseMapper {
   public DealResponse toResponse(Deal deal) {
     return DealResponse.builder()
         .id(deal.getId().asString())
-        .dealStatus(deal.getDealStatus().name())
+        .status(deal.getDealStatus().name())
         .finalAmount(deal.getFinalAmount().map(FinalAmount::value).orElse(null))
         .startDate(deal.getPeriod().startDate())
         .endDate(deal.getPeriod().endDate().isPresent() ? deal.getPeriod().endDate().get() : null)
+        .opportunityId(deal.getOpportunityId() != null ? deal.getOpportunityId().getValue().toString() : null)
+        .campaignManagerId(
+            deal.getCampaignManagerId().isPresent() ? deal.getCampaignManagerId().get().value().toString() : null)
+        .customerCompanyId(deal.getCustomerId() != null ? deal.getCustomerId().getValue().toString() : null)
         .deliverables(deal.getDeliverables().orElse(null))
         .terms(deal.getTerms().orElse(null))
         .createdAt(deal.getCreatedAt())
