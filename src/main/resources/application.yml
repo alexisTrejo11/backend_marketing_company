@@ -133,10 +133,10 @@ spring:
       web:
         exposure:
           include: health,info,metrics,prometheus
-        base-path: /management
+        base-path: /actuator
     endpoint:
       health:
-        show-details: when_authorized
+        show-details: always
         probes:
           enabled: true
     metrics:
@@ -177,6 +177,21 @@ spring:
       max-size: 10MB
       max-history: 30
       total-size-cap: 1GB
+
+  # ============================================
+  # REDIS CONFIGURATION
+  # ============================================
+  data:
+    redis:
+      host: ${SPRING_REDIS_HOST:localhost}
+      port: ${SPRING_REDIS_PORT:6379}
+      timeout: 60000
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          max-wait: -1ms
 
   # ============================================
   # CACHE CONFIGURATION
@@ -453,6 +468,34 @@ app:
   security:
     jwt:
       secret: ${JWT_SECRET}
+
+---
+# DOCKER PROFILE
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+  datasource:
+    url: jdbc:postgresql://postgres:5432/${POSTGRES_DB:marketing_company_db}
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
+
+  data:
+    redis:
+      host: ${SPRING_REDIS_HOST:redis}
+      port: ${SPRING_REDIS_PORT:6379}
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  logging:
+    level:
+      at.backend.MarketingCompany: INFO
+      org.springframework: INFO
 
 ---
 # TEST PROFILE

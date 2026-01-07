@@ -29,6 +29,11 @@ COPY --from=build /app/build/libs/*.jar app.jar
 
 # Create non-root user
 RUN addgroup -S spring && adduser -S spring -G spring
+
+# Create logs directory with proper permissions
+RUN mkdir -p /app/logs/audit && \
+    chown -R spring:spring /app/logs
+
 USER spring:spring
 
 # Expose port
