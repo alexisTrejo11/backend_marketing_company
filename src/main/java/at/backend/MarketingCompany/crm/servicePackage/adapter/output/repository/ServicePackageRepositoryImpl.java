@@ -1,18 +1,24 @@
 package at.backend.MarketingCompany.crm.servicePackage.adapter.output.repository;
 
-import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.ServicePackage;
-import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.*;
-import at.backend.MarketingCompany.crm.servicePackage.core.domain.exceptions.ServicePackagePersistenceException;
-import at.backend.MarketingCompany.crm.servicePackage.core.ports.output.ServicePackageRepository;
-import at.backend.MarketingCompany.crm.servicePackage.adapter.output.model.ServicePackageEntity;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
+import at.backend.MarketingCompany.crm.servicePackage.adapter.output.model.ServicePackageEntity;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.ServicePackage;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.params.ServicePackageReconstructParams;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.EstimatedHours;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.Price;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.ProjectDuration;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.RecurrenceInfo;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.ServicePackageId;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.exceptions.ServicePackagePersistenceException;
+import at.backend.MarketingCompany.crm.servicePackage.core.ports.output.ServicePackageRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Repository
@@ -25,6 +31,7 @@ public class ServicePackageRepositoryImpl implements ServicePackageRepository {
     log.debug("Saving service package to database with id: {}", servicePackage.getId());
 
     ServicePackageEntity jpaEntity = toJpaEntity(servicePackage);
+    jpaEntity.processNewEntityIfNeeded();
     ServicePackageEntity savedEntity = jpaRepository.saveAndFlush(jpaEntity);
 
     log.debug("Service package persisted successfully with id: {}", savedEntity.getId());
@@ -107,6 +114,8 @@ public class ServicePackageRepositoryImpl implements ServicePackageRepository {
       entity.setActive(domain.getActive());
       entity.setCreatedAt(domain.getCreatedAt());
       entity.setUpdatedAt(domain.getUpdatedAt());
+      entity.setDeletedAt(domain.getDeletedAt());
+      entity.setVersion(domain.getVersion());
 
       return entity;
 

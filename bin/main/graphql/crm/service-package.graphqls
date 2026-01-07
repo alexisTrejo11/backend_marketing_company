@@ -6,226 +6,357 @@
 Types of available marketing services.
 """
 enum ServiceType {
-    """Social media management"""
-    SOCIAL_MEDIA
+  """
+  Social Media Management
+  """
+  SOCIAL_MEDIA
 
-    """Search engine optimization"""
-    SEO
+  """
+  Search Engine Optimization
+  """
+  SEO
 
-    """Pay-per-click advertising"""
-    PPC
+  """
+  Content Marketing
+  """
+  CONTENT_MARKETING
 
-    """Content marketing"""
-    CONTENT
+  """
+  Pay-Per-Click Advertising
+  """
+  PPC
 
-    """Email marketing"""
-    EMAIL
+  """
+  Email Marketing
+  """
+  EMAIL_MARKETING
 
-    """Branding and logo design"""
-    BRANDING
+  """
+  Marketing Analytics and Strategy
+  """
+  ANALYTICS
+
+  """
+  Branding and Creative Services
+  """
+  STRATEGY
 }
 
 """
 Service complexity levels.
 """
 enum Complexity {
-    """Basic - essential services"""
-    BASIC
+  """
+  LOW
+  """
+  LOW
 
-    """Standard - complete services"""
-    STANDARD
+  """
+  MEDIUM
+  """
+  MEDIUM
 
-    """Premium - advanced and customized services"""
-    PREMIUM
+  """
+  HIGH
+  """
+  HIGH
+
+  """
+  VERY_HIGH
+  """
+  VERY_HIGH
 }
 
 """
 Execution frequency for recurring services.
 """
 enum Frequency {
-    """Daily"""
-    DAILY
+  WEEKLY
 
-    """Weekly"""
-    WEEKLY
+  BIWEEKLY
 
-    """Monthly"""
-    MONTHLY
+  MONTHLY
 
-    """Annually"""
-    ANNUALLY
+  QUARTERLY
+
+  YEARLY
+
+  ONE_TIME
 }
 
 """
 Supported social media platforms.
 """
 enum SocialNetworkPlatform {
-    """Facebook"""
-    FACEBOOK
+  """
+  Facebook
+  """
+  FACEBOOK
 
-    """Instagram"""
-    INSTAGRAM
+  """
+  Instagram
+  """
+  INSTAGRAM
 
-    """Twitter/X"""
-    TWITTER
+  """
+  Twitter/X
+  """
+  TWITTER
 
-    """LinkedIn"""
-    LINKEDIN
+  """
+  LinkedIn
+  """
+  LINKEDIN
 
-    """TikTok"""
-    TIKTOK
+  """
+  TikTok
+  """
+  TIKTOK
 }
 
 """
 Marketing service package.
 """
 type ServicePackage {
-    """Unique package ID"""
-    id: ID!
+  """
+  Unique package ID
+  """
+  id: ID!
 
-    """Package name"""
-    name: String!
+  """
+  Package name
+  """
+  name: String!
 
-    """Detailed service description"""
-    description: String
+  """
+  Detailed service description
+  """
+  description: String
 
-    """Package price"""
-    price: Float!
+  """
+  Package price
+  """
+  price: Float!
 
-    """Service type"""
-    serviceType: ServiceType!
+  """
+  Service type
+  """
+  serviceType: ServiceType!
 
-    """Deliverables included in the package"""
-    deliverables: String
+  """
+  Deliverables included in the package
+  """
+  deliverables: String
 
-    """Estimated working hours"""
-    estimatedHours: Int!
+  """
+  Estimated working hours
+  """
+  estimatedHours: Int!
 
-    """Complexity level"""
-    complexity: Complexity!
+  """
+  Complexity level
+  """
+  complexity: Complexity!
 
-    """Indicates if it's a recurring service"""
-    isRecurring: Boolean!
+  """
+  Indicates if it's a recurring service
+  """
+  isRecurring: Boolean!
 
-    """Execution frequency (if recurring)"""
-    frequency: Frequency
+  """
+  Execution frequency (if recurring)
+  """
+  frequency: Frequency
 
-    """Project duration in days (if not recurring)"""
-    projectDuration: Int
+  """
+  Project duration in days (if not recurring)
+  """
+  projectDuration: Int
 
-    """Key performance indicators (KPIs)"""
-    kpis: [String!]!
+  """
+  Key performance indicators (KPIs)
+  """
+  kpis: [String!]!
 
-    """Social media platforms included"""
-    socialNetworkPlatforms: [SocialNetworkPlatform!]!
+  """
+  Social media platforms included
+  """
+  socialNetworkPlatforms: [SocialNetworkPlatform!]!
 
-    """Indicates if the package is active"""
-    active: Boolean!
+  """
+  Indicates if the package is active
+  """
+  active: Boolean!
 
-    """Creation date (ISO-8601)"""
-    createdAt: String!
+  """
+  Creation date (ISO-8601)
+  """
+  createdAt: String!
 
-    """Last update date (ISO-8601)"""
-    updatedAt: String!
+  """
+  Last update date (ISO-8601)
+  """
+  updatedAt: String!
 }
 
 """
 Paginated response for service packages.
 """
 type ServicePackagePage implements PageResponse {
-    """List of service packages on the current page"""
-    content: [ServicePackage!]!
+  """
+  List of service packages on the current page
+  """
+  items: [ServicePackage!]!
 
-    """Pagination metadata"""
-    pagination: PaginationMetadata!
+  """
+  Pagination metadata
+  """
+  pagination: PaginationMetadata!
 }
 
 """
 Input to create a new service package.
 """
 input CreateServicePackageInput {
-    """Package name"""
-    name: String!
+  """
+  Package name
+  """
+  name: String!
 
-    """Description"""
-    description: String
+  """
+  Description
+  """
+  description: String
 
-    """Price"""
-    price: Float!
+  """
+  Price
+  """
+  price: Float!
 
-    """Service type"""
-    serviceType: ServiceType!
+  """
+  Service type
+  """
+  serviceType: ServiceType!
 
-    """Deliverables"""
-    deliverables: String
+  """
+  Deliverables
+  """
+  deliverables: String
 
-    """Estimated hours"""
-    estimatedHours: Int!
+  """
+  Estimated hours
+  """
+  estimatedHours: Int
 
-    """Complexity"""
-    complexity: Complexity!
+  """
+  Complexity
+  """
+  complexity: Complexity!
 
-    """Is it recurring?"""
-    isRecurring: Boolean!
+  """
+  Is it recurring?
+  """
+  isRecurring: Boolean!
 
-    """Frequency (required if recurring)"""
-    frequency: Frequency
+  """
+  Frequency (required if recurring)
+  """
+  frequency: Frequency
 
-    """Project duration in days"""
-    projectDuration: Int
+  """
+  Project duration in days
+  """
+  projectDuration: Int
 
-    """KPIs"""
-    kpis: [String!]!
+  """
+  KPIs
+  """
+  kpis: [String!]
 
-    """Social media platforms"""
-    socialNetworkPlatforms: [SocialNetworkPlatform!]!
+  """
+  Social media platforms
+  """
+  socialNetworkPlatforms: [SocialNetworkPlatform!]
 
-    """Is it active?"""
-    active: Boolean! = true
+  """
+  Is it active?
+  """
+  active: Boolean! = true
 }
 
 """
 Input to update an existing service package.
 """
 input UpdateServicePackageInput {
-    """Package name"""
-    name: String
+  """
+  Unique package ID
+  """
+  id: ID!
 
-    """Description"""
-    description: String
+  """
+  Package name
+  """
+  name: String
 
-    """Price"""
-    price: Float
+  """
+  Description
+  """
+  description: String
 
-    """Service type"""
-    serviceType: ServiceType
+  """
+  Price
+  """
+  price: Float
 
-    """Deliverables"""
-    deliverables: String
+  """
+  Service type
+  """
+  serviceType: ServiceType
 
-    """Estimated hours"""
-    estimatedHours: Int
+  """
+  Deliverables
+  """
+  deliverables: String
 
-    """Complexity"""
-    complexity: Complexity
+  """
+  Estimated hours
+  """
+  estimatedHours: Int
 
-    """Is it recurring?"""
-    isRecurring: Boolean
+  """
+  Complexity
+  """
+  complexity: Complexity
 
-    """Frequency"""
-    frequency: Frequency
+  """
+  Is it recurring?
+  """
+  isRecurring: Boolean
 
-    """Project duration"""
-    projectDuration: Int
+  """
+  Frequency
+  """
+  frequency: Frequency
 
-    """KPIs"""
-    kpis: [String!]
+  """
+  Project duration
+  """
+  projectDuration: Int
 
-    """Social media platforms"""
-    socialNetworkPlatforms: [SocialNetworkPlatform!]
+  """
+  KPIs
+  """
+  kpis: [String!]
 
-    """Is it active?"""
-    active: Boolean
+  """
+  Social media platforms
+  """
+  socialNetworkPlatforms: [SocialNetworkPlatform!]
+
+  """
+  Is it active?
+  """
+  active: Boolean
 }
 
 # ============================================================================
@@ -233,15 +364,15 @@ input UpdateServicePackageInput {
 # ============================================================================
 
 extend type Query {
-    """
-    Get all available service packages.
-    """
-    servicePackages(input: PageInput!): ServicePackagePage!
+  """
+  Get all available service packages.
+  """
+  servicePackages(input: PageInput!): ServicePackagePage!
 
-    """
-    Find a service package by ID.
-    """
-    servicePackage(id: String!): ServicePackage
+  """
+  Find a service package by ID.
+  """
+  servicePackage(id: String!): ServicePackage
 }
 
 # ============================================================================
@@ -249,18 +380,18 @@ extend type Query {
 # ============================================================================
 
 extend type Mutation {
-    """
-    Create a new service package.
-    """
-    createServicePackage(input: CreateServicePackageInput!): ServicePackage!
+  """
+  Create a new service package.
+  """
+  createServicePackage(input: CreateServicePackageInput!): ServicePackage!
 
-    """
-    Update an existing service package.
-    """
-    updateServicePackage(input: UpdateServicePackageInput!): ServicePackage!
+  """
+  Update an existing service package.
+  """
+  updateServicePackage(input: UpdateServicePackageInput!): ServicePackage!
 
-    """
-    Delete a service package.
-    """
-    deleteServicePackage(id: ID!): Boolean!
+  """
+  Delete a service package.
+  """
+  deleteServicePackage(id: ID!): Boolean!
 }

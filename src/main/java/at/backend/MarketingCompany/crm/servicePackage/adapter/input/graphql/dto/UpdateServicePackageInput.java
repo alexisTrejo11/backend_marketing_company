@@ -1,40 +1,44 @@
 package at.backend.MarketingCompany.crm.servicePackage.adapter.input.graphql.dto;
 
-import at.backend.MarketingCompany.crm.servicePackage.core.application.dto.command.UpdateServicePackageCommand;
-import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.*;
-import at.backend.MarketingCompany.shared.SocialNetworkPlatform;
-import jakarta.validation.constraints.*;
-
 import java.math.BigDecimal;
 import java.util.List;
 
-public record UpdateServicePackageInput(
-		@NotNull @Positive
-		Long id,
+import org.hibernate.validator.constraints.Length;
 
-    @NotBlank(message = "Name is required")
-    @Size(max = 100, message = "Name cannot exceed 100 characters")
-    String name,
+import at.backend.MarketingCompany.crm.servicePackage.core.application.command.UpdateServicePackageCommand;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.Complexity;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.EstimatedHours;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.Frequency;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.Price;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.ProjectDuration;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.RecurrenceInfo;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.ServicePackageId;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.ServiceType;
+import at.backend.MarketingCompany.shared.SocialNetworkPlatform;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
+
+public record UpdateServicePackageInput(
+    @NotNull @Positive Long id,
+
+    @NotBlank @Size(max = 100, message = "Name cannot exceed 100 characters") String name,
 
     String description,
 
-    @NotNull(message = "Price is required")
-    @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than zero")
-    BigDecimal price,
+    @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than zero") BigDecimal price,
 
-    @NotNull(message = "Service type is required")
     ServiceType serviceType,
 
-    String deliverables,
+    @Length(max = 500, message = "Deliverables cannot exceed 500 characters") String deliverables,
 
-    @NotNull(message = "Estimated hours is required")
-    @Min(value = 1, message = "Estimated hours must be at least 1")
-    Integer estimatedHours,
+    @Min(value = 1, message = "Estimated hours must be at least 1") Integer estimatedHours,
 
-    @NotNull(message = "Complexity is required")
     Complexity complexity,
 
-    @NotNull(message = "IsRecurring is required")
     Boolean isRecurring,
 
     Frequency frequency,
@@ -43,20 +47,24 @@ public record UpdateServicePackageInput(
 
     List<String> kpis,
 
-    List<SocialNetworkPlatform> socialNetworkPlatforms
-) {
+    List<SocialNetworkPlatform> socialNetworkPlatforms) {
   public UpdateServicePackageCommand toCommand() {
+    RecurrenceInfo recurrenceInfo = null;
+    if (isRecurring != null && frequency != null) {
+      recurrenceInfo = RecurrenceInfo.create(isRecurring, frequency);
+    }
+
     return UpdateServicePackageCommand.builder()
         .id(new ServicePackageId(this.id))
         .name(this.name)
         .description(this.description)
-        .price(this.price != null ? Price.of(this.price) : null)
+        .price(this.price != null ? new Price(this.price) : null)
         .serviceType(this.serviceType)
         .deliverables(this.deliverables)
-        .estimatedHours(this.estimatedHours != null ? new EstimatedHours(this.estimatedHours) : null)
+        .estimatedHours(this.estimatedHours != null ? EstimatedHours.create(this.estimatedHours) : null)
         .complexity(this.complexity)
-        .recurrenceInfo((this.isRecurring != null && this.frequency != null) ? new RecurrenceInfo(this.isRecurring, this.frequency) : null)
-        .projectDuration(this.projectDuration != null ? new ProjectDuration(this.projectDuration) : null)
+        .recurrenceInfo(recurrenceInfo)
+        .projectDuration(this.projectDuration != null ? ProjectDuration.create(this.projectDuration) : null)
         .kpis(this.kpis != null ? this.kpis : List.of())
         .socialNetworkPlatforms(this.socialNetworkPlatforms != null ? this.socialNetworkPlatforms : List.of())
         .build();

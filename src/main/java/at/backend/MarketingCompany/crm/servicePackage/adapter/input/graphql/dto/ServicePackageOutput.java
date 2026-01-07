@@ -12,22 +12,21 @@ import java.util.List;
 
 @Builder
 public record ServicePackageOutput(
-        String id,
-        String name,
-        String description,
-        BigDecimal price,
-        ServiceType serviceType,
-        String deliverables,
-        Integer estimatedHours,
-        Complexity complexity,
-        Boolean isRecurring,
-        Frequency frequency,
-        Integer projectDuration,
-        List<String> kpis,
-        List<SocialNetworkPlatform> socialNetworkPlatforms,
-        Boolean active,
-        LocalDateTime createdAt,
-        LocalDateTime updatedAt
-) {
+    String id,
+    String name,
+    String description,
+    BigDecimal price,
+    ServiceType serviceType,
+    String deliverables,
+    Integer estimatedHours,
+    Complexity complexity,
+    Boolean isRecurring,
+    Frequency frequency,
+    Integer projectDuration,
+    List<String> kpis,
+    List<SocialNetworkPlatform> socialNetworkPlatforms,
+    Boolean active,
+    String createdAt,
+    String updatedAt) {
 
 }

@@ -1,10 +1,17 @@
-package at.backend.MarketingCompany.crm.servicePackage.core.application.dto.command;
-
-import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.*;
-import at.backend.MarketingCompany.shared.SocialNetworkPlatform;
-import lombok.Builder;
+package at.backend.MarketingCompany.crm.servicePackage.core.application.command;
 
 import java.util.List;
+
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.params.UpdateServicePackageParams;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.Complexity;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.EstimatedHours;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.Price;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.ProjectDuration;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.RecurrenceInfo;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.ServicePackageId;
+import at.backend.MarketingCompany.crm.servicePackage.core.domain.entity.valueobjects.ServiceType;
+import at.backend.MarketingCompany.shared.SocialNetworkPlatform;
+import lombok.Builder;
 
 @Builder
 public record UpdateServicePackageCommand(
@@ -19,8 +26,7 @@ public record UpdateServicePackageCommand(
     RecurrenceInfo recurrenceInfo,
     ProjectDuration projectDuration,
     List<String> kpis,
-    List<SocialNetworkPlatform> socialNetworkPlatforms
-) {
+    List<SocialNetworkPlatform> socialNetworkPlatforms) {
   public UpdateServicePackageParams toUpdateParams() {
     return UpdateServicePackageParams.builder()
         .name(this.name)

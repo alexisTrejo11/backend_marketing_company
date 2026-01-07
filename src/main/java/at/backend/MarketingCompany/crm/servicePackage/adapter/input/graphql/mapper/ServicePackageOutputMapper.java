@@ -23,14 +23,16 @@ public class ServicePackageOutputMapper {
         .deliverables(servicePackage.getDeliverables())
         .estimatedHours(servicePackage.getEstimatedHours() != null ? servicePackage.getEstimatedHours().hours() : null)
         .complexity(servicePackage.getComplexity())
-        .isRecurring(servicePackage.getRecurrenceInfo() != null ? servicePackage.getRecurrenceInfo().isRecurring() : null)
+        .isRecurring(
+            servicePackage.getRecurrenceInfo() != null ? servicePackage.getRecurrenceInfo().isRecurring() : null)
         .frequency(servicePackage.getRecurrenceInfo() != null ? servicePackage.getRecurrenceInfo().frequency() : null)
-        .projectDuration(servicePackage.getProjectDuration() != null ? servicePackage.getProjectDuration().months() : null)
+        .projectDuration(
+            servicePackage.getProjectDuration() != null ? servicePackage.getProjectDuration().months() : null)
         .kpis(servicePackage.getKpis())
         .socialNetworkPlatforms(servicePackage.getSocialNetworkPlatforms())
         .active(servicePackage.getActive())
-        .createdAt(servicePackage.getCreatedAt())
-        .updatedAt(servicePackage.getUpdatedAt())
+        .createdAt(servicePackage.getCreatedAt() != null ? servicePackage.getCreatedAt().toString() : null)
+        .updatedAt(servicePackage.getUpdatedAt() != null ? servicePackage.getUpdatedAt().toString() : null)
         .build();
   }
 
