@@ -1,14 +1,16 @@
-package at.backend.MarketingCompany.crm.quote.core.application.dto;
+package at.backend.MarketingCompany.crm.quote.core.application.commands;
+
+import java.time.LocalDate;
 
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
+import lombok.Builder;
 
-import java.time.LocalDate;
-import java.util.List;
-
-public record QuoteCreateCommand(
+@Builder
+public record CreateQuoteCommand(
     CustomerCompanyId customerCompanyId,
-    OpportunityId opportunityId,
     LocalDate validUntil,
-    List<QuoteItemCreateCommand> items) {
+    String notes,
+    String termsAndConditions,
+    OpportunityId opportunityId) {
 }

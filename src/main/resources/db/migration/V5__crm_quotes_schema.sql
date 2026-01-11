@@ -6,9 +6,6 @@ CREATE TABLE IF NOT EXISTS quotes (
     customer_company_id BIGINT NOT NULL,
     opportunity_id BIGINT,
     valid_until DATE NOT NULL,
-    sub_total NUMERIC(10,2) NOT NULL,
-    discount NUMERIC(10,2),
-    total_amount NUMERIC(10,2) NOT NULL,
     status VARCHAR(20) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -26,19 +23,8 @@ CREATE TABLE IF NOT EXISTS quotes (
         ON DELETE SET NULL,
 
     CONSTRAINT ck_quote_status_valid
-        CHECK (status IN ('DRAFT', 'SENT', 'ACCEPTED', 'REJECTED', 'EXPIRED')),
+        CHECK (status IN ('DRAFT', 'SENT', 'ACCEPTED', 'REJECTED', 'EXPIRED'))
 
-    CONSTRAINT ck_sub_total_valid
-        CHECK (sub_total >= 0),
-
-    CONSTRAINT ck_discount_valid
-        CHECK (discount IS NULL OR (discount >= 0)),
-
-    CONSTRAINT ck_total_amount_valid
-        CHECK (total_amount >= 0),
-
-    CONSTRAINT ck_total_calculation
-        CHECK (total_amount = sub_total - COALESCE(discount, 0))
 );
 
 -- ===========================================

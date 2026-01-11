@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import at.backend.MarketingCompany.crm.quote.adapter.output.entity.QuoteItemEntity;
 import at.backend.MarketingCompany.crm.quote.adapter.output.mapper.QuoteItemMapper;
-import at.backend.MarketingCompany.crm.quote.core.port.output.QuoteItemRepository;
 import at.backend.MarketingCompany.crm.quote.core.domain.model.QuoteItem;
 import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.QuoteItemId;
+import at.backend.MarketingCompany.crm.quote.core.port.output.QuoteItemRepository;
 import lombok.RequiredArgsConstructor;
 
 @Repository
@@ -21,8 +21,8 @@ public class QuoteItemRepositoryImpl implements QuoteItemRepository {
   @Override
   public QuoteItem save(QuoteItem item) {
     QuoteItemEntity entity = itemMapper.toEntity(item);
-
-    QuoteItemEntity savedEntity = quoteItemJpaRepository.save(entity);
+    entity.processNewEntityIfNeeded();
+    QuoteItemEntity savedEntity = quoteItemJpaRepository.saveAndFlush(entity);
 
     return itemMapper.toDomain(savedEntity);
   }

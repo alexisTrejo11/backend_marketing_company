@@ -50,14 +50,14 @@ public record CreateServicePackageInput(
         .price(price != null ? Price.of(price) : null)
         .serviceType(serviceType)
         .deliverables(deliverables)
-        .estimatedHours(estimatedHours != null ? new EstimatedHours(estimatedHours) : null)
+        .estimatedHours(estimatedHours != null ? EstimatedHours.create(estimatedHours) : null)
         .complexity(complexity)
-        .projectDuration(projectDuration != null ? new ProjectDuration(projectDuration) : null)
+        .projectDuration(projectDuration != null ? ProjectDuration.create(projectDuration) : null)
         .kpis(kpis != null ? kpis : List.of())
         .socialNetworkPlatforms(socialNetworkPlatforms != null ? socialNetworkPlatforms : List.of());
 
     if (isRecurring != null && frequency != null) {
-      RecurrenceInfo recurrenceInfo = new RecurrenceInfo(isRecurring, frequency);
+      RecurrenceInfo recurrenceInfo = RecurrenceInfo.create(isRecurring, frequency);
       builder.recurrenceInfo(recurrenceInfo);
     }
 

@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Amount;
 import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityId;
 import at.backend.MarketingCompany.crm.quote.core.domain.model.QuoteItem;
 import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
@@ -16,11 +15,10 @@ public record QuoteReconstructParams(
     CustomerCompanyId customerCompanyId,
     OpportunityId opportunityId,
     LocalDate validUntil,
-    Amount subTotal,
-    Discount discount,
-    Amount totalAmount,
     QuoteStatus status,
     List<QuoteItem> items,
+    String notes,
+    String termsAndConditions,
     LocalDateTime createdAt,
     LocalDateTime updatedAt,
     LocalDateTime deletedAt,

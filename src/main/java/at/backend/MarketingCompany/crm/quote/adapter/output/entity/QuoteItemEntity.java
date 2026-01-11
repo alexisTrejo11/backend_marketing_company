@@ -1,13 +1,18 @@
 package at.backend.MarketingCompany.crm.quote.adapter.output.entity;
 
-import at.backend.MarketingCompany.shared.jpa.BaseJpaEntity;
+import java.math.BigDecimal;
+
 import at.backend.MarketingCompany.crm.servicePackage.adapter.output.model.ServicePackageEntity;
-import jakarta.persistence.*;
+import at.backend.MarketingCompany.shared.jpa.BaseJpaEntity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -38,5 +43,9 @@ public class QuoteItemEntity extends BaseJpaEntity {
   public QuoteItemEntity(BigDecimal discountPercentage, QuoteEntity quoteEntity) {
     this.discountPercentage = discountPercentage;
     this.quote = quoteEntity;
+  }
+
+  public QuoteItemEntity(Long id) {
+    this.setId(id);
   }
 }

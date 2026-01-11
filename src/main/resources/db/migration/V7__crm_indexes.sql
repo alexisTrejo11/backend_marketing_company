@@ -86,8 +86,6 @@ CREATE INDEX IF NOT EXISTS idx_quotes_status_date
 CREATE INDEX IF NOT EXISTS idx_quotes_valid_until
     ON quotes(valid_until) WHERE status NOT IN ('ACCEPTED', 'REJECTED', 'EXPIRED');
 
-CREATE INDEX IF NOT EXISTS idx_quotes_amount
-    ON quotes(total_amount DESC);
 
 -- REMOVED idx_quotes_expiring_soon: Condition uses non-immutable CURRENT_DATE.
 

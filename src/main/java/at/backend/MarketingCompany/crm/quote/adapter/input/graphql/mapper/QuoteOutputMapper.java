@@ -1,5 +1,7 @@
 package at.backend.MarketingCompany.crm.quote.adapter.input.graphql.mapper;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -9,11 +11,10 @@ import at.backend.MarketingCompany.crm.quote.core.domain.model.Quote;
 import at.backend.MarketingCompany.crm.quote.core.domain.model.QuoteItem;
 import at.backend.MarketingCompany.shared.PageResponse;
 
-//TODO: Fix Potential NPEs
 @Component
-public class QuoteResponseMapper {
+public class QuoteOutputMapper {
 
-  public QuoteOutput toResponse(Quote quote) {
+  public QuoteOutput toOutput(Quote quote) {
     if (quote == null) {
       return null;
     }
@@ -25,12 +26,12 @@ public class QuoteResponseMapper {
             quote.getOpportunityId() != null ? quote.getOpportunityId().asString() : null)
         .validUntil(quote.getValidUntil())
         .subTotal(quote.getSubTotal().value())
-        .discount(quote.getDiscount().percentage())
+        .totalDiscount(quote.getDiscount().percentage())
         .totalAmount(quote.getTotalAmount().value())
         .status(quote.getStatus())
         .items(
             quote.getItems().stream()
-                .map(this::toItemResponse)
+                .map(this::toItemOutput)
                 .toList())
         .createdAt(quote.getCreatedAt())
         .updatedAt(quote.getUpdatedAt())
@@ -39,20 +40,32 @@ public class QuoteResponseMapper {
         .build();
   }
 
-  public PageResponse<QuoteOutput> toResponsePage(Page<Quote> quotePage) {
+  public PageResponse<QuoteOutput> toOutputPage(Page<Quote> quotePage) {
     if (quotePage == null) {
       return PageResponse.empty();
     }
-    return PageResponse.of(quotePage.map(this::toResponse));
+    return PageResponse.of(quotePage.map(this::toOutput));
   }
 
-  public QuoteItemOutput toItemResponse(QuoteItem item) {
+  public List<QuoteOutput> toOutputList(List<Quote> quotes) {
+    if (quotes == null) {
+      return List.of();
+    }
+    return quotes.stream()
+        .map(this::toOutput)
+        .toList();
+  }
+
+  public QuoteItemOutput toItemOutput(QuoteItem item) {
     if (item == null) {
       return null;
     }
     return QuoteItemOutput.builder()
         .id(item.getId().asString())
         .unitPrice(item.getUnitPrice().value())
+        .total(item.getTotal().value())
+        .discountPercentage(item.getDiscountPercentage().percentage())
+        .discountAmount(item.getDiscountAmount().value())
         .createdAt(item.getCreatedAt())
         .updatedAt(item.getUpdatedAt())
         .deletedAt(item.getDeletedAt())

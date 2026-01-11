@@ -1,18 +1,18 @@
 package at.backend.MarketingCompany.crm.quote.adapter.output.mapper;
 
-import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Amount;
-import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.Discount;
-import at.backend.MarketingCompany.crm.quote.adapter.output.entity.QuoteEntity;
-import at.backend.MarketingCompany.crm.quote.core.domain.model.Quote;
-import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.QuoteId;
-import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.QuoteReconstructParams;
-
 import java.util.List;
 
-import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
-import at.backend.MarketingCompany.customer.adapter.output.persistence.entity.CustomerCompanyEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.Amount;
+import at.backend.MarketingCompany.crm.quote.adapter.output.entity.QuoteEntity;
+import at.backend.MarketingCompany.crm.quote.core.domain.model.Quote;
+import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.Discount;
+import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.QuoteId;
+import at.backend.MarketingCompany.crm.quote.core.domain.valueobject.QuoteReconstructParams;
+import at.backend.MarketingCompany.customer.adapter.output.persistence.entity.CustomerCompanyEntity;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
 
 @Component
 public class QuoteJpaEntityMapper {
@@ -33,9 +33,6 @@ public class QuoteJpaEntityMapper {
             .customerCompanyId(
                 entity.getCustomerCompany() != null ? new CustomerCompanyId(entity.getCustomerCompany().getId()) : null)
             .validUntil(entity.getValidUntil())
-            .subTotal(entity.getSubTotal() != null ? new Amount(entity.getSubTotal()) : null)
-            .discount(entity.getDiscount() != null ? new Discount(entity.getDiscount()) : null)
-            .totalAmount(entity.getTotalAmount() != null ? new Amount(entity.getTotalAmount()) : null)
             .status(entity.getStatus())
             .createdAt(entity.getCreatedAt())
             .updatedAt(entity.getUpdatedAt())
@@ -58,9 +55,6 @@ public class QuoteJpaEntityMapper {
         domain.getCustomerCompanyId() != null ? new CustomerCompanyEntity(domain.getCustomerCompanyId().getValue())
             : null);
     entity.setValidUntil(domain.getValidUntil());
-    entity.setSubTotal(domain.getSubTotal() != null ? domain.getSubTotal().value() : null);
-    entity.setDiscount(domain.getDiscount() != null ? domain.getDiscount().percentage() : null);
-    entity.setTotalAmount(domain.getTotalAmount() != null ? domain.getTotalAmount().value() : null);
     entity.setStatus(domain.getStatus());
     entity.setCreatedAt(domain.getCreatedAt());
     entity.setUpdatedAt(domain.getUpdatedAt());

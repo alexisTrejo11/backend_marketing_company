@@ -12,7 +12,7 @@ public record QuoteItemOutput(
     BigDecimal unitPrice,
     BigDecimal total,
     BigDecimal discountPercentage,
-    BigDecimal discount,
+    BigDecimal discountAmount,
     LocalDateTime createdAt,
     LocalDateTime updatedAt,
     LocalDateTime deletedAt,

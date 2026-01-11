@@ -1,7 +1,9 @@
 package at.backend.MarketingCompany.crm.servicePackage.adapter.output.repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -157,7 +159,7 @@ public class ServicePackageRepositoryImpl implements ServicePackageRepository {
   }
 
   @Override
-  public List<ServicePackage> findByIdIn(List<ServicePackageId> ids) {
+  public Map<ServicePackageId, ServicePackage> findByIdIn(List<ServicePackageId> ids) {
     log.debug("Finding service packages by ids: {}", ids);
 
     List<Long> longList = ids.stream()
@@ -183,7 +185,10 @@ public class ServicePackageRepositoryImpl implements ServicePackageRepository {
     }
 
     log.debug("Found {} service packages for provided ids", result.size());
-    return result;
+    return result.stream()
+        .collect(Collectors.toMap(
+            ServicePackage::getId,
+            sp -> sp));
 
   }
 }

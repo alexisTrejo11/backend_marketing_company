@@ -101,7 +101,7 @@ scalar JSON
 
 ```graphql
 type PageResponse {
-  content: [T]
+  items: [T]
   totalElements: Int!
   totalPages: Int!
   pageNumber: Int!

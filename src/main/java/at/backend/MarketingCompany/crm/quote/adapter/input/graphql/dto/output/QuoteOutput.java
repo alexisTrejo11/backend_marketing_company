@@ -16,7 +16,7 @@ public record QuoteOutput(
     String opportunityId,
     LocalDate validUntil,
     BigDecimal subTotal,
-    BigDecimal discount,
+    BigDecimal totalDiscount,
     BigDecimal totalAmount,
     QuoteStatus status,
     List<QuoteItemOutput> items,
