@@ -1,0 +1,127 @@
+package at.backend.MarketingCompany.crm.deal.adapter.output.persistence.repository;
+
+import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.DealStatus;
+import at.backend.MarketingCompany.crm.deal.adapter.output.persistence.model.DealEntity;
+import at.backend.MarketingCompany.crm.deal.adapter.output.persistence.model.DealEntityMapper;
+import at.backend.MarketingCompany.crm.deal.core.domain.entity.Deal;
+import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.DealId;
+import at.backend.MarketingCompany.crm.deal.core.domain.entity.valueobject.external.*;
+import at.backend.MarketingCompany.crm.deal.core.port.output.DealRepository;
+import at.backend.MarketingCompany.crm.opportunity.core.domain.entity.valueobject.OpportunityId;
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
+import java.util.Set;
+
+@Slf4j
+@Repository
+@RequiredArgsConstructor
+public class DealRepositoryImpl implements DealRepository {
+  private final JpaDealRepository jpaDealRepository;
+  private final DealEntityMapper dealEntityMapper;
+
+  @Override
+  @Transactional
+  public Deal save(Deal deal) {
+    log.debug("Saving deal with ID: {}", deal.getId().getValue());
+
+    DealEntity entity = dealEntityMapper.toEntity(deal);
+    entity.processNewEntityIfNeeded();
+
+    DealEntity savedEntity = jpaDealRepository.saveAndFlush(entity);
+    log.info("Deal saved successfully with ID: {}", savedEntity.getId());
+
+    return dealEntityMapper.toDomain(savedEntity);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public Optional<Deal> findById(DealId dealId) {
+    log.debug("Finding deal by ID: {}", dealId.getValue());
+    return jpaDealRepository.findById(dealId.getValue())
+        .map(dealEntityMapper::toDomain);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public Page<Deal> findByCustomer(CustomerCompanyId customerCompanyId, Pageable pageable) {
+    log.debug("Finding deals by customer ID: {}", customerCompanyId.getValue());
+
+    return jpaDealRepository.findByCustomerId(customerCompanyId.getValue(), pageable)
+        .map(dealEntityMapper::toDomain);
+
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public Page<Deal> findByStatuses(Set<DealStatus> statuses, Pageable pageable) {
+    log.debug("Finding deals by statuses: {}", statuses);
+
+    return jpaDealRepository.findByDealStatusIn(statuses, pageable)
+        .map(dealEntityMapper::toDomain);
+
+  }
+
+  @Override
+  @Transactional
+  public void delete(Deal deal) {
+    log.debug("Deleting deal with ID: {}", deal.getId().getValue());
+
+    DealEntity entity = dealEntityMapper.toEntity(deal);
+    jpaDealRepository.delete(entity);
+
+    log.info("Deal deleted successfully with ID: {}", deal.getId().getValue());
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public boolean existsById(DealId dealId) {
+    return jpaDealRepository.existsById(dealId.getValue());
+  }
+
+  @Transactional(readOnly = true)
+  public Page<Deal> findByOpportunity(OpportunityId opportunityId, Pageable pageable) {
+    log.debug("Finding deals by opportunity ID: {}", opportunityId.getValue());
+
+    return jpaDealRepository.findByOpportunityId(opportunityId.getValue(), pageable)
+        .map(dealEntityMapper::toDomain);
+  }
+
+  @Transactional(readOnly = true)
+  public Page<Deal> findByCampaignManager(EmployeeId employeeId, Pageable pageable) {
+    log.debug("Finding deals by campaign manager ID: {}", employeeId.value());
+
+    return jpaDealRepository.findByCampaignManagerId(employeeId.value(), pageable)
+        .map(dealEntityMapper::toDomain);
+  }
+
+  @Transactional(readOnly = true)
+  public Page<Deal> findActiveDeals(Pageable pageable) {
+    log.debug("Finding active deals");
+
+    Set<DealStatus> activeStatuses = Set.of(
+        DealStatus.DRAFT,
+        DealStatus.IN_NEGOTIATION,
+        DealStatus.SIGNED,
+        DealStatus.PAID,
+        DealStatus.IN_PROGRESS);
+
+    return jpaDealRepository.findByDealStatusIn(activeStatuses, pageable)
+        .map(dealEntityMapper::toDomain);
+  }
+
+  @Override
+  public Page<Deal> findAll(Pageable pageable) {
+    log.debug("Finding all deals with pagination");
+
+    return jpaDealRepository.findAll(pageable)
+        .map(dealEntityMapper::toDomain);
+  }
+}

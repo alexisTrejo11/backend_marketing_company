@@ -1,0 +1,9 @@
+package at.backend.MarketingCompany.crm.interaction.core.application.queries;
+
+import at.backend.MarketingCompany.customer.core.domain.valueobject.CustomerCompanyId;
+
+public record GetInteractionStatisticsQuery(CustomerCompanyId customerCompanyId) {
+  public static GetInteractionStatisticsQuery from(String customerId) {
+    return new GetInteractionStatisticsQuery(CustomerCompanyId.of(customerId));
+  }
+}
