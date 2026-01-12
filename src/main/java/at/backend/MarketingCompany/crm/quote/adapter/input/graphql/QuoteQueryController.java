@@ -19,6 +19,7 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -32,6 +33,7 @@ public class QuoteQueryController {
 
   @QueryMapping
   @GraphQLRateLimit
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public PageResponse<QuoteOutput> quotes(@Argument @Valid @NotNull PageInput input) {
     log.debug("Fetching all quotes with pagination");
     var query = new GetAllQuotesQuery(input.toPageable());
@@ -41,6 +43,7 @@ public class QuoteQueryController {
 
   @QueryMapping
   @GraphQLRateLimit
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public QuoteOutput quote(@Argument String quoteId) {
     log.debug("Fetching quote by ID: {}", quoteId);
     var query = GetQuoteByIdQuery.from(quoteId);
@@ -50,6 +53,7 @@ public class QuoteQueryController {
 
   @QueryMapping
   @GraphQLRateLimit
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public PageResponse<QuoteOutput> quotesByCustomer(
       @Argument String customerId,
       @Argument @Valid @NotNull PageInput pageInput) {
@@ -66,6 +70,7 @@ public class QuoteQueryController {
 
   @QueryMapping
   @GraphQLRateLimit
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public List<QuoteOutput> quotesByOpportunity(@Argument String opportunityId) {
     log.debug("Fetching quotes for opportunity: {}", opportunityId);
     var query = GetQuotesByOpportunityQuery.from(opportunityId);
@@ -75,6 +80,7 @@ public class QuoteQueryController {
 
   @QueryMapping
   @GraphQLRateLimit
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public PageResponse<QuoteOutput> quotesByStatus(
       @Argument QuoteStatus status,
       @Argument @Valid @NotNull PageInput pageInput) {
@@ -86,6 +92,7 @@ public class QuoteQueryController {
 
   @QueryMapping
   @GraphQLRateLimit
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public List<QuoteOutput> expiredQuotes() {
     log.debug("Fetching expired quotes");
     var query = new GetExpiredQuotesQuery();

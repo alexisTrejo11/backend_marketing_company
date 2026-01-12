@@ -26,3 +26,17 @@ Useful for handling monetary values without loss of precision.
 Example: "1234.56" or "999999.99"
 """
 scalar BigDecimal
+
+# ============================================================================
+# DIRECTIVES
+# ============================================================================
+
+"""
+Requires the user to be authenticated.
+"""
+directive @authenticated on FIELD_DEFINITION
+
+"""
+Requires the user to have one of the specified roles.
+"""
+directive @hasRole(value: [String!]!) on FIELD_DEFINITION

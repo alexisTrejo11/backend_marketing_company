@@ -9,7 +9,6 @@ import at.backend.MarketingCompany.account.auth.core.application.commands.*;
 import at.backend.MarketingCompany.account.auth.core.domain.entitiy.AuthResult;
 import at.backend.MarketingCompany.account.auth.core.port.input.AuthCommandService;
 import at.backend.MarketingCompany.config.ratelimit.base.GraphQLRateLimit;
-import at.backend.MarketingCompany.config.ratelimit.base.RateLimitType;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,70 +21,67 @@ import org.springframework.stereotype.Controller;
 @RequiredArgsConstructor
 @Slf4j
 public class AuthController {
-    private final AuthCommandService authService;
-    private final AuthResponseMapper authResponseMapper;
+  private final AuthCommandService authService;
+  private final AuthResponseMapper authResponseMapper;
 
-    @MutationMapping
-    @GraphQLRateLimit("sensitive")
-    public AuthResponse signUp(
-            @Valid @Argument SignUpInput input,
-            @ContextValue(name = "userAgent") String userAgent,
-            @ContextValue(name = "clientIp") String clientIp
-    ) {
-        log.info("Sign up request for email: {} from ip: {} ua: {}", input.email(), clientIp, userAgent);
-        SignUpCommand signUpCommand = input.toCommand(
-                userAgent != null ? userAgent : "GraphQL-Client",
-                clientIp != null ? clientIp : "unknown");
+  @MutationMapping
+  @GraphQLRateLimit("sensitive")
+  public AuthResponse signUp(
+      @Valid @Argument SignUpInput input,
+      @ContextValue(name = "userAgent") String userAgent,
+      @ContextValue(name = "clientIp") String clientIp) {
+    log.info("Sign up request for email: {} from ip: {} ua: {}", input.email(), clientIp, userAgent);
+    SignUpCommand signUpCommand = input.toCommand(
+        userAgent != null ? userAgent : "GraphQL-Client",
+        clientIp != null ? clientIp : "unknown");
 
-        AuthResult authResult = authService.handleSignUp(signUpCommand);
-        return authResponseMapper.toAuthResponse(authResult);
-    }
+    AuthResult authResult = authService.handleSignUp(signUpCommand);
+    return authResponseMapper.toAuthResponse(authResult);
+  }
 
-    @MutationMapping
-    @GraphQLRateLimit("sensitive")
-    public AuthResponse login(
-            @Valid @Argument LoginInput input,
-            @ContextValue(name = "userAgent") String userAgent,
-            @ContextValue(name = "clientIp") String clientIp
-    ) {
-        log.info("Login request for email: {}", input.email());
-        LoginCommand command = input.toCommand(userAgent, clientIp);
+  @MutationMapping
+  @GraphQLRateLimit("sensitive")
+  public AuthResponse login(
+      @Valid @Argument LoginInput input,
+      @ContextValue(name = "userAgent") String userAgent,
+      @ContextValue(name = "clientIp") String clientIp) {
+    log.info("Login request for email: {}", input.email());
+    LoginCommand command = input.toCommand(userAgent, clientIp);
 
-        AuthResult result = authService.handleLogin(command);
-        return authResponseMapper.toAuthResponse(result);
-    }
+    AuthResult result = authService.handleLogin(command);
+    return authResponseMapper.toAuthResponse(result);
+  }
 
-    @MutationMapping
-    @GraphQLRateLimit
-    public AuthResponse refreshToken(
-            @Valid @Argument RefreshTokenInput input,
-            @ContextValue(name = "userAgent") String userAgent,
-            @ContextValue(name = "clientIp") String clientIp
-    ) {
-        log.info("Refresh token request");
-        RefreshSessionCommand command = input.toCommand(userAgent, clientIp);
+  @MutationMapping
+  @GraphQLRateLimit
+  public AuthResponse refreshToken(
+      @Valid @Argument RefreshTokenInput input,
+      @ContextValue(name = "userAgent") String userAgent,
+      @ContextValue(name = "clientIp") String clientIp) {
+    log.info("Refresh token request");
+    RefreshSessionCommand command = input.toCommand(userAgent, clientIp);
 
-        AuthResult result = authService.handleRefreshToken(command);
-        return authResponseMapper.toAuthResponse(result);
-    }
+    AuthResult result = authService.handleRefreshToken(command);
+    return authResponseMapper.toAuthResponse(result);
+  }
 
-    @MutationMapping
-    @GraphQLRateLimit
-    public Boolean logout(@Argument String refreshToken) {
-        log.info("Logout request for session: {}", refreshToken.substring(0, 6) + "...");
-        LogoutCommand command = LogoutCommand.from(refreshToken);
+  @MutationMapping
+  @GraphQLRateLimit
+  public Boolean logout(@Argument String refreshToken) {
+    log.info("Logout request for session: {}", refreshToken.substring(0, 6) + "...");
+    LogoutCommand command = LogoutCommand.from(refreshToken);
 
-        authService.handleLogout(command);
-        return true;
-    }
+    authService.handleLogout(command);
+    return true;
+  }
 
-    @MutationMapping
-    @GraphQLRateLimit
-    public Boolean logoutAll(@ContextValue(name = "userId") String userId) {
-        log.info("Logout all request for user: {}", userId);
-        LogoutAllCommand command = LogoutAllCommand.from(userId);
+  @MutationMapping
+  @GraphQLRateLimit
+  public Boolean logoutAll(@ContextValue(name = "userId") String userId) {
+    log.info("Logout all request for user: {}", userId);
+    LogoutAllCommand command = LogoutAllCommand.from(userId);
 
-        authService.handleLogoutAll(command);
-        return true;
-    }
+    authService.handleLogoutAll(command);
+    return true;
+  }
 }

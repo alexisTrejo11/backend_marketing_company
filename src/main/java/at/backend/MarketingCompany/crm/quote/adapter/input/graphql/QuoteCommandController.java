@@ -2,6 +2,7 @@ package at.backend.MarketingCompany.crm.quote.adapter.input.graphql;
 
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
 import at.backend.MarketingCompany.config.ratelimit.base.GraphQLRateLimit;
@@ -40,6 +41,7 @@ public class QuoteCommandController {
 
   @MutationMapping
   @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public QuoteOutput createQuote(@Argument @Valid @NotNull CreateQuoteInput input) {
     log.info("Creating new quote");
     var createQuoteCommand = input.toCommand();
@@ -49,6 +51,7 @@ public class QuoteCommandController {
 
   @MutationMapping
   @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public QuoteOutput addQuoteItems(@Argument @Valid @NotNull AddQuoteItemsInput input) {
     log.info("Adding items to quote: {}", input.quoteId());
     AddQuoteItemsCommand command = input.toCommand();
@@ -58,6 +61,7 @@ public class QuoteCommandController {
 
   @MutationMapping
   @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public QuoteOutput updateQuoteItem(@Argument @Valid @NotNull UpdateQuoteItemInput input) {
     log.info("Updating quote item: {}", input.itemId());
     UpdateQuoteItemCommand command = input.toCommand();
@@ -67,6 +71,7 @@ public class QuoteCommandController {
 
   @MutationMapping
   @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public QuoteOutput removeQuoteItem(@Argument @Valid @NotNull RemoveQuoteItemInput input) {
     log.info("Removing quote item: {}", input.itemId());
     RemoveQuoteItemCommand command = input.toCommand();
@@ -76,6 +81,7 @@ public class QuoteCommandController {
 
   @MutationMapping
   @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public QuoteOutput markQuoteAsSent(@Argument @Valid @NotNull MarkQuoteAsSentInput input) {
     log.info("Marking quote as sent: {}", input.quoteId());
     MarkQuoteAsSentCommand command = input.toCommand();
@@ -85,6 +91,7 @@ public class QuoteCommandController {
 
   @MutationMapping
   @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public QuoteOutput markQuoteAsAccepted(@Argument @Valid @NotNull MarkQuoteAsAcceptedInput input) {
     log.info("Marking quote as accepted: {}", input.quoteId());
     MarkQuoteAsAcceptedCommand command = input.toCommand();
@@ -94,6 +101,7 @@ public class QuoteCommandController {
 
   @MutationMapping
   @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public QuoteOutput markQuoteAsRejected(@Argument @Valid @NotNull MarkQuoteAsRejectedInput input) {
     log.info("Marking quote as rejected: {}", input.quoteId());
     MarkQuoteAsRejectedCommand command = input.toCommand();
@@ -103,6 +111,7 @@ public class QuoteCommandController {
 
   @MutationMapping
   @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public QuoteOutput updateQuoteDetails(@Argument @Valid @NotNull UpdateQuoteDetailsInput input) {
     log.info("Updating quote details: {}", input.quoteId());
     UpdateQuoteDetailsCommand command = input.toCommand();
@@ -112,6 +121,7 @@ public class QuoteCommandController {
 
   @MutationMapping
   @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasRole('ADMIN')")
   public Boolean deleteQuote(@Argument String quoteId) {
     log.info("Deleting quote: {}", quoteId);
     var command = new DeleteQuoteCommand(QuoteId.of(quoteId));
@@ -121,6 +131,7 @@ public class QuoteCommandController {
 
   @MutationMapping
   @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
   public Boolean markExpiredQuotes() {
     log.info("Marking expired quotes");
     commandPort.markExpiredQuotes();

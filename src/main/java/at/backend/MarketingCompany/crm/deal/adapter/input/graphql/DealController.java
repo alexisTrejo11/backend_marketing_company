@@ -4,7 +4,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+
+import at.backend.MarketingCompany.config.ratelimit.base.GraphQLRateLimit;
 
 import at.backend.MarketingCompany.crm.deal.adapter.input.graphql.dto.request.CompleteDealInput;
 import at.backend.MarketingCompany.crm.deal.adapter.input.graphql.dto.request.CreateDealInput;
@@ -38,115 +41,137 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 public class DealController {
-	private final DealCommandService commandService;
-	private final DealQueryService queryService;
-	private final DealResponseMapper responseMapper;
+  private final DealCommandService commandService;
+  private final DealQueryService queryService;
+  private final DealResponseMapper responseMapper;
 
-	@QueryMapping
-	public DealResponse deal(@Argument @Valid @NotBlank String id) {
-		log.debug("Fetching deal by ID: {}", id);
+  @QueryMapping
+  @GraphQLRateLimit
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
+  public DealResponse deal(@Argument @Valid @NotBlank String id) {
+    log.debug("Fetching deal by ID: {}", id);
 
-		var query = GetDealByIdQuery.from(id);
-		Deal deal = queryService.getDealById(query);
+    var query = GetDealByIdQuery.from(id);
+    Deal deal = queryService.getDealById(query);
 
-		return responseMapper.toResponse(deal);
-	}
+    return responseMapper.toResponse(deal);
+  }
 
-	@QueryMapping
-	public PageResponse<DealResponse> getAllDeals(@Argument @Valid @NotNull PageInput input) {
-		log.debug("Fetching all deals with pagination: {}", input);
-		var pageQuery = new GetAllDealsQuery(input.toPageable());
-		Page<Deal> dealsPage = queryService.getAllDeals(pageQuery);
+  @QueryMapping
+  @GraphQLRateLimit
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES', 'ANALYST')")
+  public PageResponse<DealResponse> getAllDeals(@Argument @Valid @NotNull PageInput input) {
+    log.debug("Fetching all deals with pagination: {}", input);
+    var pageQuery = new GetAllDealsQuery(input.toPageable());
+    Page<Deal> dealsPage = queryService.getAllDeals(pageQuery);
 
-		return responseMapper.toPagedResponse(dealsPage);
-	}
+    return responseMapper.toPagedResponse(dealsPage);
+  }
 
-	@QueryMapping
-	public PageResponse<DealResponse> getDealsByCustomer(@Argument @Valid GetDealsByCustomerInput input) {
-		log.debug("Fetching deals for customer: {}", input.customerId());
-		var query = input.toQuery();
-		Page<Deal> dealsPage = queryService.getDealsByCustomer(query);
+  @QueryMapping
+  @GraphQLRateLimit
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
+  public PageResponse<DealResponse> getDealsByCustomer(@Argument @Valid GetDealsByCustomerInput input) {
+    log.debug("Fetching deals for customer: {}", input.customerId());
+    var query = input.toQuery();
+    Page<Deal> dealsPage = queryService.getDealsByCustomer(query);
 
-		return responseMapper.toPagedResponse(dealsPage);
-	}
+    return responseMapper.toPagedResponse(dealsPage);
+  }
 
-	@QueryMapping
-	public PageResponse<DealResponse> getDealsByStatus(@Argument @Valid GetDealsByStatusInput input) {
-		log.debug("Fetching deals by status: {}", input.statuses());
-		GetDealsByStatusQuery query = input.toQuery();
-		Page<Deal> dealsPage = queryService.getDealsByStatus(query);
+  @QueryMapping
+  @GraphQLRateLimit
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
+  public PageResponse<DealResponse> getDealsByStatus(@Argument @Valid GetDealsByStatusInput input) {
+    log.debug("Fetching deals by status: {}", input.statuses());
+    GetDealsByStatusQuery query = input.toQuery();
+    Page<Deal> dealsPage = queryService.getDealsByStatus(query);
 
-		return responseMapper.toPagedResponse(dealsPage);
-	}
+    return responseMapper.toPagedResponse(dealsPage);
+  }
 
-	@MutationMapping
-	public DealResponse createDeal(@Valid @Argument CreateDealInput input) {
-		log.info("Creating new deal for opportunity: {}", input.opportunityId());
-		CreateDealCommand command = input.toCommand();
-		Deal deal = commandService.createDeal(command);
+  @MutationMapping
+  @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
+  public DealResponse createDeal(@Valid @Argument CreateDealInput input) {
+    log.info("Creating new deal for opportunity: {}", input.opportunityId());
+    CreateDealCommand command = input.toCommand();
+    Deal deal = commandService.createDeal(command);
 
-		return responseMapper.toResponse(deal);
-	}
+    return responseMapper.toResponse(deal);
+  }
 
-	@MutationMapping
-	public DealResponse signDeal(@Valid @Argument SignDealInput input) {
-		log.info("Signing deal: {}", input.dealId());
-		SignDealCommand command = input.toCommand();
-		Deal deal = commandService.signDeal(command);
+  @MutationMapping
+  @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
+  public DealResponse signDeal(@Valid @Argument SignDealInput input) {
+    log.info("Signing deal: {}", input.dealId());
+    SignDealCommand command = input.toCommand();
+    Deal deal = commandService.signDeal(command);
 
-		return responseMapper.toResponse(deal);
-	}
+    return responseMapper.toResponse(deal);
+  }
 
-	@MutationMapping
-	public DealResponse markDealAsPaid(@Argument String id) {
-		log.info("Marking deal as paid: {}", id);
-		var command = MarkDealAsPaidCommand.from(id);
-		Deal deal = commandService.markDealAsPaid(command);
+  @MutationMapping
+  @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+  public DealResponse markDealAsPaid(@Argument String id) {
+    log.info("Marking deal as paid: {}", id);
+    var command = MarkDealAsPaidCommand.from(id);
+    Deal deal = commandService.markDealAsPaid(command);
 
-		return responseMapper.toResponse(deal);
-	}
+    return responseMapper.toResponse(deal);
+  }
 
-	@MutationMapping
-	public DealResponse startDealExecution(@Argument String dealId) {
-		log.info("Starting deal execution: {}", dealId);
+  @MutationMapping
+  @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+  public DealResponse startDealExecution(@Argument String dealId) {
+    log.info("Starting deal execution: {}", dealId);
 
-		var command = StartDealExecutionCommand.from(dealId);
-		Deal deal = commandService.startDealExecution(command);
+    var command = StartDealExecutionCommand.from(dealId);
+    Deal deal = commandService.startDealExecution(command);
 
-		return responseMapper.toResponse(deal);
-	}
+    return responseMapper.toResponse(deal);
+  }
 
-	@MutationMapping
-	public DealResponse completeDeal(@Valid @Argument CompleteDealInput input) {
-		log.info("Completing deal: {}", input.dealId());
+  @MutationMapping
+  @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+  public DealResponse completeDeal(@Valid @Argument CompleteDealInput input) {
+    log.info("Completing deal: {}", input.dealId());
 
-		var command = CompleteDealCommand.from(
-				input.dealId(),
-				input.endDate(),
-				input.deliverables());
+    var command = CompleteDealCommand.from(
+        input.dealId(),
+        input.endDate(),
+        input.deliverables());
 
-		Deal deal = commandService.completeDeal(command);
-		return responseMapper.toResponse(deal);
-	}
+    Deal deal = commandService.completeDeal(command);
+    return responseMapper.toResponse(deal);
+  }
 
-	@MutationMapping
-	public DealResponse cancelDeal(@Argument String id) {
-		log.info("Cancelling deal: {}", id);
-		var command = CancelDealCommand.from(id);
-		Deal deal = commandService.cancelDeal(command);
+  @MutationMapping
+  @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasRole('ADMIN')")
+  public DealResponse cancelDeal(@Argument String id) {
+    log.info("Cancelling deal: {}", id);
+    var command = CancelDealCommand.from(id);
+    Deal deal = commandService.cancelDeal(command);
 
-		return responseMapper.toResponse(deal);
-	}
+    return responseMapper.toResponse(deal);
+  }
 
-	@MutationMapping
-	public DealResponse updateDealServices(@Valid @Argument UpdateDealServicesInput input) {
-		log.info("Updating services for deal: {}", input.dealId());
+  @MutationMapping
+  @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
+  public DealResponse updateDealServices(@Valid @Argument UpdateDealServicesInput input) {
+    log.info("Updating services for deal: {}", input.dealId());
 
-		var command = UpdateDealServicesCommand.from(
-				input.dealId(),
-				input.servicePackageIds());
+    var command = UpdateDealServicesCommand.from(
+        input.dealId(),
+        input.servicePackageIds());
 
-		Deal deal = commandService.updateDealServices(command);
-		return responseMapper.toResponse(deal);
-	}
+    Deal deal = commandService.updateDealServices(command);
+    return responseMapper.toResponse(deal);
+  }
 }

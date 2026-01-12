@@ -2,6 +2,7 @@ package at.backend.MarketingCompany.crm.opportunity.adapter.input.graphql.contro
 
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
 import at.backend.MarketingCompany.config.ratelimit.base.GraphQLRateLimit;
@@ -31,6 +32,7 @@ public class OpportunityMutationController {
 
   @MutationMapping
   @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public OpportunityOutput createOpportunity(@Valid @Argument CreateOpportunityInput input) {
     log.info("Creating new opportunity for customer: {}", input.customerId());
 
@@ -42,6 +44,7 @@ public class OpportunityMutationController {
 
   @MutationMapping
   @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public OpportunityOutput updateOpportunityDetails(@Valid @Argument UpdateOpportunityDetailsInput input) {
     log.info("Updating opportunity details: {}", input.opportunityId());
 
@@ -53,6 +56,7 @@ public class OpportunityMutationController {
 
   @MutationMapping
   @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public OpportunityOutput qualifyOpportunity(@Argument String opportunityId) {
     log.info("Qualifying opportunity: {}", opportunityId);
 
@@ -64,6 +68,7 @@ public class OpportunityMutationController {
 
   @MutationMapping
   @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public OpportunityOutput moveToProposal(@Argument String opportunityId) {
     log.info("Moving opportunity to proposal: {}", opportunityId);
 
@@ -75,6 +80,7 @@ public class OpportunityMutationController {
 
   @MutationMapping
   @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public OpportunityOutput moveToNegotiation(@Argument String opportunityId) {
     log.info("Moving opportunity to negotiation: {}", opportunityId);
 
@@ -86,6 +92,7 @@ public class OpportunityMutationController {
 
   @MutationMapping
   @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public OpportunityOutput closeOpportunityWon(@Argument CloseOpportunityWonInput input) {
     log.info("Closing opportunity as won: {}", input.opportunityId());
 
@@ -97,6 +104,7 @@ public class OpportunityMutationController {
 
   @MutationMapping
   @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public OpportunityOutput closeOpportunityLost(@Argument CloseOpportunityLostInput input) {
     log.info("Closing opportunity as lost: {}", input.opportunityId());
 
@@ -108,6 +116,7 @@ public class OpportunityMutationController {
 
   @MutationMapping
   @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public OpportunityOutput reopenOpportunity(@Argument ReopenOpportunityInput input) {
     log.info("Reopening opportunity: {}", input.opportunityId());
 
@@ -119,6 +128,7 @@ public class OpportunityMutationController {
 
   @MutationMapping
   @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public OpportunityOutput updateOpportunityProbability(@Valid @Argument UpdateOpportunityProbabilityInput input) {
     log.info("Updating probability for opportunity: {}", input.opportunityId());
 
@@ -130,6 +140,7 @@ public class OpportunityMutationController {
 
   @MutationMapping
   @GraphQLRateLimit("resource-mutation")
+  @PreAuthorize("hasRole('ADMIN')")
   public Boolean deleteOpportunity(@Argument String opportunityId) {
     log.info("Deleting opportunity: {}", opportunityId);
 

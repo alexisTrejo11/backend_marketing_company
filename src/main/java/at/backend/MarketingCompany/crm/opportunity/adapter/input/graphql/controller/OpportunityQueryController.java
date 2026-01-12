@@ -4,6 +4,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
 import at.backend.MarketingCompany.config.ratelimit.base.GraphQLRateLimit;
@@ -41,6 +42,7 @@ public class OpportunityQueryController {
 
   @QueryMapping
   @GraphQLRateLimit
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public OpportunityOutput opportunity(@Argument @Valid @NotBlank String id) {
     var query = GetOpportunityByIdQuery.from(id);
     Opportunity opportunity = queryService.getOpportunityById(query);
@@ -50,6 +52,7 @@ public class OpportunityQueryController {
 
   @QueryMapping
   @GraphQLRateLimit
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES', 'ANALYST')")
   public PageResponse<OpportunityOutput> opportunities(
       @Argument @Valid @NotNull OpportunityFilterInput filter) {
     var searchQuery = createSearchQuery(filter);
@@ -60,6 +63,7 @@ public class OpportunityQueryController {
 
   @QueryMapping
   @GraphQLRateLimit
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public PageResponse<OpportunityOutput> opportunitiesByCustomer(
       @Argument @Valid @NotNull GetOpportunitiesByCustomerInput input) {
     var query = input.toQuery();
@@ -70,6 +74,7 @@ public class OpportunityQueryController {
 
   @QueryMapping
   @GraphQLRateLimit
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public PageResponse<OpportunityOutput> opportunitiesByStage(
       @Argument @Valid @NotNull GetOpportunitiesByStageInput input) {
     var query = input.toQuery();
@@ -80,6 +85,7 @@ public class OpportunityQueryController {
 
   @QueryMapping
   @GraphQLRateLimit
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public PageResponse<OpportunityOutput> activeOpportunities(@Argument @Valid @NotNull PageInput pageInput) {
     var query = new GetActiveOpportunitiesQuery(pageInput.toPageable());
     var opportunities = queryService.getActiveOpportunities(query);
@@ -89,6 +95,7 @@ public class OpportunityQueryController {
 
   @QueryMapping
   @GraphQLRateLimit
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'SALES')")
   public PageResponse<OpportunityOutput> overdueOpportunities(@Argument @Valid @NotNull PageInput pageInput) {
     var query = new GetOverdueOpportunitiesQuery(pageInput.toPageable());
     var opportunities = queryService.getOverdueOpportunities(query);

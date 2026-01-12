@@ -2,6 +2,7 @@ package at.backend.MarketingCompany.marketing.campaign.adapter.input.graphql.con
 
 import at.backend.MarketingCompany.marketing.campaign.adapter.input.graphql.dto.*;
 import at.backend.MarketingCompany.marketing.campaign.adapter.input.graphql.mapper.MarketingOutputMapper;
+import at.backend.MarketingCompany.config.ratelimit.base.GraphQLRateLimit;
 import at.backend.MarketingCompany.marketing.campaign.core.application.query.CampaignQuery;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.models.MarketingCampaign;
 import at.backend.MarketingCompany.marketing.campaign.core.domain.valueobject.CampaignStatus;
@@ -18,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
 import java.math.BigDecimal;
@@ -28,32 +30,37 @@ import java.time.LocalDate;
 @Controller
 @RequiredArgsConstructor
 public class MarketingCampaignQueryController {
-	private final CampaignCommandServicePort commandServicePort;
+  private final CampaignCommandServicePort commandServicePort;
   private final CampaignQueryServicePort queryServicePort;
   private final MarketingOutputMapper campaignMapper;
 
-
   @QueryMapping
+  @GraphQLRateLimit
+  @PreAuthorize("hasAnyRole('ADMIN', 'CAMPAIGN_MANAGER', 'MANAGER', 'ANALYST')")
   public PageResponse<CampaignOutput> campaigns(@Argument @Valid @NotNull PageInput pageInput) {
-    log.debug("GraphQL Query: campaigns with page: {}, size: {}", 
+    log.debug("GraphQL Query: campaigns with page: {}, size: {}",
         pageInput.page(), pageInput.size());
-    
+
     Page<MarketingCampaign> campaignPage = queryServicePort.getAllCampaigns(pageInput.toPageable());
-    
+
     return campaignMapper.toPageResponse(campaignPage);
   }
 
   @QueryMapping
+  @GraphQLRateLimit
+  @PreAuthorize("hasAnyRole('ADMIN', 'CAMPAIGN_MANAGER', 'MANAGER', 'SALES', 'ANALYST')")
   public CampaignOutput campaign(@Argument @Valid @NotBlank String id) {
     log.debug("GraphQL Query: campaign with id: {}", id);
 
-	  var campaignId = MarketingCampaignId.of(id);
+    var campaignId = MarketingCampaignId.of(id);
     MarketingCampaign campaign = queryServicePort.getCampaignById(campaignId);
-    
+
     return campaignMapper.toOutput(campaign);
   }
 
   @QueryMapping
+  @GraphQLRateLimit
+  @PreAuthorize("hasAnyRole('ADMIN', 'CAMPAIGN_MANAGER', 'MANAGER', 'ANALYST')")
   public PageResponse<CampaignOutput> searchCampaigns(
       @Argument @Valid @NotNull CampaignFilterInput filter,
       @Argument @Valid @NotNull PageInput pageInput) {
@@ -66,45 +73,49 @@ public class MarketingCampaignQueryController {
   }
 
   @QueryMapping
+  @GraphQLRateLimit
+  @PreAuthorize("hasAnyRole('ADMIN', 'CAMPAIGN_MANAGER', 'MANAGER', 'ANALYST')")
   public PageResponse<CampaignOutput> campaignsByStatus(
       @Argument @Valid @NotNull CampaignStatus status,
       @Argument @NotNull PageInput pageInput) {
     log.debug("GraphQL Query: campaignsByStatus with status: {}", status);
     Page<MarketingCampaign> campaignPage = queryServicePort.getCampaignsByStatus(
-        status, 
-        pageInput.toPageable()
-    );
-    
+        status,
+        pageInput.toPageable());
+
     return campaignMapper.toPageResponse(campaignPage);
   }
 
   @QueryMapping
+  @GraphQLRateLimit
+  @PreAuthorize("hasAnyRole('ADMIN', 'CAMPAIGN_MANAGER', 'MANAGER')")
   public PageResponse<CampaignOutput> expiredActiveCampaigns(@Argument @Valid @NotNull PageInput pageInput) {
     log.debug("GraphQL Query: expiredActiveCampaigns");
     Page<MarketingCampaign> campaignPage = queryServicePort.getExpiredActiveCampaigns(
-        pageInput.toPageable()
-    );
-    
+        pageInput.toPageable());
+
     return campaignMapper.toPageResponse(campaignPage);
   }
 
   @QueryMapping
+  @GraphQLRateLimit
+  @PreAuthorize("hasAnyRole('ADMIN', 'CAMPAIGN_MANAGER', 'MANAGER', 'ANALYST')")
   public PageResponse<CampaignOutput> campaignsNeedingOptimization(@Argument PageInput pageInput) {
     log.debug("GraphQL Query: campaignsNeedingOptimization");
     Page<MarketingCampaign> campaignPage = queryServicePort.getCampaignsNeedingOptimization(
-        pageInput.toPageable()
-    );
-    
+        pageInput.toPageable());
+
     return campaignMapper.toPageResponse(campaignPage);
   }
 
   @QueryMapping
+  @GraphQLRateLimit
+  @PreAuthorize("hasAnyRole('ADMIN', 'CAMPAIGN_MANAGER', 'MANAGER', 'ANALYST')")
   public PageResponse<CampaignOutput> highPerformingCampaigns(@Argument PageInput pageInput) {
     log.debug("GraphQL Query: highPerformingCampaigns");
     Page<MarketingCampaign> campaignPage = queryServicePort.getHighPerformingCampaigns(
-        pageInput.toPageable()
-    );
-    
+        pageInput.toPageable());
+
     return campaignMapper.toPageResponse(campaignPage);
   }
 
@@ -114,8 +125,7 @@ public class MarketingCampaignQueryController {
     }
 
     return new CampaignQuery(
-        filter.statuses() != null && !filter.statuses().isEmpty() ? 
-            filter.statuses().getFirst() : null,
+        filter.statuses() != null && !filter.statuses().isEmpty() ? filter.statuses().getFirst() : null,
         filter.startDateFrom() != null ? LocalDate.parse(filter.startDateFrom()) : null,
         filter.startDateTo() != null ? LocalDate.parse(filter.startDateTo()) : null,
         filter.endDateFrom() != null ? LocalDate.parse(filter.endDateFrom()) : null,
@@ -123,7 +133,6 @@ public class MarketingCampaignQueryController {
         filter.minBudget() != null ? BigDecimal.valueOf(filter.minBudget()) : null,
         filter.maxBudget() != null ? BigDecimal.valueOf(filter.maxBudget()) : null,
         filter.isActive(),
-        filter.searchTerm()
-    );
+        filter.searchTerm());
   }
 }

@@ -28,7 +28,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+
+import at.backend.MarketingCompany.account.user.core.domain.entity.valueobject.UserId;
 
 @Controller
 @RequiredArgsConstructor
@@ -47,14 +50,18 @@ public class UserManagerController {
 
   @MutationMapping
   @GraphQLRateLimit("strict")
-  public UserResponse updateUserPersonalData(@Argument @Valid UpdatePersonalDataInput input) {
-    var command = input.toCommand();
+  @PreAuthorize("hasRole('ADMIN')")
+  public UserResponse updateUserPersonalData(@Argument @Valid UpdatePersonalDataInput input,
+      @Argument @Valid @NotBlank String userId) {
+
+    var command = input.toCommand(UserId.of(userId));
     User updatedUser = userCommandService.handleUpdatePersonalData(command);
     return mapper.toUserResponse(updatedUser);
   }
 
   @MutationMapping
   @GraphQLRateLimit("strict")
+  @PreAuthorize("hasRole('ADMIN')")
   public UserResponse banUser(@Argument @Valid @NotBlank String id) {
     var command = UpdateUserStatusCommand.from(id);
     User user = userCommandService.handleBanUser(command);
@@ -63,6 +70,7 @@ public class UserManagerController {
 
   @MutationMapping
   @GraphQLRateLimit("strict")
+  @PreAuthorize("hasRole('ADMIN')")
   public UserResponse activateUser(@Argument @Valid @NotBlank String id) {
     var command = UpdateUserStatusCommand.from(id);
     User user = userCommandService.handleActivateUser(command);
@@ -71,6 +79,7 @@ public class UserManagerController {
 
   @MutationMapping
   @GraphQLRateLimit("strict")
+  @PreAuthorize("hasRole('ADMIN')")
   public UserResponse restoreUser(@Argument @Valid @NotBlank String id) {
     var command = RestoreUserCommand.from(id);
     User user = userCommandService.handleRestoreUser(command);
@@ -79,17 +88,19 @@ public class UserManagerController {
 
   @MutationMapping
   @GraphQLRateLimit("strict")
+  @PreAuthorize("hasRole('ADMIN')")
   public Boolean deleteUser(@Argument @Valid @NotBlank String id) {
     // Is Admin Action not user action
-		boolean isUserAction = false;
+    boolean isUserAction = false;
 
-		var command = SoftDeleteUserCommand.from(id, isUserAction);
+    var command = SoftDeleteUserCommand.from(id, isUserAction);
     userCommandService.handleSoftDeleteUser(command);
     return true;
   }
 
   @QueryMapping
   @GraphQLRateLimit
+  @PreAuthorize("hasRole('ADMIN')")
   public PageResponse<UserResponse> getAllUsers(@Argument @Valid @NotNull PageInput pageInput) {
     var searchUsersQuery = new SearchUsersQuery(pageInput.toPageable());
     Page<User> usersPage = userQueryService.handleSearchUsers(searchUsersQuery);
@@ -98,6 +109,7 @@ public class UserManagerController {
 
   @QueryMapping
   @GraphQLRateLimit
+  @PreAuthorize("hasRole('ADMIN')")
   public UserResponse getUserById(@Argument @Valid @NotBlank String id) {
     var query = GetUserByIdQuery.from(id);
     User user = userQueryService.getUserById(query);
@@ -106,6 +118,7 @@ public class UserManagerController {
 
   @QueryMapping
   @GraphQLRateLimit
+  @PreAuthorize("hasRole('ADMIN')")
   public UserResponse getUserByEmail(@Argument @Valid @NotBlank String email) {
     var query = GetUserByEmailQuery.from(email);
     User user = userQueryService.handleGetUserByEmail(query);
@@ -114,6 +127,7 @@ public class UserManagerController {
 
   @QueryMapping
   @GraphQLRateLimit
+  @PreAuthorize("hasRole('ADMIN')")
   public UserStatisticsResponse userStatistics() {
     var query = new GetUserStatisticsQuery();
     UserStatistics statistics = userQueryService.handleGetUserStatistics(query);
